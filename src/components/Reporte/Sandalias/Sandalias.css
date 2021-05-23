@@ -1,0 +1,22 @@
+.Sandalias {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.Sandalias__logo_elanco {
+  width: 10rem;
+}
+
+.Sandalias__texto {
+  font-size: 1.1rem;
+  display: flex;
+  max-height: 1.75rem;
+  margin-top: 2.75rem;
+  font-weight: 300;
+  border-bottom: .2rem dotted var(--color-gris-4);
+}
+
+.Sandalias__x_imvixa {
+  width: 8rem;
+}
