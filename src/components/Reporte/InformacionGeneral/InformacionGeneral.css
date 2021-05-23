@@ -1,0 +1,5 @@
+.InformacionGeneral {
+  display: flex;
+  flex-wrap: wrap;
+  --color-titulo-seccion: var(--color-amarillo);
+}

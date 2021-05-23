@@ -24,3 +24,23 @@
   right: 6rem;
   top: 4rem;
 }
+
+.Reporte__titulo_seccion {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.65rem;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-gris-4);
+}
+
+.Reporte__titulo_seccion::before {
+  width: 2rem;
+  height: 2.5rem;
+  content: '';
+  background: var(--color-titulo-seccion);
+  display: block;
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}

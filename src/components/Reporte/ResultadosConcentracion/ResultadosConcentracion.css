@@ -1,0 +1,5 @@
+.ResultadosConcentracion {
+  display: flex;
+  flex-wrap: wrap;
+  --color-titulo-seccion: var(--color-azul);
+}
