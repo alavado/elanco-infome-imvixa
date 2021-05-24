@@ -1,4 +1,18 @@
 .TablaResumen {
-  flex: 1.75;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: .15rem dotted var(--color-gris-4);
+}
+
+.TablaResumen__titulo {
+  background-color: var(--color-amarillo);
+  margin: .5rem;
+  color: white;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }

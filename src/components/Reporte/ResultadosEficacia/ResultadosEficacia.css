@@ -1,3 +1,7 @@
 .ResultadosEficacia {
   --color-titulo-seccion: var(--color-celeste);
+  display: grid;
+  padding-top: 1rem;
+  grid-template: 5rem auto / 1fr 1.5fr;
+  gap: 0 1rem;
 }

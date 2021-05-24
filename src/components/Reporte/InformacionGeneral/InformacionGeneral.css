@@ -1,5 +1,7 @@
 .InformacionGeneral {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   --color-titulo-seccion: var(--color-amarillo);
+  padding-top: 1rem;
+  grid-template: 5rem auto / 1.5fr 1fr 1fr;
+  gap: 0 1rem;
 }
