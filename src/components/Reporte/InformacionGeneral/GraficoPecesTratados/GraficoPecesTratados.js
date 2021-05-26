@@ -5,7 +5,7 @@ const GraficoPecesTratados = () => {
   const datos = [
     {
       nombre: 'Q1 2020',
-      valor: 0.8
+      valor: .8
     },
     {
       nombre: 'Q2 2020',
@@ -50,7 +50,7 @@ const GraficoPecesTratados = () => {
               className="GraficoPecesTratados__barra"
               style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
             >
-              {d.valor.toLocaleString('de-DE')}
+              {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
             </div>
             <div className="GraficoPecesTratados__etiqueta_barra">
               {d.nombre}
