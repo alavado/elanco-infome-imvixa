@@ -1,2 +1,104 @@
 .CumplimientoConcentracion {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 3rem 2rem 0;
+}
+
+.CumplimientoConcentracion__titulo {
+  color: var(--color-gris-4);
+  margin-bottom: 3rem;
+  font-size: 1.25rem;
+}
+
+.CumplimientoConcentracion__etiqueta_eje_y {
+  font-weight: 300;
+  color: var(--color-gris-4);
+  font-size: .9rem;
+  position: absolute;
+  left: -4.5rem;
+  bottom: 1.5rem;
+  transform: rotate(-90deg);
+}
+
+.CumplimientoConcentracion__contenedor_grafico {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  position: relative;
+  margin-left: 2.5rem;
+}
+
+.CumplimientoConcentracion__contenedor_lineas {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.CumplimientoConcentracion__linea {
+  border-bottom: .1rem solid var(--color-gris-2);
+  flex: 1;
+  position: relative;
+}
+
+.CumplimientoConcentracion__linea:first-child {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.CumplimientoConcentracion__etiqueta_linea {
+  position: absolute;
+  font-size: .9rem;
+  color: var(--color-gris-4);
+  font-weight: 300;
+  text-align: right;
+  width: 1rem;
+  bottom: -.5rem;
+  left: -2rem;
+}
+
+.CumplimientoConcentracion__contenedor_caja {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.CumplimientoConcentracion__caja {
+  flex: 1;
+  width: 50%;
+  background: var(--color-azul);
+  border-radius: .5rem .5rem 0 0 ;
+  z-index: 2;
+  margin: 0 1.15rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: .5rem;
+  font-size: .9rem;
+  font-weight: 600;
+  position: absolute;
+  bottom: var(--porcentaje-bottom);
+  top: var(--porcentaje-top);
+}
+
+.CumplimientoConcentracion__etiqueta_caja {
+  position: absolute;
+  bottom: -2.25rem;
+  font-size: .85rem;
+  color: var(--color-gris-4);
+  font-weight: 300;
+  line-height: 1.1;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  height: 2rem;
 }

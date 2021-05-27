@@ -1,9 +1,85 @@
 import './CumplimientoConcentracion.css'
 
 const CumplimientoConcentracion = () => {
+
+  const datos = [
+    {
+      nombre: 'Cargill 2020',
+      promedio: 82,
+      iqr: 3,
+      max: 99,
+      min: 65
+    },
+    {
+      nombre: 'Biomar 2020',
+      promedio: 80,
+      iqr: 4,
+      max: 101,
+      min: 55
+    },
+    {
+      nombre: 'Skretting 2020',
+      promedio: 74,
+      iqr: 3.5,
+      max: 95,
+      min: 55
+    },
+    {
+      nombre: 'Industria 2020',
+      promedio: 75,
+      iqr: 3.5,
+      max: 103,
+      min: 69
+    }
+  ]
+
+  const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.promedio), 0))
+  const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))
+  const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
+  const yMax = Math.max(100, 10 * Math.ceil(vMax / tick))
+  const yMin = Math.min(50, 10 * Math.floor(vMin / tick))
+  const yLineas = [...Array(Math.round(1 + (yMax - yMin) / tick)).fill(0).map((_, i) => yMin + tick * i)].reverse()
+
   return (
     <div className="CumplimientoConcentracion">
-      CumplimientoConcentracion
+      <p className="CumplimientoConcentracion__titulo">
+        Cumplimiento (%) concentración en alimento (logrado / intentado)
+      </p>
+      <div className="CumplimientoConcentracion__contenedor_grafico">
+        <p className="CumplimientoConcentracion__etiqueta_eje_y">
+          Gramos
+        </p>
+        <div className="CumplimientoConcentracion__contenedor_lineas">
+          {yLineas.map(y => (
+            <div key={`lineay-${y}`} className="CumplimientoConcentracion__linea">
+              <p className="CumplimientoConcentracion__etiqueta_linea">
+                {y.toLocaleString('de-DE')}
+              </p>
+            </div>
+          ))}
+        </div>
+        {datos.map(d => (
+          <div key={`caja-cc-${d.nombre}`} className="CumplimientoConcentracion__contenedor_caja">
+            <div
+              className="CumplimientoConcentracion__caja"
+            >
+              
+            </div>
+            <div
+              className="CumplimientoConcentracion__caja"
+              style={{
+                '--porcentaje-bottom': `${((d.promedio - d.iqr - yMin) / (yMax - yMin)) * 100}%`,
+                '--porcentaje-top': `${((yMax - d.iqr - d.promedio) / (yMax - yMin)) * 100}%`
+              }}
+            >
+              {d.promedio.toFixed(0).toLocaleString('de-DE')}
+            </div>
+            <div className="CumplimientoConcentracion__etiqueta_caja">
+              {d.nombre}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
