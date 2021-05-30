@@ -6,6 +6,9 @@
   background-color: var(--color-azul);
   display: flex;
   justify-content: center;
+  background-color: #2f4269;
+  opacity: 1;
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #2f4269 5px ), repeating-linear-gradient( #2a3b5e55, #2a3b5e );
 }
 
 .Formulario__contenedor {
