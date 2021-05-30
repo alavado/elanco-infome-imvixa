@@ -5,6 +5,7 @@
   background-color: var(--color-fondo);
   display: grid;
   grid-template-rows: 5% 10% 25% 23% auto 5%;
+  height: 181.48vw;
 }
 
 .Reporte__logo_imvixa {

@@ -1,0 +1,25 @@
+.FormPlanillas__planilla{
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.FormPlanillas__planilla__label {
+  border: 1px dashed var(--color-gris-2);
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.FormPlanillas__planilla__label__button {
+  background-color: var(--color-gris-1);
+  color: var(--color-gris-4);
+  display: inline-block;
+  padding: 0.5rem;
+  width: 6rem;
+  text-align: center;
+}
