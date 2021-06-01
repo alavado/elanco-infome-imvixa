@@ -21,7 +21,7 @@ const CumplimientoConcentracion = () => {
       nombre: 'Skretting 2020',
       promedio: 74,
       iqr: 3.5,
-      max: 95,
+      max: 80,
       min: 55
     },
     {
@@ -61,10 +61,12 @@ const CumplimientoConcentracion = () => {
         {datos.map(d => (
           <div key={`caja-cc-${d.nombre}`} className="CumplimientoConcentracion__contenedor_caja">
             <div
-              className="CumplimientoConcentracion__caja"
-            >
-              
-            </div>
+              className="CumplimientoConcentracion__bigote"
+              style={{
+                '--porcentaje-top': `${((yMax - d.max) / (yMax - yMin)) * 100}%`,
+                'height': `${((d.max - d.min) / (yMax - yMin)) * 100}%`
+              }}
+            />
             <div
               className="CumplimientoConcentracion__caja"
               style={{
@@ -75,7 +77,7 @@ const CumplimientoConcentracion = () => {
               {d.promedio.toFixed(0).toLocaleString('de-DE')}
             </div>
             <div className="CumplimientoConcentracion__etiqueta_caja">
-              {d.nombre}
+              {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}
             </div>
           </div>
         ))}
