@@ -1,5 +1,6 @@
 .App {
   display: flex;
+  flex-direction: column;
   --color-fondo: rgb(242, 248, 250);
   --color-gris-1: rgb(237, 237, 237);
   --color-gris-2: rgb(200, 199, 199);

@@ -3,7 +3,9 @@ import './ComparacionConcentracion.css'
 const ComparacionConcentracion = () => {
   return (
     <div className="ComparacionConcentracion">
-      ComparacionConcentracion
+      <p className="ComparacionConcentracion__titulo">
+        Comparación concentración (ppb) en músculo
+      </p>
     </div>
   )
 }

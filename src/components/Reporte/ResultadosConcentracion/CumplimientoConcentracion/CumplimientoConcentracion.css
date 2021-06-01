@@ -1,13 +1,14 @@
 .CumplimientoConcentracion {
   display: flex;
   flex-direction: column;
-  padding: 0.25rem 3rem 2rem 0;
+  padding: 0.25rem 2.5rem 2rem 0;
 }
 
 .CumplimientoConcentracion__titulo {
   color: var(--color-gris-4);
   margin-bottom: 3rem;
   font-size: 1.25rem;
+  line-height: 1.15;
 }
 
 .CumplimientoConcentracion__etiqueta_eje_y {
@@ -54,6 +55,7 @@
   position: absolute;
   font-size: .9rem;
   color: var(--color-gris-4);
+  opacity: .8;
   font-weight: 300;
   text-align: right;
   width: 1rem;
@@ -94,11 +96,36 @@
   font-size: .85rem;
   color: var(--color-gris-4);
   font-weight: 300;
-  line-height: 1.1;
   width: 100%;
+  line-height: 1.25;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
   height: 2rem;
+}
+
+.CumplimientoConcentracion__bigote {
+  width: .16rem;
+  height: 100%;
+  background: var(--color-gris-3);
+  position: absolute;
+  top: var(--porcentaje-top);
+  left: calc(50% - .2rem);
+}
+
+.CumplimientoConcentracion__bigote::before,
+.CumplimientoConcentracion__bigote::after {
+  content: '';
+  position: absolute;
+  background: var(--color-gris-3);
+  top: 0;
+  width: 1rem;
+  height: .16rem;
+  left: -.4rem;
+}
+
+.CumplimientoConcentracion__bigote::after {
+  top: auto;
+  bottom: 0;
 }

@@ -3,6 +3,8 @@
   flex-direction: column;
   background-color: white;
   border: .15rem dotted var(--color-gris-4);
+  color: var(--color-gris-4);
+  font-size: 1.15rem;
 }
 
 .TablaResumen__titulo {
@@ -15,4 +17,45 @@
   padding-left: 1rem;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.TablaResumen__tabla {
+  display: grid;
+  grid-template: 1.5fr repeat(9, 1fr) / repeat(3, 1fr);
+  flex: 1;
+  font-weight: 300;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.TablaResumen__tabla > * {
+  border-bottom: .1rem dotted var(--color-gris-3);
+}
+
+.TablaResumen__nombre_empresa,
+.TablaResumen__encabezados,
+.TablaResumen__fila {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column: 1 / -1;
+  text-align: center;
+  grid-template-columns: 3fr 1fr 1fr;
+  place-items: center;
+}
+
+.TablaResumen__nombre_empresa {
+  grid-template-columns: 3fr 2fr;
+  font-weight: 500;
+}
+
+.TablaResumen__encabezados {
+  font-weight: 500;
+}
+
+.TablaResumen__fila:last-child {
+  background: #fce0da;
+}
+
+.TablaResumen__fila > :first-child {
+  justify-self: start;
+  padding-left: .25rem;
 }

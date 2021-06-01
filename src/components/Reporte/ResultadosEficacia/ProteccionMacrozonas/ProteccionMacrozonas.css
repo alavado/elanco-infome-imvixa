@@ -1,3 +1,65 @@
 .ProteccionMacrozonas {
+  padding: 1rem;
+}
+
+.ProteccionMacrozonas__titulo {
+  font-size: 1.4rem;
+  padding-left: 1.75rem;
+  font-weight: 500;
+  color: var(--color-gris-4);
+  line-height: 1.15;
+}
+
+.ProteccionMacrozonas__contenedor_mapa {
   border-left: .15rem dotted var(--color-gris-4);
+  padding-left: 1rem;
+  margin-top: 1rem;
+  position: relative;
+}
+
+.ProteccionMacrozonas__mapa {
+  width: 100%;
+}
+
+.ProteccionMacrozonas__pin {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border: .4rem solid var(--fondo);
+  background: var(--color-fondo);
+  color: var(--color-gris-4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  font-weight: bold;
+}
+
+.ProteccionMacrozonas__pin::after {
+  content: '';
+  position: absolute;
+  width: 2rem;
+  height: 1.25rem;
+  background: var(--fondo);
+  top: 1.25rem;
+  clip-path: polygon(11% 0, 89% 0, 50% 100%);
+}
+
+.ProteccionMacrozonas__pin_etiqueta {
+  position: absolute;
+  top: calc(100% + 1.5rem);
+  left: 50%;
+  font-size: .72rem;
+  line-height: 1.15;
+  mix-blend-mode: multiply;
+}
+
+.ProteccionMacrozonas__separador_mapa {
+  height: 100%;
+  width: 52.5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-right: .2rem dotted var(--color-gris-4);
 }
