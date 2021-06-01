@@ -5,26 +5,36 @@ import FormPlanillas from './FormPlanillas'
 import FormParametros from './FormParametros'
 import FormExportar from './FormExportar'
 import './Formulario.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { pasoAnterior, pasoSiguiente } from '../../redux/ducks/reporte'
 
 const Formulario = () => {
   const pasos = [
     {
       paso: 1,
       descripcion: "Seleccione las bases de datos",
-      componente: FormPlanillas
+      componente: FormPlanillas,
+      volver: "",
+      siguiente: "Siguiente",
     },
     {
       paso: 2,
       descripcion: "Seleccione empresa y periodo de análisis",
-      componente: FormParametros
+      componente: FormParametros,
+      volver: "Volver",
+      siguiente: "Siguiente",
     },
     {
       paso: 3,
       descripcion: "Seleccione elementos a exportar",
-      componente: FormExportar
+      componente: FormExportar,
+      volver: "Volver",
+      siguiente: "Generar reporte"
     }
   ]
-  const pasoSeleccionado = 0
+  const dispatch = useDispatch()
+  const indicePasoActual = useSelector(state => state.reporte.pasoActual)
+  const pasoActual = pasos[indicePasoActual]
 
   return (
     <div className="Formulario">
@@ -40,16 +50,22 @@ const Formulario = () => {
             </div>
           </div>
           <div className="Formulario__stepper">
-            <div className="Formulario__stepper_paso">Paso {pasos[pasoSeleccionado].paso}/3</div>
-            <div className="Formulario__stepper_desc">{pasos[pasoSeleccionado].descripcion}</div>
+            <div className="Formulario__stepper_paso">Paso {pasoActual.paso}/3</div>
+            <div className="Formulario__stepper_desc">{pasoActual.descripcion}</div>
           </div>
         </div>
         <div className="Formulario__body">
-          {pasos[pasoSeleccionado].componente()}
+          {pasoActual.componente()}
         </div>
         <div className="Formulario__botones">
-          <div className="Formulario__boton">Volver</div>
-          <div className="Formulario__boton">Siguiente</div>
+          <div 
+            className="Formulario__boton"
+            onClick={() => dispatch(pasoSiguiente())}
+          >{pasoActual.siguiente}</div>
+          {
+            indicePasoActual === 0 
+            ? null 
+            : <div className="Formulario__boton" onClick={() => dispatch(pasoAnterior())}>{pasoActual.volver}</div>}
         </div>
       </div>
     </div>
