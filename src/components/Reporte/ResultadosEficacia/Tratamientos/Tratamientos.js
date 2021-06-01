@@ -3,7 +3,9 @@ import './Tratamientos.css'
 const Tratamientos = () => {
   return (
     <div className="Tratamientos">
-      Tratamientos
+      <div className="Tratamientos__titulo">
+        Tratamientos hasta primer Baño
+      </div>
     </div>
   )
 }

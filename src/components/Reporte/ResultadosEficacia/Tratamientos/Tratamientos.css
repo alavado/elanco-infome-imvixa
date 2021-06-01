@@ -1,0 +1,10 @@
+.Tratamientos {
+  padding: 1rem 0;
+}
+
+.Tratamientos__titulo {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-gris-4);
+  line-height: 1.15;
+}

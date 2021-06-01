@@ -1,3 +1,11 @@
 .ComparacionConcentracion {
   border-left: .15rem dotted var(--color-gris-4);
+  padding: 0.25rem 1rem 2rem 1rem;
+}
+
+.ComparacionConcentracion__titulo {
+  color: var(--color-gris-4);
+  margin-bottom: 3rem;
+  font-size: 1.3rem;
+  line-height: 1.15;
 }

@@ -1,13 +1,14 @@
 .CumplimientoConcentracion {
   display: flex;
   flex-direction: column;
-  padding: 0.25rem 3rem 2rem 0;
+  padding: 0.25rem 2rem 2rem 0;
 }
 
 .CumplimientoConcentracion__titulo {
   color: var(--color-gris-4);
   margin-bottom: 3rem;
   font-size: 1.25rem;
+  line-height: 1.15;
 }
 
 .CumplimientoConcentracion__etiqueta_eje_y {
