@@ -9,10 +9,19 @@ input[type="file"] {
 }
 
 .FormPlanillas__planilla__label {
-  border: 1px dashed var(--color-gris-2);
-  display: inline-block;
+  border: 1px solid var(--color-gris-2);
+  border-radius: 0.2rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: .25rem .5rem .25rem .25rem;
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
+}
+
+.FormPlanillas__planilla__label:hover {
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  border: 1px solid var(--color-gris-3);
 }
 
 .FormPlanillas__planilla__label__button {
@@ -22,4 +31,9 @@ input[type="file"] {
   padding: 0.5rem;
   width: 6rem;
   text-align: center;
+  margin-right: .5rem;
+}
+
+.FormPlanillas__planilla__label__file {
+  font-size: 0.8rem;
 }

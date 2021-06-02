@@ -1,41 +1,48 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import logoImvixa from '../../assets/images/logo-imvixa.svg'
 import logoElanco from '../../assets/images/logo-elanco.svg'
 import FormPlanillas from './FormPlanillas'
 import FormParametros from './FormParametros'
 import FormExportar from './FormExportar'
 import './Formulario.css'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { pasoAnterior, pasoSiguiente } from '../../redux/ducks/reporte'
 
 const Formulario = () => {
-  const pasos = [
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const indicePasoActual = useSelector(state => state.reporte.pasoActual)
+  
+  const pasos = useMemo(() => [
     {
       paso: 1,
       descripcion: "Seleccione las bases de datos",
-      componente: FormPlanillas,
+      componente: <FormPlanillas />,
       volver: "",
       siguiente: "Siguiente",
+      onClickSiguiente: () => dispatch(pasoSiguiente())
     },
     {
       paso: 2,
       descripcion: "Seleccione empresa y periodo de análisis",
-      componente: FormParametros,
+      componente: <FormParametros />,
       volver: "Volver",
       siguiente: "Siguiente",
+      onClickSiguiente: () => dispatch(pasoSiguiente())
     },
     {
       paso: 3,
       descripcion: "Seleccione elementos a exportar",
-      componente: FormExportar,
+      componente: <FormExportar />,
       volver: "Volver",
-      siguiente: "Generar reporte"
+      siguiente: "Exportar",
+      onClickSiguiente: () => history.push('/reporte')
     }
-  ]
-  const dispatch = useDispatch()
-  const indicePasoActual = useSelector(state => state.reporte.pasoActual)
-  const pasoActual = pasos[indicePasoActual]
+  ], [dispatch, history])
 
+  const pasoActual = pasos[indicePasoActual]
+  
   return (
     <div className="Formulario">
       <div className="Formulario__contenedor">
@@ -55,17 +62,17 @@ const Formulario = () => {
           </div>
         </div>
         <div className="Formulario__body">
-          {pasoActual.componente()}
+          {pasoActual.componente}
         </div>
         <div className="Formulario__botones">
-          <div 
+          <button 
             className="Formulario__boton"
-            onClick={() => dispatch(pasoSiguiente())}
-          >{pasoActual.siguiente}</div>
+            onClick={pasoActual.onClickSiguiente}
+            >{pasoActual.siguiente}</button>
           {
             indicePasoActual === 0 
             ? null 
-            : <div className="Formulario__boton" onClick={() => dispatch(pasoAnterior())}>{pasoActual.volver}</div>}
+            : <button className="Formulario__boton" onClick={() => dispatch(pasoAnterior())}>{pasoActual.volver}</button>}
         </div>
       </div>
     </div>

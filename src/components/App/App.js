@@ -12,7 +12,7 @@ const App = () => {
           <Reporte />
         </Route>
         <Route exact path="/">
-          <ParametrosIniciales />
+          <Formulario />
         </Route>
       </Switch>
     </div>

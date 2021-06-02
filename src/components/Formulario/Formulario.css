@@ -2,20 +2,20 @@
   width: 100vw;
   min-width: 40rem;  
   min-height: 100vh;
-  padding: 4rem;
+  padding: 3rem 0 4rem 0;
   background-color: var(--color-azul);
   display: flex;
   justify-content: center;
-  background-color: #2f4269;
   opacity: 1;
-  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #2f4269 5px ), repeating-linear-gradient( #2a3b5e55, #2a3b5e );
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, var(--color-azul) 5px ), repeating-linear-gradient( #2a3b5e55, var(--color-azul));
 }
 
 .Formulario__contenedor {
   display: flex;
   flex-direction: column;
-  min-width: 30rem;  
+  min-width: 32rem;
   background-color: var(--color-fondo);
+  box-shadow: 0 .2rem 1rem rgba(0, 0, 0, .25);
 }
 
 .Formulario__header {
@@ -53,6 +53,9 @@
 }
 
 .Formulario__body {
+  display: flex;
+  flex: 3;
+  flex-direction: column;
   padding: 2rem;
 }
 
@@ -85,8 +88,8 @@
 }
 
 .Formulario__botones {
-  margin: 0rem 2rem 2rem 2rem;
   display: flex;
+  margin: 0rem 2rem 2rem 2rem;
   justify-content: space-between;
   flex-direction: row-reverse;
 }
@@ -97,4 +100,13 @@
   color: white;
   cursor: pointer;
   text-align: center;
+  border: none;
+  outline: inherit;
+  box-shadow: 0 .2rem .25rem rgba(0, 0, 0, .25);
+  transition: all .25s ease;
+}
+
+.Formulario__boton:hover {
+  box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .25);
+  filter: brightness(115%);
 }

@@ -1,0 +1,26 @@
+.FormParametros__seccion {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.FormParametros__seccion_label {
+  margin-bottom: 0.5rem;
+}
+
+.FormParametros__seccion_descripcion {
+  font-size: 0.7rem;
+  color: var(--color-gris-4);
+}
+
+.FormParametros__calendario {
+  display: flex;
+  align-items: center;
+  color: var(--color-gris-4);
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.FormParametros__label {
+  margin-right: .5rem;
+}
