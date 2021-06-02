@@ -17,6 +17,8 @@ const opcionesExportacion = [
 const FormExportar = () => {
   return (
     <div className="FormParametros__exportar" >
+      <div className="FormParametros__exportar_label">Seleccione elementos a exportar</div>
+      <p className="FormParametros__exportar_descripcion">El reporte será exportado en PDF. Los otros elementos se exportarán en JPG.</p>
       <Select
         defaultValue={[opcionesExportacion[0]]}
         isMulti

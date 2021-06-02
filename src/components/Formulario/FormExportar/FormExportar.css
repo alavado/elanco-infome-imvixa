@@ -1,3 +1,13 @@
 .FormParametros__exportar {
   max-width: 27rem;
 }
+
+.FormParametros__exportar_label {
+  margin-bottom: 0.5rem;
+}
+
+.FormParametros__exportar_descripcion {
+  font-size: 0.7rem;
+  color: var(--color-gris-4);
+  margin-bottom: .5rem;
+}

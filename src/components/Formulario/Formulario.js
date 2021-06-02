@@ -17,7 +17,7 @@ const Formulario = () => {
   const pasos = useMemo(() => [
     {
       paso: 1,
-      descripcion: "Seleccione las bases de datos",
+      descripcion: "Seleccionar las bases de datos",
       componente: <FormPlanillas />,
       volver: "",
       siguiente: "Siguiente",
@@ -25,7 +25,7 @@ const Formulario = () => {
     },
     {
       paso: 2,
-      descripcion: "Seleccione empresa y periodo de análisis",
+      descripcion: "Seleccionar empresa y periodo de análisis",
       componente: <FormParametros />,
       volver: "Volver",
       siguiente: "Siguiente",
@@ -33,7 +33,7 @@ const Formulario = () => {
     },
     {
       paso: 3,
-      descripcion: "Seleccione elementos a exportar",
+      descripcion: "Exportar reporte y otros gráficos",
       componente: <FormExportar />,
       volver: "Volver",
       siguiente: "Exportar",
