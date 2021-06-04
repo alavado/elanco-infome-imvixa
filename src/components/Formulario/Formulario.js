@@ -29,16 +29,16 @@ const Formulario = () => {
       componente: <FormParametros />,
       volver: "Volver",
       siguiente: "Siguiente",
-      onClickSiguiente: () => dispatch(pasoSiguiente())
-    },
-    {
-      paso: 3,
-      descripcion: "Exportar reporte y otros gráficos",
-      componente: <FormExportar />,
-      volver: "Volver",
-      siguiente: "Exportar",
       onClickSiguiente: () => history.push('/reporte')
-    }
+    },
+    // {
+    //   paso: 3,
+    //   descripcion: "Exportar reporte y otros gráficos",
+    //   componente: <FormExportar />,
+    //   volver: "Volver",
+    //   siguiente: "Exportar",
+    //   onClickSiguiente: () => history.push('/reporte')
+    // }
   ], [dispatch, history])
 
   const pasoActual = pasos[indicePasoActual]
@@ -57,7 +57,7 @@ const Formulario = () => {
             </div>
           </div>
           <div className="Formulario__stepper">
-            <div className="Formulario__stepper_paso">Paso {pasoActual.paso}/3</div>
+            <div className="Formulario__stepper_paso">Paso {pasoActual.paso}/{pasos.length}</div>
             <div className="Formulario__stepper_desc">{pasoActual.descripcion}</div>
           </div>
         </div>

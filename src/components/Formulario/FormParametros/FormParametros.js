@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale }  from "react-datepicker";
+import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import './FormParametros.css'
 
+
 const FormParametros = () => {
+  registerLocale("es", es);
   const empresas = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
@@ -43,11 +46,22 @@ const FormParametros = () => {
         <div className="FormParametros__calendarios">
           <div className="FormParametros__calendario">
             <div className="FormParametros__label">Fecha de inicio: </div>
-            <DatePicker isClearable={true} selected={startDate} onChange={(date) => setStartDate(date)} />
+            <DatePicker 
+              locale="es" 
+              isClearable={true} 
+              selected={startDate} 
+              onChange={(date) => setStartDate(date)} 
+              dateFormat="dd/MM/yyyy"
+            />
           </div>
           <div className="FormParametros__calendario">
             <div className="FormParametros__label">Fecha de término: </div>
-            <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+            <DatePicker 
+              locale="es" 
+              selected={endDate} 
+              onChange={(date) => setEndDate(date)}
+              dateFormat="dd/MM/yyyy"
+            />
           </div>
         </div>
       </div>
