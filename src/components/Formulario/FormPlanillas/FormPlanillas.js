@@ -6,54 +6,16 @@ import {
   guardarPlanillaPeces,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/reporte";
+import { 
+  readFile,
+  checkAlimento,
+  checkPeces,
+  checkEficacia,
+  getShortPath
+ } from "./validation"
 import "./FormPlanillas.css";
 var XLSX = require("xlsx");
 
-const processWb = function (wb) {
-  const HTMLOUT = document.getElementById("htmlout");
-  wb.SheetNames.forEach(function (sheetName) {
-    const htmlstr = XLSX.utils.sheet_to_html(wb.Sheets[sheetName], {
-      editable: false,
-    });
-    HTMLOUT.innerHTML += htmlstr;
-  });
-};
-
-const checkAlimento = (e) => {
-  // Revisar que tenga las columnas de alimento
-
-  // Revisar que tenga datos
-
-  // Revisar que tenga las columnas de PMV
-
-  // Revisar que tenga datos
-  return true;
-};
-
-const checkPeces = (e) => {
-  // Revisar que tenga las columnas de peces
-
-  // Revisar que tenga datos
-  return true;
-};
-
-const checkEficacia = (e) => {
-  // Revisar que tenga las columnas de eficacia
-
-  // Revisar que tenga datos
-  return true;
-};
-
-const readFile = function (files, processWb) {
-  const f = files[0];
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    let data = e.target.result;
-    data = new Uint8Array(data);
-    processWb(XLSX.read(data, { type: "array" }));
-  };
-  reader.readAsArrayBuffer(f);
-};
 
 const FormPlanillas = () => {
   const dispatch = useDispatch();
@@ -67,7 +29,7 @@ const FormPlanillas = () => {
     if (e.target.files == null) return;
     try {
       var path = e.target.files[0].path;
-      readFile(e.target.files, validationFunction);
+      readFile(e.target.files, validationFunction)
       dispatch(action(path));
     } catch (error) {
       dispatch(mostrarErrorFormulario(
@@ -85,7 +47,7 @@ const FormPlanillas = () => {
         >
           <div className="FormPlanillas__planilla__label__button">Alimento</div>
           <div className="FormPlanillas__planilla__label__file">
-            {planillaAlimento}
+            {getShortPath(planillaAlimento)}
           </div>
         </label>
         <input
@@ -104,7 +66,7 @@ const FormPlanillas = () => {
         >
           <div className="FormPlanillas__planilla__label__button"> Peces</div>
           <div className="FormPlanillas__planilla__label__file">
-            {planillaPeces}
+            {getShortPath(planillaPeces)}
           </div>
         </label>
         <input
@@ -124,7 +86,7 @@ const FormPlanillas = () => {
             Eficacia
           </div>
           <div className="FormPlanillas__planilla__label__file">
-            {planillaEficacia}
+            {getShortPath(planillaEficacia)}
           </div>
         </label>
         <input
