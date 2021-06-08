@@ -11,6 +11,8 @@ const slice = createSlice({
     nombreEmpresa: '<Rellenar>',
     fechaInicio: "",
     fechaFinal: "",
+    todasLasPlanillas: false,
+    errorFormulario: null
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -24,15 +26,30 @@ const slice = createSlice({
     },
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload
+      if (state.planillaEficacia !== '' && state.planillaPeces !== '') {
+        state.todasLasPlanillas = true
+      }
+      state.errorFormulario = null
     },
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload
+      if (state.planillaEficacia !== '' && state.planillaAlimento !== '') {
+        state.todasLasPlanillas = true
+      }
+      state.errorFormulario = null
     },
     guardarPlanillaPMV(state, action) {
       state.planillaPMV = action.payload
     },
     guardarPlanillaEficacia(state, action) {
       state.planillaEficacia = action.payload
+      if (state.planillaPeces !== '' && state.planillaAlimento !== '') {
+        state.todasLasPlanillas = true
+      }
+      state.errorFormulario = null
+    },
+    mostrarErrorFormulario(state, action) {
+      state.errorFormulario = action.payload
     }
   }
 })
@@ -40,7 +57,7 @@ const slice = createSlice({
 export const { 
   guardarPlanillaAlimento,
   guardarPlanillaPeces,
-  guardarPlanillaPMV,
+  mostrarErrorFormulario,
   guardarPlanillaEficacia,
   guardaNombreEmpresa,
   pasoSiguiente,
