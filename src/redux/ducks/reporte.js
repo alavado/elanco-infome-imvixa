@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+
 const slice = createSlice({
   name: 'reporte',
   initialState: {
@@ -8,6 +9,7 @@ const slice = createSlice({
     planillaPMV: "",
     planillaPeces: "",
     planillaEficacia: "",
+    empresas: [],
     nombreEmpresa: '<Rellenar>',
     fechaInicio: "",
     fechaFinal: "",
@@ -25,24 +27,24 @@ const slice = createSlice({
       if (state.pasoActual > 0) state.pasoActual -= 1
     },
     guardarPlanillaAlimento(state, action) {
-      state.planillaAlimento = action.payload
+      state.planillaAlimento = action.payload.f.path
+      state.empresas = action.payload.empresas.map(v => {
+        return {value: v, label: v}
+      })
       if (state.planillaEficacia !== '' && state.planillaPeces !== '') {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
     },
     guardarPlanillaPeces(state, action) {
-      state.planillaPeces = action.payload
+      state.planillaPeces = action.payload.path
       if (state.planillaEficacia !== '' && state.planillaAlimento !== '') {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
     },
-    guardarPlanillaPMV(state, action) {
-      state.planillaPMV = action.payload
-    },
     guardarPlanillaEficacia(state, action) {
-      state.planillaEficacia = action.payload
+      state.planillaEficacia = action.payload.path
       if (state.planillaPeces !== '' && state.planillaAlimento !== '') {
         state.todasLasPlanillas = true
       }

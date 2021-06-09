@@ -21,10 +21,16 @@ const FormPlanillas = () => {
     (state) => state.reporte
   );
 
-  const readFile = (files, processWb) => {
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
 
+  const getEmpresas = (data) => {
+    const wb = XLSX.read(data, { type: "array"})
+    const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets['Alimento'])
+    return alimentoJson.map(r => r.Cliente).filter(onlyUnique)
   };
-
+  
   const selectFile = (e, validationFunction, action) => {
     if (e.target.files == null) return;
     const f = e.target.files[0];
@@ -34,8 +40,15 @@ const FormPlanillas = () => {
       data = new Uint8Array(data);
       try {
         validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }))
-        const path = f.path;
-        dispatch(action(path));
+        if (action.type === 'reporte/guardarPlanillaAlimento') {
+          const empresas = getEmpresas(data)
+          dispatch(action({
+            f,
+            empresas
+          }));
+        } else {
+          dispatch(action(f));
+        }
       } catch (error) {
         dispatch(
           mostrarErrorFormulario(

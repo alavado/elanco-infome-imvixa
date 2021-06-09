@@ -5,16 +5,6 @@ const headerPMV = ["Empresa", "PMV", "Fecha PMV/fab. Medicado", "Year_month_Pmv"
 const headerPeces = ["Status", "Sampling date", "Year", "Report id.", "Elanco id.", "1st day of treatment", "Last day of treatment", "Company", "Sea site of destination", "Hatchery of origin", "Sample Origin", "tank/sea cage", "degree days", "PMV", "Lote Alimento 1", "Fish no.", "Imvixa [ ] in fillet (ppb)", "Fish Length (cm)", "Fish body weight (g)", "k", "Specie"]
 const headerEficacia = ["Empresa", "Centro", "Barrio", "Inicio siembra", "Termino siembra", "Año de siembra", "Macrozona", "Región", "Termino Eficacia", "Meses sin bañar", "Fecha tto", "Días al 1er tto", "Mes hasta 1er baño (días/30,4)", "Semana cultivo Tratamiento"]
 
-const processWb = function (wb) {
-  const HTMLOUT = document.getElementById("htmlout");
-  wb.SheetNames.forEach(function (sheetName) {
-    const htmlstr = XLSX.utils.sheet_to_html(wb.Sheets[sheetName], {
-      editable: false,
-    });
-    HTMLOUT.innerHTML += htmlstr;
-  });
-};
-
 export const checkAlimento = (wb) => {
   // abrir hoja Alimento
   const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets['Alimento'])

@@ -4,16 +4,12 @@ import DatePicker, { registerLocale }  from "react-datepicker";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import './FormParametros.css'
+import { useSelector } from 'react-redux';
 
 
 const FormParametros = () => {
   registerLocale("es", es);
-  const empresas = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
-
+  const { empresas } = useSelector(state => state.reporte)
   const divisionTemporal = [
     { value: 'mensual', label: 'M - Mensual' },
     { value: 'trimetral', label: 'T - Trimestral' },
