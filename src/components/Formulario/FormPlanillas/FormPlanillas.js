@@ -6,36 +6,45 @@ import {
   guardarPlanillaPeces,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/reporte";
-import { 
-  readFile,
+import {
   checkAlimento,
   checkPeces,
   checkEficacia,
-  getShortPath
- } from "./validation"
+  getShortPath,
+} from "./validation";
 import "./FormPlanillas.css";
 var XLSX = require("xlsx");
 
-
 const FormPlanillas = () => {
   const dispatch = useDispatch();
-  const {
-    planillaAlimento,
-    planillaPeces,
-    planillaEficacia,
-  } = useSelector((state) => state.reporte);
+  const { planillaAlimento, planillaPeces, planillaEficacia } = useSelector(
+    (state) => state.reporte
+  );
+
+  const readFile = (files, processWb) => {
+
+  };
 
   const selectFile = (e, validationFunction, action) => {
     if (e.target.files == null) return;
-    try {
-      var path = e.target.files[0].path;
-      readFile(e.target.files, validationFunction)
-      dispatch(action(path));
-    } catch (error) {
-      dispatch(mostrarErrorFormulario(
-        "La planilla que intentó cargar no cumple con el formato necesario."));
-      console.log(error);
-    }
+    const f = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      let data = e.target.result;
+      data = new Uint8Array(data);
+      try {
+        validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }))
+        const path = f.path;
+        dispatch(action(path));
+      } catch (error) {
+        dispatch(
+          mostrarErrorFormulario(
+            "La planilla que intentó cargar no cumple con el formato necesario."
+          )
+        )
+      }
+    };
+    reader.readAsArrayBuffer(f);
   };
 
   return (
