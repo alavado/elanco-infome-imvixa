@@ -9,7 +9,7 @@ const slice = createSlice({
     planillaPMV: "",
     planillaPeces: "",
     planillaEficacia: "",
-    empresas: [],
+    empresas: [{value: 'Todas', label: 'Todas'}],
     nombreEmpresa: '<Rellenar>',
     fechaInicio: "",
     fechaFinal: "",
@@ -28,9 +28,9 @@ const slice = createSlice({
     },
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.f.path
-      state.empresas = action.payload.empresas.map(v => {
+      state.empresas = [{value: 'Todas', label: 'Todas'},...action.payload.empresas.map(v => {
         return {value: v, label: v}
-      })
+      })]
       if (state.planillaEficacia !== '' && state.planillaPeces !== '') {
         state.todasLasPlanillas = true
       }
