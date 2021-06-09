@@ -16,9 +16,9 @@ const FormParametros = () => {
     { value: 'cuatrimestral', label: 'Q - Cuatrimestral' },
     { value: 'semestral', label: 'S - Semestral' },
   ]
-  
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(new Date());
+  const today = new Date()
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(new Date(today.getFullYear(), today.getMonth(), 0))
 
   return (
     <div>
