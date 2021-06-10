@@ -1,83 +1,95 @@
-import React, { useState } from 'react'
-import Select from 'react-select'
-import DatePicker, { registerLocale }  from "react-datepicker";
+import React, { useState } from "react";
+import Select from "react-select";
+import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import './FormParametros.css'
-import { useSelector } from 'react-redux';
-
+import "./FormParametros.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  guardaNombreEmpresa,
+  guardarFechaDeInicio,
+  guardarFechaDeTermino,
+  guardarDivisionTemporal,
+} from "../../../redux/ducks/reporte";
 
 const FormParametros = () => {
   registerLocale("es", es);
-  const { empresas } = useSelector(state => state.reporte)
-  const divisionTemporal = [
-    { value: 'mensual', label: 'M - Mensual' },
-    { value: 'trimetral', label: 'T - Trimestral' },
-    { value: 'cuatrimestral', label: 'Q - Cuatrimestral' },
-    { value: 'semestral', label: 'S - Semestral' },
-  ]
-  const today = new Date()
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(new Date(today.getFullYear(), today.getMonth(), 0))
+  const {
+    empresas,
+    nombreEmpresa,
+    fechaInicio,
+    fechaFinal,
+    divisionTemporal,
+    divisionTemporalOptions,
+  } = useSelector((state) => state.reporte);
 
+  const dispatch = useDispatch();
   return (
     <div>
       <div className="FormParametros__seccion">
         <div className="FormParametros__seccion_label">Empresa</div>
-        <Select 
-          options={empresas} 
-          theme={theme => ({
+        <Select
+          options={empresas}
+          defaultValue={nombreEmpresa}
+          onChange={(nombre) => dispatch(guardaNombreEmpresa(nombre))}
+          theme={(theme) => ({
             ...theme,
             colors: {
               ...theme.colors,
               primary: "#2f4269",
             },
-          })}  
+          })}
           placeholder="Seleccione empresa"
         />
       </div>
-      <div  className="FormParametros__seccion">
+      <div className="FormParametros__seccion">
         <div className="FormParametros__seccion_label">Periodo de análisis</div>
-        <p className="FormParametros__seccion_descripcion">Si no se ingresa fecha de inicio se considerará toda la historia disponible.</p>
+        <p className="FormParametros__seccion_descripcion">
+          Si no se ingresa fecha de inicio se considerará toda la historia
+          disponible.
+        </p>
         <div className="FormParametros__calendarios">
           <div className="FormParametros__calendario">
             <div className="FormParametros__label">Fecha de inicio: </div>
-            <DatePicker 
-              locale="es" 
-              isClearable={true} 
-              selected={startDate} 
-              onChange={(date) => setStartDate(date)} 
+            <DatePicker
+              locale="es"
+              isClearable={true}
+              selected={fechaInicio}
+              onChange={(date) => dispatch(guardarFechaDeInicio(date))}
               dateFormat="dd/MM/yyyy"
             />
           </div>
           <div className="FormParametros__calendario">
             <div className="FormParametros__label">Fecha de término: </div>
-            <DatePicker 
-              locale="es" 
-              selected={endDate} 
-              onChange={(date) => setEndDate(date)}
+            <DatePicker
+              locale="es"
+              selected={fechaFinal}
+              onChange={(date) => dispatch(guardarFechaDeTermino(date))}
               dateFormat="dd/MM/yyyy"
             />
           </div>
         </div>
       </div>
-      <div  className="FormParametros__seccion">
-        <div className="FormParametros__seccion_label">División temporal de análisis</div>
-        <Select 
-          defaultValue={divisionTemporal[2]}
-          options={divisionTemporal} 
-          theme={theme => ({
+      <div className="FormParametros__seccion">
+        <div className="FormParametros__seccion_label">
+          División temporal de análisis
+        </div>
+        <Select
+          defaultValue={divisionTemporal}
+          options={divisionTemporalOptions}
+          onChange={(value) => dispatch(guardarDivisionTemporal(value))}
+          theme={(theme) => ({
             ...theme,
             colors: {
               ...theme.colors,
               primary: "#2f4269",
             },
-          })}  
+          })}
           placeholder="Seleccione división temporal de análisis"
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FormParametros
+export default FormParametros;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-
+const today = new Date()
 const slice = createSlice({
   name: 'reporte',
   initialState: {
@@ -10,15 +10,31 @@ const slice = createSlice({
     planillaPeces: "",
     planillaEficacia: "",
     empresas: [{value: 'Todas', label: 'Todas'}],
-    nombreEmpresa: '<Rellenar>',
-    fechaInicio: "",
-    fechaFinal: "",
+    nombreEmpresa: '',
+    divisionTemporal: { value: "cuatrimestral", label: "Q - Cuatrimestral" },
+    fechaInicio: null,
+    fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     todasLasPlanillas: false,
-    errorFormulario: null
+    errorFormulario: null,
+    divisionTemporalOptions: [
+      { value: "mensual", label: "M - Mensual" },
+      { value: "trimetral", label: "T - Trimestral" },
+      { value: "cuatrimestral", label: "Q - Cuatrimestral" },
+      { value: "semestral", label: "S - Semestral" },
+    ]
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
       state.nombreEmpresa = action.payload
+    },
+    guardarFechaDeInicio(state, action) {
+      state.fechaInicio = action.payload
+    },
+    guardarFechaDeTermino(state, action) {
+      state.fechaFinal = action.payload
+    },
+    guardarDivisionTemporal(state, action) {
+      state.divisionTemporal = action.payload
     },
     pasoSiguiente(state) {
       if (state.pasoActual < 2) state.pasoActual += 1
@@ -62,6 +78,9 @@ export const {
   mostrarErrorFormulario,
   guardarPlanillaEficacia,
   guardaNombreEmpresa,
+  guardarFechaDeInicio,
+  guardarFechaDeTermino,
+  guardarDivisionTemporal,
   pasoSiguiente,
   pasoAnterior } = slice.actions
 
