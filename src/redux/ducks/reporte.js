@@ -25,7 +25,7 @@ const slice = createSlice({
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
-      state.nombreEmpresa = action.payload
+      state.nombreEmpresa = action.payload.value
     },
     guardarFechaDeInicio(state, action) {
       state.fechaInicio = action.payload
