@@ -40,7 +40,7 @@ const FormPlanillas = () => {
       data = new Uint8Array(data);
       try {
         validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }));
-        if (action.type === "reporte/guardarPlanillaAlimento") {
+        if (action.type === guardarPlanillaAlimento.type) {
           const empresas = getEmpresas(data);
           dispatch(
             action({
