@@ -26,11 +26,11 @@ const FormPlanillas = () => {
   }
 
   const getEmpresas = (data) => {
-    const wb = XLSX.read(data, { type: "array"})
-    const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets['Alimento'])
-    return alimentoJson.map(r => r.Cliente).filter(onlyUnique)
+    const wb = XLSX.read(data, { type: "array" });
+    const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets["Alimento"]);
+    return alimentoJson.map((r) => r.Cliente).filter(onlyUnique);
   };
-  
+
   const selectFile = (e, validationFunction, action) => {
     if (e.target.files == null) return;
     const f = e.target.files[0];
@@ -39,13 +39,15 @@ const FormPlanillas = () => {
       let data = e.target.result;
       data = new Uint8Array(data);
       try {
-        validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }))
-        if (action.type === 'reporte/guardarPlanillaAlimento') {
-          const empresas = getEmpresas(data)
-          dispatch(action({
-            f,
-            empresas
-          }));
+        validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }));
+        if (action.type === "reporte/guardarPlanillaAlimento") {
+          const empresas = getEmpresas(data);
+          dispatch(
+            action({
+              f,
+              empresas,
+            })
+          );
         } else {
           dispatch(action(f));
         }
@@ -54,7 +56,7 @@ const FormPlanillas = () => {
           mostrarErrorFormulario(
             "La planilla que intentó cargar no cumple con el formato necesario."
           )
-        )
+        );
       }
     };
     reader.readAsArrayBuffer(f);
@@ -83,6 +85,25 @@ const FormPlanillas = () => {
       </div>
       <div className="FormPlanillas__planilla">
         <label
+          htmlFor="FormPlanillas__planilla__4"
+          className="FormPlanillas__planilla__label"
+        >
+          <div className="FormPlanillas__planilla__label__button">Eficacia</div>
+          <div className="FormPlanillas__planilla__label__file">
+            {getShortPath(planillaEficacia)}
+          </div>
+        </label>
+        <input
+          id="FormPlanillas__planilla__4"
+          type="file"
+          accept=".csv, .xl*"
+          onChange={(e) =>
+            selectFile(e, checkEficacia, guardarPlanillaEficacia)
+          }
+        ></input>
+      </div>
+      <div className="FormPlanillas__planilla">
+        <label
           htmlFor="FormPlanillas__planilla__3"
           className="FormPlanillas__planilla__label"
         >
@@ -96,28 +117,6 @@ const FormPlanillas = () => {
           type="file"
           accept=".csv, .xl*"
           onChange={(e) => selectFile(e, checkPeces, guardarPlanillaPeces)}
-        ></input>
-      </div>
-      <div className="FormPlanillas__planilla">
-        <label
-          htmlFor="FormPlanillas__planilla__4"
-          className="FormPlanillas__planilla__label"
-        >
-          <div className="FormPlanillas__planilla__label__button">
-            {" "}
-            Eficacia
-          </div>
-          <div className="FormPlanillas__planilla__label__file">
-            {getShortPath(planillaEficacia)}
-          </div>
-        </label>
-        <input
-          id="FormPlanillas__planilla__4"
-          type="file"
-          accept=".csv, .xl*"
-          onChange={(e) =>
-            selectFile(e, checkEficacia, guardarPlanillaEficacia)
-          }
         ></input>
       </div>
       <div id="htmlout"></div>
