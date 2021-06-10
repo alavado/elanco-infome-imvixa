@@ -20,9 +20,15 @@ const FormParametros = () => {
     fechaInicio,
     fechaFinal,
     divisionTemporal,
-    divisionTemporalOptions,
   } = useSelector((state) => state.reporte);
 
+  const divisionTemporalOptions = [
+    { value: "mensual", label: "M - Mensual" },
+    { value: "trimetral", label: "T - Trimestral" },
+    { value: "cuatrimestral", label: "Q - Cuatrimestral" },
+    { value: "semestral", label: "S - Semestral" },
+  ]
+  const dTSelected = divisionTemporalOptions.find(option => option.value === divisionTemporal)
   const dispatch = useDispatch();
   return (
     <div>
@@ -75,9 +81,9 @@ const FormParametros = () => {
           División temporal de análisis
         </div>
         <Select
-          defaultValue={divisionTemporal}
+          defaultValue={dTSelected}
           options={divisionTemporalOptions}
-          onChange={(value) => dispatch(guardarDivisionTemporal(value))}
+          onChange={(option) => dispatch(guardarDivisionTemporal(option.value))}
           theme={(theme) => ({
             ...theme,
             colors: {

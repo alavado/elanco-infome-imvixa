@@ -11,17 +11,12 @@ const slice = createSlice({
     planillaEficacia: "",
     empresas: [{value: 'Todas', label: 'Todas'}],
     nombreEmpresa: '',
-    divisionTemporal: { value: "cuatrimestral", label: "Q - Cuatrimestral" },
+    divisionTemporal: 'cuatrimestral',
     fechaInicio: null,
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     todasLasPlanillas: false,
     errorFormulario: null,
-    divisionTemporalOptions: [
-      { value: "mensual", label: "M - Mensual" },
-      { value: "trimetral", label: "T - Trimestral" },
-      { value: "cuatrimestral", label: "Q - Cuatrimestral" },
-      { value: "semestral", label: "S - Semestral" },
-    ]
+
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
