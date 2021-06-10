@@ -84,7 +84,7 @@
   align-items: center;
   padding-top: .5rem;
   font-size: .9rem;
-  font-weight: 600;
+  font-weight: 400;
   position: absolute;
   bottom: var(--porcentaje-bottom);
   top: var(--porcentaje-top);
