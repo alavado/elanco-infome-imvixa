@@ -1,11 +1,27 @@
 .ComparacionConcentracion {
+  display: flex;
+  flex-direction: column;
   border-left: .15rem dotted var(--color-gris-4);
-  padding: 0.25rem 1rem 2rem 1rem;
+  padding: 0.25rem 3rem 2rem 1rem;
 }
 
 .ComparacionConcentracion__titulo {
   color: var(--color-gris-4);
   margin-bottom: 3rem;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   line-height: 1.15;
+}
+
+.ComparacionConcentracion__contenedor_grafico {
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template:
+    repeat(var(--filas), 1fr) /
+    repeat(var(--columnas), 1fr);
+}
+
+.ComparacionConcentracion__celda {
+  border-left: .1rem solid var(--color-gris-2);
+  border-bottom: .1rem solid var(--color-gris-2);
 }
