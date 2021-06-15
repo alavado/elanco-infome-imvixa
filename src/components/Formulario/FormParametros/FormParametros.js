@@ -56,22 +56,24 @@ const FormParametros = () => {
         </p>
         <div className="FormParametros__calendarios">
           <div className="FormParametros__calendario">
-            <div className="FormParametros__label">Fecha de inicio: </div>
+            <div className="FormParametros__label">Inicio</div>
             <DatePicker
               locale="es"
               isClearable={true}
               selected={fechaInicio}
               onChange={(date) => dispatch(guardarFechaDeInicio(date))}
               dateFormat="dd/MM/yyyy"
+              className="FormParametros__datepicker"
             />
           </div>
           <div className="FormParametros__calendario">
-            <div className="FormParametros__label">Fecha de término: </div>
+            <div className="FormParametros__label">Término</div>
             <DatePicker
               locale="es"
               selected={fechaFinal}
               onChange={(date) => dispatch(guardarFechaDeTermino(date))}
               dateFormat="dd/MM/yyyy"
+              className="FormParametros__datepicker"
             />
           </div>
         </div>
