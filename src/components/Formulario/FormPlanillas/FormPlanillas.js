@@ -23,16 +23,32 @@ const FormPlanillas = () => {
     const data = ipcRenderer.send("leer", { tipo, path });
   };
 
+  const dispatchErrorFormulario = () => dispatch(mostrarErrorFormulario(
+    "La planilla que intentó cargar no cumple con el formato necesario."
+  ))
+
   ipcRenderer.once("alimento", async (e, data) => {
-    dispatch(guardarPlanillaAlimento(data));
+    if (data.datos === {}) {
+      dispatchErrorFormulario()
+    } else {
+      dispatch(guardarPlanillaAlimento(data))
+    }
   });
   
   ipcRenderer.once("eficacia", async (e, data) => {
-    dispatch(guardarPlanillaEficacia(data));
+    if (data.datos === {}) {
+      dispatchErrorFormulario()
+    } else {
+      dispatch(guardarPlanillaEficacia(data))
+    }
   });
 
   ipcRenderer.once("peces", async (e, data) => {
-    dispatch(guardarPlanillaPeces(data));
+    if (data.datos === {}) {
+      dispatchErrorFormulario()
+    } else {
+      dispatch(guardarPlanillaPeces(data))
+    }
   });
 
   const { 

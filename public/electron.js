@@ -101,6 +101,9 @@ ipcMain.on('leer', async (event, state) => {
     }
   }
   catch(err) {
+    event.sender.send(state.tipo, {
+      path: state.path,
+      datos: {}})
     console.log('err', err)
   }
 })
