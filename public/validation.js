@@ -5,7 +5,7 @@ const headerPMV = ["Empresa", "PMV", "Fecha PMV/fab. Medicado", "Year_month_Pmv"
 const headerPeces = ["Status", "Sampling date", "Year", "Report id.", "Elanco id.", "1st day of treatment", "Last day of treatment", "Company", "Sea site of destination", "Hatchery of origin", "Sample Origin", "tank/sea cage", "degree days", "PMV", "Lote Alimento 1", "Fish no.", "Imvixa [ ] in fillet (ppb)", "Fish Length (cm)", "Fish body weight (g)", "k", "Specie"]
 const headerEficacia = ["Empresa", "Centro", "Barrio", "Inicio siembra", "Termino siembra", "Año de siembra", "Macrozona", "Región", "Termino Eficacia", "Meses sin bañar", "Fecha tto", "Días al 1er tto", "Mes hasta 1er baño (días/30,4)", "Semana cultivo Tratamiento"]
 
-export const checkAlimento = (wb) => {
+const checkAlimento = wb => {
   // abrir hoja Alimento
   const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets['Alimento'])
   // Revisar que tenga datos
@@ -17,20 +17,25 @@ export const checkAlimento = (wb) => {
   if (!headerAlimentos.every(element => headerJson.includes(element))) {
     throw Error("Hoja alimento no tiene las columnas necesarias")
   }
-  // abrir hoja PMV
-  const pmvJson = XLSX.utils.sheet_to_json(wb.Sheets['PMV'])
-  // Revisar que tenga datos
-  if (pmvJson.length < 1) {
-    throw Error("Hoja PMV no tiene datos")
-  }
-  const headerPMVJson = Object.keys(pmvJson[0])
-  // Revisar que tenga las columnas de PMV
-  if (!headerPMV.every(element => headerPMVJson.includes(element))) {
-    throw Error("Hoja PMV no tiene las columnas necesarias")
-  }
+  return alimentoJson
 };
 
-export const checkPeces = (wb) => {
+const checkPMV = wb => {
+  // abrir hoja PMV
+  const pmvJson = XLSX.utils.sheet_to_json(wb.Sheets['PMV']);
+  // Revisar que tenga datos
+  if (pmvJson.length < 1) {
+    throw Error("Hoja PMV no tiene datos");
+  }
+  const headerPMVJson = Object.keys(pmvJson[0]);
+  // Revisar que tenga las columnas de PMV
+  if (!headerPMV.every(element => headerPMVJson.includes(element))) {
+    throw Error("Hoja PMV no tiene las columnas necesarias");
+  }
+  return pmvJson;
+}
+
+const checkPeces = wb => {
   const pecesJson = XLSX.utils.sheet_to_json(wb.Sheets['Peces'])
   // Revisar que tenga datos
   if (pecesJson.length < 1) {
@@ -41,9 +46,10 @@ export const checkPeces = (wb) => {
   if (!headerPeces.every(element => headerJson.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias")
   }
+  return pecesJson
 };
 
-export const checkEficacia = (wb) => {
+const checkEficacia = wb => {
   const eficaciaJson = XLSX.utils.sheet_to_json(wb.Sheets['Sheet1'])
   // Revisar que tenga datos
   if (eficaciaJson.length < 1) {
@@ -54,10 +60,12 @@ export const checkEficacia = (wb) => {
   if (!headerEficacia.every(element => headerJson.includes(element))) {
     throw Error("Planilla Eficacia no tiene las columnas necesarias")
   }
+  return eficaciaJson
 };
 
-export const getShortPath = path => {
-  if (path.length < 50) return path;
-  const splitted = path.split("\\")
-  return [splitted[0], '...' , ...splitted.slice(-2)].join('\\')
+module.exports = {
+  checkAlimento,
+  checkPMV,
+  checkEficacia,
+  checkPeces
 }

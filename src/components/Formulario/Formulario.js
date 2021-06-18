@@ -11,6 +11,7 @@ import {
   pasoAnterior,
   pasoSiguiente,
   mostrarErrorFormulario,
+  procesarDatosParaExportar
 } from "../../redux/ducks/reporte";
 
 const Formulario = () => {
@@ -31,7 +32,7 @@ const Formulario = () => {
         siguiente: "Siguiente",
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
-            dispatch(pasoSiguiente());
+            dispatch(pasoSiguiente())
           } else {
             dispatch(
               mostrarErrorFormulario(
@@ -49,6 +50,7 @@ const Formulario = () => {
         siguiente: "Exportar",
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
+            dispatch(procesarDatosParaExportar())
             history.push("/reporte");
           }
         },

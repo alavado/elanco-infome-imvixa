@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
 const today = new Date()
 const slice = createSlice({
   name: 'reporte',
@@ -16,7 +20,10 @@ const slice = createSlice({
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     todasLasPlanillas: false,
     errorFormulario: null,
-
+    datosAlimento: null,
+    datosPeces: null,
+    datosPMV: null,
+    procesandoParaExportar: false
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -38,8 +45,11 @@ const slice = createSlice({
       if (state.pasoActual > 0) state.pasoActual -= 1
     },
     guardarPlanillaAlimento(state, action) {
-      state.planillaAlimento = action.payload.f.path
-      state.empresas = [{value: 'Todas', label: 'Todas'},...action.payload.empresas.map(v => {
+      state.planillaAlimento = action.payload.path
+      state.datosAlimento = action.payload.datos.datosAlimento
+      state.datosPMV = action.payload.datos.datosPMV
+      const empresas = state.datosAlimento.map((r) => r.Cliente).filter(onlyUnique)
+      state.empresas = [{value: 'Todas', label: 'Todas'},...empresas.map(v => {
         return {value: v, label: v}
       })]
       if (state.planillaEficacia !== '' && state.planillaPeces !== '') {
@@ -49,6 +59,7 @@ const slice = createSlice({
     },
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path
+      state.datosPeces = action.payload.datos
       if (state.planillaEficacia !== '' && state.planillaAlimento !== '') {
         state.todasLasPlanillas = true
       }
@@ -56,6 +67,7 @@ const slice = createSlice({
     },
     guardarPlanillaEficacia(state, action) {
       state.planillaEficacia = action.payload.path
+      state.datosEficacia = action.payload.datos
       if (state.planillaPeces !== '' && state.planillaAlimento !== '') {
         state.todasLasPlanillas = true
       }
@@ -63,6 +75,9 @@ const slice = createSlice({
     },
     mostrarErrorFormulario(state, action) {
       state.errorFormulario = action.payload
+    },
+    procesarDatosParaExportar(state) {
+      state.procesandoParaExportar = true
     }
   }
 })
@@ -77,6 +92,8 @@ export const {
   guardarFechaDeTermino,
   guardarDivisionTemporal,
   pasoSiguiente,
-  pasoAnterior } = slice.actions
+  pasoAnterior,
+  procesarDatosParaExportar
+ } = slice.actions
 
 export default slice.reducer

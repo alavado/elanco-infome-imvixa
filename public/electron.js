@@ -65,3 +65,42 @@ ipcMain.on('imprimir', async (event, state) => {
     console.log('err', err)
   }
 })
+
+// LEER ARCHIVOS XLSX
+
+var XLSX = require("xlsx");
+var validation = require("./validation")
+
+ipcMain.on('leer', async (event, state) => {
+  try {
+    const wb = XLSX.readFile(state.path)
+    let datos
+    switch (state.tipo) {
+      case 'alimento':
+        datosAlimento = validation.checkAlimento(wb)
+        datosPMV = validation.checkPMV(wb)
+        event.sender.send(state.tipo, {
+          path: state.path,
+          datos: {
+            datosAlimento,
+            datosPMV
+          }})
+        break
+      case 'peces':
+        datosPeces = validation.checkPeces(wb)
+        event.sender.send(state.tipo, {
+          path: state.path,
+          datos: datosPeces})
+      case 'eficacia':
+        datosEficacia = validation.checkEficacia(wb)
+        event.sender.send(state.tipo, {
+          path: state.path,
+          datos: datosEficacia})
+      default:
+        datos = {}
+    }
+  }
+  catch(err) {
+    console.log('err', err)
+  }
+})

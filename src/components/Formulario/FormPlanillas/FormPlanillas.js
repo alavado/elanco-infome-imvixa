@@ -6,61 +6,65 @@ import {
   guardarPlanillaPeces,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/reporte";
-import {
-  checkAlimento,
-  checkPeces,
-  checkEficacia,
-  getShortPath,
-} from "./validation";
+
 import "./FormPlanillas.css";
-var XLSX = require("xlsx");
+const { ipcRenderer } = window.require("electron");
+
+const getShortPath = (path) => {
+  if (path.length < 50) return path;
+  const splitted = path.split("\\");
+  return [splitted[0], "...", ...splitted.slice(-2)].join("\\");
+};
 
 const FormPlanillas = () => {
   const dispatch = useDispatch();
-  const { planillaAlimento, planillaPeces, planillaEficacia } = useSelector(
+
+  const leerPlanilla = async (tipo, path) => {
+    const data = ipcRenderer.send("leer", { tipo, path });
+  };
+
+  ipcRenderer.once("alimento", async (e, data) => {
+    dispatch(guardarPlanillaAlimento(data));
+  });
+  
+  ipcRenderer.once("eficacia", async (e, data) => {
+    dispatch(guardarPlanillaEficacia(data));
+  });
+
+  ipcRenderer.once("peces", async (e, data) => {
+    dispatch(guardarPlanillaPeces(data));
+  });
+
+  const { 
+    planillaAlimento, 
+    planillaPeces, 
+    planillaEficacia,
+   } = useSelector(
     (state) => state.reporte
   );
 
-  function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-  }
-
-  const getEmpresas = (data) => {
-    const wb = XLSX.read(data, { type: "array" });
-    const alimentoJson = XLSX.utils.sheet_to_json(wb.Sheets["Alimento"]);
-    return alimentoJson.map((r) => r.Cliente).filter(onlyUnique);
-  };
-
-  const selectFile = (e, validationFunction, action) => {
-    if (e.target.files == null) return;
-    const f = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      let data = e.target.result;
-      data = new Uint8Array(data);
-      try {
-        validationFunction(XLSX.read(data, { type: "array", sheetRows: 2 }));
-        if (action.type === guardarPlanillaAlimento.type) {
-          const empresas = getEmpresas(data);
-          dispatch(
-            action({
-              f,
-              empresas,
-            })
-          );
-        } else {
-          dispatch(action(f));
-        }
-      } catch (error) {
-        dispatch(
-          mostrarErrorFormulario(
-            "La planilla que intentó cargar no cumple con el formato necesario."
-          )
-        );
-      }
-    };
-    reader.readAsArrayBuffer(f);
-  };
+  // const selectFile = (e, validationFunction, action) => {
+  //   if (e.target.files == null) return
+  //   const f = e.target.files[0]
+  //   const reader = new FileReader()
+  //   reader.onload = (e) => {
+  //     let data = e.target.result
+  //     data = new Uint8Array(data)
+  //     try {
+  //       validationFunction(
+  //         XLSX.read(data, { type: "array"}),
+  //         v => dispatch(action({file: f, data: v}))
+  //       )
+  //     } catch (error) {
+  //       dispatch(
+  //         mostrarErrorFormulario(
+  //           "La planilla que intentó cargar no cumple con el formato necesario."
+  //         )
+  //       );
+  //     }
+  //   };
+  //   reader.readAsArrayBuffer(f)
+  // };
 
   return (
     <div>
@@ -78,8 +82,8 @@ const FormPlanillas = () => {
           id="FormPlanillas__planilla__1"
           type="file"
           accept=".csv, .xl*"
-          onChange={(e) =>
-            selectFile(e, checkAlimento, guardarPlanillaAlimento)
+          onChange={
+            (e) => leerPlanilla("alimento", e.target?.files[0].path)
           }
         ></input>
       </div>
@@ -97,9 +101,7 @@ const FormPlanillas = () => {
           id="FormPlanillas__planilla__4"
           type="file"
           accept=".csv, .xl*"
-          onChange={(e) =>
-            selectFile(e, checkEficacia, guardarPlanillaEficacia)
-          }
+          onChange={(e) => leerPlanilla("eficacia", e.target?.files[0].path)}
         ></input>
       </div>
       <div className="FormPlanillas__planilla">
@@ -116,7 +118,7 @@ const FormPlanillas = () => {
           id="FormPlanillas__planilla__3"
           type="file"
           accept=".csv, .xl*"
-          onChange={(e) => selectFile(e, checkPeces, guardarPlanillaPeces)}
+          onChange={(e) => leerPlanilla("peces", e.target?.files[0].path)}
         ></input>
       </div>
       <div id="htmlout"></div>
