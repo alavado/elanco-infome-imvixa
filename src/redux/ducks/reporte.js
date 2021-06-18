@@ -76,6 +76,19 @@ const slice = createSlice({
     mostrarErrorFormulario(state, action) {
       state.errorFormulario = action.payload
     },
+    limpiarFormularioAlimento(state, action) {
+      state.planillaAlimento = ""
+      state.datosAlimento = []
+      state.datosPMV = []
+    },
+    limpiarFormularioPeces(state, action) {
+      state.planillaPeces = ""
+      state.datosPeces = []
+    },
+    limpiarFormularioEficacia(state, action) {
+      state.planillaEficacia = ""
+      state.datosEficacia = []
+    },
     procesarDatosParaExportar(state) {
       state.procesandoParaExportar = true
     }
@@ -85,8 +98,11 @@ const slice = createSlice({
 export const { 
   guardarPlanillaAlimento,
   guardarPlanillaPeces,
-  mostrarErrorFormulario,
   guardarPlanillaEficacia,
+  mostrarErrorFormulario,
+  limpiarFormularioAlimento,
+  limpiarFormularioPeces,
+  limpiarFormularioEficacia,
   guardaNombreEmpresa,
   guardarFechaDeInicio,
   guardarFechaDeTermino,

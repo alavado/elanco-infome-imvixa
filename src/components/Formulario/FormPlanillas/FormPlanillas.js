@@ -4,6 +4,9 @@ import {
   guardarPlanillaAlimento,
   guardarPlanillaEficacia,
   guardarPlanillaPeces,
+  limpiarFormularioAlimento,
+  limpiarFormularioEficacia,
+  limpiarFormularioPeces,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/reporte";
 
@@ -20,7 +23,10 @@ const FormPlanillas = () => {
   const dispatch = useDispatch();
 
   const leerPlanilla = async (tipo, path) => {
-    const data = ipcRenderer.send("leer", { tipo, path });
+    console.log(path)
+    if (path) {
+      const data = ipcRenderer.send("leer", { tipo, path });
+    }
   };
 
   const dispatchErrorFormulario = () => dispatch(mostrarErrorFormulario(
@@ -28,24 +34,27 @@ const FormPlanillas = () => {
   ))
 
   ipcRenderer.once("alimento", async (e, data) => {
-    if (data.datos === {}) {
+    if (data.datos.length === 0) {
       dispatchErrorFormulario()
+      dispatch(limpiarFormularioAlimento())
     } else {
       dispatch(guardarPlanillaAlimento(data))
     }
   });
   
   ipcRenderer.once("eficacia", async (e, data) => {
-    if (data.datos === {}) {
+    if (data.datos.length === 0) {
       dispatchErrorFormulario()
+      dispatch(limpiarFormularioEficacia())
     } else {
       dispatch(guardarPlanillaEficacia(data))
     }
   });
 
   ipcRenderer.once("peces", async (e, data) => {
-    if (data.datos === {}) {
+    if (data.datos.length === 0) {
       dispatchErrorFormulario()
+      dispatch(limpiarFormularioPeces())
     } else {
       dispatch(guardarPlanillaPeces(data))
     }
@@ -99,7 +108,7 @@ const FormPlanillas = () => {
           type="file"
           accept=".csv, .xl*"
           onChange={
-            (e) => leerPlanilla("alimento", e.target?.files[0].path)
+            (e) => leerPlanilla("alimento", e.target.files[0]?.path)
           }
         ></input>
       </div>
@@ -117,7 +126,7 @@ const FormPlanillas = () => {
           id="FormPlanillas__planilla__4"
           type="file"
           accept=".csv, .xl*"
-          onChange={(e) => leerPlanilla("eficacia", e.target?.files[0].path)}
+          onChange={(e) => leerPlanilla("eficacia", e.target.files[0]?.path)}
         ></input>
       </div>
       <div className="FormPlanillas__planilla">
@@ -134,7 +143,7 @@ const FormPlanillas = () => {
           id="FormPlanillas__planilla__3"
           type="file"
           accept=".csv, .xl*"
-          onChange={(e) => leerPlanilla("peces", e.target?.files[0].path)}
+          onChange={(e) => leerPlanilla("peces", e.target.files[0]?.path)}
         ></input>
       </div>
       <div id="htmlout"></div>

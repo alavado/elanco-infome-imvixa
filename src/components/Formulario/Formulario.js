@@ -64,7 +64,7 @@ const Formulario = () => {
       //   onClickSiguiente: () => history.push('/reporte')
       // }
     ],
-    [todasLasPlanillas, dispatch, history]
+    [todasLasPlanillas, errorFormulario, dispatch, history]
   );
 
   const pasoActual = pasos[indicePasoActual];

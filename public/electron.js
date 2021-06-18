@@ -91,19 +91,22 @@ ipcMain.on('leer', async (event, state) => {
         event.sender.send(state.tipo, {
           path: state.path,
           datos: datosPeces})
+        break
       case 'eficacia':
         datosEficacia = validation.checkEficacia(wb)
         event.sender.send(state.tipo, {
           path: state.path,
           datos: datosEficacia})
+        break
       default:
-        datos = {}
+        datos = []
     }
   }
   catch(err) {
     event.sender.send(state.tipo, {
       path: state.path,
-      datos: {}})
+      datos: []}
+    )
     console.log('err', err)
   }
 })
