@@ -35,8 +35,6 @@ export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
   if (empresa !== "Todas") {
     datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
   }
-  console.log(datosFiltrados)
-  console.log(empresa)
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
       esMenorQueFecha(obj["Fecha PMV/fab. Medicado"], fechaFinal) &&
@@ -45,7 +43,23 @@ export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
   return datosFiltrados;
 };
 
+// Por acuerdo con Patricio se filtran los datos de aquellos que hayan sido sembrados
+// en el rango de fechas determinado
 export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) => {
+  let datosFiltrados;
+  if (empresa !== "Todas") {
+    datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
+  }
+  datosFiltrados = datosFiltrados.filter(
+    (obj) =>
+      esMenorQueFecha(obj["Inicio siembra"], fechaFinal) &&
+      esMayorQueFecha(obj["Inicio siembra"], fechaInicial)
+  );
+  return datosFiltrados;
+};
+
+
+export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados;
   if (empresa !== "Todas") {
     datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
@@ -54,8 +68,8 @@ export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) =
   console.log(empresa)
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Fecha PMV/fab. Medicado"], fechaFinal) &&
-      esMayorQueFecha(obj["Fecha PMV/fab. Medicado"], fechaInicial)
+      esMenorQueFecha(obj["Inicio siembra"], fechaFinal) &&
+      esMayorQueFecha(obj["Inicio siembra"], fechaInicial)
   );
   return datosFiltrados;
 };

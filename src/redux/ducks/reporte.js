@@ -1,5 +1,10 @@
 import { createSlice, current } from "@reduxjs/toolkit"
-import { onlyUnique, filtrarDatosAlimento, filtrarDatosPMV } from "./utilities"
+import { 
+  onlyUnique, 
+  filtrarDatosAlimento, 
+  filtrarDatosPMV,
+  filtrarDatosEficacia,
+  filtrarDatosPeces } from "./utilities"
 
 const today = new Date()
 const slice = createSlice({
