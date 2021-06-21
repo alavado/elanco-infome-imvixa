@@ -1,21 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit"
-
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
+import { createSlice, current } from "@reduxjs/toolkit"
+import { onlyUnique, filtrarDatosAlimento, filtrarDatosPMV } from "./utilities"
 
 const today = new Date()
 const slice = createSlice({
-  name: 'reporte',
+  name: "reporte",
   initialState: {
     pasoActual: 0,
     planillaAlimento: "",
-    planillaPMV: "",
     planillaPeces: "",
     planillaEficacia: "",
-    empresas: [{value: 'Todas', label: 'Todas'}],
-    nombreEmpresa: '',
-    divisionTemporal: 'cuatrimestral',
+    empresas: [{ value: "Todas", label: "Todas" }],
+    nombreEmpresa: "",
+    divisionTemporal: "cuatrimestral",
     fechaInicio: null,
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     todasLasPlanillas: false,
@@ -23,7 +19,12 @@ const slice = createSlice({
     datosAlimento: null,
     datosPeces: null,
     datosPMV: null,
-    procesandoParaExportar: false
+    datosEficacia: null,
+    procesandoParaExportar: false,
+    datosFiltradosAlimento: null,
+    datosFiltradosPeces: null,
+    datosFiltradosEficacia: null,
+    datosFiltradosPMV: null,
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -48,11 +49,16 @@ const slice = createSlice({
       state.planillaAlimento = action.payload.path
       state.datosAlimento = action.payload.datos.datosAlimento
       state.datosPMV = action.payload.datos.datosPMV
-      const empresas = state.datosAlimento.map((r) => r.Cliente).filter(onlyUnique)
-      state.empresas = [{value: 'Todas', label: 'Todas'},...empresas.map(v => {
-        return {value: v, label: v}
-      })]
-      if (state.planillaEficacia !== '' && state.planillaPeces !== '') {
+      const empresas = state.datosAlimento
+        .map((r) => r.Cliente)
+        .filter(onlyUnique)
+      state.empresas = [
+        { value: "Todas", label: "Todas" },
+        ...empresas.map((v) => {
+          return { value: v, label: v }
+        }),
+      ]
+      if (state.planillaEficacia !== "" && state.planillaPeces !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -60,7 +66,7 @@ const slice = createSlice({
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path
       state.datosPeces = action.payload.datos
-      if (state.planillaEficacia !== '' && state.planillaAlimento !== '') {
+      if (state.planillaEficacia !== "" && state.planillaAlimento !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -68,7 +74,7 @@ const slice = createSlice({
     guardarPlanillaEficacia(state, action) {
       state.planillaEficacia = action.payload.path
       state.datosEficacia = action.payload.datos
-      if (state.planillaPeces !== '' && state.planillaAlimento !== '') {
+      if (state.planillaPeces !== "" && state.planillaAlimento !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -90,12 +96,27 @@ const slice = createSlice({
       state.datosEficacia = []
     },
     procesarDatosParaExportar(state) {
+      console.log(current(state.datosAlimento))
+      console.log(state.nombreEmpresa)
+      state.datosFiltradosAlimento = filtrarDatosAlimento(
+        state.datosAlimento,
+        state.nombreEmpresa,
+        state.fechaInicio,
+        state.fechaFinal
+      )
+      state.datosFiltradosPMV = filtrarDatosPMV(
+        state.datosAlimento,
+        state.nombreEmpresa,
+        state.fechaInicio,
+        state.fechaFinal
+      )
       state.procesandoParaExportar = true
-    }
-  }
+      console.log(state.datosFiltradosAlimento)
+    },
+  },
 })
 
-export const { 
+export const {
   guardarPlanillaAlimento,
   guardarPlanillaPeces,
   guardarPlanillaEficacia,
@@ -109,7 +130,7 @@ export const {
   guardarDivisionTemporal,
   pasoSiguiente,
   pasoAnterior,
-  procesarDatosParaExportar
- } = slice.actions
+  procesarDatosParaExportar,
+} = slice.actions
 
 export default slice.reducer

@@ -46,6 +46,10 @@ const FormParametros = () => {
             },
           })}
           placeholder="Seleccione empresa"
+          styles={{
+            // Fixes the overlapping problem of the component
+            menu: provided => ({ ...provided, zIndex: 3 })
+          }}
         />
       </div>
       <div className="FormParametros__seccion">

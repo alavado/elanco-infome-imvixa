@@ -28,7 +28,8 @@
 .Formulario__titulo {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
+  font-size: 18px;
+  /* font-size: 0.8rem; */
   font-weight: bold;
   text-align: center;
   align-items: center;

@@ -73,7 +73,7 @@ var validation = require("./validation")
 
 ipcMain.on('leer', async (event, state) => {
   try {
-    const wb = XLSX.readFile(state.path)
+    const wb = XLSX.readFile(state.path, { 'type': 'binary', cellDates: true })
     let datos
     switch (state.tipo) {
       case 'alimento':
