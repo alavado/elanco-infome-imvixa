@@ -60,16 +60,14 @@ export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) =
 
 
 export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
-  let datosFiltrados;
+  let datosFiltrados = [];
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
+    datosFiltrados = datos.filter((obj) => obj["Company"] === empresa);
   }
-  console.log(datosFiltrados)
-  console.log(empresa)
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Inicio siembra"], fechaFinal) &&
-      esMayorQueFecha(obj["Inicio siembra"], fechaInicial)
+      esMenorQueFecha(obj["Sampling date"], fechaFinal) &&
+      esMayorQueFecha(obj["Sampling date"], fechaInicial)
   );
   return datosFiltrados;
 };
