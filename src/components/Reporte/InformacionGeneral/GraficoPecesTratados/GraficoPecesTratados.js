@@ -1,14 +1,17 @@
 import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
+import { dividirDatosSegun } from '../../utilitiesReporte'
+import { colFechaPMV } from '../../../../constants'
 
 const GraficoPecesTratados = () => {
   const { 
     datosFiltradosPMV,
-    divisionTemporal
+    divisionTemporal,
+    fechaFinal
   } = useSelector(state => state.reporte)
 
-  
-
+  const datosDivididos = dividirDatosSegun(datosFiltradosPMV, divisionTemporal, colFechaPMV, fechaFinal)
+  console.log(datosDivididos)
   const datos = [
     {
       nombre: 'Q1 2020',
