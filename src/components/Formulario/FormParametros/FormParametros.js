@@ -24,8 +24,8 @@ const FormParametros = () => {
 
   const divisionTemporalOptions = [
     { value: "mensual", label: "M - Mensual" },
-    { value: "trimetral", label: "T - Trimestral" },
-    { value: "cuatrimestral", label: "Q - Cuatrimestral" },
+    { value: "trimestral", label: "Q - Trimestral" },
+    { value: "cuatrimestral", label: "C - Cuatrimestral" },
     { value: "semestral", label: "S - Semestral" },
   ]
   const dTSelected = divisionTemporalOptions.find(option => option.value === divisionTemporal)

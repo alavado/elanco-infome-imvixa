@@ -16,7 +16,7 @@ const slice = createSlice({
     planillaEficacia: "",
     empresas: [{ value: "Todas", label: "Todas" }],
     nombreEmpresa: "",
-    divisionTemporal: "cuatrimestral",
+    divisionTemporal: "trimestral",
     fechaInicio: null,
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     todasLasPlanillas: false,

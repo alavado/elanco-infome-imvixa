@@ -1,6 +1,13 @@
+import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
 
 const GraficoPecesTratados = () => {
+  const { 
+    datosFiltradosPMV,
+    divisionTemporal
+  } = useSelector(state => state.reporte)
+
+  
 
   const datos = [
     {

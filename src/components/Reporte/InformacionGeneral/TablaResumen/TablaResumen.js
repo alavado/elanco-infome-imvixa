@@ -1,13 +1,23 @@
 import { useSelector } from 'react-redux'
 import './TablaResumen.css'
+import {
+  colTipoPMV,
+  colNPecesPMV,
+  colFechaAlimento,
+  colFechaPeces,
+  colFechaPMV,
+  colNMuestrasAlimento,
+  tipoFAPMV,
+  tipoRecPMV
+} from '../../../../constants'
 
 const esAño = (fecha, año) => {
   return new Date(fecha).getFullYear() === año;
 };
 
 const contarPMVSiEs = (tipo, row) => {
-  if (row['Tipo de Piscicultura'] === tipo) {
-    return row['n Peces tratados FW'];
+  if (row[colTipoPMV] === tipo) {
+    return row[colNPecesPMV];
   }
   return 0
 };
@@ -20,44 +30,47 @@ const TablaResumen = () => {
     datosFiltradosPeces,
     datosFiltradosPMV
   } = useSelector(state => state.reporte)
+
   const esteAño = new Date().getFullYear()
   const añoPasado = esteAño - 1
   const años = [añoPasado, esteAño]
+  // Separar datos por año
   const datosAñoPasado = {
-    alimento: datosFiltradosAlimento.filter(obj => esAño(obj['Fecha de Fabricación'], añoPasado)),
-    peces: datosFiltradosPeces.filter(obj => esAño(obj['Sampling date'], añoPasado)),
-    pmv: datosFiltradosPMV.filter(obj => esAño(obj['Fecha PMV/fab. Medicado'], añoPasado))
+    alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
+    peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
+    pmv: datosFiltradosPMV.filter(obj => esAño(obj[colFechaPMV], añoPasado))
   }
   const datosAñoActual = {
-    alimento: datosFiltradosAlimento.filter(obj => esAño(obj['Fecha de Fabricación'], esteAño)),
-    peces: datosFiltradosPeces.filter(obj => esAño(obj['Sampling date'], esteAño)),
-    pmv: datosFiltradosPMV.filter(obj => esAño(obj['Fecha PMV/fab. Medicado'], esteAño))
+    alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
+    peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
+    pmv: datosFiltradosPMV.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
+  // Calcular valores de cada fila
   const filas = [
     ['N° visita piscicultura', 65, 22],
     ['N° visita a centros de mar', 15, 3],
     ['N° peces analizados', datosAñoPasado.peces.length, datosAñoActual.peces.length],
     [
       'N° muestras alimento analizadas', 
-      datosAñoPasado.alimento.reduce((prev, curr) => curr['N° de Muestras'] + prev, 0), 
-      datosAñoActual.alimento.reduce((prev, curr) => curr['N° de Muestras'] + prev, 0)
+      datosAñoPasado.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0), 
+      datosAñoActual.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0)
     ],
     [],
     [
       'N° peces tratados RAS', 
-      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs('Recirculación', curr) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs('Recirculación', curr) + prev, 0), 
+      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs(tipoRecPMV, curr) + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs(tipoRecPMV, curr) + prev, 0), 
     ]
     ,
     [
       'N° peces tratados - Flujo abierto', 
-      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs('Flujo Abierto', curr) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs('Flujo Abierto', curr) + prev, 0), 
+      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs(tipoFAPMV, curr) + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs(tipoFAPMV, curr) + prev, 0), 
     ],
     [
       'N° total de peces tratados', 
-      datosAñoPasado.pmv.reduce((prev, curr) => curr['n Peces tratados FW'] + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => curr['n Peces tratados FW'] + prev, 0)
+      datosAñoPasado.pmv.reduce((prev, curr) => curr[colNPecesPMV] + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => curr[colNPecesPMV] + prev, 0)
     ]
   ]
 

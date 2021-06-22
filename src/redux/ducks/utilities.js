@@ -1,7 +1,15 @@
 // Utilities tiene funciones que ayudan al procesamiento de datos
-// en el reducer. Hay funciones que hacen referencia a columnas
-// de las planillas de datos, por lo que si cambian los encabezados
-// de las planillas, se debe actualizar este archivo.
+// en el reducer. 
+import {
+  colEmpresaAlimento,
+  colEmpresaPMV,
+  colEmpresaEficacia,
+  colEmpresaPeces,
+  colFechaAlimento,
+  colFechaPMV,
+  colFechaEficacia,
+  colFechaPeces
+} from '../../constants'
 
 const esMenorQueFecha = (fecha, fechaLimite) => {
   return new Date(fecha) <= fechaLimite;
@@ -20,12 +28,12 @@ export const filtrarDatosAlimento = (
 ) => {
   let datosFiltrados;
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj["Cliente"] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaAlimento] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Fecha de Fabricación"], fechaFinal) &&
-      esMayorQueFecha(obj["Fecha de Fabricación"], fechaInicial)
+      esMenorQueFecha(obj[colFechaAlimento], fechaFinal) &&
+      esMayorQueFecha(obj[colFechaAlimento], fechaInicial)
   );
   return datosFiltrados;
 };
@@ -33,12 +41,12 @@ export const filtrarDatosAlimento = (
 export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados;
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaPMV] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Fecha PMV/fab. Medicado"], fechaFinal) &&
-      esMayorQueFecha(obj["Fecha PMV/fab. Medicado"], fechaInicial)
+      esMenorQueFecha(obj[colFechaPMV], fechaFinal) &&
+      esMayorQueFecha(obj[colFechaPMV], fechaInicial)
   );
   return datosFiltrados;
 };
@@ -48,12 +56,12 @@ export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
 export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados;
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj["Empresa"] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Inicio siembra"], fechaFinal) &&
-      esMayorQueFecha(obj["Inicio siembra"], fechaInicial)
+      esMenorQueFecha(obj[colFechaEficacia], fechaFinal) &&
+      esMayorQueFecha(obj[colFechaEficacia], fechaInicial)
   );
   return datosFiltrados;
 };
@@ -62,12 +70,12 @@ export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) =
 export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados = [];
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj["Company"] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaPeces] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
-      esMenorQueFecha(obj["Sampling date"], fechaFinal) &&
-      esMayorQueFecha(obj["Sampling date"], fechaInicial)
+      esMenorQueFecha(obj[colFechaPeces], fechaFinal) &&
+      esMayorQueFecha(obj[colFechaPeces], fechaInicial)
   );
   return datosFiltrados;
 };
