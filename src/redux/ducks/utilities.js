@@ -58,7 +58,7 @@ export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) =
   return datosFiltrados;
 };
 
-
+// TODO: Confirmar con patricio si Sampling date es la columna que filtrar por fecha
 export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados = [];
   if (empresa !== "Todas") {

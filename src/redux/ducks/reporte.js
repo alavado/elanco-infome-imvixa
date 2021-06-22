@@ -101,8 +101,6 @@ const slice = createSlice({
       state.datosEficacia = []
     },
     procesarDatosParaExportar(state) {
-      console.log(current(state.datosPeces))
-      console.log(state.nombreEmpresa)
       state.datosFiltradosAlimento = filtrarDatosAlimento(
         state.datosAlimento,
         state.nombreEmpresa,
