@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
 import { dividirDatosSegun } from '../../utilitiesReporte'
-import { colFechaPMV } from '../../../../constants'
+import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 
 const GraficoPecesTratados = () => {
   const { 
@@ -12,28 +12,34 @@ const GraficoPecesTratados = () => {
 
   const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPMV, colFechaPMV, fechaFinal)
   console.log(datosDivididos)
-  const datos = [
-    {
-      nombre: 'Q1 2020',
-      valor: .8
-    },
-    {
-      nombre: 'Q2 2020',
-      valor: 1.2
-    },
-    {
-      nombre: 'Q3 2020',
-      valor: 1.8
-    },
-    {
-      nombre: 'Q4 2020',
-      valor: 1.4
-    },
-    {
-      nombre: 'Q1 2021',
-      valor: 1.7
-    }
-  ]
+  // valor en millones
+  const datos = datosDivididos.labels.map((nombre, index) => { return {
+    nombre,
+    valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => curr[colNPecesPMV] + prev, 0) / 100000) / 10
+  }})
+
+  // const datos = [
+  //   {
+  //     nombre: 'Q1 2020',
+  //     valor: .8
+  //   },
+  //   {
+  //     nombre: 'Q2 2020',
+  //     valor: 1.2
+  //   },
+  //   {
+  //     nombre: 'Q3 2020',
+  //     valor: 1.8
+  //   },
+  //   {
+  //     nombre: 'Q4 2020',
+  //     valor: 1.4
+  //   },
+  //   {
+  //     nombre: 'Q1 2021',
+  //     valor: 1.7
+  //   }
+  // ]
 
   const yMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
   const yLineas = [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax].reverse()

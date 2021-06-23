@@ -7,7 +7,7 @@ const DatosEmpresa = () => {
 
   return (
     <div className="DatosEmpresa">
-      <h1 className="DatosEmpresa__nombre">+{nombreEmpresa}+</h1>
+      <h1 className="DatosEmpresa__nombre">{nombreEmpresa}</h1>
       <h2 className="DatosEmpresa__subtitulo">INFORME SEGUIMIENTO IMVIXA</h2>
       <p className="DatosEmpresa__bajada">
         <span className="DatosEmpresa__fecha">MARZO.2021</span> · Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco.

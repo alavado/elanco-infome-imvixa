@@ -8,7 +8,7 @@ const dividirEnM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const meses = []
   const labels = []
   for (var i = 0; i < nDivisiones; i++) {
-    labels.unshift(`M${mesActual+1}-${fechaActual.getFullYear()}`)
+    labels.unshift(`M${mesActual+1} ${fechaActual.getFullYear()}`)
     meses.unshift(datos.filter(obj => new Date(obj[colFecha]).getMonth() === mesActual))
     fechaActual = new Date(fechaActual.getFullYear(), mesActual, 0);
     mesActual = fechaActual.getMonth()
@@ -37,7 +37,7 @@ const dividirEnQ = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const trimestres = []
   const labels = []
   for (var i = 0; i < nDivisiones; i++) {
-    labels.unshift(`Q${qActual+1}-${ultimoDiaQAnterior.getFullYear()}`)
+    labels.unshift(`Q${qActual+1} ${ultimoDiaQAnterior.getFullYear()}`)
     trimestres.unshift(datos.filter(obj => {
       const fecha = new Date(obj[colFecha])
       return fecha < ultimoDiaQActual && fecha >= ultimoDiaQAnterior
@@ -73,7 +73,7 @@ const dividirEnC = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const cuatrimestres = []
   const labels = []
   for (var i = 0; i < nDivisiones; i++) {
-    labels.unshift(`C${cActual+1}-${ultimoDiaCAnterior.getFullYear()}`)
+    labels.unshift(`C${cActual+1} ${ultimoDiaCAnterior.getFullYear()}`)
     cuatrimestres.unshift(datos.filter(obj => {
       const fecha = new Date(obj[colFecha])
       return fecha < ultimoDiaCActual && fecha >= ultimoDiaCAnterior
@@ -110,7 +110,7 @@ const dividirEnS = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const labels = [] 
   for (var i = 0; i < nDivisiones; i++) {
     console.log(sActual)
-    labels.unshift(`S${sActual+1}-${ultimoDiaSAnterior.getFullYear()}`)
+    labels.unshift(`S${sActual+1} ${ultimoDiaSAnterior.getFullYear()}`)
     semestres.unshift(datos.filter(obj => {
       const fecha = new Date(obj[colFecha])
       return fecha < ultimoDiaSActual && fecha >= ultimoDiaSAnterior
