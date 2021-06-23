@@ -10,7 +10,7 @@ const GraficoPecesTratados = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const datosDivididos = dividirDatosSegun(datosFiltradosPMV, divisionTemporal, colFechaPMV, fechaFinal)
+  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPMV, colFechaPMV, fechaFinal)
   console.log(datosDivididos)
   const datos = [
     {
