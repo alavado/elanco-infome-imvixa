@@ -1,6 +1,7 @@
 .Reporte {
   display: flex;
   flex-direction: column;
+  background-color: var(--color-fondo);
 }
 
 .Reporte__herramientas {
