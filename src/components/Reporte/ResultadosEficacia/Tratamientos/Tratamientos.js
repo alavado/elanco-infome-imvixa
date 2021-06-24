@@ -4,7 +4,7 @@ const Tratamientos = () => {
   return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
-        Tratamientos hasta primer Baño
+        Meses hasta primer Baño
       </div>
     </div>
   )
