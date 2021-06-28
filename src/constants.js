@@ -2,7 +2,7 @@
 // Columnas para filtrar hoja alimento
 export const colEmpresaAlimento = "Cliente"
 export const colFechaAlimento = "Fecha de Fabricación"
-export const colNMuestrasAlimento = "'N° de Muestras"
+export const colNMuestrasAlimento = "N° de Muestras"
 
 // Columnas para filtrar hoja pmv
 export const colEmpresaPMV = "Empresa"

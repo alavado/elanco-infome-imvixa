@@ -53,7 +53,6 @@ const slice = createSlice({
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path
       state.datosAlimento = action.payload.datos.datosAlimento
-      console.log(action.payload.datos.datosAlimento)
       state.datosPMV = action.payload.datos.datosPMV
       const empresas = state.datosAlimento
         .map((r) => r.Cliente)
