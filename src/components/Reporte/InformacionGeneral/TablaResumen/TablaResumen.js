@@ -49,7 +49,8 @@ const TablaResumen = () => {
   const filas = [
     ['N° visita piscicultura', 65, 22],
     ['N° visita a centros de mar', 15, 3],
-    ['N° peces analizados', datosAñoPasado.peces.length, datosAñoActual.peces.length],
+    ['N°peces analizados en piscicultura', datosAñoPasado.peces.length, datosAñoActual.peces.length],
+    ['N°peces analizados en centros de mar', datosAñoPasado.peces.length, datosAñoActual.peces.length],
     [
       'N° muestras alimento analizadas', 
       datosAñoPasado.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0), 
@@ -77,13 +78,13 @@ const TablaResumen = () => {
   return (
     <div className="TablaResumen">
       <h4 className="TablaResumen__titulo">
-        Resumen
+        Resumen {nombreEmpresa}
       </h4>
       <div className="TablaResumen__tabla">
-        <div className="TablaResumen__nombre_empresa">
+        {/* <div className="TablaResumen__nombre_empresa">
           <div />
           <div>{nombreEmpresa}</div>
-        </div>
+        </div> */}
         <div className="TablaResumen__encabezados">
           <div />
           {años.map(año => <div key={`encabezado-año-${año}`}>{año}</div>)}

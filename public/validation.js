@@ -17,7 +17,12 @@ const checkAlimento = wb => {
   if (!headerAlimentos.every(element => headerJson.includes(element))) {
     throw Error("Hoja alimento no tiene las columnas necesarias")
   }
-  return alimentoJson
+  // Filtrar datos por Estado Reportado
+  const alimentoJsonReportado = alimentoJson.filter(row => row['Estado'] === 'Reportado')
+  if (alimentoJsonReportado.length < 1) {
+    throw Error("Hoja Alimento no tiene datos válidos")
+  }
+  return alimentoJsonReportado
 };
 
 const checkPMV = wb => {
@@ -46,7 +51,11 @@ const checkPeces = wb => {
   if (!headerPeces.every(element => headerJson.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias")
   }
-  return pecesJson
+  const pecesJsonReportado = pecesJson.filter(row => row['Status'] === 'Reportado')
+  if (pecesJsonReportado.length < 1) {
+    throw Error("Hoja Peces no tiene datos válidos")
+  }
+  return pecesJsonReportado
 };
 
 const checkEficacia = wb => {
