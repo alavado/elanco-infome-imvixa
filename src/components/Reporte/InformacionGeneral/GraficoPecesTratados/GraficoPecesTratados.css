@@ -99,6 +99,7 @@
 .GraficoPecesTratados__si {
   position: absolute;
   left: 0rem;
+  bottom: 0.25rem;
   width: 2rem;
   font-size: .75rem;
   color: var(--color-gris-4);
