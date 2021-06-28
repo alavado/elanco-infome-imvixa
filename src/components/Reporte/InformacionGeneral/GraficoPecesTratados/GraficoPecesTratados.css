@@ -95,3 +95,12 @@
   width: 4ch;
   line-height: 1.1;
 }
+
+.GraficoPecesTratados__si {
+  position: absolute;
+  left: 0rem;
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
+}

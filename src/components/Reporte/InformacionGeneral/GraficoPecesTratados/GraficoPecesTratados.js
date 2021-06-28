@@ -18,30 +18,7 @@ const GraficoPecesTratados = () => {
     valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => curr[colNPecesPMV] + prev, 0) / 100000) / 10
   }})
 
-  // const datos = [
-  //   {
-  //     nombre: 'Q1 2020',
-  //     valor: .8
-  //   },
-  //   {
-  //     nombre: 'Q2 2020',
-  //     valor: 1.2
-  //   },
-  //   {
-  //     nombre: 'Q3 2020',
-  //     valor: 1.8
-  //   },
-  //   {
-  //     nombre: 'Q4 2020',
-  //     valor: 1.4
-  //   },
-  //   {
-  //     nombre: 'Q1 2021',
-  //     valor: 1.7
-  //   }
-  // ]
-
-  const yMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
+  const yMax = Math.max(Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0)), 1)
   const yLineas = [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax].reverse()
 
   return (
@@ -62,12 +39,20 @@ const GraficoPecesTratados = () => {
         </div>
         {datos.map(d => (
           <div key={`barra-${d.nombre}`} className="GraficoPecesTratados__contenedor_barra">
-            <div
-              className="GraficoPecesTratados__barra"
-              style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
-            >
-              {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
-            </div>
+            {
+            d.valor === 0
+
+            ? <div className="GraficoPecesTratados__si">sin datos</div>
+            : (
+              <div
+                className="GraficoPecesTratados__barra"
+                style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
+              >
+                {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
+              </div>
+            )
+            }
+
             <div className="GraficoPecesTratados__etiqueta_barra">
               {d.nombre}
             </div>

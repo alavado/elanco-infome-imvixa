@@ -45,6 +45,7 @@ const TablaResumen = () => {
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
     pmv: datosFiltradosPMV.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
+  console.log(datosAñoPasado)
   // Calcular valores de cada fila
   const filas = [
     ['N° visita piscicultura', 65, 22],
