@@ -47,7 +47,7 @@ const Formulario = () => {
         descripcion: "Seleccionar empresa y periodo de análisis",
         componente: <FormParametros />,
         volver: "Volver",
-        siguiente: "Exportar",
+        siguiente: "Generar Reporte",
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
             dispatch(procesarDatosParaExportar())

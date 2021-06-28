@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { ipcMain } = require('electron')
+const { ipcMain, Menu, MenuItem } = require('electron')
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs')
@@ -21,7 +21,26 @@ function createWindow() {
     }
   });
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-  isDev || mainWindow.removeMenu()
+  const menu = new Menu()
+  menu.append(new MenuItem({
+    label: 'Archivo',
+    submenu: [
+      new MenuItem({
+        label: 'Cerrar aplicación',
+        role: 'close'
+      })
+    ]
+  }))
+  menu.append(new MenuItem({
+    label: 'Opciones',
+    submenu: [
+      new MenuItem({
+        label: 'Exportar reporte a PDF',
+        click: reporteAPDF
+      })
+    ]
+  }))
+  mainWindow.setMenu(menu)
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize()
     mainWindow.show()    
@@ -48,14 +67,14 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('imprimir', async (event, state) => {
+const reporteAPDF = async () => {
   try {
     const data = await mainWindow.webContents.printToPDF({
       printBackground: true,
       marginsType: 1,
       pageSize: {
-        width: 352,
-        height: 638.8096
+        width: 25400 * 50.0,
+        height: 25400 * 92.0
       }
     })
     fs.writeFileSync(path.join(app.getPath('desktop'), 'Informe Seguimiento Imvixa.pdf'), data)
@@ -64,12 +83,12 @@ ipcMain.on('imprimir', async (event, state) => {
   catch(err) {
     console.log('err', err)
   }
-})
+}
 
 // LEER ARCHIVOS XLSX
 
 var XLSX = require("xlsx");
-var validation = require("./validation")
+var validation = require("./validation");
 
 ipcMain.on('leer', async (event, state) => {
   try {
