@@ -1,8 +1,13 @@
 import { useSelector } from 'react-redux'
 import { dividirDatosSegun } from '../../utilitiesReporte'
-import { colFechaPeces } from '../../../../constants'
-import './GraficoPesoPromedio.css'
 import { groupBy } from '../../utilitiesReporte'
+import { 
+  colFechaPeces, 
+  colPiscicultura, 
+  colPeso1, 
+  colPeso2 
+} from '../../../../constants'
+import './GraficoPesoPromedio.css'
 
 const GraficoPesoPromedio = () => {
 
@@ -28,14 +33,13 @@ const GraficoPesoPromedio = () => {
     )
   } 
 
-  const datosGrouped = groupBy(datosGrafico, 'Hatchery of origin')
-
+  const datosGrouped = groupBy(datosGrafico, colPiscicultura)
   const datos = Object.keys(datosGrouped).map(piscicultura => {
     return {
       nombre: piscicultura,
       valor: Math.round(datosGrouped[piscicultura].map(row => {
-        if (row['Peso al Inicio Tto']) return row['Peso al Inicio Tto']
-        return row['Fish body weight (g)']
+        if (row[colPeso1]) return row[colPeso1]
+        return row[colPeso2]
       }).reduce((prev, curr) => prev + curr, 0) / datosGrouped[piscicultura].length)
     }
   })
