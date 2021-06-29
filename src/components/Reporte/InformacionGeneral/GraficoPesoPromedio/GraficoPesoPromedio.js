@@ -2,13 +2,7 @@ import { useSelector } from 'react-redux'
 import { dividirDatosSegun } from '../../utilitiesReporte'
 import { colFechaPeces } from '../../../../constants'
 import './GraficoPesoPromedio.css'
-
-const groupBy = (xs, key) => {
-  return xs.reduce((rv, x) => {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
+import { groupBy } from '../../utilitiesReporte'
 
 const GraficoPesoPromedio = () => {
 
