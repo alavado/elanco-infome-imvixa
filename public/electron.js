@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { ipcMain, Menu, MenuItem } = require('electron')
+const { ipcMain, Menu, MenuItem, ipcRenderer } = require('electron')
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs')
@@ -8,6 +8,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 let mainWindow;
+let menuItemVolverAParametros, menuItemImprimir;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -32,13 +33,21 @@ function createWindow() {
       })
     ]
   }))
+  menuItemVolverAParametros = new MenuItem({
+    label: 'Reingresar parámetros',
+    click: volverAParametros,
+    enabled: false
+  })
+  menuItemImprimir = new MenuItem({
+    label: 'Exportar reporte a PDF',
+    click: reporteAPDF,
+    enabled: false
+  })
   menu.append(new MenuItem({
     label: 'Opciones',
     submenu: [
-      new MenuItem({
-        label: 'Exportar reporte a PDF',
-        click: reporteAPDF
-      })
+      menuItemVolverAParametros,
+      menuItemImprimir
     ]
   }))
   mainWindow.setMenu(menu)
@@ -84,6 +93,20 @@ const reporteAPDF = async () => {
   catch(err) {
     console.log('err', err)
   }
+}
+
+// ESTADO DE BOTÓN DE REGRESAR A PARÁMETROS
+ipcMain.on('viendoReporte', async () => {
+  menuItemVolverAParametros.enabled = true
+  menuItemImprimir.enabled = true
+})
+ipcMain.on('yaNoViendoReporte', async () => {
+  menuItemVolverAParametros.enabled = false
+  menuItemImprimir.enabled = false
+})
+
+const volverAParametros = async () => {
+  mainWindow.webContents.send('volverAParametros')
 }
 
 // LEER ARCHIVOS XLSX

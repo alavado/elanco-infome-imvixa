@@ -8,20 +8,18 @@ import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
 import ResultadosEficacia from './ResultadosEficacia'
 import ResultadosConcentracion from './ResultadosConcentracion'
 import Sandalias from './Sandalias'
+import { useEffect } from 'react'
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
 
-  const imprimirPDF = () => {
-    ipcRenderer.send('imprimir')
-  }
+  useEffect(() => {
+    ipcRenderer.send('viendoReporte')
+    return () => ipcRenderer.send('yaNoViendoReporte')
+  }, [])
 
   return (
     <div className="Reporte">
-      <div className="Reporte__herramientas">
-        <Link className="Reporte__volver" to="/">❮ Parámetros</Link>
-        <button onClick={imprimirPDF}>Exportar</button>
-      </div>
       <div className="Reporte__contenedor">
         <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
         <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />

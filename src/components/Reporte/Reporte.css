@@ -4,11 +4,6 @@
   background-color: var(--color-fondo);
 }
 
-.Reporte__herramientas {
-  background: white;
-  display: none;
-}
-
 .Reporte__contenedor {
   background-color: var(--color-fondo);
   width: 100%;
