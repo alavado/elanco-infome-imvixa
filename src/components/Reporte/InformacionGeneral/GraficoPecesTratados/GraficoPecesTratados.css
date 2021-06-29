@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.25rem 3rem 2rem 2rem;
+  justify-content: space-between;
 }
 
 .GraficoPecesTratados__titulo {
@@ -27,6 +28,7 @@
   flex: 1;
   position: relative;
   margin-left: 2.5rem;
+  max-height: 50%;
 }
 
 .GraficoPecesTratados__contenedor_lineas {
@@ -94,4 +96,14 @@
   font-weight: 300;
   width: 4ch;
   line-height: 1.1;
+}
+
+.GraficoPecesTratados__si {
+  position: absolute;
+  left: 0rem;
+  bottom: 0.25rem;
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
 }

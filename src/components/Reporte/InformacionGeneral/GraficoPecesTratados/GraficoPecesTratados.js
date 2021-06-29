@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
 import { dividirDatosSegun } from '../../utilitiesReporte'
-import { colFechaPMV } from '../../../../constants'
+import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 
 const GraficoPecesTratados = () => {
   const { 
@@ -11,31 +11,24 @@ const GraficoPecesTratados = () => {
   } = useSelector(state => state.reporte)
 
   const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPMV, colFechaPMV, fechaFinal)
-  console.log(datosDivididos)
-  const datos = [
-    {
-      nombre: 'Q1 2020',
-      valor: .8
-    },
-    {
-      nombre: 'Q2 2020',
-      valor: 1.2
-    },
-    {
-      nombre: 'Q3 2020',
-      valor: 1.8
-    },
-    {
-      nombre: 'Q4 2020',
-      valor: 1.4
-    },
-    {
-      nombre: 'Q1 2021',
-      valor: 1.7
-    }
-  ]
+  // valor en millones
+  const datos = datosDivididos.labels.map((nombre, index) => { return {
+    nombre,
+    valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => curr[colNPecesPMV] + prev, 0) / 100000) / 10
+  }})
 
-  const yMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
+  if (datos.every(obj => obj.valor === 0)) {
+    return (
+      <div className="GraficoPecesTratados">
+        <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
+        <div className="GraficoPecesTratados__contenedor_grafico">
+          Sin datos disponibles para el periodo seleccionado
+        </div>
+      </div>
+    )
+  }
+
+  const yMax = Math.max(Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0)), 1)
   const yLineas = [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax].reverse()
 
   return (
@@ -56,12 +49,20 @@ const GraficoPecesTratados = () => {
         </div>
         {datos.map(d => (
           <div key={`barra-${d.nombre}`} className="GraficoPecesTratados__contenedor_barra">
-            <div
-              className="GraficoPecesTratados__barra"
-              style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
-            >
-              {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
-            </div>
+            {
+            d.valor === 0
+
+            ? <div className="GraficoPecesTratados__si">sin datos</div>
+            : (
+              <div
+                className="GraficoPecesTratados__barra"
+                style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
+              >
+                {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
+              </div>
+            )
+            }
+
             <div className="GraficoPecesTratados__etiqueta_barra">
               {d.nombre}
             </div>

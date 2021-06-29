@@ -1,21 +1,48 @@
+import { useSelector } from 'react-redux'
+import { dividirDatosSegun } from '../../utilitiesReporte'
+import { groupBy } from '../../utilitiesReporte'
+import { 
+  colFechaPeces, 
+  colPiscicultura, 
+  colPeso1, 
+  colPeso2 
+} from '../../../../constants'
 import './GraficoPesoPromedio.css'
 
 const GraficoPesoPromedio = () => {
 
-  const datos = [
-    {
-      nombre: 'Río del Este',
-      valor: 125
-    },
-    {
-      nombre: 'UPS',
-      valor: 128
-    },
-    {
-      nombre: 'Río Plata',
-      valor: 131
+  const { 
+    datosFiltradosPeces,
+    divisionTemporal,
+    fechaFinal
+  } = useSelector(state => state.reporte)
+
+  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+  const datosGrafico = datosDivididos.datos.slice(-1)[0]
+  
+  if (datosGrafico.length === 0) {
+    return (
+      <div className="GraficoPesoPromedio">
+        <p className="GraficoPesoPromedio__titulo">
+          Peso promedio pez (g) al tratamiento por piscicultura
+        </p>
+        <div className="GraficoPesoPromedio__contenedor_grafico">
+        Sin datos disponibles en {datosDivididos.labels.slice(-1)[0]}
+        </div>
+      </div>
+    )
+  } 
+
+  const datosGrouped = groupBy(datosGrafico, colPiscicultura)
+  const datos = Object.keys(datosGrouped).map(piscicultura => {
+    return {
+      nombre: piscicultura,
+      valor: Math.round(datosGrouped[piscicultura].map(row => {
+        if (row[colPeso1]) return row[colPeso1]
+        return row[colPeso2]
+      }).reduce((prev, curr) => prev + curr, 0) / datosGrouped[piscicultura].length)
     }
-  ]
+  })
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.valor), Infinity))
