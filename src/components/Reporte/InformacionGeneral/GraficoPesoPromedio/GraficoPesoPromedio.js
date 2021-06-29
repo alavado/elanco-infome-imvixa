@@ -3,6 +3,13 @@ import { dividirDatosSegun } from '../../utilitiesReporte'
 import { colFechaPeces } from '../../../../constants'
 import './GraficoPesoPromedio.css'
 
+const groupBy = (xs, key) => {
+  return xs.reduce((rv, x) => {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
+
 const GraficoPesoPromedio = () => {
 
   const { 
@@ -13,7 +20,7 @@ const GraficoPesoPromedio = () => {
 
   const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
   const datosGrafico = datosDivididos.datos.slice(-1)[0]
-
+  
   if (datosGrafico.length === 0) {
     return (
       <div className="GraficoPesoPromedio">
@@ -25,26 +32,19 @@ const GraficoPesoPromedio = () => {
         </div>
       </div>
     )
-  } else {
-    console.log({datosGrafico})
-  }
-  
-  console.log({datosDivididos})
+  } 
 
-  const datos = [
-    {
-      nombre: 'Río del Este',
-      valor: 125
-    },
-    {
-      nombre: 'UPS',
-      valor: 128
-    },
-    {
-      nombre: 'Río Plata',
-      valor: 131
+  const datosGrouped = groupBy(datosGrafico, 'Hatchery of origin')
+
+  const datos = Object.keys(datosGrouped).map(piscicultura => {
+    return {
+      nombre: piscicultura,
+      valor: Math.round(datosGrouped[piscicultura].map(row => {
+        if (row['Peso al Inicio Tto']) return row['Peso al Inicio Tto']
+        return row['Fish body weight (g)']
+      }).reduce((prev, curr) => prev + curr, 0) / datosGrouped[piscicultura].length)
     }
-  ]
+  })
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.valor), Infinity))
