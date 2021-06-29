@@ -14,10 +14,7 @@ const CumplimientoConcentracion = () => {
   } = useSelector(state => state.reporte)
   
   // const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosAlimento, colFechaAlimento, fechaFinal)
-  console.log({datosFiltradosAlimento})
-  console.log({datosAlimento})
   const datosGrouped = groupBy(datosFiltradosAlimento, colPlanta)
-  console.log({datosGrouped})
   const datos = Object.keys(datosGrouped).map(planta => {
     const values = datosGrouped[planta].map((obj) => obj[colCumplimiento] * 100)
     return {
@@ -28,7 +25,6 @@ const CumplimientoConcentracion = () => {
       min: Math.min(values),
     }
   })
-  console.log({datos})
 
   // const datos = [
   //   {
