@@ -18,7 +18,8 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webSecurity: false
-    }
+    },
+    icon: 'public/icono.png'
   });
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   const menu = new Menu()
@@ -74,7 +75,7 @@ const reporteAPDF = async () => {
       marginsType: 1,
       pageSize: {
         width: 25400 * 50.0,
-        height: 25400 * 92.0
+        height: 25400 * 91.5
       }
     })
     fs.writeFileSync(path.join(app.getPath('desktop'), 'Informe Seguimiento Imvixa.pdf'), data)

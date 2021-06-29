@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="60"
+   height="60"
+   viewBox="0 0 15.874999 15.874999"
+   version="1.1"
+   id="svg4651"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="icono.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4653"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="5.5731762"
+     inkscape:cx="46.472602"
+     inkscape:cy="36.424472"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px" />
+  <defs
+     id="defs4648" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-193.84435,-146.06935)">
+    <path
+       d="m 199.9626,154.25987 c 0,-1.62777 0.71642,-3.11527 1.89873,-4.2584 -1.43352,-1.38545 -3.55218,-2.26352 -5.91777,-2.26352 -0.47345,0 -0.93669,0.0372 -1.38709,0.10437 2.92728,0.54587 5.14998,3.21041 5.14998,6.41787 0,3.20681 -2.22138,5.87102 -5.14866,6.41723 0.44973,0.0675 0.91265,0.10436 1.38577,0.10436 2.36559,0 4.48425,-0.87774 5.91777,-2.26352 -1.18231,-1.14279 -1.89873,-2.6303 -1.89873,-4.25839"
+       style="fill:#f4711d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.329241"
+       id="path3126"
+       inkscape:export-filename="C:\Users\aleja\OneDrive\Escritorio\electron\elanco-infome-imvixa\public\icono.png"
+       inkscape:export-xdpi="139.364"
+       inkscape:export-ydpi="139.364" />
+    <path
+       d="m 204.01607,154.26016 c 0,-3.20745 2.2227,-5.87167 5.14998,-6.41788 -0.4504,-0.0672 -0.91331,-0.10437 -1.38676,-0.10437 -2.36592,0 -4.48459,0.87809 -5.91809,2.26353 1.18197,1.14312 1.89873,2.6303 1.89873,4.2584 0,1.62776 -0.71676,3.11559 -1.89873,4.25839 1.4335,1.38578 3.55217,2.26353 5.91809,2.26353 0.47312,0 0.93537,-0.0366 1.38512,-0.10437 -2.92629,-0.54621 -5.14834,-3.21042 -5.14834,-6.41723"
+       style="fill:#f4711d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.329241"
+       id="path3130"
+       inkscape:export-filename="C:\Users\aleja\OneDrive\Escritorio\electron\elanco-infome-imvixa\public\icono.png"
+       inkscape:export-xdpi="139.364"
+       inkscape:export-ydpi="139.364" />
+    <path
+       d="m 201.86119,158.51813 c 1.18229,-1.14279 1.89873,-2.6303 1.89873,-4.25839 0,-1.62777 -0.71644,-3.11527 -1.89873,-4.25807 -1.18197,1.1428 -1.89873,2.6303 -1.89873,4.25807 0,1.62809 0.71676,3.1156 1.89873,4.25839"
+       style="fill:#ef3f22;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.329241"
+       id="path3134"
+       inkscape:export-filename="C:\Users\aleja\OneDrive\Escritorio\electron\elanco-infome-imvixa\public\icono.png"
+       inkscape:export-xdpi="139.364"
+       inkscape:export-ydpi="139.364" />
+  </g>
+</svg>
