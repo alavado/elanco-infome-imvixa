@@ -21,8 +21,8 @@ const CumplimientoConcentracion = () => {
       nombre: planta,
       promedio: mean(values),
       iqr: iqr(values),
-      max: Math.max(values),
-      min: Math.min(values),
+      max: Math.max(...values),
+      min: Math.min(...values),
     }
   })
 

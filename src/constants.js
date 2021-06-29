@@ -20,6 +20,7 @@ export const colFechaPeces = "Sampling date"
 export const colPiscicultura = "Hatchery of origin"
 export const colPeso1 = "Peso al Inicio Tto"
 export const colPeso2 = "Fish body weight (g)"
+export const colPPB = "Imvixa [ ] in fillet (ppb)"
 
 // Columnas para filtrar hoja eficacia
 export const colEmpresaEficacia = "Empresa"

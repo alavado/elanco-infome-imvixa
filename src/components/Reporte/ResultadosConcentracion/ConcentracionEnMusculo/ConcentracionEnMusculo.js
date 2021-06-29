@@ -1,48 +1,93 @@
+import { useSelector } from 'react-redux'
+import { dividirDatosSegun } from '../../utilitiesReporte'
+import { colFechaPeces, colPPB } from '../../../../constants'
+import { mean, iqr } from '../../utilitiesReporte'
 import './ConcentracionEnMusculo.css'
 
 const ConcentracionEnMusculo = () => {
 
-  const datos = [
-    {
-      nombre: 'Q1 2020',
-      promedio: 22,
-      iqr: 3,
-      max: 29,
-      min: 5
-    },
-    {
-      nombre: 'Q1 2021',
-      promedio: 22,
-      iqr: 3,
-      max: 35,
-      min: 5
-    },
-    {
-      nombre: 'Q2 2021',
-      promedio: 20,
-      iqr: 4,
-      max: 39,
-      min: 0
-    },
-    {
-      nombre: 'Q3 2021',
-      promedio: 21,
-      iqr: 4,
-      max: 39,
-      min: 5
-    },
-    {
-      nombre: 'Q4 2021',
-      promedio: 22,
-      iqr: 4,
-      max: 35,
-      min: 8
+  const {
+    datosFiltradosPeces,
+    divisionTemporal,
+    fechaFinal
+  } = useSelector(state => state.reporte)
+
+  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+
+    if (datosDivididos.datos.every(obj => obj.length === 0)) {
+    return (
+      <div className="ConcentracionEnMusculo">
+        <p className="ConcentracionEnMusculo__titulo">N° de peces tratados</p>
+        <div className="ConcentracionEnMusculo__contenedor_grafico">
+          Sin datos disponibles para el periodo seleccionado
+        </div>
+      </div>
+    )
+  }
+
+  console.log(datosDivididos)
+  const datos = datosDivididos.labels.map((nombre, index) => { 
+    if (datosDivididos.datos[index].length === 0) {
+      return {
+        nombre,
+        promedio: 0,
+        iqr: 0,
+        max: 0,
+        min: 0,
+      }
     }
-  ]
+    const values = datosDivididos.datos[index].map(obj => obj[colPPB] / 1000)
+    console.log({values})
+    return {
+      nombre,
+      promedio: mean(values),
+      iqr: iqr(values),
+      max: Math.max(...values),
+      min: Math.min(...values),
+  }})
+  console.log({datos})
+
+  // const datos = [
+  //   {
+  //     nombre: 'Q1 2020',
+  //     promedio: 22,
+  //     iqr: 3,
+  //     max: 29,
+  //     min: 5
+  //   },
+  //   {
+  //     nombre: 'Q1 2021',
+  //     promedio: 22,
+  //     iqr: 3,
+  //     max: 35,
+  //     min: 5
+  //   },
+  //   {
+  //     nombre: 'Q2 2021',
+  //     promedio: 20,
+  //     iqr: 4,
+  //     max: 39,
+  //     min: 0
+  //   },
+  //   {
+  //     nombre: 'Q3 2021',
+  //     promedio: 21,
+  //     iqr: 4,
+  //     max: 39,
+  //     min: 5
+  //   },
+  //   {
+  //     nombre: 'Q4 2021',
+  //     promedio: 22,
+  //     iqr: 4,
+  //     max: 35,
+  //     min: 8
+  //   }
+  // ]
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.promedio), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))
-  const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
+  const tick = 5 //Math.pow(10, Math.floor(Math.log10(vMin)))
   const yMax = Math.max(60, 10 * Math.ceil(vMax / tick))
   const yMin = Math.min(0, 10 * Math.floor(vMin / tick))
   const yLineas = [...Array(Math.round(1 + (yMax - yMin) / tick)).fill(0).map((_, i) => yMin + tick * i)].reverse()
@@ -50,7 +95,7 @@ const ConcentracionEnMusculo = () => {
   return (
     <div className="ConcentracionEnMusculo">
       <p className="ConcentracionEnMusculo__titulo">
-        Concentración (ppb) en músculo 
+        Concentración (ppb) en músculo
         post tratamiento
       </p>
       <div className="ConcentracionEnMusculo__contenedor_grafico">
