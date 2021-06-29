@@ -4,25 +4,14 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs')
 
+const { autoUpdater } = require('electron-updater')
 const path = require('path');
 const isDev = require('electron-is-dev');
 
 let mainWindow;
 let menuItemVolverAParametros, menuItemImprimir;
 
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 680,
-    show: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      webSecurity: false
-    },
-    icon: 'public/icono.png'
-  });
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+function construirMenu() {
   const menu = new Menu()
   menu.append(new MenuItem({
     label: 'Archivo',
@@ -51,19 +40,38 @@ function createWindow() {
     ]
   }))
   mainWindow.setMenu(menu)
+}
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    height: 680,
+    show: false,
+    icon: 'public/icono.png',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      webSecurity: false
+    }
+  });
+  construirMenu()
+  mainWindow.loadURL(isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../build/index.html')}`
+  );
+  //isDev && mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize()
     mainWindow.show()    
   })
-  if (isDev) {
-    // Open the DevTools.
-    //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
-    mainWindow.webContents.openDevTools();
-  }
   mainWindow.on('closed', () => mainWindow = null);
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  autoUpdater.checkForUpdates()
+  createWindow()
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -152,4 +160,25 @@ ipcMain.on('leer', async (event, state) => {
     )
     console.log('err', err)
   }
+})
+
+autoUpdater.on('checking-for-update', () => {
+  console.log('checking-for-update');
+})
+autoUpdater.on('update-available', (info) => {
+  console.log('update-available', info);
+  mainWindow.webContents.send('descargando-actualizacion');
+})
+autoUpdater.on('update-not-available', (info) => {
+  console.log('update-not-available', info);
+})
+autoUpdater.on('error', (err) => {
+  console.log('error', err);
+})
+autoUpdater.on('download-progress', (progressObj) => {
+  console.log('download-progress', progressObj);
+})
+autoUpdater.on('update-downloaded', (info) => {
+  console.log('update-downloaded', info);
+  autoUpdater.quitAndInstall();  
 })
