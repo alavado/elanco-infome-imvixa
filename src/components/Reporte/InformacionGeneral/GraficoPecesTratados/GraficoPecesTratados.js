@@ -11,12 +11,22 @@ const GraficoPecesTratados = () => {
   } = useSelector(state => state.reporte)
 
   const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPMV, colFechaPMV, fechaFinal)
-  console.log(datosDivididos)
   // valor en millones
   const datos = datosDivididos.labels.map((nombre, index) => { return {
     nombre,
     valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => curr[colNPecesPMV] + prev, 0) / 100000) / 10
   }})
+
+  if (datos.every(obj => obj.valor === 0)) {
+    return (
+      <div className="GraficoPecesTratados">
+        <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
+        <div className="GraficoPecesTratados__contenedor_grafico">
+          Sin datos disponibles para el periodo seleccionado
+        </div>
+      </div>
+    )
+  }
 
   const yMax = Math.max(Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0)), 1)
   const yLineas = [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax].reverse()

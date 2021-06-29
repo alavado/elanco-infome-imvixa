@@ -1,6 +1,35 @@
+import { useSelector } from 'react-redux'
+import { dividirDatosSegun } from '../../utilitiesReporte'
+import { colFechaPeces } from '../../../../constants'
 import './GraficoPesoPromedio.css'
 
 const GraficoPesoPromedio = () => {
+
+  const { 
+    datosFiltradosPeces,
+    divisionTemporal,
+    fechaFinal
+  } = useSelector(state => state.reporte)
+
+  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+  const datosGrafico = datosDivididos.datos.slice(-1)[0]
+
+  if (datosGrafico.length === 0) {
+    return (
+      <div className="GraficoPesoPromedio">
+        <p className="GraficoPesoPromedio__titulo">
+          Peso promedio pez (g) al tratamiento por piscicultura
+        </p>
+        <div className="GraficoPesoPromedio__contenedor_grafico">
+        Sin datos disponibles en {datosDivididos.labels.slice(-1)[0]}
+        </div>
+      </div>
+    )
+  } else {
+    console.log({datosGrafico})
+  }
+  
+  console.log({datosDivididos})
 
   const datos = [
     {
