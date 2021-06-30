@@ -22,7 +22,9 @@ const GraficoPecesTratados = () => {
       <div className="GraficoPecesTratados">
         <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
         <div className="GraficoPecesTratados__contenedor_grafico">
-          Sin datos disponibles para el periodo seleccionado
+          <div className="GraficoPecesTratados__contenedor_grafico_error">
+            Sin datos disponibles para el periodo seleccionado
+          </div>
         </div>
       </div>
     )

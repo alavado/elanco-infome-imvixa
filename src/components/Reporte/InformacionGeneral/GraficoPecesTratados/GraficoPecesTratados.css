@@ -31,6 +31,10 @@
   max-height: 50%;
 }
 
+.GraficoPecesTratados__contenedor_grafico_error {
+  color: var(--color-gris-4);
+}
+
 .GraficoPecesTratados__contenedor_lineas {
   display: flex;
   flex-direction: column;

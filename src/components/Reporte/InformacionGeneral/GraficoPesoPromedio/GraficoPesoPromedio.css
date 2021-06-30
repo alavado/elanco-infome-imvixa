@@ -31,6 +31,10 @@
   max-height: 50%;
 }
 
+.GraficoPesoPromedio__contenedor_grafico__error {
+  color: var(--color-gris-4);
+}
+
 .GraficoPesoPromedio__contenedor_lineas {
   display: flex;
   flex-direction: column;

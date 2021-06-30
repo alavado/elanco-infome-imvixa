@@ -109,7 +109,6 @@ const dividirEnS = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const semestres = []
   const labels = [] 
   for (var i = 0; i < nDivisiones; i++) {
-    console.log(sActual)
     labels.unshift(`S${sActual+1} ${ultimoDiaSAnterior.getFullYear()}`)
     semestres.unshift(datos.filter(obj => {
       const fecha = new Date(obj[colFecha])

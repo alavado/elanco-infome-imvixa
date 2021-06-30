@@ -27,7 +27,9 @@ const GraficoPesoPromedio = () => {
           Peso promedio pez (g) al tratamiento por piscicultura
         </p>
         <div className="GraficoPesoPromedio__contenedor_grafico">
-        Sin datos disponibles en {datosDivididos.labels.slice(-1)[0]}
+          <div className="GraficoPesoPromedio__contenedor_grafico__error">
+            Sin datos disponibles<br/> en {datosDivididos.labels.slice(-1)[0]}
+          </div>
         </div>
       </div>
     )
