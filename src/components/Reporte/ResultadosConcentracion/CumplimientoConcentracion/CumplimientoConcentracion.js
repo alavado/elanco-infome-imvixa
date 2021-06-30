@@ -8,7 +8,7 @@ const CumplimientoConcentracion = () => {
 
   const { 
     datosFiltradosAlimento,
-    datosAlimento,
+    datosFiltradosIndustriaAlimento,
     divisionTemporal,
     fechaFinal
   } = useSelector(state => state.reporte)
@@ -24,6 +24,14 @@ const CumplimientoConcentracion = () => {
       max: Math.max(...values),
       min: Math.min(...values),
     }
+  })
+  const cumplimientosIndustria = datosFiltradosIndustriaAlimento.map(obj => obj[colCumplimiento] * 100)
+  datos.push({
+    nombre: "Industria",
+    promedio: mean(cumplimientosIndustria),
+    iqr: iqr(cumplimientosIndustria),
+    max: Math.max(...cumplimientosIndustria),
+    min: Math.min(...cumplimientosIndustria),
   })
 
   // const datos = [

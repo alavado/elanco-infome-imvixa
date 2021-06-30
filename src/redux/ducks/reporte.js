@@ -30,6 +30,10 @@ const slice = createSlice({
     datosFiltradosPeces: null,
     datosFiltradosEficacia: null,
     datosFiltradosPMV: null,
+    datosFiltradosIndustriaAlimento: null,
+    datosFiltradosIndustriaPeces: null,
+    datosFiltradosIndustriaEficacia: null,
+    datosFiltradosIndustriaPMV: null,
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -113,9 +117,21 @@ const slice = createSlice({
         state.fechaInicio,
         state.fechaFinal
       )
+      state.datosFiltradosIndustriaAlimento = filtrarDatosAlimento(
+        state.datosAlimento,
+        "Todas",
+        state.fechaInicio,
+        state.fechaFinal
+      )
       state.datosFiltradosPMV = filtrarDatosPMV(
         state.datosPMV,
         state.nombreEmpresa,
+        state.fechaInicio,
+        state.fechaFinal
+      )
+      state.datosIndustriaPMV = filtrarDatosPMV(
+        state.datosPMV,
+        "Todas",
         state.fechaInicio,
         state.fechaFinal
       )
@@ -125,9 +141,21 @@ const slice = createSlice({
         state.fechaInicio,
         state.fechaFinal
       )
+      state.datosFiltradosIndustriaEficacia = filtrarDatosEficacia(
+        state.datosEficacia,
+        "Todas",
+        state.fechaInicio,
+        state.fechaFinal
+      )
       state.datosFiltradosPeces = filtrarDatosPeces(
         state.datosPeces,
         state.nombreEmpresa,
+        state.fechaInicio,
+        state.fechaFinal
+      )
+      state.datosFiltradosIndustriaPeces = filtrarDatosPeces(
+        state.datosPeces,
+        "Todas",
         state.fechaInicio,
         state.fechaFinal
       )

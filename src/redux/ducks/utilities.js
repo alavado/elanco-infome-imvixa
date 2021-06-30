@@ -26,9 +26,9 @@ export const filtrarDatosAlimento = (
   fechaInicial,
   fechaFinal
 ) => {
-  let datosFiltrados;
+  let datosFiltrados = datos
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj[colEmpresaAlimento] === empresa);
+    datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaAlimento] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
@@ -39,9 +39,9 @@ export const filtrarDatosAlimento = (
 };
 
 export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
-  let datosFiltrados;
+  let datosFiltrados = datos
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj[colEmpresaPMV] === empresa);
+    datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaPMV] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
@@ -54,7 +54,7 @@ export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
 // Por acuerdo con Patricio se filtran los datos de aquellos que hayan sido sembrados
 // en el rango de fechas determinado
 export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) => {
-  let datosFiltrados;
+  let datosFiltrados = datos
   if (empresa !== "Todas") {
     datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia] === empresa);
   }
@@ -68,7 +68,7 @@ export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) =
 
 // TODO: Confirmar con patricio si Sampling date es la columna que filtrar por fecha
 export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
-  let datosFiltrados = [];
+  let datosFiltrados = datos;
   if (empresa !== "Todas") {
     datosFiltrados = datos.filter((obj) => obj[colEmpresaPeces] === empresa);
   }
