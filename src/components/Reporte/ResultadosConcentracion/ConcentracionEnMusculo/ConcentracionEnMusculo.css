@@ -112,6 +112,16 @@
   height: 2rem;
 }
 
+.ConcentracionEnMusculo__si {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 1rem;
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
+}
+
 .ConcentracionEnMusculo__bigote {
   width: .16rem;
   height: 100%;
