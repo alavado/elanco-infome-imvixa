@@ -8,19 +8,49 @@ const ProteccionMacrozonas = () => {
       valor: 0.6,
       etiqueta: 'Seno Reloncaví',
       xPorcentaje: 18,
-      yPorcentaje: 22
+      yPorcentaje: 25
+    },
+    {
+      valor: 0.6,
+      etiqueta: 'MZ 2',
+      xPorcentaje: 6,
+      yPorcentaje: 35
     },
     {
       valor: 1.6,
       etiqueta: 'Chiloé Centro',
       xPorcentaje: 15,
-      yPorcentaje: 60
+      yPorcentaje: 50
+    },
+    {
+      valor: 0.6,
+      etiqueta: 'MZ 4',
+      xPorcentaje: 28,
+      yPorcentaje: 50
+    },
+    {
+      valor: 0.6,
+      etiqueta: 'MZ 5',
+      xPorcentaje: 12,
+      yPorcentaje: 72
+    },
+    {
+      valor: 2.3,
+      etiqueta: 'MZ 6',
+      xPorcentaje: 67,
+      yPorcentaje: 20
     },
     {
       valor: 2.3,
       etiqueta: 'Pto. Cisne',
-      xPorcentaje: 85,
+      xPorcentaje: 87,
       yPorcentaje: 25
+    },
+    {
+      valor: 2.3,
+      etiqueta: 'MZ 8',
+      xPorcentaje: 75,
+      yPorcentaje: 65
     }
   ]
 
