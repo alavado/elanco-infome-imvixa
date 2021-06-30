@@ -48,7 +48,10 @@ const slice = createSlice({
       if (state.pasoActual < 2) state.pasoActual += 1
     },
     pasoAnterior(state) {
-      if (state.pasoActual > 0) state.pasoActual -= 1
+      if (state.pasoActual > 0) {
+        state.pasoActual -= 1
+        state.errorFormulario = null
+      }
     },
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path

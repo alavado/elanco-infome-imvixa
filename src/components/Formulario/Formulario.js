@@ -53,6 +53,12 @@ const Formulario = () => {
           if (todasLasPlanillas && nombreEmpresa !== "") {
             dispatch(procesarDatosParaExportar())
             history.push("/reporte");
+          } else {
+            dispatch(
+              mostrarErrorFormulario(
+                "Necesita seleccionar una empresa antes de continuar"
+              )
+            );
           }
         },
       },
@@ -65,7 +71,7 @@ const Formulario = () => {
       //   onClickSiguiente: () => history.push('/reporte')
       // }
     ],
-    [todasLasPlanillas, errorFormulario, dispatch, history]
+    [todasLasPlanillas, nombreEmpresa, errorFormulario, dispatch, history]
   );
 
   const pasoActual = pasos[indicePasoActual];
