@@ -17,9 +17,11 @@ const ConcentracionEnMusculo = () => {
     if (datosDivididos.datos.every(obj => obj.length === 0)) {
     return (
       <div className="ConcentracionEnMusculo">
-        <p className="ConcentracionEnMusculo__titulo">N° de peces tratados</p>
+        <p className="ConcentracionEnMusculo__titulo">Concentración (ppb) en músculo post tratamiento</p>
         <div className="ConcentracionEnMusculo__contenedor_grafico">
-          Sin datos disponibles para el periodo seleccionado
+          <div className="ConcentracionEnMusculo__contenedor_grafico_error">
+            Sin datos disponibles para el periodo seleccionado
+          </div>
         </div>
       </div>
     )

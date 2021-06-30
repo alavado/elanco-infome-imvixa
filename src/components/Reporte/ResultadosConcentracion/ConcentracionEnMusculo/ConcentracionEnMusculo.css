@@ -3,6 +3,7 @@
   flex-direction: column;
   border-left: .15rem dotted var(--color-gris-4);
   padding: 0.25rem 3rem 2rem 1rem;
+  justify-content: space-between;
 }
 
 .ConcentracionEnMusculo__titulo {
@@ -28,6 +29,11 @@
   flex: 1;
   position: relative;
   margin-left: 2.5rem;
+  max-height: 50%;
+}
+
+.ConcentracionEnMusculo__contenedor_grafico_error {
+  color: var(--color-gris-4);
 }
 
 .ConcentracionEnMusculo__contenedor_lineas {
