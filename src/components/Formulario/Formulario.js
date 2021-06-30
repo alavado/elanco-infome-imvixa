@@ -21,6 +21,7 @@ const Formulario = () => {
     pasoActual: indicePasoActual,
     errorFormulario,
     todasLasPlanillas,
+    nombreEmpresa
   } = useSelector((state) => state.reporte);
   const pasos = useMemo(
     () => [
@@ -49,7 +50,7 @@ const Formulario = () => {
         volver: "Volver",
         siguiente: "Generar Reporte",
         onClickSiguiente: () => {
-          if (todasLasPlanillas) {
+          if (todasLasPlanillas && nombreEmpresa !== "") {
             dispatch(procesarDatosParaExportar())
             history.push("/reporte");
           }
