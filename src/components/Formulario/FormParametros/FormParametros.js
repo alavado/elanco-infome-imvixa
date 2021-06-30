@@ -21,7 +21,8 @@ const FormParametros = () => {
     fechaFinal,
     divisionTemporal,
   } = useSelector((state) => state.reporte);
-
+  
+  const dispatch = useDispatch();
   const divisionTemporalOptions = [
     { value: "mensual", label: "M - Mensual" },
     { value: "trimestral", label: "Q - Trimestral" },
@@ -29,14 +30,20 @@ const FormParametros = () => {
     { value: "semestral", label: "S - Semestral" },
   ]
   const dTSelected = divisionTemporalOptions.find(option => option.value === divisionTemporal)
-  const dispatch = useDispatch();
+  let nombreEmpresaSelected
+  if (nombreEmpresa === "") {
+    nombreEmpresaSelected = nombreEmpresa
+  } else {
+    nombreEmpresaSelected = empresas.find(option => option.value === nombreEmpresa)
+  }
+  
   return (
     <div>
       <div className="FormParametros__seccion">
         <div className="FormParametros__seccion_label">Empresa</div>
         <Select
           options={empresas}
-          defaultValue={nombreEmpresa}
+          defaultValue={nombreEmpresaSelected}
           onChange={(nombre) => dispatch(guardaNombreEmpresa(nombre))}
           theme={(theme) => ({
             ...theme,
