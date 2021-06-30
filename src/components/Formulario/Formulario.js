@@ -13,6 +13,7 @@ import {
   mostrarErrorFormulario,
   procesarDatosParaExportar
 } from "../../redux/ducks/reporte";
+import classNames from 'classnames'
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const Formulario = () => {
         componente: <FormPlanillas />,
         volver: "",
         siguiente: "Siguiente",
+        siguienteActivo: todasLasPlanillas,
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
             dispatch(pasoSiguiente())
@@ -49,6 +51,7 @@ const Formulario = () => {
         componente: <FormParametros />,
         volver: "Volver",
         siguiente: "Generar Reporte",
+        siguienteActivo: nombreEmpresa !== "",
         onClickSiguiente: () => {
           if (todasLasPlanillas && nombreEmpresa !== "") {
             dispatch(procesarDatosParaExportar())
@@ -113,14 +116,14 @@ const Formulario = () => {
 
         <div className="Formulario__botones">
           <button
-            className="Formulario__boton"
+            className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': pasoActual.siguienteActivo})}
             onClick={pasoActual.onClickSiguiente}
           >
             {pasoActual.siguiente}
           </button>
           {indicePasoActual === 0 ? null : (
             <button
-              className="Formulario__boton"
+              className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': true})} 
               onClick={() => dispatch(pasoAnterior())}
             >
               {pasoActual.volver}

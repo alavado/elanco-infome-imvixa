@@ -91,15 +91,18 @@ const slice = createSlice({
       state.errorFormulario = action.payload
     },
     limpiarFormularioAlimento(state, action) {
+      state.todasLasPlanillas = false
       state.planillaAlimento = ""
       state.datosAlimento = []
       state.datosPMV = []
     },
     limpiarFormularioPeces(state, action) {
+      state.todasLasPlanillas = false
       state.planillaPeces = ""
       state.datosPeces = []
     },
     limpiarFormularioEficacia(state, action) {
+      state.todasLasPlanillas = false
       state.planillaEficacia = ""
       state.datosEficacia = []
     },
