@@ -1,5 +1,7 @@
 .Tratamientos {
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .Tratamientos__titulo {
@@ -7,4 +9,55 @@
   font-weight: 500;
   color: var(--color-gris-4);
   line-height: 1.15;
+}
+
+.Tratamientos__contenedor_grafico {
+  flex: 1;
+  display: flex;
+  padding: 2rem;
+}
+
+.Tratamientos__barras_grafico {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+}
+
+.Tratamientos__barra {
+  flex: 1;
+  align-self: flex-end;
+  border-radius: 1rem 1rem 0 0;
+  justify-content: center;
+  position: relative;
+}
+
+.Tratamientos__valor_barra {
+  top: -1rem;
+  font-size: .6rem;
+  color: var(--color-gris-4);
+  position: absolute;
+}
+
+.Tratamientos__barra--imvixa {
+  background: var(--color-naranja-2);
+}
+
+.Tratamientos__barra--hexa {
+  background: var(--color-celeste);
+}
+
+.Tratamientos__barra--nada {
+  background: var(--color-gris-2);
+}
+
+.Tratamientos__separador_grupo_barras {
+  flex: .5;
+}
+
+.Tratamientos__etiqueta_barra {
+  bottom: -1rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  position: absolute;
+  text-align: center;
 }
