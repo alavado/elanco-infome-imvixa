@@ -73,6 +73,7 @@ const FormParametros = () => {
               isClearable={true}
               selected={fechaInicio}
               onChange={(date) => dispatch(guardarFechaDeInicio(date))}
+              maxDate={fechaFinal}
               dateFormat="dd/MM/yyyy"
               className="FormParametros__datepicker"
             />
@@ -82,6 +83,8 @@ const FormParametros = () => {
             <DatePicker
               locale="es"
               selected={fechaFinal}
+              minDate={fechaInicio}
+              maxDate={new Date()}
               onChange={(date) => dispatch(guardarFechaDeTermino(date))}
               dateFormat="dd/MM/yyyy"
               className="FormParametros__datepicker"
