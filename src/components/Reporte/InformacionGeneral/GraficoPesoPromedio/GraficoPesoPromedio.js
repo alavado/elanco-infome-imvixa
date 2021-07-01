@@ -16,11 +16,8 @@ const GraficoPesoPromedio = () => {
     divisionTemporal,
     fechaFinal
   } = useSelector(state => state.reporte)
-
-  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
-  const datosGrafico = datosDivididos.datos.slice(-1)[0]
   
-  if (datosGrafico.length === 0) {
+  if (datosFiltradosPeces.length === 0) {
     return (
       <div className="GraficoPesoPromedio">
         <p className="GraficoPesoPromedio__titulo">
@@ -28,14 +25,14 @@ const GraficoPesoPromedio = () => {
         </p>
         <div className="GraficoPesoPromedio__contenedor_grafico">
           <div className="GraficoPesoPromedio__contenedor_grafico__error">
-            Sin datos disponibles<br/> en {datosDivididos.labels.slice(-1)[0]}
+            Sin datos disponibles en el periodo seleccionado
           </div>
         </div>
       </div>
     )
   } 
 
-  const datosGrouped = groupBy(datosGrafico, colPiscicultura)
+  const datosGrouped = groupBy(datosFiltradosPeces, colPiscicultura)
   const datos = Object.keys(datosGrouped).map(piscicultura => {
     return {
       nombre: piscicultura,
