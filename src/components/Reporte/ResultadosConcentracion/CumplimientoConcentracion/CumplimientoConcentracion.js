@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux'
-import { dividirDatosSegun } from '../../utilitiesReporte'
+import { extraerUltimosPeriodos } from '../../utilitiesReporte'
 import { groupBy, mean, iqr } from '../../utilitiesReporte'
 import { colFechaAlimento, colCumplimiento, colPlanta } from '../../../../constants'
 import './CumplimientoConcentracion.css'
 
 const CumplimientoConcentracion = () => {
-
+  
   const { 
     datosFiltradosAlimento,
     datosFiltradosIndustriaAlimento,
@@ -14,8 +14,24 @@ const CumplimientoConcentracion = () => {
   } = useSelector(state => state.reporte)
   
   // const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosAlimento, colFechaAlimento, fechaFinal)
-  const datosGrouped = groupBy(datosFiltradosAlimento, colPlanta)
-  const datos = Object.keys(datosGrouped).map(planta => {
+  const ultimosDatos = extraerUltimosPeriodos(divisionTemporal, datosFiltradosAlimento, colFechaAlimento, fechaFinal)
+  const datosGrouped = groupBy(ultimosDatos, colPlanta)
+  const plantas = Object.keys(datosGrouped)
+  if (plantas.length === 0) {
+    return (      
+      <div className="CumplimientoConcentracion">
+        <p className="CumplimientoConcentracion__titulo">
+          Cumplimiento (%) concentración en alimento (logrado / intentado)
+        </p>
+        <div className="CumplimientoConcentracion__contenedor_grafico">
+          <div className="CumplimientoConcentracion__contenedor_grafico__error">
+            Sin datos disponibles en el periodo seleccionado
+          </div>
+        </div>
+      </div>
+    )
+  }
+  const datos = plantas.map(planta => {
     const values = datosGrouped[planta].map((obj) => obj[colCumplimiento] * 100)
     return {
       nombre: planta,
@@ -25,7 +41,8 @@ const CumplimientoConcentracion = () => {
       min: Math.min(...values),
     }
   })
-  const cumplimientosIndustria = datosFiltradosIndustriaAlimento.map(obj => obj[colCumplimiento] * 100)
+  const ultimosDatosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaAlimento, colFechaAlimento, fechaFinal)
+  const cumplimientosIndustria = ultimosDatosIndustria.map(obj => obj[colCumplimiento] * 100)
   datos.push({
     nombre: "Industria",
     promedio: mean(cumplimientosIndustria),

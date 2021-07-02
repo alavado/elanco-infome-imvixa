@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.25rem 2.5rem 2rem 0;
+  justify-content: space-between;
 }
 
 .CumplimientoConcentracion__titulo {
@@ -10,6 +11,7 @@
   font-size: 1.25rem;
   line-height: 1.15;
 }
+
 
 .CumplimientoConcentracion__etiqueta_eje_y {
   font-weight: 300;
@@ -27,6 +29,11 @@
   flex: 1;
   position: relative;
   margin-left: 2.5rem;
+  max-height: 50%;
+}
+
+.CumplimientoConcentracion__contenedor_grafico__error {
+  color: var(--color-gris-4);
 }
 
 .CumplimientoConcentracion__contenedor_lineas {

@@ -17,8 +17,6 @@ const GraficoPesoPromedio = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  console.log(datosFiltradosPeces)
-
   const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
   
   if (datosGrafico.length === 0) {
