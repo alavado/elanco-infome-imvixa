@@ -130,6 +130,7 @@ const dividirEnS = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   }
 }
 
+
 export const dividirDatosSegun = (division, datos, colFecha, fechaFinal=new Date(), nDivisiones=N_DIVISIONES) => {
   switch (division) {
     case 'mensual':
@@ -147,6 +148,68 @@ export const dividirDatosSegun = (division, datos, colFecha, fechaFinal=new Date
       }
   }
 }
+
+
+const extraerUltimosM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
+  const fechaActual = new Date(fechaFinReporte)
+  const mesActual = fechaActual.getMonth()
+  console.log(fechaActual)
+  const fechaNAnterior = new Date(fechaActual.getFullYear(), mesActual - (nDivisiones - 1), 1);
+  console.log(fechaNAnterior)
+  return datos.filter(obj => new Date(obj[colFecha]) > fechaNAnterior)
+}
+
+
+const extraerUltimosNDivisiones = (mesesFinales, nMeses, datos, colFecha, fechaFinReporte, nDivisiones) => {
+  const fechaActual = new Date(fechaFinReporte)
+  const periodoActual = Math.floor(fechaActual.getMonth() / nMeses)
+  const ultimoDiaPeriodoActual = new Date(fechaActual.getFullYear(), mesesFinales[periodoActual] + 1, 1)
+  const mesUltimoDiaPeriodoActual = ultimoDiaPeriodoActual.getMonth()
+  const fechaNAnterior = new Date(ultimoDiaPeriodoActual.getFullYear(), mesUltimoDiaPeriodoActual - (nDivisiones * nMeses), 1)
+  return datos.filter(obj => new Date(obj[colFecha]) > fechaNAnterior)
+}
+
+const extraerUltimosQ = (datos, colFecha, fechaFinReporte, nDivisiones) => {
+  const mesesFinalesDeQ = [2, 5, 8, 11]
+  const mesesPorPeriodo = 3
+  return extraerUltimosNDivisiones(mesesFinalesDeQ, mesesPorPeriodo, datos, colFecha, fechaFinReporte, nDivisiones)
+}
+
+const extraerUltimosC = (datos, colFecha, fechaFinReporte, nDivisiones) => {
+  // Constantes de un cuatrimestre
+  const mesesFinalesDeC = [3, 7, 11]
+  const mesesPorPeriodo = 4
+  return extraerUltimosNDivisiones(mesesFinalesDeC, mesesPorPeriodo, datos, colFecha, fechaFinReporte, nDivisiones)
+
+}
+
+
+const extraerUltimosS = (datos, colFecha, fechaFinReporte, nDivisiones) => {
+  // Constantes de un semestre
+  const mesesFinalesDeS = [5, 11]
+  const mesesPorPeriodo = 6
+  return extraerUltimosNDivisiones(mesesFinalesDeS, mesesPorPeriodo, datos, colFecha, fechaFinReporte, nDivisiones)
+}
+
+
+export const extraerUltimosPeriodos = (division, datos, colFecha, fechaFinal=new Date(), nDivisiones=N_DIVISIONES) => {
+  switch (division) {
+    case 'mensual':
+      return extraerUltimosM(datos, colFecha, fechaFinal, nDivisiones)
+    case 'trimestral':
+      return extraerUltimosQ(datos, colFecha, fechaFinal, nDivisiones)
+    case 'cuatrimestral':
+      return extraerUltimosC(datos, colFecha, fechaFinal, nDivisiones)
+    case 'semestral':
+      return extraerUltimosS(datos, colFecha, fechaFinal, nDivisiones)
+    default:
+      return {
+        labels: [],
+        datos: []
+      }
+  }
+}
+
 
 // Agrupar segun
 export const groupBy = (xs, key) => {

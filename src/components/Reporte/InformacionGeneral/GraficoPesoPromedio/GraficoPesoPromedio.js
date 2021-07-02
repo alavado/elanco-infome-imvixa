@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { dividirDatosSegun } from '../../utilitiesReporte'
+import { extraerUltimosPeriodos } from '../../utilitiesReporte'
 import { groupBy } from '../../utilitiesReporte'
 import { 
   colFechaPeces, 
@@ -16,8 +16,12 @@ const GraficoPesoPromedio = () => {
     divisionTemporal,
     fechaFinal
   } = useSelector(state => state.reporte)
+
+  console.log(datosFiltradosPeces)
+
+  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
   
-  if (datosFiltradosPeces.length === 0) {
+  if (datosGrafico.length === 0) {
     return (
       <div className="GraficoPesoPromedio">
         <p className="GraficoPesoPromedio__titulo">
@@ -32,7 +36,7 @@ const GraficoPesoPromedio = () => {
     )
   } 
 
-  const datosGrouped = groupBy(datosFiltradosPeces, colPiscicultura)
+  const datosGrouped = groupBy(datosGrafico, colPiscicultura)
   const datos = Object.keys(datosGrouped).map(piscicultura => {
     return {
       nombre: piscicultura,
