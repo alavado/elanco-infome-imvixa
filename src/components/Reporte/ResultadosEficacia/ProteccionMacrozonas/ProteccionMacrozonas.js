@@ -6,49 +6,49 @@ const ProteccionMacrozonas = () => {
   const pines = [
     {
       valor: 0.6,
-      etiqueta: 'Seno Reloncaví',
+      etiqueta: 'Macrozona 1',
       xPorcentaje: 18,
       yPorcentaje: 25
     },
     {
       valor: 0.6,
-      etiqueta: 'MZ 2',
+      etiqueta: 'Macrozona 2',
       xPorcentaje: 6,
       yPorcentaje: 35
     },
     {
       valor: 1.6,
-      etiqueta: 'Chiloé Centro',
+      etiqueta: 'Macrozona 3',
       xPorcentaje: 15,
       yPorcentaje: 50
     },
     {
       valor: 0.6,
-      etiqueta: 'MZ 4',
+      etiqueta: 'Macrozona 4',
       xPorcentaje: 28,
       yPorcentaje: 50
     },
     {
       valor: 0.6,
-      etiqueta: 'MZ 5',
+      etiqueta: 'Macrozona 5',
       xPorcentaje: 12,
       yPorcentaje: 72
     },
     {
       valor: 2.3,
-      etiqueta: 'MZ 6',
+      etiqueta: 'Macrozona 6',
       xPorcentaje: 67,
       yPorcentaje: 20
     },
     {
       valor: 2.3,
-      etiqueta: 'Pto. Cisne',
+      etiqueta: 'Macrozona 7',
       xPorcentaje: 87,
       yPorcentaje: 25
     },
     {
       valor: 2.3,
-      etiqueta: 'MZ 8',
+      etiqueta: 'Macrozona 8',
       xPorcentaje: 75,
       yPorcentaje: 65
     }
@@ -67,11 +67,21 @@ const ProteccionMacrozonas = () => {
         IMVIXA en cada macrozona X y XI regiones
       </p>
       <div className="ProteccionMacrozonas__contenedor_mapa">
+        <div className="ProteccionMacrozonas__leyenda">
+          <div
+            className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
+            style={{ '--fondo': 'var(--color-gris-4)' }}
+          /> Pines grises
+          <div
+            className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
+            style={{ '--fondo': 'var(--color-amarillo)' }}
+          /> Pines amarillos
+        </div>
         <img className="ProteccionMacrozonas__mapa" src={mapa} alt="Mapa" />
         <div className="ProteccionMacrozonas__separador_mapa" />
-        {pinesPintados.map((pin, i) => (
+        {pinesPintados.map(pin => (
           <div
-            key={`pin-mapa-${i}`}
+            key={`pin-mapa-${pin.etiqueta}`}
             className="ProteccionMacrozonas__pin"
             style={{
               left: `${pin.xPorcentaje}%`,

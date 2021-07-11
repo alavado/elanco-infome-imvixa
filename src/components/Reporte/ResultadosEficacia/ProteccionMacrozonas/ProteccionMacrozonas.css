@@ -21,6 +21,15 @@
   width: 100%;
 }
 
+.ProteccionMacrozonas__leyenda {
+  position: absolute;
+  left: 12rem;
+  display: grid;
+  grid-template: auto auto / auto auto;
+  place-items: center start;
+  font-size: .8rem;
+}
+
 .ProteccionMacrozonas__pin {
   position: absolute;
   width: 2rem;
@@ -36,6 +45,12 @@
   font-weight: bold;
 }
 
+.ProteccionMacrozonas__pin--leyenda {
+  position: relative;
+  transform: scale(.5);
+  top: -.15rem;
+}
+
 .ProteccionMacrozonas__pin::after {
   content: '';
   position: absolute;
@@ -49,10 +64,13 @@
 .ProteccionMacrozonas__pin_etiqueta {
   position: absolute;
   top: calc(100% + 1.5rem);
-  left: -50%;
+  left: -4.25rem;
   font-size: .72rem;
   line-height: 1.15;
+  width: 10rem;
+  text-align: center;
   mix-blend-mode: multiply;
+  text-shadow: .025rem .025rem .025rem rgba(0, 0, 0, .35);
 }
 
 .ProteccionMacrozonas__separador_mapa {
