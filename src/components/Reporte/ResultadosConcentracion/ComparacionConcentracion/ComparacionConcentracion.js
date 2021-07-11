@@ -51,21 +51,46 @@ const ComparacionConcentracion = () => {
         Comparación concentración (ppb) 
         en músculo
       </p>
-      <div
-        className="ComparacionConcentracion__contenedor_grafico"
-        style={{
-          '--filas': datos.length,
-          '--columnas': separaciones
-        }}
-      >
-        {datos.map(d => (
-          <div key={`etiqueta-${d.nombre}`}>
-            {d.nombre}
+      <div className="ComparacionConcentracion__contenedor_grafico">
+        {[...datos, { nombre: '' }].map(d => (
+          <div className="ComparacionConcentracion__categoria">
+            <div className="ComparacionConcentracion__etiqueta_categoria">{d.nombre}</div>
+            {d.nombre &&
+              <div
+                className="ComparacionConcentracion__contenedor_caja"
+                style={{
+                  left: `calc(19% + ${100 * d.min / xMax}%)`,
+                  right: `calc(2% + ${100 * (xMax- d.max) / xMax}%)`,
+                }}
+              >
+                <div
+                  className="ComparacionConcentracion__bigote_inferior"
+                  style={{ width: `${100 * (d.promedio - d.iqr - d.min) / xMax}%` }}
+                />
+                <div
+                  className="ComparacionConcentracion__caja"
+                >
+                  {d.promedio}
+                </div>
+                <div
+                  className="ComparacionConcentracion__bigote_superior"
+                  style={{ width: `${100 * (d.max - d.iqr - d.promedio) / xMax}%` }}
+                />
+              </div>
+            }
+            {Array(separaciones).fill(0).map(s => (
+              <div className="ComparacionConcentracion__separacion" />
+            ))}
           </div>
         ))}
-        {Array(separaciones * datos.length).fill('').map((_, i) => (
-          <div className="ComparacionConcentracion__celda" key={`celda-comcon-${i}`} />
-        ))}
+        <div className="ComparacionConcentracion__valores">
+          <div className="ComparacionConcentracion__etiqueta_categoria" />
+          {Array(separaciones).fill(0).map((_, i) => (
+            <div className="ComparacionConcentracion__valor">
+              {i % 2 > 0 ? '' : i}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
