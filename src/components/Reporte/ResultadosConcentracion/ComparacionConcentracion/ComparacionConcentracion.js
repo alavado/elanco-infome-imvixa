@@ -2,6 +2,9 @@ import './ComparacionConcentracion.css'
 
 const ComparacionConcentracion = () => {
 
+  const inicio = 'Abril \'21', fin = 'Mayo \'21'
+  const periodo = 'últimos 5Q'
+
   const datos = [
     {
       nombre: 'Industria',
@@ -91,6 +94,10 @@ const ComparacionConcentracion = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="ComparacionConcentracion__bajada">
+        <p>Industria y Empresa: promedio {periodo}</p>
+        <p>Pisciculturas: promedio {inicio} - {fin}</p>
       </div>
     </div>
   )
