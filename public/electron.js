@@ -91,7 +91,7 @@ const reporteAPDF = async () => {
       marginsType: 1,
       pageSize: {
         width: 25400 * 50.0,
-        height: 25400 * 91.5
+        height: 25400 * 90.75
       }
     })
     fs.writeFileSync(path.join(app.getPath('desktop'), 'Informe Seguimiento Imvixa.pdf'), data)
