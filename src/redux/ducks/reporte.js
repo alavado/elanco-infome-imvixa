@@ -61,8 +61,8 @@ const slice = createSlice({
     },
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path
-      state.datosAlimento = action.payload.datos.datosAlimento
-      const empresas = action.payload.datos.datosAlimento
+      state.datosAlimento = action.payload.datos
+      const empresas = action.payload.datos
         .map((r) => r[colEmpresaAlimento])
         .filter(onlyUnique)
       state.empresas = [
