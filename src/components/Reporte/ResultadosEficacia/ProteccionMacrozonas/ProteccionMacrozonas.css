@@ -80,3 +80,13 @@
   left: 0;
   border-right: .2rem dotted var(--color-gris-4);
 }
+
+.ProteccionMacrozonas__indicador_general {
+  position: absolute;
+  top: .25rem;
+  right: 3rem;
+  z-index: 2;
+  font-weight: 300;
+  color: var(--color-gris-4);
+  font-size: .9rem;
+}

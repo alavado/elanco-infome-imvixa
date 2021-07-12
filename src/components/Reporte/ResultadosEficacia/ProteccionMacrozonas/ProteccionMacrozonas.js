@@ -3,6 +3,8 @@ import './ProteccionMacrozonas.css'
 
 const ProteccionMacrozonas = () => {
 
+  const indicadorGeneral = 'IPromedio últimos 5Q o X semestres'
+
   const pines = [
     {
       valor: 0.6,
@@ -76,6 +78,9 @@ const ProteccionMacrozonas = () => {
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
             style={{ '--fondo': 'var(--color-amarillo)' }}
           /> Pines amarillos
+        </div>
+        <div className="ProteccionMacrozonas__indicador_general">
+          {indicadorGeneral}
         </div>
         <img className="ProteccionMacrozonas__mapa" src={mapa} alt="Mapa" />
         <div className="ProteccionMacrozonas__separador_mapa" />
