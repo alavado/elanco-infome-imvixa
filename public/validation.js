@@ -1,9 +1,11 @@
 var XLSX = require("xlsx");
 
-const headerAlimentos = ["Estado", "Fecha de Fabricación", "year", "Cliente", "Codigo Elanco", "Codigo Imvixa Tools", "N° informe", "Receta", "Piscicultura", "Fabricante", "Lote/Batch", "Concentración (kg med/ton pt)", "Concentración Objetivo (ppm)", "Calibre", "N° de Muestras", "Fecha Informe", "Laboratorio", "Muestra 1", "Muestra 2", "Muestra 3", "Muestra 4", "Promedio (ppm)", "Desviacion Estandar (ppm)", "Coeficiente de variacion (%)", "Cumplimiento (Logrado/Intentado)"]
-const headerPMV = ["Empresa", "PMV", "Fecha PMV/fab. Medicado", "Year_month_Pmv", "Month_pmv", "Piscicultura", "Tipo de Piscicultura", "Especie", "Año Inicio Siembra", "n Peces tratados FW", "Siep"]
-const headerPeces = ["Status", "Sampling date", "Year", "Report id.", "Elanco id.", "1st day of treatment", "Last day of treatment", "Company", "Sea site of destination", "Hatchery of origin", "Sample Origin", "tank/sea cage", "degree days", "PMV", "Lote Alimento 1", "Fish no.", "Imvixa [ ] in fillet (ppb)", "Fish Length (cm)", "Fish body weight (g)", "k", "Specie"]
-const headerEficacia = ["Empresa", "Centro", "Barrio", "Inicio siembra", "Termino siembra", "Año de siembra", "Macrozona", "Región", "Termino Eficacia", "Meses sin bañar", "Fecha tto", "Días al 1er tto", "Mes hasta 1er baño (días/30,4)", "Semana cultivo Tratamiento"]
+const headerAlimentos = ["estado", "company_code", "hatchery_code", "cantidad_programada_por_receta_kg", "cumplimiento_logrado_intentado", "n_de_muestras", "fecha_de_fabricacion", "fabricante"]
+const estadoAlimento = headerAlimentos[0]
+const headerPMV = []
+const headerPeces = ["elanco_id", "company_code", "hatchery_code", "seasite_code", "sampling_date", "sample_origin", "tank_sea_cage", "peso_al_inicio_tto", "fish_no", "imvixa_in_fillet_ppb", "fish_length_cm", "fish_body_weight_g"]
+const estadoPeces = headerPeces[0]
+const headerEficacia = ["company_code","seasite_code", "inicio_siembra", "macrozona", "region", "mes_hasta_1er_bano_dias_30_4"]
 
 const checkAlimento = wb => {
   // abrir hoja Alimento
@@ -15,10 +17,13 @@ const checkAlimento = wb => {
   const headerJson = Object.keys(alimentoJson[0])
   // Revisar que tenga las columnas de alimento
   if (!headerAlimentos.every(element => headerJson.includes(element))) {
+    console.log(headerJson)
+    console.log(headerAlimentos)
+    console.log(alimentoJson.length)
     throw Error("Hoja alimento no tiene las columnas necesarias")
   }
-  // Filtrar datos por Estado Reportado
-  const alimentoJsonReportado = alimentoJson.filter(row => row['Estado'] === 'Reportado')
+  // Filtrar datos por estado Reportado
+  const alimentoJsonReportado = alimentoJson.filter(row => row[estadoAlimento] === 'Reportado')
   if (alimentoJsonReportado.length < 1) {
     throw Error("Hoja Alimento no tiene datos válidos")
   }
@@ -51,15 +56,15 @@ const checkPeces = wb => {
   if (!headerPeces.every(element => headerJson.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias")
   }
-  const pecesJsonReportado = pecesJson.filter(row => row['Status'] === 'Reportado')
-  if (pecesJsonReportado.length < 1) {
-    throw Error("Hoja Peces no tiene datos válidos")
-  }
-  return pecesJsonReportado
+  // const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
+  // if (pecesJsonReportado.length < 1) {
+  //   throw Error("Hoja Peces no tiene datos válidos")
+  // }
+  return pecesJson // pecesJsonReportado
 };
 
 const checkEficacia = wb => {
-  const eficaciaJson = XLSX.utils.sheet_to_json(wb.Sheets['Sheet1'])
+  const eficaciaJson = XLSX.utils.sheet_to_json(wb.Sheets['Sheet 1'])
   // Revisar que tenga datos
   if (eficaciaJson.length < 1) {
     throw Error("Planilla Eficacia no tiene datos")

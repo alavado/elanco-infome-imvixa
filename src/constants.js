@@ -1,10 +1,10 @@
 
 // Columnas para filtrar hoja alimento
-export const colEmpresaAlimento = "Cliente"
-export const colFechaAlimento = "Fecha de Fabricación"
-export const colNMuestrasAlimento = "N° de Muestras"
-export const colCumplimiento = "Cumplimiento (Logrado/Intentado)"
-export const colPlanta = "Fabricante"
+export const colEmpresaAlimento = "company_code"
+export const colFechaAlimento = "fecha_de_fabricacion"
+export const colNMuestrasAlimento = "n_de_muestras"
+export const colCumplimiento = "cumplimiento_logrado_intentado"
+export const colPlanta = "fabricante"
 
 // Columnas para filtrar hoja pmv
 export const colEmpresaPMV = "Empresa"
@@ -15,14 +15,16 @@ export const tipoRecPMV = "Recirculación"
 export const tipoFAPMV = "Flujo Abierto"
 
 // Columnas para filtrar hoja peces
-export const colEmpresaPeces = "Company"
-export const colFechaPeces = "Sampling date"
-export const colPiscicultura = "Hatchery of origin"
-export const colPeso1 = "Peso al Inicio Tto"
-export const colPeso2 = "Fish body weight (g)"
-export const colPPB = "Imvixa [ ] in fillet (ppb)"
+export const colEmpresaPeces = "company_code"
+export const colFechaPeces = "sampling_date"
+export const colPiscicultura = "hatchery_code"
+export const colPeso1 = "peso_al_inicio_tto"
+export const colPeso2 = "fish_body_weight_g"
+export const colPPB = "imvixa_in_fillet_ppb"
 
 // Columnas para filtrar hoja eficacia
-export const colEmpresaEficacia = "Empresa"
-export const colFechaEficacia = "Inicio siembra"
+export const colEmpresaEficacia = "company_code"
+export const colFechaEficacia = "inicio_siembra"
+export const colMacrozonaEficacia = "macrozona"
+export const colEficaciaEficacia = "mes_hasta_1er_bano_dias_30_4"
 

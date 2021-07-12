@@ -1,0 +1,13 @@
+
+
+
+- check preguntas patricio alfaflux
+- hacer reporte con agregado de todas las empresas
+- grafico macrozona completar
+- agregar al informe rango de datos reales
+- limpiar funcion en tabla resumen extraer metodo
+- datos reales
+- localstorage de planillas ultima vez usadas
+- completar headers PMV en validation
+- agregar status a validation alimento si es que patricio da el ok a la pregunta, tambien a peces
+- fix bug primer elemento del validation es referencia

@@ -23,7 +23,6 @@ const FormPlanillas = () => {
   const dispatch = useDispatch();
 
   const leerPlanilla = async (tipo, path) => {
-    console.log(path)
     if (path) {
       const data = ipcRenderer.send("leer", { tipo, path });
     }
@@ -34,6 +33,7 @@ const FormPlanillas = () => {
   ))
 
   ipcRenderer.once("alimento", async (e, data) => {
+    console.log(data)
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioAlimento())

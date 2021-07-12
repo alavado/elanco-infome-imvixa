@@ -5,6 +5,7 @@ import {
   filtrarDatosPMV,
   filtrarDatosEficacia,
   filtrarDatosPeces } from "./utilities"
+import { colEmpresaAlimento  } from '../../constants'
 
 const today = new Date()
 const slice = createSlice({
@@ -61,8 +62,9 @@ const slice = createSlice({
       state.planillaAlimento = action.payload.path
       state.datosAlimento = action.payload.datos.datosAlimento
       state.datosPMV = action.payload.datos.datosPMV
-      const empresas = state.datosAlimento
-        .map((r) => r.Cliente)
+      console.log(action.payload.datos.datosAlimento)
+      const empresas = action.payload.datos.datosAlimento
+        .map((r) => r[colEmpresaAlimento])
         .filter(onlyUnique)
       state.empresas = [
         { value: "Todas", label: "Todas" },
