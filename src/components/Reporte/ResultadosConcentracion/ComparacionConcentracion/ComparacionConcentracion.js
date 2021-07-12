@@ -90,7 +90,7 @@ const ComparacionConcentracion = () => {
           <div className="ComparacionConcentracion__etiqueta_categoria" />
           {Array(separaciones).fill(0).map((_, i) => (
             <div className="ComparacionConcentracion__valor">
-              {i % 2 > 0 ? '' : i}
+              {i % 2 > 0 ? '' : (i * xMax / separaciones)}
             </div>
           ))}
         </div>

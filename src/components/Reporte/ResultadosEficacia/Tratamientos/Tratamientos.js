@@ -5,62 +5,65 @@ export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 
 const Tratamientos = () => {
 
+  const promedioIndustria = '7 meses'
+  const promedioEmpresa = '8,8 meses'
+
   const datos = [
     {
-      nombre: '1',
+      nombre: 'Pisc. 1',
       valor: 5.86,
       tratamiento: TRATAMIENTOS_IMVIXA
     },
     {
-      nombre: '2',
+      nombre: 'Pisc. 2',
       valor: 5.66,
       tratamiento: TRATAMIENTOS_IMVIXA
     },
     {
-      nombre: '3',
+      nombre: 'Pisc. 3',
       valor: 7.27,
       tratamiento: TRATAMIENTOS_IMVIXA
     },
     {
-      nombre: '4',
+      nombre: 'Pisc. 4',
       valor: 8.39,
       tratamiento: TRATAMIENTOS_IMVIXA
     },
     {
-      nombre: '5',
+      nombre: 'Pisc. 5',
       valor: 7.63,
       tratamiento: TRATAMIENTOS_IMVIXA
     },
     {
-      nombre: '6',
+      nombre: 'Pisc. 6',
       valor: 3.72,
       tratamiento: TRATAMIENTOS_HEXAFLUMURON
     },
     {
-      nombre: '7',
+      nombre: 'Pisc. 7',
       valor: 4.34,
       tratamiento: TRATAMIENTOS_HEXAFLUMURON
     },
     {
-      nombre: '8',
+      nombre: 'Pisc. 8',
       valor: 4.11,
       tratamiento: TRATAMIENTOS_HEXAFLUMURON
     },
     {
-      nombre: '9',
+      nombre: 'Pisc. 9',
       valor: 4.14,
       tratamiento: TRATAMIENTOS_HEXAFLUMURON
     },
     {
-      nombre: '10',
+      nombre: 'Pisc. 10',
       valor: 4.84
     },
     {
-      nombre: '11',
+      nombre: 'Pisc. 11',
       valor: 1.78
     },
     {
-      nombre: '12',
+      nombre: 'Pisc. 12',
       valor: .99
     }
   ]
@@ -76,6 +79,15 @@ const Tratamientos = () => {
         Meses hasta primer Baño
       </div>
       <div className="Tratamientos__contenedor_grafico">
+        <div className="Tratamientos__promedios">
+          <p>Promedio Industria: {promedioIndustria}</p>
+          <p>Promedio Empresa: {promedioEmpresa}</p>
+        </div>
+        <div className="Tratamientos__lineas_grafico">
+          {Array(yMaximo + 1).fill(0).map((_, i) => (
+            <div valor={yMaximo - i} key={`linea-grafico-tratamientos-${i}`} className="Tratamientos__linea_grafico" />
+          ))}
+        </div>
         <div className="Tratamientos__barras_grafico">
           {datosImvixa.map(d => (
             <div

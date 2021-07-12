@@ -14,13 +14,47 @@
 .Tratamientos__contenedor_grafico {
   flex: 1;
   display: flex;
-  padding: 2rem;
+  padding: 1.5rem 2rem 2rem 1rem;
+  position: relative;
+}
+
+.Tratamientos__lineas_grafico {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.Tratamientos__linea_grafico {
+  height: .15rem;
+  border-top: .2rem solid var(--color-gris-1);
+  flex: 1;
+  margin-left: .5rem;
+  position: relative;
+}
+
+.Tratamientos__linea_grafico:last-child {
+  border: none;
+}
+
+.Tratamientos__linea_grafico::before {
+  content: attr(valor);
+  position: absolute;
+  left: -3rem;
+  transform: translateY(-50%);
+  text-align: right;
+  width: 2rem;
+  color: var(--color-gris-4);
+  font-weight: 300;
 }
 
 .Tratamientos__barras_grafico {
   display: flex;
   flex: 1;
   gap: 1rem;
+  border-left: .2rem solid var(--color-gris-2);
+  padding-left: 1rem;
 }
 
 .Tratamientos__barra {
@@ -33,7 +67,7 @@
 
 .Tratamientos__valor_barra {
   top: -1rem;
-  font-size: .6rem;
+  font-size: .7rem;
   color: var(--color-gris-4);
   position: absolute;
 }
@@ -55,9 +89,21 @@
 }
 
 .Tratamientos__etiqueta_barra {
-  bottom: -1rem;
+  bottom: -.25rem;
   font-size: .75rem;
   color: var(--color-gris-4);
   position: absolute;
   text-align: center;
+  writing-mode: vertical-lr;
+  transform: translateY(100%) rotate(220deg);
+}
+.Tratamientos__promedios {
+  position: absolute;
+  top: 2rem;
+  right: .5rem;
+  z-index: 2;
+  font-weight: 300;
+  line-height: 3;
+  color: var(--color-gris-4);
+  font-size: .9rem;
 }
