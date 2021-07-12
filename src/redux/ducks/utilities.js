@@ -11,6 +11,10 @@ import {
   colFechaPeces
 } from '../../constants'
 
+export const localeSort = values => values.sort((a, b) => {
+  return a.localeCompare(b, 'en', { sensitivity: 'base' });
+});
+
 const esMenorQueFecha = (fecha, fechaLimite) => {
   return new Date(fecha) <= fechaLimite;
 };

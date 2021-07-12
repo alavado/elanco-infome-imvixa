@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { 
-  onlyUnique, 
+  onlyUnique,
+  localeSort,
   filtrarDatosAlimento, 
   filtrarDatosTratamiento,
   filtrarDatosEficacia,
@@ -62,9 +63,10 @@ const slice = createSlice({
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path
       state.datosAlimento = action.payload.datos
-      const empresas = action.payload.datos
+      let empresas = action.payload.datos
         .map((r) => r[colEmpresaAlimento])
         .filter(onlyUnique)
+      empresas = localeSort(empresas)
       state.empresas = [
         { value: "Todas", label: "Todas" },
         ...empresas.map((v) => {

@@ -33,9 +33,6 @@ const checkAlimento = wb => {
   }
   // Revisar que tenga las columnas de alimento
   if (!headerAlimentos.every(element => headerJson.includes(element))) {
-    console.log(alimentoJson.length)
-    console.log(headerAlimentos)
-    console.log(headerJson)
     throw Error("Hoja alimento no tiene las columnas necesarias")
   }
   // Filtrar datos por estado Reportado
