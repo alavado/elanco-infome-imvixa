@@ -30,7 +30,7 @@ const checkAlimento = wb => {
   return alimentoJsonReportado
 };
 
-const checkPMV = wb => {
+const checkTratamiento = wb => {
   // abrir hoja PMV
   const pmvJson = XLSX.utils.sheet_to_json(wb.Sheets['PMV']);
   // Revisar que tenga datos
@@ -79,7 +79,7 @@ const checkEficacia = wb => {
 
 module.exports = {
   checkAlimento,
-  checkPMV,
+  checkTratamiento,
   checkEficacia,
   checkPeces
 }

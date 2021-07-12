@@ -128,13 +128,9 @@ ipcMain.on('leer', async (event, state) => {
     switch (state.tipo) {
       case 'alimento':
         datosAlimento = validation.checkAlimento(wb)
-        datosPMV = validation.checkPMV(wb)
         event.sender.send(state.tipo, {
           path: state.path,
-          datos: {
-            datosAlimento,
-            datosPMV
-          }})
+          datos: datosAlimento})
         break
       case 'peces':
         datosPeces = validation.checkPeces(wb)
@@ -147,6 +143,12 @@ ipcMain.on('leer', async (event, state) => {
         event.sender.send(state.tipo, {
           path: state.path,
           datos: datosEficacia})
+        break
+      case 'tratamiento':
+        datosTratamiento = validation.checkTratamiento(wb)
+        event.sender.send(state.tipo, {
+          path: state.path,
+          datos: datosTratamiento})
         break
       default:
         datos = []

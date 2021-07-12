@@ -29,7 +29,7 @@ const TablaResumen = () => {
     nombreEmpresa, 
     datosFiltradosAlimento,
     datosFiltradosPeces,
-    datosFiltradosPMV
+    datosFiltradosTratamiento
   } = useSelector(state => state.reporte)
 
   const esteAño = new Date().getFullYear()
@@ -39,12 +39,12 @@ const TablaResumen = () => {
   const datosAñoPasado = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
-    pmv: datosFiltradosPMV.filter(obj => esAño(obj[colFechaPMV], añoPasado))
+    pmv: datosFiltradosTratamiento.filter(obj => esAño(obj[colFechaPMV], añoPasado))
   }
   const datosAñoActual = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
-    pmv: datosFiltradosPMV.filter(obj => esAño(obj[colFechaPMV], esteAño))
+    pmv: datosFiltradosTratamiento.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
   console.log(datosAñoPasado)
   // Calcular valores de cada fila

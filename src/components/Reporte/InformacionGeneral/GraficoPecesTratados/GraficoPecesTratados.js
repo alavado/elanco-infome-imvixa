@@ -5,12 +5,12 @@ import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 
 const GraficoPecesTratados = () => {
   const { 
-    datosFiltradosPMV,
+    datosFiltradosTratamiento,
     divisionTemporal,
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPMV, colFechaPMV, fechaFinal)
+  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosTratamiento, colFechaPMV, fechaFinal)
   // valor en millones
   const datos = datosDivididos.labels.map((nombre, index) => { return {
     nombre,

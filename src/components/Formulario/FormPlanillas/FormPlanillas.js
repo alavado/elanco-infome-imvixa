@@ -4,9 +4,11 @@ import {
   guardarPlanillaAlimento,
   guardarPlanillaEficacia,
   guardarPlanillaPeces,
+  guardarPlanillaTratamiento,
   limpiarFormularioAlimento,
   limpiarFormularioEficacia,
   limpiarFormularioPeces,
+  limpiarFormularioTratamiento,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/reporte";
 
@@ -60,10 +62,20 @@ const FormPlanillas = () => {
     }
   });
 
+  ipcRenderer.once("tratamiento", async (e, data) => {
+    if (data.datos.length === 0) {
+      dispatchErrorFormulario()
+      dispatch(limpiarFormularioTratamiento())
+    } else {
+      dispatch(guardarPlanillaTratamiento(data))
+    }
+  });
+
   const { 
     planillaAlimento, 
     planillaPeces, 
     planillaEficacia,
+    planillaTratamiento,
    } = useSelector(
     (state) => state.reporte
   );
@@ -109,6 +121,25 @@ const FormPlanillas = () => {
           accept=".csv, .xl*"
           onChange={
             (e) => leerPlanilla("alimento", e.target.files[0]?.path)
+          }
+        ></input>
+      </div>
+      <div className="FormPlanillas__planilla">
+        <label
+          htmlFor="FormPlanillas__planilla__2"
+          className="FormPlanillas__planilla__label"
+        >
+          <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
+          <div className="FormPlanillas__planilla__label__file">
+            {getShortPath(planillaTratamiento)}
+          </div>
+        </label>
+        <input
+          id="FormPlanillas__planilla__2"
+          type="file"
+          accept=".csv, .xl*"
+          onChange={
+            (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
           }
         ></input>
       </div>

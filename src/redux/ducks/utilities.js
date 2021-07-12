@@ -38,7 +38,7 @@ export const filtrarDatosAlimento = (
   return datosFiltrados;
 };
 
-export const filtrarDatosPMV = (datos, empresa, fechaInicial, fechaFinal) => {
+export const filtrarDatosTratamiento = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados = datos
   if (empresa !== "Todas") {
     datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaPMV] === empresa);

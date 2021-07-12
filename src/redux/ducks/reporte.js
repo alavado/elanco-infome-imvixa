@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { 
   onlyUnique, 
   filtrarDatosAlimento, 
-  filtrarDatosPMV,
+  filtrarDatosTratamiento,
   filtrarDatosEficacia,
   filtrarDatosPeces } from "./utilities"
 import { colEmpresaAlimento  } from '../../constants'
@@ -13,6 +13,7 @@ const slice = createSlice({
   initialState: {
     pasoActual: 0,
     planillaAlimento: "",
+    planillaTratamiento: "",
     planillaPeces: "",
     planillaEficacia: "",
     empresas: [{ value: "Todas", label: "Todas" }],
@@ -24,17 +25,17 @@ const slice = createSlice({
     errorFormulario: null,
     datosAlimento: null,
     datosPeces: null,
-    datosPMV: null,
+    datosTratamiento: null,
     datosEficacia: null,
     procesandoParaExportar: false,
     datosFiltradosAlimento: null,
     datosFiltradosPeces: null,
     datosFiltradosEficacia: null,
-    datosFiltradosPMV: null,
+    datosFiltradosTratamiento: null,
     datosFiltradosIndustriaAlimento: null,
     datosFiltradosIndustriaPeces: null,
     datosFiltradosIndustriaEficacia: null,
-    datosFiltradosIndustriaPMV: null,
+    datosFiltradosIndustriaTratamiento: null,
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -61,8 +62,6 @@ const slice = createSlice({
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path
       state.datosAlimento = action.payload.datos.datosAlimento
-      state.datosPMV = action.payload.datos.datosPMV
-      console.log(action.payload.datos.datosAlimento)
       const empresas = action.payload.datos.datosAlimento
         .map((r) => r[colEmpresaAlimento])
         .filter(onlyUnique)
@@ -72,7 +71,15 @@ const slice = createSlice({
           return { value: v, label: v }
         }),
       ]
-      if (state.planillaEficacia !== "" && state.planillaPeces !== "") {
+      if (state.planillaEficacia !== "" && state.planillaPeces !== "" && state.planillaTratamiento !== "") {
+        state.todasLasPlanillas = true
+      }
+      state.errorFormulario = null
+    },
+    guardarPlanillaTratamiento(state, action) {
+      state.planillaTratamiento = action.payload.path
+      state.datosTratamiento = action.payload.datos
+      if (state.planillaEficacia !== "" && state.planillaAlimento !== "" && state.planillaPeces !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -80,7 +87,7 @@ const slice = createSlice({
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path
       state.datosPeces = action.payload.datos
-      if (state.planillaEficacia !== "" && state.planillaAlimento !== "") {
+      if (state.planillaEficacia !== "" && state.planillaAlimento !== "" && state.planillaTratamiento !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -88,7 +95,7 @@ const slice = createSlice({
     guardarPlanillaEficacia(state, action) {
       state.planillaEficacia = action.payload.path
       state.datosEficacia = action.payload.datos
-      if (state.planillaPeces !== "" && state.planillaAlimento !== "") {
+      if (state.planillaPeces !== "" && state.planillaAlimento !== "" && state.planillaTratamiento !== "") {
         state.todasLasPlanillas = true
       }
       state.errorFormulario = null
@@ -100,7 +107,11 @@ const slice = createSlice({
       state.todasLasPlanillas = false
       state.planillaAlimento = ""
       state.datosAlimento = []
-      state.datosPMV = []
+    },
+    limpiarFormularioTratamiento(state, action) {
+      state.todasLasPlanillas = false
+      state.planillaTratamiento = ""
+      state.datosTratamiento = []
     },
     limpiarFormularioPeces(state, action) {
       state.todasLasPlanillas = false
@@ -125,14 +136,14 @@ const slice = createSlice({
         state.fechaInicio,
         state.fechaFinal
       )
-      state.datosFiltradosPMV = filtrarDatosPMV(
-        state.datosPMV,
+      state.datosFiltradosTratamiento = filtrarDatosTratamiento(
+        state.datosTratamiento,
         state.nombreEmpresa,
         state.fechaInicio,
         state.fechaFinal
       )
-      state.datosIndustriaPMV = filtrarDatosPMV(
-        state.datosPMV,
+      state.datosIndustriaTratamiento = filtrarDatosTratamiento(
+        state.datosTratamiento,
         "Todas",
         state.fechaInicio,
         state.fechaFinal
@@ -168,10 +179,12 @@ const slice = createSlice({
 
 export const {
   guardarPlanillaAlimento,
+  guardarPlanillaTratamiento,
   guardarPlanillaPeces,
   guardarPlanillaEficacia,
   mostrarErrorFormulario,
   limpiarFormularioAlimento,
+  limpiarFormularioTratamiento,
   limpiarFormularioPeces,
   limpiarFormularioEficacia,
   guardaNombreEmpresa,
