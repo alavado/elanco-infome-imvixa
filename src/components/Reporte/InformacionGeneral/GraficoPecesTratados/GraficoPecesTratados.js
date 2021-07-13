@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
-import { dividirDatosSegun } from '../../utilitiesReporte'
+import { dividirDatosSegun, reemplazarNullPorCero } from '../../utilitiesReporte'
 import { colFechaPMV, colNPecesPMV } from '../../../../constants'
+
 
 const GraficoPecesTratados = () => {
   const { 
@@ -14,7 +15,7 @@ const GraficoPecesTratados = () => {
   // valor en millones
   const datos = datosDivididos.labels.map((nombre, index) => { return {
     nombre,
-    valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => curr[colNPecesPMV] + prev, 0) / 100000) / 10
+    valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => reemplazarNullPorCero(curr[colNPecesPMV]) + prev, 0) / 100000) / 10
   }})
 
   if (datos.every(obj => obj.valor === 0)) {

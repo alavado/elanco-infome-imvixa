@@ -251,3 +251,8 @@ const q50 = arr => quantile(arr, .50);
 const q75 = arr => quantile(arr, .75);
 
 export const iqr = arr => q75(arr) - q25(arr)
+
+export const reemplazarNullPorCero = valor => {
+  if (valor) return valor;
+  return 0;
+};

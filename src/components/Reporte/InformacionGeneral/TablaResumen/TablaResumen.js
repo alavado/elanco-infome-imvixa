@@ -6,19 +6,22 @@ import {
   colFechaAlimento,
   colFechaPeces,
   colFechaPMV,
+  colSampleOrigin,
   colNMuestrasAlimento,
   tipoFAPMV,
   tipoRecPMV
 } from '../../../../constants'
 import { onlyUnique } from "../../../../redux/ducks/utilities"
+import { reemplazarNullPorCero } from '../../utilitiesReporte'
 
 const esAño = (fecha, año) => {
-  return new Date(fecha).getFullYear() === año;
-};
+  if (fecha) return new Date(fecha).getFullYear() === año
+  return false
+}
 
 const contarPMVSiEs = (tipo, row) => {
   if (row[colTipoPMV] === tipo) {
-    return row[colNPecesPMV];
+    return reemplazarNullPorCero(row[colNPecesPMV])
   }
   return 0
 };
@@ -46,51 +49,51 @@ const TablaResumen = () => {
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
     pmv: datosFiltradosTratamiento.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
-  console.log(datosAñoPasado)
+  console.log({datosAñoPasado})
   // Calcular valores de cada fila
   const filas = [
     [
       'N° visita piscicultura', 
       datosAñoPasado.peces
-      .filter(row => row['Sample Origin'] === 'FW')
-      .map(row => row['Sampling date'].toLocaleDateString())
+      .filter(row => row[colSampleOrigin] === 'FW')
+      .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
-      .filter(row => row['Sample Origin'] === 'FW')
-      .map(row => row['Sampling date'].toLocaleDateString())
+      .filter(row => row[colSampleOrigin] === 'FW')
+      .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
     ],
     [
       'N° visita a centros de mar', 
       datosAñoPasado.peces
-      .filter(row => row['Sample Origin'] === 'SW')
-      .map(row => row['Sampling date'].toLocaleDateString())
+      .filter(row => row[colSampleOrigin] === 'SW')
+      .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
-      .filter(row => row['Sample Origin'] === 'SW')
-      .map(row => row['Sampling date'].toLocaleDateString())
+      .filter(row => row[colSampleOrigin] === 'SW')
+      .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
     ],
     [
       'N°peces analizados en piscicultura', 
       datosAñoPasado.peces
-      .filter(row => row['Sample Origin'] === 'FW')
+      .filter(row => row[colSampleOrigin] === 'FW')
       .length, 
       datosAñoActual.peces
-      .filter(row => row['Sample Origin'] === 'FW')
+      .filter(row => row[colSampleOrigin] === 'FW')
       .length
     ],
     [
       'N°peces analizados en centros de mar', 
       datosAñoPasado.peces
-      .filter(row => row['Sample Origin'] === 'SW')
+      .filter(row => row[colSampleOrigin] === 'SW')
       .length, 
       datosAñoActual.peces
-      .filter(row => row['Sample Origin'] === 'SW')
+      .filter(row => row[colSampleOrigin] === 'SW')
       .length
     ],
     [
@@ -101,19 +104,19 @@ const TablaResumen = () => {
     [],
     [
       'N° peces tratados RAS', 
-      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs(tipoRecPMV, curr) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs(tipoRecPMV, curr) + prev, 0), 
+      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
     ]
     ,
     [
       'N° peces tratados - Flujo abierto', 
-      datosAñoPasado.pmv.reduce((prev, curr) => contarPMVSiEs(tipoFAPMV, curr) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => contarPMVSiEs(tipoFAPMV, curr) + prev, 0), 
+      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
     ],
     [
       'N° total de peces tratados', 
-      datosAñoPasado.pmv.reduce((prev, curr) => curr[colNPecesPMV] + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => curr[colNPecesPMV] + prev, 0)
+      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0), 
+      datosAñoActual.pmv.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0)
     ]
   ]
 
@@ -123,10 +126,6 @@ const TablaResumen = () => {
         Resumen {nombreEmpresa}
       </h4>
       <div className="TablaResumen__tabla">
-        {/* <div className="TablaResumen__nombre_empresa">
-          <div />
-          <div>{nombreEmpresa}</div>
-        </div> */}
         <div className="TablaResumen__encabezados">
           <div />
           {años.map(año => <div key={`encabezado-año-${año}`}>{año}</div>)}

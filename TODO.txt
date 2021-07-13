@@ -1,16 +1,15 @@
-- check preguntas patricio alfaflux
 - hacer reporte con agregado de todas las empresas
 - grafico macrozona completar
 - agregar al informe rango de datos reales
 - limpiar funcion en tabla resumen extraer metodo
 - datos reales
 - localstorage de planillas ultima vez usadas
-- completar headers PMV en validation
-- agregar status a validation alimento si es que patricio da el ok a la pregunta, tambien a peces
-- fix bug primer elemento del validation es referencia
 - agregar un boton en menu acerca de para la version
-- revisar libreria nombre de hoja
-- manejar datos faltantes
+- manejar datos faltantes 
+  - me lanza un error en TablaResumen
+  - preguntar ale que es mejor? 
+    - manejar en UI dato faltantes
+    - manejar en validation
 
 - cambiar leyenda a los pines 
 - cambiar colores 
@@ -18,4 +17,8 @@
 - Cambiar a seasite_code
 - Grafico piscicultura poner titulos en diagonal
 - arreglar maximo de graficos piscicultura 300
-- ordenar nombres de empresas alfabeticamente
+
+
+DONE
+
+- datos faltantes en n peces tratados

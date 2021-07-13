@@ -2,7 +2,7 @@ var XLSX = require("xlsx");
 
 const headerAlimentos = ["estado", "company_code", "hatchery_code", "cantidad_programada_por_receta_kg", "cumplimiento_logrado_intentado", "n_de_muestras", "fecha_de_fabricacion", "planta_code"]
 const estadoAlimento = headerAlimentos[0]
-const headerPMV = []
+const headerPMV = ["company_code", "tipo_pisc", "n_peces_tratados_fw", "fecha_pmv"]
 const headerPeces = ["elanco_id", "company_code", "hatchery_code", "seasite_code", "sampling_date", "sample_origin", "tank_sea_cage", "peso_al_inicio_tto", "fish_no", "imvixa_in_fillet_ppb", "fish_length_cm", "fish_body_weight_g"]
 const headerEficacia = ["company_code","seasite_code", "inicio_siembra", "macrozona", "region", "mes_hasta_1er_bano_dias_30_4", "hexaflumuron"]
 
