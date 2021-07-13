@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import mapa from '../../../../assets/images/mapa.svg'
 import './ProteccionMacrozonas.css'
 
 const ProteccionMacrozonas = () => {
-
+  const {
+    nombreEmpresa
+  } = useSelector((state) => state.reporte);
   const indicadorGeneral = 'IPromedio últimos 5Q o X semestres'
 
   const pines = [
@@ -73,11 +76,11 @@ const ProteccionMacrozonas = () => {
           <div
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
             style={{ '--fondo': 'var(--color-gris-4)' }}
-          /> Pines grises
+          /> Macrozona sin centros de {nombreEmpresa}
           <div
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
             style={{ '--fondo': 'var(--color-amarillo)' }}
-          /> Pines amarillos
+          /> Macrozona con centros de {nombreEmpresa}
         </div>
         <div className="ProteccionMacrozonas__indicador_general">
           {indicadorGeneral}
