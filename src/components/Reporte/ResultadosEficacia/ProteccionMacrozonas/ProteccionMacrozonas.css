@@ -23,7 +23,6 @@
 
 .ProteccionMacrozonas__leyenda {
   position: absolute;
-  left: 12rem;
   display: grid;
   grid-template: auto auto / auto auto;
   place-items: center start;

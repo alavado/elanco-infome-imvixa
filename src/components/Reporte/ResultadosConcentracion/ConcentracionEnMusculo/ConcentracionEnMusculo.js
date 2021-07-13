@@ -27,7 +27,6 @@ const ConcentracionEnMusculo = () => {
     )
   }
 
-  console.log(datosDivididos)
   const datos = datosDivididos.labels.map((nombre, index) => { 
     if (datosDivididos.datos[index].length === 0) {
       return {
@@ -39,7 +38,6 @@ const ConcentracionEnMusculo = () => {
       }
     }
     const values = datosDivididos.datos[index].map(obj => obj[colPPB] / 1000)
-    console.log({values})
     return {
       nombre,
       promedio: mean(values),
@@ -47,7 +45,6 @@ const ConcentracionEnMusculo = () => {
       max: Math.max(...values),
       min: Math.min(...values),
   }})
-  console.log({datos})
 
   // const datos = [
   //   {

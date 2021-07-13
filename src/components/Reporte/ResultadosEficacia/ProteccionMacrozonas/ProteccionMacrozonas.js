@@ -1,58 +1,84 @@
 import { useSelector } from 'react-redux';
 import mapa from '../../../../assets/images/mapa.svg'
 import './ProteccionMacrozonas.css'
+import { extraerUltimosPeriodos, groupBy, mean } from '../../utilitiesReporte'
+import { colFechaEficacia, colMacrozonaEficacia, colEficaciaEficacia } from '../../../../constants'
+import { onlyUnique } from "../../../../redux/ducks/utilities"
+
+const getEficaciaMacrozona = (datos, zona) => {
+  if (datos[zona]) return Math.round(mean(datos[zona].map(obj => obj[colEficaciaEficacia])) * 10) / 10
+  return '-'
+}
 
 const ProteccionMacrozonas = () => {
   const {
-    nombreEmpresa
+    nombreEmpresa,
+    divisionTemporal,
+    datosFiltradosEficacia,
+    datosFiltradosIndustriaEficacia,
+    fechaFinal
   } = useSelector((state) => state.reporte);
-  const indicadorGeneral = 'IPromedio últimos 5Q o X semestres'
+  const indicadorGeneral = 'IPromedio últimos 5 periodos'
+  const macrozonaEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosEficacia, colFechaEficacia, fechaFinal).map(
+    obj => obj[colMacrozonaEficacia]
+  ).filter(onlyUnique)
+  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaEficacia, colFechaEficacia, fechaFinal)
 
+  const datos = groupBy(datosGrafico, colMacrozonaEficacia)
+  console.log({macrozonaEmpresa})
   const pines = [
     {
-      valor: 0.6,
+      valor: getEficaciaMacrozona(datos, 1),
+      perteneceEmpresa: macrozonaEmpresa.includes(1),
       etiqueta: 'Macrozona 1',
       xPorcentaje: 18,
       yPorcentaje: 25
     },
     {
-      valor: 0.6,
+      valor: getEficaciaMacrozona(datos, 2),
+      perteneceEmpresa: macrozonaEmpresa.includes(2),
       etiqueta: 'Macrozona 2',
       xPorcentaje: 6,
       yPorcentaje: 35
     },
     {
-      valor: 1.6,
+      valor: getEficaciaMacrozona(datos, 3),
+      perteneceEmpresa: macrozonaEmpresa.includes(3),
       etiqueta: 'Macrozona 3',
       xPorcentaje: 15,
       yPorcentaje: 50
     },
     {
-      valor: 0.6,
+      valor: getEficaciaMacrozona(datos, 4),
+      perteneceEmpresa: macrozonaEmpresa.includes(4),
       etiqueta: 'Macrozona 4',
       xPorcentaje: 28,
       yPorcentaje: 50
     },
     {
-      valor: 0.6,
+      valor: getEficaciaMacrozona(datos, 5),
+      perteneceEmpresa: macrozonaEmpresa.includes(5),
       etiqueta: 'Macrozona 5',
       xPorcentaje: 12,
       yPorcentaje: 72
     },
     {
-      valor: 2.3,
+      valor: getEficaciaMacrozona(datos, 6),
+      perteneceEmpresa: macrozonaEmpresa.includes(6),
       etiqueta: 'Macrozona 6',
       xPorcentaje: 67,
       yPorcentaje: 20
     },
     {
-      valor: 2.3,
+      valor: getEficaciaMacrozona(datos, 7),
+      perteneceEmpresa: macrozonaEmpresa.includes(7),
       etiqueta: 'Macrozona 7',
       xPorcentaje: 87,
       yPorcentaje: 25
     },
     {
-      valor: 2.3,
+      valor: getEficaciaMacrozona(datos, 8),
+      perteneceEmpresa: macrozonaEmpresa.includes(8),
       etiqueta: 'Macrozona 8',
       xPorcentaje: 75,
       yPorcentaje: 65
@@ -62,7 +88,7 @@ const ProteccionMacrozonas = () => {
   const umbralAmarillo = 1.5
   const pinesPintados = pines.map(p => ({
     ...p,
-    color: `var(--color-${p.valor < umbralAmarillo ? 'gris-4' : 'amarillo'}`
+    color: `var(--color-${p.perteneceEmpresa ? 'amarillo' : 'gris-4' }`
   }))
 
   return (

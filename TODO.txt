@@ -1,18 +1,15 @@
-- hacer reporte con agregado de todas las empresas
 - grafico macrozona completar
+- grafico raro que falta
+- grafico alfaflux
+
+- hacer reporte con agregado de todas las empresas
 - agregar al informe rango de datos reales
 - limpiar funcion en tabla resumen extraer metodo
 - datos reales
 - localstorage de planillas ultima vez usadas
 - agregar un boton en menu acerca de para la version
-- manejar datos faltantes 
-  - me lanza un error en TablaResumen
-  - preguntar ale que es mejor? 
-    - manejar en UI dato faltantes
-    - manejar en validation
 
-- cambiar leyenda a los pines 
-- cambiar colores 
+- cambiar colores a macrozona
 
 - Cambiar a seasite_code
 - Grafico piscicultura poner titulos en diagonal

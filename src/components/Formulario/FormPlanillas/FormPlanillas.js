@@ -35,7 +35,6 @@ const FormPlanillas = () => {
   ))
 
   ipcRenderer.once("alimento", async (e, data) => {
-    console.log(data)
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioAlimento())

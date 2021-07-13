@@ -153,9 +153,7 @@ export const dividirDatosSegun = (division, datos, colFecha, fechaFinal=new Date
 const extraerUltimosM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const fechaActual = new Date(fechaFinReporte)
   const mesActual = fechaActual.getMonth()
-  console.log(fechaActual)
   const fechaNAnterior = new Date(fechaActual.getFullYear(), mesActual - (nDivisiones - 1), 1);
-  console.log(fechaNAnterior)
   return datos.filter(obj => new Date(obj[colFecha]) > fechaNAnterior)
 }
 
