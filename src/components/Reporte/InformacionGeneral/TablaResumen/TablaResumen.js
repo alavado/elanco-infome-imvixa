@@ -8,6 +8,8 @@ import {
   colFechaPMV,
   colSampleOrigin,
   colNMuestrasAlimento,
+  tipoFreshWater,
+  tipoSeaWater,
   tipoFAPMV,
   tipoRecPMV
 } from '../../../../constants'
@@ -55,12 +57,12 @@ const TablaResumen = () => {
     [
       'N° visita piscicultura', 
       datosAñoPasado.peces
-      .filter(row => row[colSampleOrigin] === 'FW')
+      .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
-      .filter(row => row[colSampleOrigin] === 'FW')
+      .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
@@ -68,12 +70,12 @@ const TablaResumen = () => {
     [
       'N° visita a centros de mar', 
       datosAñoPasado.peces
-      .filter(row => row[colSampleOrigin] === 'SW')
+      .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
-      .filter(row => row[colSampleOrigin] === 'SW')
+      .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
       .filter(onlyUnique)
       .length, 
@@ -81,19 +83,19 @@ const TablaResumen = () => {
     [
       'N°peces analizados en piscicultura', 
       datosAñoPasado.peces
-      .filter(row => row[colSampleOrigin] === 'FW')
+      .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .length, 
       datosAñoActual.peces
-      .filter(row => row[colSampleOrigin] === 'FW')
+      .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .length
     ],
     [
       'N°peces analizados en centros de mar', 
       datosAñoPasado.peces
-      .filter(row => row[colSampleOrigin] === 'SW')
+      .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .length, 
       datosAñoActual.peces
-      .filter(row => row[colSampleOrigin] === 'SW')
+      .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .length
     ],
     [

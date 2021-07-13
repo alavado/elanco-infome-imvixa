@@ -4,6 +4,8 @@ import { groupBy } from '../../utilitiesReporte'
 import { 
   colFechaPeces, 
   colPiscicultura, 
+  colSampleOrigin,
+  tipoFreshWater,
   colPeso1, 
   colPeso2 
 } from '../../../../constants'
@@ -17,7 +19,9 @@ const GraficoPesoPromedio = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal).filter(
+    v => v[colSampleOrigin] === tipoFreshWater
+  )
   
   if (datosGrafico.length === 0) {
     return (

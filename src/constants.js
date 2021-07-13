@@ -22,6 +22,8 @@ export const colPeso1 = "peso_al_inicio_tto"
 export const colPeso2 = "fish_body_weight_g"
 export const colPPB = "imvixa_in_fillet_ppb"
 export const colSampleOrigin = "sample_origin"
+export const tipoFreshWater = "FW"
+export const tipoSeaWater = "SW"
 
 // Columnas para filtrar hoja eficacia
 export const colEmpresaEficacia = "company_code"
