@@ -17,7 +17,7 @@ const slice = createSlice({
     planillaTratamiento: "",
     planillaPeces: "",
     planillaEficacia: "",
-    empresas: [{ value: "Todas", label: "Todas" }],
+    empresas: [],//[{ value: "Todas", label: "Todas" }],
     nombreEmpresa: "",
     divisionTemporal: "trimestral",
     fechaInicio: null,
