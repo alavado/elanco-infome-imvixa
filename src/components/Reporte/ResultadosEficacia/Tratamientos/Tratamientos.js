@@ -89,8 +89,9 @@ const Tratamientos = () => {
           ))}
         </div>
         <div className="Tratamientos__barras_grafico">
-          {datosImvixa.map(d => (
+          {datosImvixa.map((d, i) => (
             <div
+              key={`barra-tratamientos-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--imvixa"
             >
@@ -99,8 +100,9 @@ const Tratamientos = () => {
             </div>
           ))}
           <div className="Tratamientos__separador_grupo_barras" />
-          {datosHexa.map(d => (
+          {datosHexa.map((d, i) => (
             <div
+              key={`separador-tratamientos-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--hexa"
             >

@@ -70,8 +70,8 @@ const ComparacionConcentracion = () => {
         en músculo
       </p>
       <div className="ComparacionConcentracion__contenedor_grafico">
-        {[...datos, { nombre: '' }].map(d => (
-          <div className="ComparacionConcentracion__categoria">
+        {[...datos, { nombre: '' }].map((d, i) => (
+          <div key={`categoria-cc-${i}`} className="ComparacionConcentracion__categoria">
             <div className="ComparacionConcentracion__etiqueta_categoria">{d.nombre}</div>
             {d.nombre &&
               <div
@@ -88,7 +88,7 @@ const ComparacionConcentracion = () => {
                 <div
                   className="ComparacionConcentracion__caja"
                 >
-                  {d.promedio}
+                  {d.promedio}M
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"
@@ -96,8 +96,8 @@ const ComparacionConcentracion = () => {
                 />
               </div>
             }
-            {Array(separaciones).fill(0).map(s => (
-              <div className="ComparacionConcentracion__separacion" />
+            {Array(separaciones).fill(0).map((_, i) => (
+              <div key={`sep-cc-${i}`} className="ComparacionConcentracion__separacion" />
             ))}
           </div>
         ))}

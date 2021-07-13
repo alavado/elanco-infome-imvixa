@@ -88,6 +88,7 @@
   padding-right: .5rem;
   transform: translateY(7.5%);
   color: var(--color-gris-4);
+  font-weight: 300;
 }
 
 .ComparacionConcentracion__separacion {
