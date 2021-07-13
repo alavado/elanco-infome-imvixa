@@ -82,7 +82,7 @@ const CumplimientoConcentracion = () => {
   //   }
   // ]
 
-  const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.promedio), 0))
+  const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
   const yMax = Math.max(100, 10 * Math.ceil(vMax / tick))

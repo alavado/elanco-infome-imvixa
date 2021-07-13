@@ -52,7 +52,7 @@ const GraficoPesoPromedio = () => {
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.valor), Infinity))
   const tick = Math.pow(10, Math.floor(Math.log10(vMin))) / 10
-  const yMin = 10 * Math.floor(vMin / tick)
+  const yMin = 0 * Math.floor(vMin / tick)
   const yMax = 10 * Math.ceil(vMax / tick)
   const yLineas = [...Array(Math.round(1 + (yMax - yMin) / tick)).fill(0).map((_, i) => yMin + tick * i)].reverse()
 

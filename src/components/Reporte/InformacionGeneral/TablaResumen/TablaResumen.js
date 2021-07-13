@@ -54,7 +54,7 @@ const TablaResumen = () => {
   // Calcular valores de cada fila
   const filas = [
     [
-      'N° visita piscicultura', 
+      'N° visitas piscicultura', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
@@ -67,7 +67,7 @@ const TablaResumen = () => {
       .length, 
     ],
     [
-      'N° visita a centros de mar', 
+      'N° visitas a centros de mar', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .map(row => row[colFechaPeces].toLocaleDateString())
@@ -80,7 +80,7 @@ const TablaResumen = () => {
       .length, 
     ],
     [
-      'N°peces analizados en piscicultura', 
+      'N° peces analizados en piscicultura', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .length, 
@@ -89,7 +89,7 @@ const TablaResumen = () => {
       .length
     ],
     [
-      'N°peces analizados en centros de mar', 
+      'N° peces analizados en centros de mar', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .length, 

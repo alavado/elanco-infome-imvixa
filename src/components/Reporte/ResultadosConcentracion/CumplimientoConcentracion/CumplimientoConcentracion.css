@@ -12,7 +12,6 @@
   line-height: 1.15;
 }
 
-
 .CumplimientoConcentracion__etiqueta_eje_y {
   font-weight: 300;
   color: var(--color-gris-4);
@@ -29,7 +28,6 @@
   flex: 1;
   position: relative;
   margin-left: 2.5rem;
-  max-height: 50%;
 }
 
 .CumplimientoConcentracion__contenedor_grafico__error {

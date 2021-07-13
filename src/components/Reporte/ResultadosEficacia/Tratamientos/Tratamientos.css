@@ -95,8 +95,10 @@
   position: absolute;
   text-align: center;
   writing-mode: vertical-lr;
+  font-weight: 300;
   transform: translateY(100%) rotate(220deg);
 }
+
 .Tratamientos__promedios {
   position: absolute;
   top: 2rem;
