@@ -68,7 +68,7 @@ const slice = createSlice({
         .filter(onlyUnique)
       empresas = localeSort(empresas)
       state.empresas = [
-        { value: "Todas", label: "Todas" },
+        //{ value: "Todas", label: "Todas" },
         ...empresas.map((v) => {
           return { value: v, label: v }
         }),
