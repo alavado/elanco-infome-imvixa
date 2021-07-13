@@ -18,7 +18,7 @@ const ProteccionMacrozonas = () => {
     datosFiltradosIndustriaEficacia,
     fechaFinal
   } = useSelector((state) => state.reporte);
-  const indicadorGeneral = 'IPromedio últimos 5 periodos'
+  const indicadorGeneral = '*Promedio últimos 5 periodos'
   const macrozonaEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosEficacia, colFechaEficacia, fechaFinal).map(
     obj => obj[colMacrozonaEficacia]
   ).filter(onlyUnique)

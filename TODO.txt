@@ -1,6 +1,7 @@
-- grafico macrozona completar
 - grafico raro que falta
 - grafico alfaflux
+  - sacar datos que estan en eficacia
+  - encontrar filas que fueron tratadas y no estan en eficacia
 
 - hacer reporte con agregado de todas las empresas
 - agregar al informe rango de datos reales

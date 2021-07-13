@@ -82,8 +82,8 @@
 
 .ProteccionMacrozonas__indicador_general {
   position: absolute;
-  top: .25rem;
-  right: 3rem;
+  bottom: -1rem;
+  right: 0rem;
   z-index: 2;
   font-weight: 300;
   color: var(--color-gris-4);
