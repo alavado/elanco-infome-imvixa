@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import mapa from '../../../../assets/images/mapa.svg'
 import './ProteccionMacrozonas.css'
-import { extraerUltimosPeriodos, groupBy, mean } from '../../utilitiesReporte'
+import { extraerUltimosPeriodos, groupBy, mean, divisionTemporalALetra } from '../../utilitiesReporte'
 import { colFechaEficacia, colMacrozonaEficacia, colEficaciaEficacia } from '../../../../constants'
 import { onlyUnique } from "../../../../redux/ducks/utilities"
 
@@ -18,17 +18,17 @@ const ProteccionMacrozonas = () => {
     datosFiltradosIndustriaEficacia,
     fechaFinal
   } = useSelector((state) => state.reporte);
-  const indicadorGeneral = '*Promedio últimos 5 periodos'
+  
   const macrozonaEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosEficacia, colFechaEficacia, fechaFinal).map(
     obj => obj[colMacrozonaEficacia]
-  ).filter(onlyUnique)
-  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaEficacia, colFechaEficacia, fechaFinal)
-
-  const datos = groupBy(datosGrafico, colMacrozonaEficacia)
-  console.log({macrozonaEmpresa})
-  const pines = [
-    {
-      valor: getEficaciaMacrozona(datos, 1),
+    ).filter(onlyUnique)
+    const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaEficacia, colFechaEficacia, fechaFinal)
+    
+    const datos = groupBy(datosGrafico, colMacrozonaEficacia)
+    console.log({macrozonaEmpresa})
+    const pines = [
+      {
+        valor: getEficaciaMacrozona(datos, 1),
       perteneceEmpresa: macrozonaEmpresa.includes(1),
       etiqueta: 'Macrozona 1',
       xPorcentaje: 18,
@@ -84,8 +84,7 @@ const ProteccionMacrozonas = () => {
       yPorcentaje: 65
     }
   ]
-
-  const umbralAmarillo = 1.5
+  const indicadorGeneral = `*Promedio últimos 5 ${divisionTemporalALetra(divisionTemporal)}`
   const pinesPintados = pines.map(p => ({
     ...p,
     color: `var(--color-${p.perteneceEmpresa ? 'amarillo' : 'gris-4' }`
@@ -111,6 +110,13 @@ const ProteccionMacrozonas = () => {
         <div className="ProteccionMacrozonas__indicador_general">
           {indicadorGeneral}
         </div>
+        {
+        pines.every(v => v.valor !== '-')
+        ? null
+        : (<div className="ProteccionMacrozonas__indicador_general_2">
+             ** - indica macrozona sin datos disponibles
+          </div>)
+        }
         <img className="ProteccionMacrozonas__mapa" src={mapa} alt="Mapa" />
         <div className="ProteccionMacrozonas__separador_mapa" />
         {pinesPintados.map(pin => (

@@ -8,7 +8,8 @@ import {
   colFechaAlimento,
   colFechaPMV,
   colFechaEficacia,
-  colFechaPeces
+  colFechaPeces,
+  colPPB
 } from '../../constants'
 
 export const localeSort = values => values.sort((a, b) => {
@@ -81,6 +82,7 @@ export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
       esMenorQueFecha(obj[colFechaPeces], fechaFinal) &&
       esMayorQueFecha(obj[colFechaPeces], fechaInicial)
   );
+  datosFiltrados = datosFiltrados.filter(obj => obj[colPPB])
   return datosFiltrados;
 };
 
