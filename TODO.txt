@@ -1,4 +1,3 @@
-- grafico raro que falta
 - grafico alfaflux
   - sacar datos que estan en eficacia
   - encontrar filas que fueron tratadas y no estan en eficacia
@@ -23,5 +22,12 @@ filtrar por tipoFreshWater
 DONE
 
 - datos faltantes en n peces tratados
+
+
+
+
+Patricio check
 - decision de diseño saqué filas con nan en PPB en planilla peces
+- decision de diseño promedio industria no considera pisciculturas sin baños
 - que pasa con ppb piscicultura 9 en c11
+- inicio_siembra en eficacia esta bien filtrar 18 meses

@@ -1,71 +1,109 @@
 import './Tratamientos.css'
-
+import { extraerUltimosPeriodos, groupBy, mean, divisionTemporalALetra } from '../../utilitiesReporte'
+import { 
+  colFechaEficacia, 
+  colCentroEficacia, 
+  colEficaciaEficacia, 
+  colHexaEficacia,
+  colFechaPeces,
+  colCentroPeces
+} from '../../../../constants'
+import { useSelector } from 'react-redux'
 export const TRATAMIENTOS_IMVIXA = 'Imvixa'
 export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 
+const getEficacia = (datos, decimales) => {
+  return Math.round(mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)) / Math.pow(10, decimales)
+}
+
+const getEficaciaSegunFecha = (datos, centro, colFecha, fechaFinal) => {
+  const diffTime = Math.abs(fechaFinal - new Date(datos[centro][colFecha]))
+  if (diffTime < 0) return 0
+
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.5)); 
+  return Math.round(diffDays * 100) / 100 
+}
+
 const Tratamientos = () => {
 
-  const promedioIndustria = '7 meses'
-  const promedioEmpresa = '8,8 meses'
+  const {
+    datosFiltradosEficacia,
+    datosFiltradosPeces,
+    datosFiltradosIndustriaEficacia,
+    fechaFinal
+  } = useSelector((state) => state.reporte)
 
+  // ultimos 18 meses (3 semestres)
+  const datosEmpresa = extraerUltimosPeriodos(
+    'semestral', 
+    datosFiltradosEficacia, 
+    colFechaEficacia, 
+    fechaFinal,
+    3)
+  // ultimos 18 meses (3 semestres)
+  const datosIndustria = extraerUltimosPeriodos(
+      'semestral', 
+      datosFiltradosIndustriaEficacia, 
+      colFechaEficacia, 
+      fechaFinal,
+      3)
+
+  const promedioIndustria = `${getEficacia(datosIndustria, 1)} meses`
+  const promedioEmpresa = `${getEficacia(datosEmpresa, 1)} meses`
+  
+  const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
+  const datosSinHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si'), colCentroEficacia)
+  
+  // ultimos 2 años (4 semestres)
+  const datosTratados = extraerUltimosPeriodos(
+    'semestral', 
+    datosFiltradosPeces, 
+    colFechaPeces, 
+    fechaFinal,
+    4)
+    
+  let datosTratadosGrouped = groupBy(datosTratados, colCentroPeces)
+  datosTratadosGrouped = {
+    ...Object.keys(datosTratadosGrouped).reduce((prev, centro) => { return {
+      ...prev,
+      [centro] : datosTratadosGrouped[centro][0]
+  }}, {})
+  }
+  const centrosSinTratamiento = Object.keys(datosTratadosGrouped).filter(centro => !(datosConHex[centro] || datosSinHex[centro]))
+  console.log({datosTratadosGrouped})
   const datos = [
-    {
-      nombre: 'Pisc. 1',
-      valor: 5.86,
-      tratamiento: TRATAMIENTOS_IMVIXA
-    },
-    {
-      nombre: 'Pisc. 2',
-      valor: 5.66,
-      tratamiento: TRATAMIENTOS_IMVIXA
-    },
-    {
-      nombre: 'Pisc. 3',
-      valor: 7.27,
-      tratamiento: TRATAMIENTOS_IMVIXA
-    },
-    {
-      nombre: 'Pisc. 4',
-      valor: 8.39,
-      tratamiento: TRATAMIENTOS_IMVIXA
-    },
-    {
-      nombre: 'Pisc. 5',
-      valor: 7.63,
-      tratamiento: TRATAMIENTOS_IMVIXA
-    },
-    {
-      nombre: 'Pisc. 6',
-      valor: 3.72,
-      tratamiento: TRATAMIENTOS_HEXAFLUMURON
-    },
-    {
-      nombre: 'Pisc. 7',
-      valor: 4.34,
-      tratamiento: TRATAMIENTOS_HEXAFLUMURON
-    },
-    {
-      nombre: 'Pisc. 8',
-      valor: 4.11,
-      tratamiento: TRATAMIENTOS_HEXAFLUMURON
-    },
-    {
-      nombre: 'Pisc. 9',
-      valor: 4.14,
-      tratamiento: TRATAMIENTOS_HEXAFLUMURON
-    },
-    {
-      nombre: 'Pisc. 10',
-      valor: 4.84
-    },
-    {
-      nombre: 'Pisc. 11',
-      valor: 1.78
-    },
-    {
-      nombre: 'Pisc. 12',
-      valor: .99
-    }
+    ...Object.keys(datosSinHex).map(nombre => {
+      return {
+        nombre,
+        valor: getEficacia(datosSinHex[nombre], 2),
+        tratamiento: TRATAMIENTOS_IMVIXA
+      }
+    }),
+    ...Object.keys(datosConHex).map(nombre => {
+      return {
+        nombre,
+        valor: getEficacia(datosConHex[nombre], 2),
+        tratamiento: TRATAMIENTOS_HEXAFLUMURON
+      }
+    }),
+    ...centrosSinTratamiento.map(nombre => {
+      return {
+        nombre,
+        valor: getEficaciaSegunFecha(datosTratadosGrouped, nombre, colFechaPeces, fechaFinal)
+      }
+    })
+    // {
+    //   nombre: 'Pisc. 10',
+    //   valor: 4.84
+    // },
+    // {
+    //   nombre: 'Pisc. 11',
+    //   valor: 1.78
+    // },
+    // {
+    //   nombre: 'Pisc. 12',
+    //   valor: .99
+    // }
   ]
 
   const yMaximo = Math.ceil(Math.max(...datos.map(d => d.valor)) + 2)

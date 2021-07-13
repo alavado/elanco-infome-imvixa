@@ -17,18 +17,26 @@ const ProteccionMacrozonas = () => {
     datosFiltradosEficacia,
     datosFiltradosIndustriaEficacia,
     fechaFinal
-  } = useSelector((state) => state.reporte);
+  } = useSelector((state) => state.reporte)
   
-  const macrozonaEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosEficacia, colFechaEficacia, fechaFinal).map(
-    obj => obj[colMacrozonaEficacia]
+  const macrozonaEmpresa = extraerUltimosPeriodos(
+    divisionTemporal, 
+    datosFiltradosEficacia, 
+    colFechaEficacia, 
+    fechaFinal).map(
+      obj => obj[colMacrozonaEficacia]
     ).filter(onlyUnique)
-    const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaEficacia, colFechaEficacia, fechaFinal)
     
-    const datos = groupBy(datosGrafico, colMacrozonaEficacia)
-    console.log({macrozonaEmpresa})
-    const pines = [
-      {
-        valor: getEficaciaMacrozona(datos, 1),
+  const datosGrafico = extraerUltimosPeriodos(
+    divisionTemporal, 
+    datosFiltradosIndustriaEficacia, 
+    colFechaEficacia, 
+    fechaFinal)
+    
+  const datos = groupBy(datosGrafico, colMacrozonaEficacia)
+  const pines = [
+    {
+      valor: getEficaciaMacrozona(datos, 1),
       perteneceEmpresa: macrozonaEmpresa.includes(1),
       etiqueta: 'Macrozona 1',
       xPorcentaje: 18,
