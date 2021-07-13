@@ -1,46 +1,61 @@
+import { useSelector } from 'react-redux'
 import './ComparacionConcentracion.css'
+import { 
+  divisionTemporalALetra, 
+  extraerUltimosPeriodos,
+  mean,
+  iqr,
+  groupBy
+} from '../../utilitiesReporte'
+import { 
+  colFechaPeces, 
+  colPiscicultura, 
+  colEmpresaPeces, 
+  colPPB 
+} from '../../../../constants'
+
+const getBoxPlotData = (datos, nombre) => {
+  if (datos.length === 0) {
+    return {
+      nombre,
+      promedio: 0,
+      iqr: 0,
+      max: 0,
+      min: 0,
+    }
+  }
+  const values = datos.map(obj => obj[colPPB] / 1000)
+  return {
+    nombre,
+    promedio: Math.round(mean(values)),
+    iqr: iqr(values),
+    max: Math.max(...values),
+    min: Math.min(...values),
+  }
+}
 
 const ComparacionConcentracion = () => {
 
-  const inicio = 'Abril \'21', fin = 'Mayo \'21'
-  const periodo = 'últimos 5Q'
+  const { 
+    divisionTemporal,
+    datosFiltradosPeces,
+    datosFiltradosIndustriaPeces,
+    fechaFinal
+  } = useSelector(state => state.reporte)
 
+  const inicio = 'Abril \'21', fin = 'Mayo \'21'
+  const periodo = `últimos 5${divisionTemporalALetra(divisionTemporal)}`
+
+  const datosEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+  const datosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaPeces, colFechaPeces, fechaFinal)
+
+  const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
+  console.log(datosPorPiscicultura)
   const datos = [
-    {
-      nombre: 'Industria',
-      promedio: 18,
-      iqr: 5,
-      max: 34.9,
-      min: 2.5
-    },
-    {
-      nombre: 'Empresa',
-      promedio: 20,
-      iqr: 5,
-      max: 34.9,
-      min: 2.5
-    },
-    {
-      nombre: 'Río del Este',
-      promedio: 12,
-      iqr: 4,
-      max: 25,
-      min: 2.5
-    },
-    {
-      nombre: 'UPS',
-      promedio: 19,
-      iqr: 2,
-      max: 25.5,
-      min: 12.5
-    },
-    {
-      nombre: 'Río Plata',
-      promedio: 24,
-      iqr: 3,
-      max: 33,
-      min: 14
-    }
+    getBoxPlotData(datosIndustria, 'Industria'),
+    getBoxPlotData(datosEmpresa, 'Empresa'),
+    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc))
+
   ]
 
   const xMax = datos.reduce((max, d) => {

@@ -16,7 +16,12 @@
 - Grafico piscicultura poner titulos en diagonal
 - arreglar maximo de graficos piscicultura 300
 
+preguntar patricio si en grafico de concentracion en musculo
+filtrar por tipoFreshWater
+- revisar concentracion en musculo como se hace
 
 DONE
 
 - datos faltantes en n peces tratados
+- decision de diseño saqué filas con nan en PPB en planilla peces
+- que pasa con ppb piscicultura 9 en c11

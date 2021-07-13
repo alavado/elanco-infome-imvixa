@@ -254,3 +254,18 @@ export const reemplazarNullPorCero = valor => {
   if (valor) return valor;
   return 0;
 };
+
+export const divisionTemporalALetra = periodo => {
+  switch (periodo) {
+    case 'mensual':
+      return "M"
+    case 'trimestral':
+      return "Q"
+    case 'cuatrimestral':
+      return "C"
+    case 'semestral':
+      return "S"
+    default:
+      return "-"
+  }
+}
