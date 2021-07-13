@@ -39,17 +39,6 @@ function construirMenu() {
       menuItemImprimir
     ]
   }))
-  // menu.append(new MenuItem({
-  //   label: 'Ayuda',
-  //   submenu: [
-  //     new MenuItem({
-  //       label: 'Sobre la aplicación',
-  //     }),
-  //     new MenuItem({
-  //       label: 'Manual de usuario',
-  //     })
-  //   ]
-  // }))
   mainWindow.setMenu(menu)
 }
 

@@ -1,8 +1,7 @@
-- grafico alfaflux
-  - sacar datos que estan en eficacia
-  - encontrar filas que fueron tratadas y no estan en eficacia
 
 - hacer reporte con agregado de todas las empresas
+
+
 - agregar al informe rango de datos reales
 - limpiar funcion en tabla resumen extraer metodo
 - datos reales
@@ -12,12 +11,7 @@
 - cambiar colores a macrozona
 
 - Cambiar a seasite_code
-- Grafico piscicultura poner titulos en diagonal
 - arreglar maximo de graficos piscicultura 300
-
-preguntar patricio si en grafico de concentracion en musculo
-filtrar por tipoFreshWater
-- revisar concentracion en musculo como se hace
 
 DONE
 
@@ -28,6 +22,51 @@ DONE
 
 Patricio check
 - decision de diseño saqué filas con nan en PPB en planilla peces
+
 - decision de diseño promedio industria no considera pisciculturas sin baños
-- que pasa con ppb piscicultura 9 en c11
-- inicio_siembra en eficacia esta bien filtrar 18 meses
+- revisar concentracion en musculo como se hace
+
+
+
+
+------------------------------------------------------------------------------
+PROBLEMAS
+x
+
+---------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+CATA MODIFICAR 
+- preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
+ - en concentracion sacar agua de mar
+- fecha en titulo del informe
+- cambiar nombre de eje  "Gramos" - porcentaje de cumplimiento
+- en gráfico cumplimiento cambiar industria a la izquierda
+- tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
+- agregar conteo tipo "flujo abierto/rehuso", si contiene flujo abierto es flujo abierto
+- para el grafico tratamiento utilizar los bañados al grafico solo usar la planilla eficacia
+- utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
+- para calcular el promedio industria y empresa calcularlo con imvixa
+- agregar al titulo resultados de eficacia imvixa
+- todos los centros de mar
+- cual es el rango normal de concentracion ppb
+  - normalmente entre 10 y 25. 18 más probable
+- grafico promedio tratanmiento baños mes
+
+ALE MODIFICAR
+- grafico boxplot concentracion en ppb en musculo superan el limite inferior 
+- grafico promedio tratanmiento baños mes o mejor hacer igual que excel
+- redondear boxplot en la parte de abajo
+- centrar etiquetas grafico tratamientos meses hasta primer baño
+- agregar negrita a leyenda de promedios grafico meses hasta primer baño / naranja quizas
+- marcar más leyenda de promedio industria y empresas
+  - agregar backgrundcolor
+
+- cual debiese ser la leyenda en grafico de tratameintos hasta primer baño
+  -  cuadradito naranja - imvixa
+  -  cuadradito celeste -  hexaflumuron
+  -  cuadradito gris -  sin baño
+
+- grafica peso promedio es muy grueso cuando hay solo uno encuentro yo cata
+- agregar menu con version o algo asi
+
