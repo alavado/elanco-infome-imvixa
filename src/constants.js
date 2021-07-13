@@ -24,6 +24,7 @@ export const colPPB = "imvixa_in_fillet_ppb"
 export const colSampleOrigin = "sample_origin"
 export const tipoFreshWater = "FW"
 export const tipoSeaWater = "SW"
+export const colCentroPeces = "seasite_code"
 
 // Columnas para filtrar hoja eficacia
 export const colEmpresaEficacia = "company_code"
@@ -31,3 +32,4 @@ export const colFechaEficacia = "inicio_siembra"
 export const colMacrozonaEficacia = "macrozona"
 export const colEficaciaEficacia = "mes_hasta_1er_bano_dias_30_4"
 export const colHexaEficacia = "hexaflumuron"
+export const colCentroEficacia = "seasite_code"
