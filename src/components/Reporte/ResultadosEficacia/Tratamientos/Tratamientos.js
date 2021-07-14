@@ -5,30 +5,32 @@ import {
   colCentroEficacia, 
   colEficaciaEficacia, 
   colHexaEficacia,
-  colFechaPeces,
-  colCentroPeces
 } from '../../../../constants'
 import { useSelector } from 'react-redux'
 export const TRATAMIENTOS_IMVIXA = 'Imvixa'
 export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 
 const getEficacia = (datos, decimales) => {
-  return Math.round(mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)) / Math.pow(10, decimales)
+  const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
+  return Math.round(promedioEficacia) / Math.pow(10, decimales)
 }
 
-const getEficaciaSegunFecha = (datos, centro, colFecha, fechaFinal) => {
-  const diffTime = Math.abs(fechaFinal - new Date(datos[centro][colFecha]))
+const getDiferenciaMeses = (fechaFinal, fechaInicial) => {
+  const diffTime = Math.abs(fechaFinal - new Date(fechaInicial))
   if (diffTime < 0) return 0
-
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.5)); 
   return Math.round(diffDays * 100) / 100 
+}
+
+const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
+  const promedioEficacia = mean(datos.map(getDiferenciaMeses(fechaFinal, datos[colFechaEficacia])))
+  return Math.round(promedioEficacia * Math.pow(10, decimales)) / Math.pow(10, decimales)
 }
 
 const Tratamientos = () => {
 
   const {
     datosFiltradosEficacia,
-    datosFiltradosPeces,
     datosFiltradosIndustriaEficacia,
     fechaFinal
   } = useSelector((state) => state.reporte)
@@ -40,41 +42,27 @@ const Tratamientos = () => {
     colFechaEficacia, 
     fechaFinal,
     3)
-  // ultimos 18 meses (3 semestres) y filtro los que no han usado alfaflux
+  // ultimos 18 meses (3 semestres) 
+  // y filtro los que no han usado alfaflux y los que ya han reportado eficacia
   const datosIndustria = extraerUltimosPeriodos(
       'semestral', 
       datosFiltradosIndustriaEficacia, 
       colFechaEficacia, 
       fechaFinal,
-      3).filter(obj => obj[colHexaEficacia] !== 'Si')
+      3).filter(obj => obj[colHexaEficacia] !== 'Si' && obj[colEficaciaEficacia])
 
   const promedioIndustria = `${getEficacia(datosIndustria, 1)} meses`
 
-  // filtro los datos empresa los que no han usado alfaflux para obtener el promedio
+  // filtro los datos empresa los que no han usado alfaflux
   const datosImvixaEmpresa = datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si')
-  const promedioEmpresa = `${getEficacia(datosImvixaEmpresa, 1)} meses`
+  // Para calcular el promedio filtro los datos que tienen reportada eficacia
+  const promedioEmpresa = `${getEficacia(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), 1)} meses`
   
   // Agrupo los datos por centro de mar
   const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
-  const datosSinHex = groupBy(datosImvixaEmpresa, colCentroEficacia)
-  
-  // ultimos 2 años (4 semestres)
-  const datosTratados = extraerUltimosPeriodos(
-    'semestral', 
-    datosFiltradosPeces, 
-    colFechaPeces, 
-    fechaFinal,
-    4)
-    
-  let datosTratadosGrouped = groupBy(datosTratados, colCentroPeces)
-  datosTratadosGrouped = {
-    ...Object.keys(datosTratadosGrouped).reduce((prev, centro) => { return {
-      ...prev,
-      [centro] : datosTratadosGrouped[centro][0]
-  }}, {})
-  }
-  const centrosSinTratamiento = Object.keys(datosTratadosGrouped).filter(centro => !(datosConHex[centro] || datosSinHex[centro]))
-  console.log({datosTratadosGrouped})
+  const datosSinHex = groupBy(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), colCentroEficacia)
+  const datosSinEficacia = groupBy(datosImvixaEmpresa.filter(obj => !obj[colEficaciaEficacia]), colCentroEficacia)
+  console.log({datosSinEficacia})
   const datos = [
     ...Object.keys(datosSinHex).map(nombre => {
       return {
@@ -90,24 +78,12 @@ const Tratamientos = () => {
         tratamiento: TRATAMIENTOS_HEXAFLUMURON
       }
     }),
-    ...centrosSinTratamiento.map(nombre => {
+    ...Object.keys(datosSinEficacia).map(nombre => {
       return {
         nombre,
-        valor: getEficaciaSegunFecha(datosTratadosGrouped, nombre, colFechaPeces, fechaFinal)
+        valor: getEficaciaSegunFecha(datosSinEficacia[nombre], fechaFinal, 2),
       }
-    })
-    // {
-    //   nombre: 'Pisc. 10',
-    //   valor: 4.84
-    // },
-    // {
-    //   nombre: 'Pisc. 11',
-    //   valor: 1.78
-    // },
-    // {
-    //   nombre: 'Pisc. 12',
-    //   valor: .99
-    // }
+    }),
   ]
 
   const yMaximo = Math.ceil(Math.max(...datos.map(d => d.valor)) + 2)
