@@ -31,26 +31,29 @@ const CumplimientoConcentracion = () => {
       </div>
     )
   }
-  const datos = plantas.map(planta => {
-    const values = datosGrouped[planta].map((obj) => obj[colCumplimiento] * 100)
-    return {
-      nombre: planta,
-      promedio: mean(values),
-      iqr: iqr(values),
-      max: Math.max(...values),
-      min: Math.min(...values),
-    }
-  })
   const ultimosDatosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaAlimento, colFechaAlimento, fechaFinal)
   const cumplimientosIndustria = ultimosDatosIndustria.map(obj => obj[colCumplimiento] * 100)
-  datos.push({
+  const datosIndustria = {
     nombre: "Industria",
     promedio: mean(cumplimientosIndustria),
     iqr: iqr(cumplimientosIndustria),
     max: Math.max(...cumplimientosIndustria),
     min: Math.min(...cumplimientosIndustria),
-  })
-
+  }
+  
+  const datos = [
+    datosIndustria,
+    ...plantas.map(planta => {
+      const values = datosGrouped[planta].map((obj) => obj[colCumplimiento] * 100)
+      return {
+        nombre: planta,
+        promedio: mean(values),
+        iqr: iqr(values),
+        max: Math.max(...values),
+        min: Math.min(...values),
+      }
+    })
+  ]
   // const datos = [
   //   {
   //     nombre: 'Cargill 2020',
