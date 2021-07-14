@@ -19,9 +19,11 @@ const GraficoPesoPromedio = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const datosGrafico = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal).filter(
-    v => v[colSampleOrigin] === tipoFreshWater
-  )
+  const datosGrafico = extraerUltimosPeriodos(
+    divisionTemporal, 
+    datosFiltradosPeces.filter(v => v[colSampleOrigin] === tipoFreshWater), 
+    colFechaPeces, 
+    fechaFinal)
   
   if (datosGrafico.length === 0) {
     return (
