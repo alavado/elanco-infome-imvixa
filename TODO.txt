@@ -36,19 +36,14 @@ PROBLEMAS y PREGUNTAS
 
 ---------------------------------------------------------------------------------
 
+- cual es el rango normal de concentracion ppb
+  - normalmente entre 10 y 25. 18 más probable
 ------------------------------------------------------------------------------
 CATA MODIFICAR 
 - preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
  - en concentracion sacar agua de mar
-- para el grafico tratamiento utilizar los bañados al grafico solo usar la planilla eficacia
 - utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
-
-
-- para calcular el promedio industria y empresa calcularlo con imvixa
-- agregar al titulo resultados de eficacia imvixa
 - todos los centros de mar
-- cual es el rango normal de concentracion ppb
-  - normalmente entre 10 y 25. 18 más probable
 - grafico promedio tratanmiento baños mes
 
 ALE MODIFICAR

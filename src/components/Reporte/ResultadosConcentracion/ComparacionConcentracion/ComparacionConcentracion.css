@@ -122,7 +122,17 @@
   top: calc(100% - .5rem);
   font-size: .9rem;
   color: var(--color-gris-4);
-  left: 4rem;
+  right: 0rem;
+  line-height: 1.3;
+  font-weight: 300;
+}
+
+.ComparacionConcentracion__eje {
+  position: absolute;
+  top: calc(100% - .5rem);
+  font-size: .9rem;
+  color: var(--color-gris-4);
+  left: 4.5rem;
   line-height: 1.3;
   font-weight: 300;
 }

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { dividirDatosSegun } from '../../utilitiesReporte'
-import { colFechaPeces, colPPB } from '../../../../constants'
+import { colFechaPeces, colPPB, colSampleOrigin, tipoFreshWater } from '../../../../constants'
 import { mean, iqr } from '../../utilitiesReporte'
 import './ConcentracionEnMusculo.css'
 
@@ -12,9 +12,14 @@ const ConcentracionEnMusculo = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
+  const datosDivididos = dividirDatosSegun(
+    divisionTemporal, 
+    datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
+    colFechaPeces, 
+    fechaFinal
+  )
 
-    if (datosDivididos.datos.every(obj => obj.length === 0)) {
+  if (datosDivididos.datos.every(obj => obj.length === 0)) {
     return (
       <div className="ConcentracionEnMusculo">
         <p className="ConcentracionEnMusculo__titulo">Concentración (ppb) en músculo post tratamiento</p>
@@ -45,44 +50,6 @@ const ConcentracionEnMusculo = () => {
       max: Math.max(...values),
       min: Math.min(...values),
   }})
-
-  // const datos = [
-  //   {
-  //     nombre: 'Q1 2020',
-  //     promedio: 22,
-  //     iqr: 3,
-  //     max: 29,
-  //     min: 5
-  //   },
-  //   {
-  //     nombre: 'Q1 2021',
-  //     promedio: 22,
-  //     iqr: 3,
-  //     max: 35,
-  //     min: 5
-  //   },
-  //   {
-  //     nombre: 'Q2 2021',
-  //     promedio: 20,
-  //     iqr: 4,
-  //     max: 39,
-  //     min: 0
-  //   },
-  //   {
-  //     nombre: 'Q3 2021',
-  //     promedio: 21,
-  //     iqr: 4,
-  //     max: 39,
-  //     min: 5
-  //   },
-  //   {
-  //     nombre: 'Q4 2021',
-  //     promedio: 22,
-  //     iqr: 4,
-  //     max: 35,
-  //     min: 8
-  //   }
-  // ]
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.promedio), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))

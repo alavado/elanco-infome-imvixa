@@ -10,7 +10,8 @@ import {
 import { 
   colFechaPeces, 
   colPiscicultura, 
-  colEmpresaPeces, 
+  colSampleOrigin, 
+  tipoFreshWater,
   colPPB 
 } from '../../../../constants'
 
@@ -46,8 +47,17 @@ const ComparacionConcentracion = () => {
   const inicio = 'Abril \'21', fin = 'Mayo \'21'
   const periodo = `últimos 5${divisionTemporalALetra(divisionTemporal)}`
 
-  const datosEmpresa = extraerUltimosPeriodos(divisionTemporal, datosFiltradosPeces, colFechaPeces, fechaFinal)
-  const datosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaPeces, colFechaPeces, fechaFinal)
+  const datosEmpresa = extraerUltimosPeriodos(
+    divisionTemporal, 
+    datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
+    colFechaPeces, 
+    fechaFinal)
+    
+  const datosIndustria = extraerUltimosPeriodos(
+    divisionTemporal, 
+    datosFiltradosIndustriaPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
+    colFechaPeces, 
+    fechaFinal)
 
   const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
   console.log(datosPorPiscicultura)
@@ -110,10 +120,12 @@ const ComparacionConcentracion = () => {
           ))}
         </div>
       </div>
-      <div className="ComparacionConcentracion__bajada">
-        <p>Industria y Empresa: promedio {periodo}</p>
-        <p>Pisciculturas: promedio {inicio} - {fin}</p>
+      <div className="ComparacionConcentracion__eje">
+        <p>Miles </p>
       </div>
+      {/* <div className="ComparacionConcentracion__bajada">
+        <p>Promedio {periodo}</p>
+      </div> */}
     </div>
   )
 }
