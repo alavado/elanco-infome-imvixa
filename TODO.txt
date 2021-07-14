@@ -39,7 +39,6 @@ x
 CATA MODIFICAR 
 - preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
  - en concentracion sacar agua de mar
-- fecha en titulo del informe
 - cambiar nombre de eje  "Gramos" - porcentaje de cumplimiento
 - en gráfico cumplimiento cambiar industria a la izquierda
 - tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha

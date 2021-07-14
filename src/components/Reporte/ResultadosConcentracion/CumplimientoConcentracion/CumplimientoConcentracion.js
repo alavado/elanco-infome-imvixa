@@ -96,7 +96,7 @@ const CumplimientoConcentracion = () => {
       </p>
       <div className="CumplimientoConcentracion__contenedor_grafico">
         <p className="CumplimientoConcentracion__etiqueta_eje_y">
-          Gramos
+        % de cumplimiento
         </p>
         <div className="CumplimientoConcentracion__contenedor_lineas">
           {yLineas.map(y => (
