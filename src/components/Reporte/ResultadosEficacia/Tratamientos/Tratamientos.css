@@ -14,8 +14,10 @@
 .Tratamientos__contenedor_grafico {
   flex: 1;
   display: flex;
+  flex-direction: column;
   padding: 1.5rem 2rem 2rem 1rem;
   position: relative;
+  justify-content: center;
 }
 
 .Tratamientos__lineas_grafico {
@@ -108,4 +110,8 @@
   line-height: 2.8;
   color: var(--color-gris-4);
   font-size: .9rem;
+}
+
+.Tratamientos__contenedor_grafico_error {
+  color: var(--color-gris-4);
 }

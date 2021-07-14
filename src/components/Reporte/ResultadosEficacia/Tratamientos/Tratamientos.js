@@ -63,6 +63,8 @@ const Tratamientos = () => {
   const datosSinHex = groupBy(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), colCentroEficacia)
   const datosSinEficacia = groupBy(datosImvixaEmpresa.filter(obj => !obj[colEficaciaEficacia]), colCentroEficacia)
   console.log({datosSinEficacia})
+  console.log({datosSinHex})
+  console.log({datosConHex})
   const datos = [
     ...Object.keys(datosSinHex).map(nombre => {
       return {
@@ -86,11 +88,26 @@ const Tratamientos = () => {
     }),
   ]
 
+  if (datos.length === 0) {
+    return (
+    <div className="Tratamientos">
+      <div className="Tratamientos__titulo">
+        Meses hasta primer Baño
+      </div>
+      <div className="Tratamientos__contenedor_grafico">
+        <div className="GraficoPecesTratados__contenedor_grafico_error">
+          Sin datos de eficacia disponibles en los últimos 18 meses
+        </div>
+      </div>
+    </div>
+    )
+  }
+
   const yMaximo = Math.ceil(Math.max(...datos.map(d => d.valor)) + 2)
   const datosImvixa = datos.filter(d => d.tratamiento === TRATAMIENTOS_IMVIXA)
   const datosHexa = datos.filter(d => d.tratamiento === TRATAMIENTOS_HEXAFLUMURON)
   const datosNada = datos.filter(d => [TRATAMIENTOS_HEXAFLUMURON, TRATAMIENTOS_IMVIXA].indexOf(d.tratamiento) < 0)
-
+  console.log({yMaximo})
   return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
