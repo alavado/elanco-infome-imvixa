@@ -6,7 +6,7 @@ const ResultadosEficacia = () => {
   return (
     <div className="ResultadosEficacia">
       <h3 className="Reporte__titulo_seccion">
-        Resultados de eficacia
+        Resultados de eficacia Imvixa
       </h3>
       <Tratamientos />
       <ProteccionMacrozonas />

@@ -40,19 +40,23 @@ const Tratamientos = () => {
     colFechaEficacia, 
     fechaFinal,
     3)
-  // ultimos 18 meses (3 semestres)
+  // ultimos 18 meses (3 semestres) y filtro los que no han usado alfaflux
   const datosIndustria = extraerUltimosPeriodos(
       'semestral', 
       datosFiltradosIndustriaEficacia, 
       colFechaEficacia, 
       fechaFinal,
-      3)
+      3).filter(obj => obj[colHexaEficacia] !== 'Si')
 
   const promedioIndustria = `${getEficacia(datosIndustria, 1)} meses`
-  const promedioEmpresa = `${getEficacia(datosEmpresa, 1)} meses`
+
+  // filtro los datos empresa los que no han usado alfaflux para obtener el promedio
+  const datosImvixaEmpresa = datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si')
+  const promedioEmpresa = `${getEficacia(datosImvixaEmpresa, 1)} meses`
   
+  // Agrupo los datos por centro de mar
   const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
-  const datosSinHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si'), colCentroEficacia)
+  const datosSinHex = groupBy(datosImvixaEmpresa, colCentroEficacia)
   
   // ultimos 2 años (4 semestres)
   const datosTratados = extraerUltimosPeriodos(

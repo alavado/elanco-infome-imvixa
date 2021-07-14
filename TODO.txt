@@ -22,18 +22,17 @@ DONE
 
 Patricio check
 - decision de diseño saqué filas con nan en PPB en planilla peces
-
 - decision de diseño promedio industria no considera pisciculturas sin baños
-- revisar concentracion en musculo como se hace
+- revisar concentracion en musculo como se hace. BIEN.
 
 
 
 
 ------------------------------------------------------------------------------
-PROBLEMAS
+PROBLEMAS y PREGUNTAS
 - tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
   - YA ESTABA PARECE
-x
+- Preguntar patricio si para calcular el promedio de macrozona quito alfaflux tambien
 
 ---------------------------------------------------------------------------------
 
@@ -41,11 +40,10 @@ x
 CATA MODIFICAR 
 - preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
  - en concentracion sacar agua de mar
-
-
-- agregar conteo tipo "flujo abierto/rehuso", si contiene flujo abierto es flujo abierto
 - para el grafico tratamiento utilizar los bañados al grafico solo usar la planilla eficacia
 - utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
+
+
 - para calcular el promedio industria y empresa calcularlo con imvixa
 - agregar al titulo resultados de eficacia imvixa
 - todos los centros de mar
