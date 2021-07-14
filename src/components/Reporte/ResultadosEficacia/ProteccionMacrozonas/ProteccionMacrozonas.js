@@ -98,7 +98,7 @@ const ProteccionMacrozonas = () => {
       yPorcentaje: 65
     }
   ]
-  const indicadorGeneral = `*Promedio últimos 18 meses`
+  const indicadorGeneral = `Promedio últimos 18 meses`
   const pinesPintados = pines.map(p => ({
     ...p,
     color: `var(--color-${p.perteneceEmpresa ? 'amarillo' : 'gris-4' }`
@@ -128,7 +128,7 @@ const ProteccionMacrozonas = () => {
         pines.every(v => v.valor !== '-')
         ? null
         : (<div className="ProteccionMacrozonas__indicador_general_2">
-             ** - indica macrozona sin datos disponibles
+            - indica macrozona sin datos disponibles
           </div>)
         }
         <img className="ProteccionMacrozonas__mapa" src={mapa} alt="Mapa" />

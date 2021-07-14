@@ -49,8 +49,6 @@ CATA MODIFICAR
 ALE MODIFICAR
 - grafico boxplot concentracion en ppb en musculo superan el limite inferior 
 - grafico promedio tratanmiento baños mes o mejor hacer igual que excel
-- redondear boxplot en la parte de abajo
-- centrar etiquetas grafico tratamientos meses hasta primer baño
 - agregar negrita a leyenda de promedios grafico meses hasta primer baño / naranja quizas
 - marcar más leyenda de promedio industria y empresas
   - agregar backgrundcolor
