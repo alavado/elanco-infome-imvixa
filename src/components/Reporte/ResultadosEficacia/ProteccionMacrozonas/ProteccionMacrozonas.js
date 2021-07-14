@@ -13,25 +13,28 @@ const getEficaciaMacrozona = (datos, zona) => {
 const ProteccionMacrozonas = () => {
   const {
     nombreEmpresa,
-    divisionTemporal,
     datosFiltradosEficacia,
     datosFiltradosIndustriaEficacia,
     fechaFinal
   } = useSelector((state) => state.reporte)
-  
+
+  // Ultimos 18 meses
   const macrozonaEmpresa = extraerUltimosPeriodos(
-    divisionTemporal, 
+    'semestral', 
     datosFiltradosEficacia, 
     colFechaEficacia, 
-    fechaFinal).map(
+    fechaFinal,
+    3).map(
       obj => obj[colMacrozonaEficacia]
     ).filter(onlyUnique)
-    
+  
+    // Ultimos 18 meses
   const datosGrafico = extraerUltimosPeriodos(
-    divisionTemporal, 
+    'semestral', 
     datosFiltradosIndustriaEficacia, 
     colFechaEficacia, 
-    fechaFinal)
+    fechaFinal,
+    3)
     
   const datos = groupBy(datosGrafico, colMacrozonaEficacia)
   const pines = [
@@ -92,7 +95,7 @@ const ProteccionMacrozonas = () => {
       yPorcentaje: 65
     }
   ]
-  const indicadorGeneral = `*Promedio últimos 5 ${divisionTemporalALetra(divisionTemporal)}`
+  const indicadorGeneral = `*Promedio últimos 18 meses`
   const pinesPintados = pines.map(p => ({
     ...p,
     color: `var(--color-${p.perteneceEmpresa ? 'amarillo' : 'gris-4' }`

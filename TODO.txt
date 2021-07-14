@@ -32,7 +32,7 @@ Patricio check
 PROBLEMAS y PREGUNTAS
 - tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
   - YA ESTABA PARECE
-- Preguntar patricio si para calcular el promedio de macrozona quito alfaflux tambien
+- Confirmar patricio si para calcular el promedio de macrozona quito alfaflux tambien
 
 ---------------------------------------------------------------------------------
 
@@ -40,11 +40,11 @@ PROBLEMAS y PREGUNTAS
   - normalmente entre 10 y 25. 18 más probable
 ------------------------------------------------------------------------------
 CATA MODIFICAR 
-- preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
- - en concentracion sacar agua de mar
 - utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
-- todos los centros de mar
-- grafico promedio tratanmiento baños mes
+  - 1 filtrar solo por fecha final x empresa
+  - 2 filtrar solo por fecha final
+- todos los centros de mar 
+- check que comits de ayer no habia hecho
 
 ALE MODIFICAR
 - grafico boxplot concentracion en ppb en musculo superan el limite inferior 
@@ -61,5 +61,7 @@ ALE MODIFICAR
   -  cuadradito gris -  sin baño
 
 - grafica peso promedio es muy grueso cuando hay solo uno encuentro yo cata
+- agregar aviso de que está descargando una nueva version
 - agregar menu con version o algo asi
+- grafico promedio tratanmiento baños mes agregar titulo eje y "Meses"
 

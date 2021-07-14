@@ -57,16 +57,15 @@ export const filtrarDatosTratamiento = (datos, empresa, fechaInicial, fechaFinal
 };
 
 // Por acuerdo con Patricio se filtran los datos de aquellos que hayan sido sembrados
-// en el rango de fechas determinado
-export const filtrarDatosEficacia = (datos, empresa, fechaInicial, fechaFinal) => {
+// hasta la fecha final, sin considerar la fecha inicial
+// SOLO VALIDO PARA LOS GRAFICOS DE EFICACIA
+export const filtrarDatosEficacia = (datos, empresa, fechaFinal) => {
   let datosFiltrados = datos
   if (empresa !== "Todas") {
     datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia] === empresa);
   }
   datosFiltrados = datosFiltrados.filter(
-    (obj) =>
-      esMenorQueFecha(obj[colFechaEficacia], fechaFinal) &&
-      esMayorQueFecha(obj[colFechaEficacia], fechaInicial)
+    (obj) => esMenorQueFecha(obj[colFechaEficacia], fechaFinal)
   );
   return datosFiltrados;
 };

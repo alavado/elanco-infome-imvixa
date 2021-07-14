@@ -153,13 +153,11 @@ const slice = createSlice({
       state.datosFiltradosEficacia = filtrarDatosEficacia(
         state.datosEficacia,
         state.nombreEmpresa,
-        state.fechaInicio,
         state.fechaFinal
       )
       state.datosFiltradosIndustriaEficacia = filtrarDatosEficacia(
         state.datosEficacia,
         "Todas",
-        state.fechaInicio,
         state.fechaFinal
       )
       state.datosFiltradosPeces = filtrarDatosPeces(
