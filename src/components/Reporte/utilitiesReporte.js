@@ -269,3 +269,18 @@ export const divisionTemporalALetra = periodo => {
       return "-"
   }
 }
+
+export const divisionTemporalAPalabra = periodo => {
+  switch (periodo) {
+    case 'mensual (M)':
+      return "meses"
+    case 'trimestral':
+      return "trimestres (Q)"
+    case 'cuatrimestral':
+      return "cuatrimestres (C)"
+    case 'semestral':
+      return "semestres (S)"
+    default:
+      return "-"
+  }
+}
