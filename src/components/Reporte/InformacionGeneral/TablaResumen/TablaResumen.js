@@ -22,7 +22,7 @@ const esAño = (fecha, año) => {
 }
 
 const contarPMVSiEs = (tipo, row) => {
-  if (row[colTipoPMV] === tipo) {
+  if (row[colTipoPMV].includes(tipo)) {
     return reemplazarNullPorCero(row[colNPecesPMV])
   }
   return 0

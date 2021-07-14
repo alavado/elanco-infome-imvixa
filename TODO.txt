@@ -31,6 +31,8 @@ Patricio check
 
 ------------------------------------------------------------------------------
 PROBLEMAS
+- tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
+  - YA ESTABA PARECE
 x
 
 ---------------------------------------------------------------------------------
@@ -39,8 +41,8 @@ x
 CATA MODIFICAR 
 - preguntar patricio si en grafico de concentracion en musculo filtrar por tipoFreshWater. SI solo agua dulce Fresh water. 
  - en concentracion sacar agua de mar
-- en gráfico cumplimiento cambiar industria a la izquierda
-- tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
+
+
 - agregar conteo tipo "flujo abierto/rehuso", si contiene flujo abierto es flujo abierto
 - para el grafico tratamiento utilizar los bañados al grafico solo usar la planilla eficacia
 - utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
