@@ -35,13 +35,11 @@
   height: 2rem;
   border: .4rem solid var(--fondo);
   background: var(--color-fondo);
-  color: var(--color-gris-4);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: .7rem;
-  font-weight: bold;
 }
 
 .ProteccionMacrozonas__pin--leyenda {
@@ -68,7 +66,7 @@
   line-height: 1.15;
   width: 10rem;
   text-align: center;
-  mix-blend-mode: difference;
+  color: black;
 }
 
 .ProteccionMacrozonas__separador_mapa {
