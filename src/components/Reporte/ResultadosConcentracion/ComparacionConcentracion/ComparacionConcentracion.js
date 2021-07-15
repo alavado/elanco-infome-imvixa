@@ -93,7 +93,7 @@ const ComparacionConcentracion = () => {
               >
                 <div
                   className="ComparacionConcentracion__bigote_inferior"
-                  style={{ width: `${100 * (d.promedio - d.iqr - d.min) / xMax}%` }}
+                  style={{ width: `${100 * (d.promedio - d.iqr / 2 - d.min) / xMax}%` }}
                 />
                 <div
                   className="ComparacionConcentracion__caja"
@@ -102,7 +102,7 @@ const ComparacionConcentracion = () => {
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"
-                  style={{ width: `${100 * (d.max - d.iqr - d.promedio) / xMax}%` }}
+                  style={{ width: `${100 * (d.max - d.iqr / 2 - d.promedio) / xMax}%` }}
                 />
               </div>
             }

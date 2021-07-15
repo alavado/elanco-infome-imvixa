@@ -58,8 +58,6 @@ ALE MODIFICAR
   -  cuadradito celeste -  hexaflumuron
   -  cuadradito gris -  sin baño
 
-- grafica peso promedio es muy grueso cuando hay solo uno encuentro yo cata
 - agregar aviso de que está descargando una nueva version
 - agregar menu con version o algo asi
-- grafico promedio tratanmiento baños mes agregar titulo eje y "Meses"
 

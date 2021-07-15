@@ -74,6 +74,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
   position: relative;
 }
 
@@ -123,11 +124,11 @@
 
 .ConcentracionEnMusculo__bigote {
   width: .16rem;
-  height: 100%;
   background: var(--color-naranja-2);
   position: absolute;
   top: var(--porcentaje-top);
-  left: 58%;
+  bottom: var(--porcentaje-bottom);
+  left: calc(50% - .08rem);
 }
 
 .ConcentracionEnMusculo__bigote::before,
