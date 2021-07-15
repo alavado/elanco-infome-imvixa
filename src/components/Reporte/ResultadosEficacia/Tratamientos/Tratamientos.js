@@ -56,7 +56,7 @@ const Tratamientos = () => {
   // filtro los datos empresa los que no han usado alfaflux
   const datosImvixaEmpresa = datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si')
   // Para calcular el promedio filtro los datos que tienen reportada eficacia
-  const promedioEmpresa = `${getEficacia(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), 1)} meses`
+  const promedioEmpresa = getEficacia(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), 1)
   
   // Agrupo los datos por centro de mar
   const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
@@ -116,7 +116,7 @@ const Tratamientos = () => {
       <div className="Tratamientos__contenedor_grafico">
         <div className="Tratamientos__promedios">
           <p>Promedio Industria: {promedioIndustria}</p>
-          <p>Promedio Empresa: {promedioEmpresa}</p>
+          {promedioEmpresa ? <p>Promedio Empresa: {promedioEmpresa} meses</p> : null }
         </div>
         <div className="Tratamientos__lineas_grafico">
           {Array(yMaximo + 1).fill(0).map((_, i) => (

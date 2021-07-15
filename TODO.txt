@@ -30,9 +30,6 @@ Patricio check
 
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS
-- tomar los datos de los ultimos 5q para el grafico de peces promedio arriba a la derecha
-  - YA ESTABA PARECE
-- Confirmar patricio si para calcular el promedio de macrozona quito alfaflux tambien
 
 ---------------------------------------------------------------------------------
 
@@ -40,11 +37,13 @@ PROBLEMAS y PREGUNTAS
   - normalmente entre 10 y 25. 18 más probable
 ------------------------------------------------------------------------------
 CATA MODIFICAR 
-- utilizar para los graficos de abajo los *ultimos 18 meses* independiente de la fecha de inicio
-  - 1 filtrar solo por fecha final x empresa
-  - 2 filtrar solo por fecha final
 - todos los centros de mar 
-- check que comits de ayer no habia hecho
+- quitar promedio empresa cuando no hay valores para meses hasta primer
+- debería decir en leyenda imvixa + otro
+- agregar leyenda antes del termino de eficacia entre titulo y grafico
+- marcar con otro color pines de la empresa
+- base de datos de 7mb ***
+
 
 ALE MODIFICAR
 - grafico boxplot concentracion en ppb en musculo superan el limite inferior 
