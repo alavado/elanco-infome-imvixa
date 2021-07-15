@@ -43,6 +43,7 @@ function construirMenu() {
 }
 
 function createWindow() {
+  const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json')))
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 680,
@@ -52,7 +53,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webSecurity: false
-    }
+    },
   });
   construirMenu()
   mainWindow.loadURL(isDev
@@ -63,6 +64,9 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize()
     mainWindow.show()    
+  })
+  mainWindow.webContents.once('did-finish-load', () => {
+    mainWindow.setTitle(`Reporte Seguimiento IMVIXA - Versión ${version}`)
   })
   mainWindow.on('closed', () => mainWindow = null);
 }

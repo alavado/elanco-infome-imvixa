@@ -47,8 +47,6 @@ CATA MODIFICAR
 - check que comits de ayer no habia hecho
 
 ALE MODIFICAR
-- grafico boxplot concentracion en ppb en musculo superan el limite inferior 
-- grafico promedio tratanmiento baños mes o mejor hacer igual que excel
 - agregar negrita a leyenda de promedios grafico meses hasta primer baño / naranja quizas
 - marcar más leyenda de promedio industria y empresas
   - agregar backgrundcolor
