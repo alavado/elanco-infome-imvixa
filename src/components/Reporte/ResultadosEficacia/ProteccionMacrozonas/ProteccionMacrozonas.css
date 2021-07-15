@@ -61,12 +61,12 @@
 .ProteccionMacrozonas__pin_etiqueta {
   position: absolute;
   top: calc(100% + 1.5rem);
-  left: -4.25rem;
   font-size: .72rem;
   line-height: 1.15;
   width: 10rem;
   text-align: center;
   color: black;
+  word-spacing: 9rem;
 }
 
 .ProteccionMacrozonas__separador_mapa {
