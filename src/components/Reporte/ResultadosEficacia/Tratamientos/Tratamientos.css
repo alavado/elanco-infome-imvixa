@@ -108,12 +108,43 @@
 .Tratamientos__promedios {
   position: absolute;
   top: 2rem;
-  right: .5rem;
+  right: -.75rem;
   z-index: 2;
-  font-weight: 300;
-  line-height: 2.8;
+  font-weight: 500;
+  line-height: 2;
   color: var(--color-gris-4);
-  font-size: .9rem;
+  font-size: .8rem;
+  background: rgba(255, 255, 255, .35);
+  border: .1rem solid var(--color-gris-1);
+  border-radius: .5rem;
+  padding: .25rem .75rem;
+}
+
+.Tratamientos__promedios p {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.Tratamientos__promedios p[cuadradito]::before {
+  content: '';
+  background: var(--color-naranja);
+  width: .9rem;
+  height: .9rem;
+  border-radius: .35rem .35rem 0 0;
+  display: flex;
+}
+
+.Tratamientos__promedios p[cuadradito="imvixa"]::before {
+  background: var(--color-naranja-2);
+}
+
+.Tratamientos__promedios p[cuadradito="hexa"]::before {
+  background: var(--color-celeste);
+}
+
+.Tratamientos__promedios p[cuadradito="sb"]::before {
+  background: var(--color-gris-2);
 }
 
 .Tratamientos__contenedor_grafico_error {

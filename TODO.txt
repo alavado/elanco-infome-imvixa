@@ -47,15 +47,5 @@ CATA MODIFICAR
 - check que comits de ayer no habia hecho
 
 ALE MODIFICAR
-- agregar negrita a leyenda de promedios grafico meses hasta primer baño / naranja quizas
-- marcar más leyenda de promedio industria y empresas
-  - agregar backgrundcolor
-
-- cual debiese ser la leyenda en grafico de tratameintos hasta primer baño
-  -  cuadradito naranja - imvixa
-  -  cuadradito celeste -  hexaflumuron
-  -  cuadradito gris -  sin baño
-
 - agregar aviso de que está descargando una nueva version
-- agregar menu con version o algo asi
 
