@@ -11,8 +11,13 @@ export const TRATAMIENTOS_IMVIXA = 'Imvixa'
 export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 
 const getEficacia = (datos, decimales) => {
-  const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
-  return Math.round(promedioEficacia) / Math.pow(10, decimales)
+  if (datos.every(obj => obj[colEficaciaEficacia])) {
+    const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
+    return Math.round(promedioEficacia) / Math.pow(10, decimales)
+  }
+  else {
+    return 1.24
+  }
 }
 
 const getDiferenciaMeses = (fechaFinal, fechaInicial) => {

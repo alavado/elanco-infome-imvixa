@@ -101,7 +101,7 @@ const ProteccionMacrozonas = () => {
   const indicadorGeneral = `Promedio últimos 18 meses`
   const pinesPintados = pines.map(p => ({
     ...p,
-    color: `var(--color-${p.perteneceEmpresa ? 'amarillo' : 'gris-4' }`
+    color: `var(--color-${p.perteneceEmpresa ? 'azul' : 'gris-4' }`
   }))
 
   return (
@@ -118,7 +118,7 @@ const ProteccionMacrozonas = () => {
           /> Macrozona sin centros de {nombreEmpresa}
           <div
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
-            style={{ '--fondo': 'var(--color-amarillo)' }}
+            style={{ '--fondo': 'var(--color-azul)' }}
           /> Macrozona con centros de {nombreEmpresa}
         </div>
         <div className="ProteccionMacrozonas__indicador_general">
