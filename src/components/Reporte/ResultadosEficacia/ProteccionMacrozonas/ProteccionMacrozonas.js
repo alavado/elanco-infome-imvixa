@@ -6,7 +6,11 @@ import { colFechaEficacia, colMacrozonaEficacia, colEficaciaEficacia } from '../
 import { onlyUnique } from "../../../../redux/ducks/utilities"
 
 const getEficaciaMacrozona = (datos, zona) => {
-  if (datos[zona]) return Math.round(mean(datos[zona].map(obj => obj[colEficaciaEficacia])) * 10) / 10
+  if (datos[zona]) {
+    const datosDisponibles = datos[zona].map(obj => obj[colEficaciaEficacia]).filter(e => e)
+    if (datosDisponibles.length === 0) return '-'
+    return Math.round(mean(datosDisponibles) * 10) / 10
+  }
   return '-'
 }
 

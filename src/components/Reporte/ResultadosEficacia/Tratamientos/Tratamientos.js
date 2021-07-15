@@ -23,7 +23,7 @@ const getEficacia = (datos, decimales) => {
 const getDiferenciaMeses = (fechaFinal, fechaInicial) => {
   const diffTime = Math.abs(fechaFinal - new Date(fechaInicial))
   if (diffTime < 0) return 0
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.5)); 
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.4)); 
   return Math.round(diffDays * 100) / 100 
 }
 

@@ -14,7 +14,7 @@ const ConcentracionEnMusculo = () => {
 
   const datosDivididos = dividirDatosSegun(
     divisionTemporal, 
-    datosFiltradosPeces.filter(dato => 1),// dato[colSampleOrigin] === tipoFreshWater), 
+    datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
     colFechaPeces, 
     fechaFinal
   )
