@@ -46,21 +46,5 @@ CATA MODIFICAR
 
 
 ALE MODIFICAR
-- grafico boxplot concentracion en ppb en musculo superan el limite inferior 
-- grafico promedio tratanmiento baños mes o mejor hacer igual que excel
-- redondear boxplot en la parte de abajo
-- centrar etiquetas grafico tratamientos meses hasta primer baño
-- agregar negrita a leyenda de promedios grafico meses hasta primer baño / naranja quizas
-- marcar más leyenda de promedio industria y empresas
-  - agregar backgrundcolor
-
-- cual debiese ser la leyenda en grafico de tratameintos hasta primer baño
-  -  cuadradito naranja - imvixa
-  -  cuadradito celeste -  hexaflumuron
-  -  cuadradito gris -  sin baño
-
-- grafica peso promedio es muy grueso cuando hay solo uno encuentro yo cata
 - agregar aviso de que está descargando una nueva version
-- agregar menu con version o algo asi
-- grafico promedio tratanmiento baños mes agregar titulo eje y "Meses"
 

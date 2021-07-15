@@ -2,6 +2,7 @@ import Formulario from '../Formulario'
 import Reporte from '../Reporte'
 import { Switch, Route, useHistory } from 'react-router-dom'
 import './App.css'
+import Actualizando from '../Actualizando'
 
 const { ipcRenderer } = window.require('electron')
 
@@ -13,6 +14,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Actualizando />
       <Switch>
         <Route exact path="/reporte">
           <Reporte />

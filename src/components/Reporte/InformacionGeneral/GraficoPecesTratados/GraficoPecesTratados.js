@@ -32,7 +32,10 @@ const GraficoPecesTratados = () => {
   }
 
   const yMax = Math.max(Math.ceil(datos.reduce((max, v) => Math.max(max, v.valor), 0)), 1)
-  const yLineas = [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax].reverse()
+  const ticks =  yMax <= 5
+    ? [...Array(yMax * 2).fill(0).map((_, i) => i * .5), yMax]
+    : [...Array(yMax).fill(0).map((_, i) => i), yMax]
+  const yLineas = ticks.reverse()
 
   return (
     <div className="GraficoPecesTratados">

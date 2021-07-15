@@ -122,8 +122,8 @@ const CumplimientoConcentracion = () => {
             <div
               className="CumplimientoConcentracion__caja"
               style={{
-                '--porcentaje-bottom': `${((d.promedio - d.iqr - yMin) / (yMax - yMin)) * 100}%`,
-                '--porcentaje-top': `${((yMax - d.iqr - d.promedio) / (yMax - yMin)) * 100}%`
+                '--porcentaje-bottom': `${((d.promedio - d.iqr / 2 - yMin) / (yMax - yMin)) * 100}%`,
+                '--porcentaje-top': `${((yMax - d.iqr / 2 - d.promedio) / (yMax - yMin)) * 100}%`
               }}
             >
               {d.promedio.toFixed(0).toLocaleString('de-DE')}

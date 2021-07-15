@@ -107,7 +107,7 @@ const Tratamientos = () => {
   const datosImvixa = datos.filter(d => d.tratamiento === TRATAMIENTOS_IMVIXA)
   const datosHexa = datos.filter(d => d.tratamiento === TRATAMIENTOS_HEXAFLUMURON)
   const datosNada = datos.filter(d => [TRATAMIENTOS_HEXAFLUMURON, TRATAMIENTOS_IMVIXA].indexOf(d.tratamiento) < 0)
-  console.log({yMaximo})
+
   return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
@@ -117,6 +117,9 @@ const Tratamientos = () => {
         <div className="Tratamientos__promedios">
           <p>Promedio Industria: {promedioIndustria}</p>
           {promedioEmpresa ? <p>Promedio Empresa: {promedioEmpresa} meses</p> : null }
+          <p cuadradito="imvixa">IMVIXA</p>
+          <p cuadradito="hexa">Hexaflumurón</p>
+          <p cuadradito="sb">Sin baño</p>
         </div>
         <div className="Tratamientos__lineas_grafico">
           {Array(yMaximo + 1).fill(0).map((_, i) => (
