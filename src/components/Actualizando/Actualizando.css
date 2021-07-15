@@ -1,0 +1,24 @@
+.Actualizando {
+  position: absolute;
+  background: var(--color-naranja-2);
+  color: white;
+  font-size: .8rem;
+  padding: .5rem 1rem;
+  border-radius: 9in;
+  margin: .5rem;
+  bottom: 0;
+  right: 0;
+  animation: actualizando 1s ease-in-out infinite;
+}
+
+@keyframes actualizando {
+  0% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.75;
+  }
+}
