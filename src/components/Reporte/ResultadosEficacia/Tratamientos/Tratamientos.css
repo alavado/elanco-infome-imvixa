@@ -11,6 +11,11 @@
   line-height: 1.15;
 }
 
+.Tratamientos__subtitulo {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+}
+
 .Tratamientos__contenedor_grafico {
   flex: 1;
   display: flex;

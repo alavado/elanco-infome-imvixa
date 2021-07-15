@@ -113,12 +113,13 @@ const Tratamientos = () => {
       <div className="Tratamientos__titulo">
         Meses hasta primer Baño
       </div>
+      <div className="Tratamientos__subtitulo">El gráfico muestra la eficacia de Imvixa hasta el primer baño en centros que fueron tratados solo con Imvixa, con Imvixa y otro producto antes del término de la eficacia de Imvixa, y centros que aún no han tenido baños.</div>
       <div className="Tratamientos__contenedor_grafico">
         <div className="Tratamientos__promedios">
           <p>Promedio Industria: {promedioIndustria}</p>
           {promedioEmpresa ? <p>Promedio Empresa: {promedioEmpresa} meses</p> : null }
           <p cuadradito="imvixa">IMVIXA</p>
-          <p cuadradito="hexa">Hexaflumurón</p>
+          <p cuadradito="hexa">IMVIXA + otro</p>
           <p cuadradito="sb">Sin baño</p>
         </div>
         <div className="Tratamientos__lineas_grafico">
