@@ -8,8 +8,7 @@ const DatosEmpresa = () => {
   const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
   ].map(x => x.toUpperCase())
-
-  console.log(fechaFinal.getMonth())
+  
   return (
     <div className="DatosEmpresa">
       <h1 className="DatosEmpresa__nombre">{nombreEmpresa}</h1>

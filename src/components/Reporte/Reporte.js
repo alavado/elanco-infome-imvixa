@@ -9,6 +9,8 @@ import ResultadosEficacia from './ResultadosEficacia'
 import ResultadosConcentracion from './ResultadosConcentracion'
 import Sandalias from './Sandalias'
 import { useEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import MensajeError from '../MensajeError'
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
@@ -24,7 +26,9 @@ const Reporte = () => {
         <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
         <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
         <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
-        <DatosEmpresa />
+        <MensajeError>
+          <DatosEmpresa />
+        </MensajeError>
         <InformacionGeneral />
         <ResultadosConcentracion />
         <ResultadosEficacia />

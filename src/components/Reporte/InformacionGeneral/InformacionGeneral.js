@@ -1,3 +1,4 @@
+import MensajeError from '../../MensajeError'
 import GraficoPecesTratados from './GraficoPecesTratados'
 import GraficoPesoPromedio from './GraficoPesoPromedio'
 import './InformacionGeneral.css'
@@ -9,9 +10,15 @@ const InformacionGeneral = () => {
       <h3 className="Reporte__titulo_seccion">
         Información General
       </h3>
-      <TablaResumen />
-      <GraficoPecesTratados />
-      <GraficoPesoPromedio />
+      <MensajeError>
+        <TablaResumen />
+      </MensajeError>
+      <MensajeError>
+        <GraficoPecesTratados />
+      </MensajeError>
+      <MensajeError>
+        <GraficoPesoPromedio />
+      </MensajeError>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import MensajeError from '../../MensajeError'
 import ProteccionMacrozonas from './ProteccionMacrozonas'
 import './ResultadosEficacia.css'
 import Tratamientos from './Tratamientos'
@@ -8,8 +9,12 @@ const ResultadosEficacia = () => {
       <h3 className="Reporte__titulo_seccion">
         Resultados de eficacia Imvixa
       </h3>
-      <Tratamientos />
-      <ProteccionMacrozonas />
+      <MensajeError>
+        <Tratamientos />
+      </MensajeError>
+      <MensajeError>
+        <ProteccionMacrozonas />
+      </MensajeError>
     </div>
   )
 }
