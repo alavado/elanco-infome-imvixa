@@ -7,8 +7,7 @@ const DatosEmpresa = () => {
   const { nombreEmpresa, fechaFinal, divisionTemporal } = useSelector(state => state.reporte)
   const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-  ].map(x => x.toUpperCase())
-  
+  ]
   return (
     <div className="DatosEmpresa">
       <h1 className="DatosEmpresa__nombre">{nombreEmpresa}</h1>

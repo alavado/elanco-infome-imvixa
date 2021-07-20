@@ -17,7 +17,6 @@ const GraficoPecesTratados = () => {
     nombre,
     valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => reemplazarNullPorCero(curr[colNPecesPMV]) + prev, 0) / 100000) / 10
   }})
-
   if (datos.every(obj => obj.valor === 0)) {
     return (
       <div className="GraficoPecesTratados">

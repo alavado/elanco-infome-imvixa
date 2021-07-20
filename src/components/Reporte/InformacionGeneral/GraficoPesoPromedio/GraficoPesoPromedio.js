@@ -39,7 +39,6 @@ const GraficoPesoPromedio = () => {
       </div>
     )
   } 
-
   const datosGrouped = groupBy(datosGrafico, colPiscicultura)
   const datos = Object.keys(datosGrouped).map(piscicultura => {
     return {

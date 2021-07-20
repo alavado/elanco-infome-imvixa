@@ -24,4 +24,5 @@
 .DatosEmpresa__fecha {
   font-weight: bold;
   color: var(--color-gris-4);
+  text-transform: uppercase;
 }
