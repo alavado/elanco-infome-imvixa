@@ -16,6 +16,7 @@ const getEficacia = (datos, decimales) => {
     return Math.round(promedioEficacia) / Math.pow(10, decimales)
   }
   else {
+    // TODO: HANDLE THIS HARDCODED VALUE
     return 1.24
   }
 }
@@ -28,7 +29,10 @@ const getDiferenciaMeses = (fechaFinal, fechaInicial) => {
 }
 
 const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
-  const promedioEficacia = mean(datos.map(getDiferenciaMeses(fechaFinal, datos[colFechaEficacia])))
+  console.log({datos})
+  console.log({fechaFinal})
+  console.log({decimales})
+  const promedioEficacia = mean(datos.map(e => getDiferenciaMeses(fechaFinal, e[colFechaEficacia])))
   return Math.round(promedioEficacia * Math.pow(10, decimales)) / Math.pow(10, decimales)
 }
 
