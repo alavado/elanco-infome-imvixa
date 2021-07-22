@@ -80,7 +80,7 @@
 }
 
 .ComparacionConcentracion__etiqueta_categoria {
-  flex: 1.35;
+  width: 5.5rem;
   display: flex;
   align-items: flex-end;
   font-size: .65rem;
@@ -100,7 +100,8 @@
 
 .ComparacionConcentracion__separacion:last-child,
 .ComparacionConcentracion__valor:last-child {
-  flex: .15;
+  min-width: .5rem;
+  max-width: .5rem;
 }
 
 .ComparacionConcentracion__valores {

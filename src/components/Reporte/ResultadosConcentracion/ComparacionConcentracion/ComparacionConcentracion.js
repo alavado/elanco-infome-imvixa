@@ -87,8 +87,8 @@ const ComparacionConcentracion = () => {
               <div
                 className="ComparacionConcentracion__contenedor_caja"
                 style={{
-                  left: `calc(19% + ${100 * d.min / xMax}%)`,
-                  right: `calc(2% + ${100 * (xMax- d.max) / xMax}%)`,
+                  left: `calc(5.5rem + ${100 * d.min / xMax}%)`,
+                  right: `calc(.5rem + ${100 * (xMax- d.max) / xMax}%)`,
                 }}
               >
                 <div
@@ -114,7 +114,7 @@ const ComparacionConcentracion = () => {
         <div className="ComparacionConcentracion__valores">
           <div className="ComparacionConcentracion__etiqueta_categoria" />
           {Array(separaciones).fill(0).map((_, i) => (
-            <div className="ComparacionConcentracion__valor">
+            <div key={`etiqueta-cc-${i}`} className="ComparacionConcentracion__valor">
               {i % 2 > 0 ? '' : (i * xMax / separaciones)}
             </div>
           ))}
