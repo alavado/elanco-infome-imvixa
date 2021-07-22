@@ -44,9 +44,6 @@ const ComparacionConcentracion = () => {
     fechaFinal
   } = useSelector(state => state.reporte)
 
-  const inicio = 'Abril \'21', fin = 'Mayo \'21'
-  const periodo = `últimos 5${divisionTemporalALetra(divisionTemporal)}`
-
   const datosEmpresa = extraerUltimosPeriodos(
     divisionTemporal, 
     datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
@@ -60,7 +57,7 @@ const ComparacionConcentracion = () => {
     fechaFinal)
 
   const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
-  console.log(datosPorPiscicultura)
+  
   const datos = [
     getBoxPlotData(datosIndustria, 'Industria'),
     getBoxPlotData(datosEmpresa, 'Empresa'),
@@ -71,7 +68,9 @@ const ComparacionConcentracion = () => {
   const xMax = datos.reduce((max, d) => {
     return d.max > max ? (5 * Math.floor((d.max + 5) / 5)) : max
   }, 0)
-  const separaciones = xMax / 5
+  const separaciones = 1 + xMax / 5
+
+  console.log(datos, xMax, separaciones)
 
   return (
     <div className="ComparacionConcentracion">
@@ -115,7 +114,7 @@ const ComparacionConcentracion = () => {
           <div className="ComparacionConcentracion__etiqueta_categoria" />
           {Array(separaciones).fill(0).map((_, i) => (
             <div key={`etiqueta-cc-${i}`} className="ComparacionConcentracion__valor">
-              {i % 2 > 0 ? '' : (i * xMax / separaciones)}
+              {i % 2 > 0 ? '' : (i * xMax / (separaciones - 1))}
             </div>
           ))}
         </div>
