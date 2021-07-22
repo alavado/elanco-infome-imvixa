@@ -32,9 +32,6 @@ const ProteccionMacrozonas = () => {
       obj => obj[colMacrozonaEficacia]
     ).filter(onlyUnique)
   
-    console.log(
-      {macrozonaEmpresa}
-    )
     // Ultimos 18 meses
   const datosGrafico = extraerUltimosPeriodos(
     'semestral', 

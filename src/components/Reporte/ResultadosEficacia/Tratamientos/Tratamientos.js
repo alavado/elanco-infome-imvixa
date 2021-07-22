@@ -29,9 +29,6 @@ const getDiferenciaMeses = (fechaFinal, fechaInicial) => {
 }
 
 const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
-  console.log({datos})
-  console.log({fechaFinal})
-  console.log({decimales})
   const promedioEficacia = mean(datos.map(e => getDiferenciaMeses(fechaFinal, e[colFechaEficacia])))
   return Math.round(promedioEficacia * Math.pow(10, decimales)) / Math.pow(10, decimales)
 }
@@ -71,9 +68,6 @@ const Tratamientos = () => {
   const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
   const datosSinHex = groupBy(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), colCentroEficacia)
   const datosSinEficacia = groupBy(datosImvixaEmpresa.filter(obj => !obj[colEficaciaEficacia]), colCentroEficacia)
-  console.log({datosSinEficacia})
-  console.log({datosSinHex})
-  console.log({datosConHex})
   const datos = [
     ...Object.keys(datosSinHex).map(nombre => {
       return {
