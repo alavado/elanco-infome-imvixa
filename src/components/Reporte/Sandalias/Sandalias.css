@@ -42,3 +42,11 @@
   border-radius: 50%;
   box-shadow: 0 0 0 .35rem white;
 }
+
+.Sandalias__imagen {
+  position: absolute;
+  bottom: 1.5rem;
+  z-index: -1;
+  left: 0;
+  width: 100%;
+}

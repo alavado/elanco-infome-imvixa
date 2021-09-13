@@ -113,7 +113,7 @@
 .CumplimientoConcentracion__bigote {
   width: .1725rem;
   height: 100%;
-  background: var(--color-gris-3);
+  background: var(--color-h);
   position: absolute;
   top: var(--porcentaje-top);
   left: calc(50% - .2rem);
@@ -123,7 +123,7 @@
 .CumplimientoConcentracion__bigote::after {
   content: '';
   position: absolute;
-  background: var(--color-gris-3);
+  background: var(--color-h);
   top: 0;
   width: 1rem;
   height: .16rem;

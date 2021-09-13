@@ -14,24 +14,26 @@
 }
 
 .Reporte__pagina {
-  padding: 4rem 4rem 12rem 4rem;
   flex: 1;
 }
 
 .Reporte__pagina--1 {
   position: relative;
   display: grid;
-  grid-template-rows: 10% 15% 35% 40%;
+  grid-template-rows: 12% 15% 35% auto;
+  padding: 4rem 4rem 12rem 4rem;
 }
 
 .Reporte__pagina--2 {
   position: relative;
   display: grid;
-  grid-template-rows: 30% auto;
+  grid-template-rows: 12% 50% auto;
+  padding: 4rem 2rem 12rem 4rem;
 }
 
 .Reporte__logo_imvixa {
   width: 30rem;
+  margin-top: 1rem;
 }
 
 .Reporte__logo_elanco {

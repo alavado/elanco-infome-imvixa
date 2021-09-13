@@ -7,6 +7,7 @@ import DatosEmpresa from './DatosEmpresa/DatosEmpresa'
 import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
 import ResultadosEficacia from './ResultadosEficacia'
 import ResultadosConcentracion from './ResultadosConcentracion'
+import Comentarios from './Comentarios'
 import Sandalias from './Sandalias'
 import { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -35,7 +36,11 @@ const Reporte = () => {
           <Sandalias pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
+          <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
+          <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
+          <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
           <ResultadosEficacia />
+          <Comentarios />
           <Sandalias pagina={2} />
         </div>
       </div>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { graficos } from '../../helpers/graficos'
 
 const slice = createSlice({
-  name: "reporte",
+  name: 'graficos',
   initialState: {
     graficos: graficos.map(g => ({ ...g, visible: true }))
   },
