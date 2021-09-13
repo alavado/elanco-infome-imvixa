@@ -7,28 +7,27 @@
 .Reporte__contenedor {
   background-color: var(--color-fondo);
   width: 100%;
-  height: calc(2 * 129.41vw);
+  height: calc(2 * 132.86vw);
   animation: aparece-reporte .25s ease both;
   display: flex;
   flex-direction: column;
 }
 
 .Reporte__pagina {
-  padding: 4rem 4rem 10rem 4rem;
+  padding: 4rem 4rem 12rem 4rem;
   flex: 1;
 }
 
 .Reporte__pagina--1 {
   position: relative;
   display: grid;
-  grid-template-rows: 5% 10% auto auto;
+  grid-template-rows: 10% 15% 35% 40%;
 }
 
 .Reporte__pagina--2 {
   position: relative;
   display: grid;
   grid-template-rows: 30% auto;
-  border-top: .1rem dashed lightgray;
 }
 
 .Reporte__logo_imvixa {
