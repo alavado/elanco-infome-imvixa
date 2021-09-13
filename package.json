@@ -3,6 +3,7 @@
   "version": "0.1.13",
   "private": true,
   "dependencies": {
+    "@iconify/react": "^3.0.1",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

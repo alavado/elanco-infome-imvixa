@@ -1,10 +1,15 @@
 import './Sandalias.css'
 import imagenHealthy from '../../../assets/images/forever-healthy.jpg'
+import { useSelector } from 'react-redux'
 
 const Sandalias = ({ pagina }) => {
+
+  const { comentarios } = useSelector(state => state.comentarios)
+  const hayComentarios = comentarios.length > 0
+
   return (
     <div className="Sandalias">
-      {pagina === 2 && <img src={imagenHealthy} className="Sandalias__imagen" />}
+      {pagina === 2 && !hayComentarios && <img src={imagenHealthy} className="Sandalias__imagen" />}
       <p className="Sandalias__texto">Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco</p>
       <p className="Sandalias__numero_pagina">{pagina}</p>
     </div>
