@@ -71,10 +71,8 @@
 
 .ConcentracionEnMusculo__contenedor_caja {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+  display: grid;
+  place-items: center;
   position: relative;
 }
 
@@ -123,9 +121,9 @@
 }
 
 .ConcentracionEnMusculo__bigote {
+  position: absolute;
   width: .16rem;
   background: var(--color-naranja-2);
-  position: absolute;
   top: var(--porcentaje-top);
   bottom: var(--porcentaje-bottom);
   left: calc(50% - .08rem);

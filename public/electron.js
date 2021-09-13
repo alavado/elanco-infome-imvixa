@@ -95,7 +95,7 @@ const reporteAPDF = async () => {
       marginsType: 1,
       pageSize: {
         width: 25400 * 50.0,
-        height: 25400 * 90.75
+        height: 25400 * 64.705
       }
     })
     fs.writeFileSync(path.join(app.getPath('desktop'), 'Informe Seguimiento Imvixa.pdf'), data)
@@ -134,7 +134,8 @@ ipcMain.on('leer', async (event, state) => {
         datosAlimento = validation.checkAlimento(wb)
         event.sender.send(state.tipo, {
           path: state.path,
-          datos: datosAlimento})
+          datos: datosAlimento
+        })
         break
       case 'peces':
         datosPeces = validation.checkPeces(wb)

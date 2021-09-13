@@ -118,7 +118,7 @@ yMin,
                   '--porcentaje-top': `${((yMax - d.iqr / 2 - d.promedio) / (yMax - yMin)) * 100}%`
                 }}
               >
-                {d.promedio.toFixed(0).toLocaleString('de-DE')}M
+                {d.promedio.toFixed(0).toLocaleString('de-DE')}
               </div>
               <div className="ConcentracionEnMusculo__etiqueta_caja">
                 {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}

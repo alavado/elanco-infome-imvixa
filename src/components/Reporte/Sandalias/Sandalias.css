@@ -2,6 +2,13 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: flex-start;
+  place-self: end center;
+  background: linear-gradient(transparent 3rem, var(--color-naranja-2) 0);
+  position: absolute;
+  bottom: 0;
+  height: 4.5rem;
+  padding-left: 4rem;
 }
 
 .Sandalias__logo_elanco {
@@ -9,14 +16,29 @@
 }
 
 .Sandalias__texto {
-  font-size: 1.1rem;
+  font-size: .7rem;
   display: flex;
   max-height: 1.75rem;
-  margin-top: 2.75rem;
   font-weight: 300;
-  border-bottom: .2rem dotted var(--color-gris-4);
 }
 
 .Sandalias__x_imvixa {
   width: 8rem;
+}
+
+.Sandalias__numero_pagina {
+  position: absolute;
+  background-color: var(--color-gris-2);
+  color: rgba(0, 0, 0, .75);
+  bottom: 1rem;
+  font-weight: bold;
+  left: calc(50% - .75rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 .35rem white;
 }

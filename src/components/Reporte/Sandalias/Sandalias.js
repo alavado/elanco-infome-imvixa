@@ -1,13 +1,10 @@
-import logoElanco from '../../../assets/images/logo-elanco.svg'
-import xImvixa from '../../../assets/images/x-imvixa.svg'
 import './Sandalias.css'
 
-const Sandalias = () => {
+const Sandalias = ({ pagina }) => {
   return (
     <div className="Sandalias">
-      <img className="Sandalias__logo_elanco" src={logoElanco} alt="Logo Elanco" />
       <p className="Sandalias__texto">Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco</p>
-      <img className="Sandalias__x_imvixa" src={xImvixa} alt="X de IMVIXA" />
+      <p className="Sandalias__numero_pagina">{pagina}</p>
     </div>
   )
 }

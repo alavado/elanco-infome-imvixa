@@ -97,7 +97,7 @@ const ComparacionConcentracion = () => {
                 <div
                   className="ComparacionConcentracion__caja"
                 >
-                  {d.promedio}M
+                  {d.promedio}
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"
