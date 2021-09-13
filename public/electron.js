@@ -3,6 +3,7 @@ const { ipcMain, Menu, MenuItem, ipcRenderer } = require('electron')
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs')
+const { graficos } = require('../src/helpers/graficos') 
 
 const { autoUpdater } = require('electron-updater')
 const path = require('path');
@@ -10,6 +11,8 @@ const isDev = require('electron-is-dev');
 
 let mainWindow;
 let menuItemVolverAParametros, menuItemImprimir;
+
+let estadosGraficos = graficos.map(g => ({ ...g, visible: true }))
 
 function construirMenu() {
   const menu = new Menu()
@@ -21,6 +24,26 @@ function construirMenu() {
         role: 'close'
       })
     ]
+  }))
+  menu.append(new MenuItem({
+    label: 'Ver',
+    submenu: estadosGraficos.map(g => (
+      new MenuItem({
+        label: g.titulo,
+        type: 'checkbox',
+        checked: g.visible,
+        click: () => {
+          if (g.visible) {
+            g.visible = false
+            mainWindow.webContents.send('ocultar-grafico', g)
+          }
+          else {
+            g.visible = true
+            mainWindow.webContents.send('mostrar-grafico', g)
+          }
+        }
+      })
+    ))
   }))
   menuItemVolverAParametros = new MenuItem({
     label: 'Reingresar parámetros',
@@ -63,7 +86,7 @@ function createWindow() {
   isDev && mainWindow.webContents.openDevTools();
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize()
-    mainWindow.show()    
+    mainWindow.show()
   })
   mainWindow.webContents.once('did-finish-load', () => {
     mainWindow.setTitle(`Reporte Seguimiento IMVIXA - Versión ${version}`)

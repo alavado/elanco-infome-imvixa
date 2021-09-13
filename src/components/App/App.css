@@ -1,19 +1,32 @@
 .App {
   display: flex;
   flex-direction: column;
-  --color-fondo: rgb(242, 248, 250);
+
+  --color-a: rgb(250, 181, 54);
+  --color-b: rgb(240, 126, 52);
+  --color-c: rgb(178, 178, 178);
+  --color-d: rgb(218, 218, 218);
+  --color-e: rgb(242, 247, 251);
+  --color-f: rgb(47, 67, 106);
+  --color-g: rgb(115, 186, 232);
+  --color-h: rgb(105, 156, 190);
+  --color-i: rgb(146, 191, 213);
+  --color-j: rgb(231, 245, 251);
+  
+  --color-fondo: rgb(242, 247, 251);
   --color-gris-1: rgb(237, 237, 237);
   --color-gris-2: rgb(200, 199, 199);
   --color-gris-3: rgb(178, 178, 178);
   --color-gris-4: rgb(114, 112, 112);
-  --color-amarillo: rgb(249, 179, 52);
+  --color-amarillo: rgb(250, 181, 54);
   --color-naranja: rgb(235, 89, 60);
-  --color-naranja-2: rgb(244, 129, 41);
+  --color-naranja-2: rgb(240, 126, 52);
   --color-naranja-transparent: rgba(235, 89, 60, .4);
   --color-naranja-imvixa: rgb(244, 129, 41);
-  --color-celeste: rgb(145, 190, 213);
-  --color-azul: rgb(47, 66, 105);
-  --color-elanco: #0072CE;
+  --color-celeste: rgb(115, 186, 232);
+  --color-azul: rgb(47, 67, 106);
+  --color-elanco: rgb(0, 114, 206);
+
   font-family: 'Fira Sans', sans-serif;
   background-color: var(--color-fondo);
 }

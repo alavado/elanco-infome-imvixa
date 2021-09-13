@@ -1,19 +1,25 @@
+import { useSelector } from 'react-redux'
 import MensajeError from '../../MensajeError'
 import ProteccionMacrozonas from './ProteccionMacrozonas'
 import './ResultadosEficacia.css'
 import Tratamientos from './Tratamientos'
 
 const ResultadosEficacia = () => {
+
+  const { graficos } = useSelector(state => state.graficos)
+  const mostrarGraficoTratamientos = graficos.find(g => g.id === 'GRAFICO_EFICACIA').visible
+  const mostrarMapaMacrozonas = graficos.find(g => g.id === 'GRAFICO_MACROZONAS').visible
+
   return (
     <div className="ResultadosEficacia">
       <h3 className="Reporte__titulo_seccion">
         Resultados de eficacia Imvixa
       </h3>
       <MensajeError>
-        <Tratamientos />
+        {mostrarGraficoTratamientos && <Tratamientos />}
       </MensajeError>
       <MensajeError>
-        <ProteccionMacrozonas />
+        {mostrarMapaMacrozonas && <ProteccionMacrozonas />}
       </MensajeError>
     </div>
   )
