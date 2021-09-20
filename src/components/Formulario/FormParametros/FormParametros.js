@@ -55,7 +55,8 @@ const FormParametros = () => {
           placeholder="Seleccione empresa"
           styles={{
             // Fixes the overlapping problem of the component
-            menu: provided => ({ ...provided, zIndex: 3 })
+            menu: provided => ({ ...provided, zIndex: 3 }),
+            input: provided => ({ ...provided, minHeight: '2rem' }),
           }}
         />
       </div>
@@ -108,6 +109,9 @@ const FormParametros = () => {
             },
           })}
           placeholder="Seleccione división temporal de análisis"
+          styles={{
+            input: provided => ({ ...provided, minHeight: '2rem' }),
+          }}
         />
       </div>
     </div>

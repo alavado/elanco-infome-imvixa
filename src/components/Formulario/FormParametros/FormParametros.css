@@ -50,9 +50,7 @@
   font-size: 1rem;
   padding: .35rem 0 .35rem 7rem;
   border-radius: .25rem;
-  box-shadow:
-    0 0 0 1px var(--color-gris-2),
-    0 .25rem .25rem 1px var(--color-gris-1);
+  box-shadow: 0 0 0 1px var(--color-gris-2);
   border: none;
   width: 13rem;
   height: 2.5rem;
