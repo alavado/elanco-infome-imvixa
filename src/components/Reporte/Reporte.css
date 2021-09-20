@@ -21,14 +21,14 @@
   position: relative;
   display: grid;
   grid-template-rows: 12% 15% 35% auto;
-  padding: 4rem 4rem 12rem 4rem;
+  padding: 4rem 2rem 12rem 4rem;
 }
 
 .Reporte__pagina--2 {
   position: relative;
   display: grid;
   grid-template-rows: 12% 50% auto;
-  padding: 4rem 2rem 12rem 4rem;
+  padding: 4rem 1rem 12rem 4rem;
 }
 
 .Reporte__logo_imvixa {

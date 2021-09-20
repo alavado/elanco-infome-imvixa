@@ -114,13 +114,14 @@ const Tratamientos = () => {
   return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
-        Meses hasta primer Baño
+        Tiempo transcurrido (meses) entre la siembra y primer tratamiento contra caligidosis
       </div>
-      <div className="Tratamientos__subtitulo">El gráfico muestra la eficacia de Imvixa hasta el primer baño en centros que fueron tratados solo con Imvixa, con Imvixa y otro producto antes del término de la eficacia de Imvixa, y centros que aún no han tenido baños.</div>
+      <div className="Tratamientos__subtitulo">
+        <p><span className="Tratamientos__label_promedio">Promedio Industria</span>: {promedioIndustria}</p>
+        {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">Promedio Empresa</span>: {promedioEmpresa} meses</p> : null }
+      </div>
       <div className="Tratamientos__contenedor_grafico">
-        <div className="Tratamientos__promedios">
-          <p>Promedio Industria: {promedioIndustria}</p>
-          {promedioEmpresa ? <p>Promedio Empresa: {promedioEmpresa} meses</p> : null }
+        <div className="Tratamientos__leyenda">
           <p cuadradito="imvixa">IMVIXA</p>
           <p cuadradito="hexa">IMVIXA + otro</p>
           <p cuadradito="sb">Sin baño</p>
@@ -164,6 +165,7 @@ const Tratamientos = () => {
           ))}
         </div>
       </div>
+      <p className="Tratamientos__nota">NOTA: Gráfico muestra eficacia de IMVIXA hasta el primer baño en centros que fueron tratados solo con IMVIXA; centros tratados con IMVIXA y otro producto antes del término de la eficacia de IMVIXA; y centros que aún no han recibido baños.</p>
     </div>
   )
 }

@@ -70,8 +70,6 @@ const ComparacionConcentracion = () => {
   }, 0)
   const separaciones = 1 + xMax / 5
 
-  console.log(datos, xMax, separaciones)
-
   return (
     <div className="ComparacionConcentracion">
       <p className="ComparacionConcentracion__titulo">

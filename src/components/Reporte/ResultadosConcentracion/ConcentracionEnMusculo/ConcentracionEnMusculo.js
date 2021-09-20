@@ -61,17 +61,6 @@ const ConcentracionEnMusculo = () => {
     .fill(0).map((_, i) => yMin + tick * i)
   ].reverse()
 
-  console.log({datos})
-
-  console.log({
-    vMin,
-vMax,
-tick,
-yMax,
-yMin,
-
-  })
-
   return (
     <div className="ConcentracionEnMusculo">
       <p className="ConcentracionEnMusculo__titulo">

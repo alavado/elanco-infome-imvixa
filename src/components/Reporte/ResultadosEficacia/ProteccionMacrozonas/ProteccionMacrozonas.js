@@ -108,8 +108,7 @@ const ProteccionMacrozonas = () => {
   return (
     <div className="ProteccionMacrozonas">
       <p className="ProteccionMacrozonas__titulo">
-        Protección promedio industria registrada por<br />
-        IMVIXA en cada macrozona X y XI regiones
+        Protección histórica promedio industria registrada por IMVIXA por macrozona (datos desde 2016) 
       </p>
       <div className="ProteccionMacrozonas__contenedor_mapa">
         <div className="ProteccionMacrozonas__leyenda">
@@ -122,16 +121,16 @@ const ProteccionMacrozonas = () => {
             style={{ '--fondo': 'var(--color-azul)' }}
           /> Macrozona con centros de {nombreEmpresa}
         </div>
-        <div className="ProteccionMacrozonas__indicador_general">
+        {/* <div className="ProteccionMacrozonas__indicador_general">
           {indicadorGeneral}
-        </div>
-        {
+        </div> */}
+        {/* {
         pines.every(v => v.valor !== '-')
         ? null
         : (<div className="ProteccionMacrozonas__indicador_general_2">
             - indica macrozona sin datos disponibles
           </div>)
-        }
+        } */}
         <img className="ProteccionMacrozonas__mapa" src={mapa} alt="Mapa" />
         <div className="ProteccionMacrozonas__separador_mapa" />
         {pinesPintados.map(pin => (
