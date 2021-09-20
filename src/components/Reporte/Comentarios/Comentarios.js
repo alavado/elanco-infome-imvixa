@@ -1,3 +1,4 @@
+import { InlineIcon } from '@iconify/react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
@@ -19,7 +20,7 @@ const Comentarios = () => {
     if (nuevoComentario === '') {
       return
     }
-    nuevoComentario.split('\n').forEach(c => dispatch(agregarComentario(c)))
+    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentario(c)))
     setNuevoComentario('')
     setAgregandoComentario(false)
   }
@@ -30,11 +31,15 @@ const Comentarios = () => {
     }
   }, [agregandoComentario])
 
+  const hayComentarios = comentarios.length > 0
+
   return (
     <div className="Comentarios">
-      <h3 className="Reporte__titulo_seccion">
-        Comentarios
-      </h3>
+      {hayComentarios && (
+        <h3 className="Reporte__titulo_seccion">
+          Comentarios
+        </h3>
+      )}
       <ul className="Comentarios__contenedor_comentarios">
         {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} />)}
       </ul>
@@ -49,13 +54,29 @@ const Comentarios = () => {
               className="Comentarios__textarea"
               ref={textareaRef}
             />
-            <button type="submit">Agregar</button>
-            <button type="button" onClick={() => setAgregandoComentario(false)}>Cancelar</button>
+            <div className="Comentarios__acciones_formulario">
+              <button
+                className="Comentarios__boton_accion"
+                type="submit"
+                title="Agregar comentario"
+              >
+                <InlineIcon icon="mdi:comment-check" /> Agregar
+              </button>
+              <button
+                className="Comentarios__boton_accion"
+                type="button"
+                onClick={() => setAgregandoComentario(false)}
+                title="Cancelar"
+              >
+                <InlineIcon icon="mdi:close" /> Cancelar
+              </button>
+            </div>
           </form>
         : <button
             className="Comentarios__boton_agregar"
             onClick={() => setAgregandoComentario(true)}
           >
+            <InlineIcon icon="mdi:comment-plus" />
             Agregar comentario
           </button>
       }

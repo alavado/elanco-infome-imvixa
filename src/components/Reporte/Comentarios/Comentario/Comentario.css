@@ -4,6 +4,10 @@
   padding-left: 1.5rem;
   margin-bottom: 1.5rem;
   line-height: 1.15;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
 }
 
 .Comentario::before {
@@ -15,4 +19,29 @@
   left: 0;
   border-radius: 50%;
   top: .5rem;
+}
+
+.Comentario__texto--tachado {
+  text-decoration: line-through;
+}
+
+.Comentario__boton_eliminar {
+  align-self: center;
+  opacity: 0;
+  transition: all .2s ease;
+  cursor: pointer;
+  background: var(--color-f);
+  color: var(--color-fondo);
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.Comentario:hover .Comentario__boton_eliminar {
+  opacity: 1;
 }
