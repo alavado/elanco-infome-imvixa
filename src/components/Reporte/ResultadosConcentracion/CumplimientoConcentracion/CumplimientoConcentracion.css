@@ -45,7 +45,7 @@
 }
 
 .CumplimientoConcentracion__linea {
-  border-bottom: .1rem solid var(--color-gris-2);
+  border-bottom: 1px solid var(--color-gris-2);
   flex: 1;
   position: relative;
 }

@@ -2,6 +2,7 @@
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
+  min-height: 50vh;
 }
 
 .Tratamientos__titulo {
@@ -36,7 +37,7 @@
 
 .Tratamientos__linea_grafico {
   flex: 1;
-  border-top: .2rem solid var(--color-gris-1);
+  border-top: 1px solid var(--color-gris-2);
   margin-left: .5rem;
   position: relative;
 }

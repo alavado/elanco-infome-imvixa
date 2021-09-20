@@ -13,7 +13,7 @@ export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 const getEficacia = (datos, decimales) => {
   if (datos.every(obj => obj[colEficaciaEficacia])) {
     const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
-    return Math.round(promedioEficacia) / Math.pow(10, decimales)
+    return Math.round(promedioEficacia) / Math.pow(10, decimales) || '-'
   }
   else {
     // TODO: HANDLE THIS HARDCODED VALUE

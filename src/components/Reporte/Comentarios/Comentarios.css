@@ -1,5 +1,6 @@
 .Comentarios {
   --color-titulo-seccion: var(--color-azul);
+  padding-top: 2rem;
 }
 
 .Comentarios__contenedor_comentarios {

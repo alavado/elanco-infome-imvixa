@@ -45,7 +45,7 @@
 }
 
 .GraficoPesoPromedio__linea {
-  border-bottom: .1rem solid var(--color-gris-2);
+  border-bottom: 1px solid var(--color-gris-2);
   flex: 1;
   position: relative;
 }
@@ -94,15 +94,15 @@
 }
 
 .GraficoPesoPromedio__contenedor_barra:nth-child(n) > .GraficoPesoPromedio__barra {
-  background-color: var(--color-naranja);
+  background-color: var(--color-h);
 }
 
 .GraficoPesoPromedio__contenedor_barra:nth-child(2n) > .GraficoPesoPromedio__barra {
-  background-color: var(--color-naranja-imvixa);
+  background-color: var(--color-i);
 }
 
 .GraficoPesoPromedio__contenedor_barra:nth-child(3n) > .GraficoPesoPromedio__barra {
-  background-color: var(--color-amarillo);
+  background-color: var(--color-j);
 }
 
 .GraficoPesoPromedio__etiqueta_barra {

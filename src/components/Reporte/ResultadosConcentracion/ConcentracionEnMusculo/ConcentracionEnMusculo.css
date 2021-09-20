@@ -46,7 +46,7 @@
 }
 
 .ConcentracionEnMusculo__linea {
-  border-bottom: .1rem solid var(--color-gris-2);
+  border-bottom: 1px solid var(--color-gris-2);
   flex: 1;
   position: relative;
 }
@@ -79,7 +79,7 @@
 .ConcentracionEnMusculo__caja {
   flex: 1;
   width: 60%;
-  background: var(--color-amarillo);
+  background: var(--color-naranja-imvixa);
   border-radius: .35rem;
   z-index: 2;
   margin: 0 1.15rem;

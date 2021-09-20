@@ -25,14 +25,30 @@
   display: flex;
   flex: 1;
   position: relative;
-  --color-bigotes: var(--color-gris-3);
+  --color-bigotes: var(--color-g);
   --color-caja: var(--color-gris-3);
+}
+
+
+.ComparacionConcentracion__categoria:nth-child(n) {
+  --color-caja: var(--color-h);
+}
+
+.ComparacionConcentracion__categoria:nth-child(2n) {
+  --color-caja: var(--color-i);
+}
+
+.ComparacionConcentracion__categoria:nth-child(3n) {
+  --color-caja: var(--color-j);
 }
 
 .ComparacionConcentracion__categoria:first-child {
   flex: .35;
-  --color-bigotes: var(--color-naranja);
-  --color-caja: var(--color-amarillo);
+  --color-caja: var(--color-f);
+}
+
+.ComparacionConcentracion__categoria:nth-child(2) {
+  --color-caja: var(--color-g);
 }
 
 .ComparacionConcentracion__contenedor_caja {
@@ -93,8 +109,8 @@
 }
 
 .ComparacionConcentracion__separacion {
-  border-left: .1rem solid var(--color-gris-2);
-  border-bottom: .1rem solid var(--color-gris-2);
+  border-left: 1px solid var(--color-gris-2);
+  border-bottom: 1px solid var(--color-gris-2);
   flex: 1;
 }
 
