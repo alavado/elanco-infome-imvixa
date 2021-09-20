@@ -32,22 +32,22 @@
 }
 
 .Reporte__logo_imvixa {
-  width: 30rem;
+  width: 25rem;
   margin-top: 1rem;
 }
 
 .Reporte__logo_elanco {
   position: absolute;
-  top: .5rem;
-  right: 0;
-  width: 10rem;
+  top: 4.5rem;
+  right: 3rem;
+  width: 14rem;
 }
 
 .Reporte__salmon {
   position: absolute;
-  width: 20rem;
-  right: 6rem;
-  top: 4rem;
+  width: 28rem;
+  right: 22rem;
+  top: 3rem;
 }
 
 .Reporte__titulo_seccion {

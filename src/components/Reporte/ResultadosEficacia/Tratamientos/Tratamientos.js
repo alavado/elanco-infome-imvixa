@@ -137,7 +137,7 @@ const Tratamientos = () => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--imvixa"
             >
-              <div className="Tratamientos__valor_barra">{d.valor}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           ))}
@@ -148,7 +148,7 @@ const Tratamientos = () => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--hexa"
             >
-              <div className="Tratamientos__valor_barra">{d.valor}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           ))}
@@ -158,7 +158,7 @@ const Tratamientos = () => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--nada"
             >
-              <div className="Tratamientos__valor_barra">{d.valor}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           ))}

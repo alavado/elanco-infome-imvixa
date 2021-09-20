@@ -1,8 +1,7 @@
 import './Reporte.css'
-import { Link } from 'react-router-dom'
 import logoImvixa from '../../assets/images/logo-imvixa.svg'
 import logoElanco from '../../assets/images/logo-elanco.svg'
-import salmon from '../../assets/images/salmon.svg'
+import salmon from '../../assets/images/varios-salmones.png'
 import DatosEmpresa from './DatosEmpresa/DatosEmpresa'
 import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
 import ResultadosEficacia from './ResultadosEficacia'
@@ -10,7 +9,6 @@ import ResultadosConcentracion from './ResultadosConcentracion'
 import Comentarios from './Comentarios'
 import Sandalias from './Sandalias'
 import { useEffect } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import MensajeError from '../MensajeError'
 const { ipcRenderer } = window.require('electron')
 

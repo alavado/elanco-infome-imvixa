@@ -13,9 +13,7 @@ const DatosEmpresa = () => {
       <h1 className="DatosEmpresa__nombre">{nombreEmpresa}</h1>
       <h2 className="DatosEmpresa__subtitulo">INFORME SEGUIMIENTO IMVIXA</h2>
       <p className="DatosEmpresa__bajada">
-        <span className="DatosEmpresa__fecha">{meses[fechaFinal.getMonth()]}.{fechaFinal.getFullYear()}</span> · Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco.
-      </p>
-      <p className="DatosEmpresa__bajada">
+        <span className="DatosEmpresa__fecha">Fecha emisión informe: {meses[fechaFinal.getMonth()]} {fechaFinal.getFullYear()}</span> · Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco.
         Los datos del presente informe son confidenciales y pertenecen a {nombreEmpresa}. Prohibida su distribución sin autorización de la empresa. 
       </p>
       {/* <p className="DatosEmpresa__bajada">

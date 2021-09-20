@@ -17,12 +17,11 @@
 
 .DatosEmpresa__bajada {
   font-weight: 300;
-  font-size: .97rem;
+  font-size: 1.25rem;
   line-height: 1.25;
 }
 
 .DatosEmpresa__fecha {
   font-weight: bold;
   color: var(--color-gris-4);
-  text-transform: uppercase;
 }

@@ -22,6 +22,10 @@
   font-weight: 300;
 }
 
+.Sandalias__texto--blanco {
+  color: var(--color-fondo);
+}
+
 .Sandalias__x_imvixa {
   width: 8rem;
 }
