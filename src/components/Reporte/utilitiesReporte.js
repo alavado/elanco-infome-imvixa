@@ -284,3 +284,60 @@ export const divisionTemporalAPalabra = periodo => {
       return "-"
   }
 }
+
+const getFechaNAnterior = (fechaFinal, nMeses, mesesFinales) => {
+  const periodoActual = Math.floor(fechaFinal.getMonth() / nMeses)
+  const ultimoDiaPeriodoActual = new Date(fechaFinal.getFullYear(), mesesFinales[periodoActual] + 1, 1)
+  const mesUltimoDiaPeriodoActual = ultimoDiaPeriodoActual.getMonth()
+  return new Date(ultimoDiaPeriodoActual.getFullYear(), mesUltimoDiaPeriodoActual - (N_DIVISIONES * nMeses), 1)
+}
+
+
+export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
+  if (fechaInicial !== null) return fechaInicial;
+  const esteAño = new Date().getFullYear()
+  const añoPasado = esteAño - 1
+  let fechaAñoPasado
+  const fechaInicioAñoPasado = new Date(`01-01-${añoPasado}`)
+  const fecha18mAtras = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth()-18, 1)
+  // la fecha año anterior o 18 meses atras
+  if (fecha18mAtras < fechaInicioAñoPasado) {
+    fechaAñoPasado = fecha18mAtras
+    console.log({fecha18mAtras})
+  } else {
+    fechaAñoPasado = fechaInicioAñoPasado
+    console.log({fechaInicioAñoPasado})
+  }
+  // la fechaAñoPasado o 5 divisiones temporales 
+  let mesesPorPeriodo
+  let fechaNAnterior
+  let mesesFinales
+  switch (divisionTemporal) {
+    case 'mensual':
+      mesesPorPeriodo = 1
+      mesesFinales = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      fechaNAnterior = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth()-N_DIVISIONES, 1)
+      break
+    case 'trimestral':
+      mesesPorPeriodo = 3
+      mesesFinales = [2, 5, 8, 11]
+      fechaNAnterior = getFechaNAnterior(fechaFinal, mesesPorPeriodo, mesesFinales)
+      break
+    case 'cuatrimestral':
+      mesesPorPeriodo = 4
+      mesesFinales = [3, 7, 11]
+      fechaNAnterior = getFechaNAnterior(fechaFinal, mesesPorPeriodo, mesesFinales)
+      break
+    case 'semestral':
+      mesesPorPeriodo = 6
+      mesesFinales = [5, 11]
+      fechaNAnterior = getFechaNAnterior(fechaFinal, mesesPorPeriodo, mesesFinales)
+      break
+    default:
+      mesesPorPeriodo = 3
+      mesesFinales = [2, 5, 8, 11]
+  }
+  if (fechaAñoPasado < fechaNAnterior) return fechaAñoPasado
+  return fechaNAnterior
+
+}

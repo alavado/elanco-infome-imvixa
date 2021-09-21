@@ -8,6 +8,7 @@
   background-color: var(--color-fondo);
   width: 100%;
   height: calc(2 * 132.86vw);
+  max-height: calc(2 * 132.86vw);
   animation: aparece-reporte .25s ease both;
   display: flex;
   flex-direction: column;
@@ -22,6 +23,9 @@
   display: grid;
   grid-template-rows: 12% 15% 35% auto;
   padding: 4rem 2rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
 }
 
 .Reporte__pagina--2 {
@@ -29,6 +33,9 @@
   display: grid;
   grid-template-rows: 12% 50% auto;
   padding: 4rem 1rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
 }
 
 .Reporte__logo_imvixa {

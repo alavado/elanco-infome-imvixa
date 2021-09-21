@@ -33,7 +33,7 @@
   background: var(--color-f);
   color: var(--color-fondo);
   border: none;
-  width: 2.5rem;
+  min-width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
   display: flex;

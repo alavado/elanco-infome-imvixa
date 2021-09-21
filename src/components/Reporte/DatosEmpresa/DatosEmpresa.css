@@ -2,6 +2,20 @@
   padding-top: 1rem;
 }
 
+
+.DatosEmpresa__titulo {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: .2rem dotted var(--color-gris-4);
+  margin-bottom: 1rem;
+}
+
+.DatosEmpresa__fechadatos {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  margin-bottom: .22rem;
+}
+
 .DatosEmpresa__nombre {
   font-weight: 700;
   font-size: 3.75rem;
@@ -11,8 +25,6 @@
 .DatosEmpresa__subtitulo {
   font-weight: 600;
   font-size: 2.75rem;
-  border-bottom: .2rem dotted var(--color-gris-4);
-  margin-bottom: 1rem;
 }
 
 .DatosEmpresa__bajada {

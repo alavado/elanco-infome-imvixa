@@ -44,7 +44,11 @@ CATA MODIFICAR
 - marcar con otro color pines de la empresa
 - base de datos de 7mb ***
 
-
-ALE MODIFICAR
-- agregar aviso de que está descargando una nueva version
+NUEVA COTIZACION
+- ocultar y mover gráficos
+- implementar nueva maqueta de carolina
+  - 2 paginas y cambio de tamaño (nueva cotizacion)
+  - agregar glosas (incluido en el proyecto)
+- agregar comentario boton en el menú opciones
+- agregar otro menu "View" para ocultar gráficos
 
