@@ -4,9 +4,9 @@
 - arreglar maximo de graficos piscicultura 300
 - todos los centros de mar 
 TODO
-- quitar promedio empresa cuando no hay valores para meses hasta primer
 - localstorage de planillas ultima vez usadas
 - fix comentario
+- HANDLE THIS HARDCODED VALUE
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS
 

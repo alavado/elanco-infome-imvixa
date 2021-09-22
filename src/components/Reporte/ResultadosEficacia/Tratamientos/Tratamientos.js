@@ -13,7 +13,7 @@ export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 const getEficacia = (datos, decimales) => {
   if (datos.every(obj => obj[colEficaciaEficacia])) {
     const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
-    return Math.round(promedioEficacia) / Math.pow(10, decimales) || '-'
+    return Math.round(promedioEficacia) / Math.pow(10, decimales) 
   }
   else {
     // TODO: HANDLE THIS HARDCODED VALUE
@@ -57,7 +57,7 @@ const Tratamientos = () => {
       fechaFinal,
       3).filter(obj => obj[colHexaEficacia] !== 'Si' && obj[colEficaciaEficacia])
 
-  const promedioIndustria = `${getEficacia(datosIndustria, 1)} meses`
+  const promedioIndustria = getEficacia(datosIndustria, 1)
 
   // filtro los datos empresa los que no han usado alfaflux
   const datosImvixaEmpresa = datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si')
@@ -117,7 +117,7 @@ const Tratamientos = () => {
         Tiempo transcurrido (meses) entre la siembra y primer tratamiento contra caligidosis
       </div>
       <div className="Tratamientos__subtitulo">
-        <p><span className="Tratamientos__label_promedio">Promedio Industria</span>: {promedioIndustria}</p>
+        {promedioIndustria ? <p><span className="Tratamientos__label_promedio">Promedio Industria</span>: {promedioIndustria} meses</p> : null }
         {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">Promedio Empresa</span>: {promedioEmpresa} meses</p> : null }
       </div>
       <div className="Tratamientos__contenedor_grafico">
