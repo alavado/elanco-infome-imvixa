@@ -292,7 +292,8 @@ const getFechaNAnterior = (fechaFinal, nMeses, mesesFinales) => {
   return new Date(ultimoDiaPeriodoActual.getFullYear(), mesUltimoDiaPeriodoActual - (N_DIVISIONES * nMeses), 1)
 }
 
-
+// Obtiene la fecha de inicio en que se filtran los datos
+// consderando las últimas N_DIVISIONES temporales
 export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
   if (fechaInicial !== null) return fechaInicial;
   let mesesPorPeriodo
