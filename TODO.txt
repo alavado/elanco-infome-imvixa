@@ -1,54 +1,20 @@
 
-- hacer reporte con agregado de todas las empresas
-
-
-- agregar al informe rango de datos reales
 - limpiar funcion en tabla resumen extraer metodo
-- datos reales
-- localstorage de planillas ultima vez usadas
-- agregar un boton en menu acerca de para la version
-
-- cambiar colores a macrozona
-
 - Cambiar a seasite_code
 - arreglar maximo de graficos piscicultura 300
-
-DONE
-
-- datos faltantes en n peces tratados
-
-
-
-
-Patricio check
-- decision de diseño saqué filas con nan en PPB en planilla peces
-- decision de diseño promedio industria no considera pisciculturas sin baños
-- revisar concentracion en musculo como se hace. BIEN.
-
-
-
-
+- todos los centros de mar 
+TODO
+- quitar promedio empresa cuando no hay valores para meses hasta primer
+- localstorage de planillas ultima vez usadas
+- cambiar fecha de inicio
+- quitar espacio tabla
+- fix comentario
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS
 
 ---------------------------------------------------------------------------------
-
-- cual es el rango normal de concentracion ppb
-  - normalmente entre 10 y 25. 18 más probable
+P - cual es el rango normal de concentracion ppb
+  R - normalmente entre 10 y 25. 18 más probable
 ------------------------------------------------------------------------------
-CATA MODIFICAR 
-- todos los centros de mar 
-- quitar promedio empresa cuando no hay valores para meses hasta primer
-- debería decir en leyenda imvixa + otro
-- agregar leyenda antes del termino de eficacia entre titulo y grafico
-- marcar con otro color pines de la empresa
-- base de datos de 7mb ***
 
-NUEVA COTIZACION
-- ocultar y mover gráficos
-- implementar nueva maqueta de carolina
-  - 2 paginas y cambio de tamaño (nueva cotizacion)
-  - agregar glosas (incluido en el proyecto)
-- agregar comentario boton en el menú opciones
-- agregar otro menu "View" para ocultar gráficos
 

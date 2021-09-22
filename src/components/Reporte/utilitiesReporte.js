@@ -295,20 +295,6 @@ const getFechaNAnterior = (fechaFinal, nMeses, mesesFinales) => {
 
 export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
   if (fechaInicial !== null) return fechaInicial;
-  const esteAño = new Date().getFullYear()
-  const añoPasado = esteAño - 1
-  let fechaAñoPasado
-  const fechaInicioAñoPasado = new Date(`01-01-${añoPasado}`)
-  const fecha18mAtras = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth()-18, 1)
-  // la fecha año anterior o 18 meses atras
-  if (fecha18mAtras < fechaInicioAñoPasado) {
-    fechaAñoPasado = fecha18mAtras
-    console.log({fecha18mAtras})
-  } else {
-    fechaAñoPasado = fechaInicioAñoPasado
-    console.log({fechaInicioAñoPasado})
-  }
-  // la fechaAñoPasado o 5 divisiones temporales 
   let mesesPorPeriodo
   let fechaNAnterior
   let mesesFinales
@@ -336,8 +322,8 @@ export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
     default:
       mesesPorPeriodo = 3
       mesesFinales = [2, 5, 8, 11]
+      fechaNAnterior = getFechaNAnterior(fechaFinal, mesesPorPeriodo, mesesFinales)
   }
-  if (fechaAñoPasado < fechaNAnterior) return fechaAñoPasado
   return fechaNAnterior
 
 }
