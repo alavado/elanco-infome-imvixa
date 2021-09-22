@@ -1,6 +1,6 @@
 {
   "name": "elanco-informe-imvixa",
-  "version": "0.1.13",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "@iconify/react": "^3.0.1",
