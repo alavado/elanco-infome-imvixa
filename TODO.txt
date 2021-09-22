@@ -6,8 +6,6 @@
 TODO
 - quitar promedio empresa cuando no hay valores para meses hasta primer
 - localstorage de planillas ultima vez usadas
-- cambiar fecha de inicio
-- quitar espacio tabla
 - fix comentario
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS

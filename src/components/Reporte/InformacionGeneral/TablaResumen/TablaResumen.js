@@ -102,7 +102,6 @@ const TablaResumen = () => {
       datosAñoPasado.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0), 
       datosAñoActual.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0)
     ],
-    [],
     [
       'N° peces tratados RAS', 
       datosAñoPasado.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
