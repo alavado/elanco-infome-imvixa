@@ -12,6 +12,12 @@ const today = new Date()
 const slice = createSlice({
   name: "reporte",
   initialState: {
+    validando: {
+      alimento: false,
+      eficacia: false,
+      tratamiento: false,
+      peces: false
+    },
     pasoActual: 0,
     planillaAlimento: "",
     planillaTratamiento: "",
@@ -39,6 +45,12 @@ const slice = createSlice({
     datosFiltradosIndustriaTratamiento: null,
   },
   reducers: {
+    estaValidando(state, action) {
+      state.validando = {
+        ...state.validando,
+        ...action.payload
+      }
+    },
     guardaNombreEmpresa(state, action) {
       state.nombreEmpresa = action.payload.value
     },
@@ -109,21 +121,25 @@ const slice = createSlice({
       state.todasLasPlanillas = false
       state.planillaAlimento = ""
       state.datosAlimento = []
+      localStorage.removeItem("planillaAlimento")
     },
     limpiarFormularioTratamiento(state, action) {
       state.todasLasPlanillas = false
       state.planillaTratamiento = ""
       state.datosTratamiento = []
+      localStorage.removeItem("planillaTratamiento")
     },
     limpiarFormularioPeces(state, action) {
       state.todasLasPlanillas = false
       state.planillaPeces = ""
       state.datosPeces = []
+      localStorage.removeItem("planillaPeces")
     },
     limpiarFormularioEficacia(state, action) {
       state.todasLasPlanillas = false
       state.planillaEficacia = ""
       state.datosEficacia = []
+      localStorage.removeItem("planillaEficacia")
     },
     procesarDatosParaExportar(state) {
       state.datosFiltradosAlimento = filtrarDatosAlimento(
@@ -178,6 +194,7 @@ const slice = createSlice({
 })
 
 export const {
+  estaValidando,
   guardarPlanillaAlimento,
   guardarPlanillaTratamiento,
   guardarPlanillaPeces,
@@ -194,6 +211,7 @@ export const {
   pasoSiguiente,
   pasoAnterior,
   procesarDatosParaExportar,
+  validando
 } = slice.actions
 
 export default slice.reducer

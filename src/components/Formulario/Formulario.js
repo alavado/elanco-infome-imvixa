@@ -22,7 +22,8 @@ const Formulario = () => {
     pasoActual: indicePasoActual,
     errorFormulario,
     todasLasPlanillas,
-    nombreEmpresa
+    nombreEmpresa,
+    validando
   } = useSelector((state) => state.reporte);
   const pasos = useMemo(
     () => [
@@ -32,7 +33,7 @@ const Formulario = () => {
         componente: <FormPlanillas />,
         volver: "",
         siguiente: "Siguiente",
-        siguienteActivo: todasLasPlanillas,
+        siguienteActivo: todasLasPlanillas && Object.values(validando).every(v => !v),
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
             dispatch(pasoSiguiente())
@@ -74,7 +75,7 @@ const Formulario = () => {
       //   onClickSiguiente: () => history.push('/reporte')
       // }
     ],
-    [todasLasPlanillas, nombreEmpresa, errorFormulario, dispatch, history]
+    [validando, todasLasPlanillas, nombreEmpresa, errorFormulario, dispatch, history]
   );
 
   const pasoActual = pasos[indicePasoActual];

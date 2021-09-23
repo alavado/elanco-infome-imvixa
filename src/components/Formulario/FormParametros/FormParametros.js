@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  estaValidando,
   guardarPlanillaAlimento,
   guardarPlanillaEficacia,
   guardarPlanillaPeces,
@@ -26,6 +27,7 @@ const FormPlanillas = () => {
 
   const leerPlanilla = async (tipo, path) => {
     if (path) {
+      dispatch(estaValidando({[tipo]: true}))
       const data = ipcRenderer.send("leer", { tipo, path });
     }
   };
@@ -35,42 +37,50 @@ const FormPlanillas = () => {
   ))
 
   ipcRenderer.once("alimento", async (e, data) => {
+    dispatch(estaValidando({alimento: false}))
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioAlimento())
     } else {
       dispatch(guardarPlanillaAlimento(data))
+      localStorage.setItem("planillaAlimento", data.path)
     }
   });
   
   ipcRenderer.once("eficacia", async (e, data) => {
+    dispatch(estaValidando({eficacia: false}))
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioEficacia())
     } else {
       dispatch(guardarPlanillaEficacia(data))
+      localStorage.setItem("planillaEficacia", data.path)
     }
   });
 
   ipcRenderer.once("peces", async (e, data) => {
+    dispatch(estaValidando({peces: false}))
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioPeces())
     } else {
       dispatch(guardarPlanillaPeces(data))
+      localStorage.setItem("planillaPeces", data.path)
     }
   });
 
   ipcRenderer.once("tratamiento", async (e, data) => {
+    dispatch(estaValidando({tratamiento: false}))
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
       dispatch(limpiarFormularioTratamiento())
     } else {
       dispatch(guardarPlanillaTratamiento(data))
+      localStorage.setItem("planillaTratamiento", data.path)
     }
   });
 
-  const { 
+  let { 
     planillaAlimento, 
     planillaPeces, 
     planillaEficacia,
@@ -78,29 +88,23 @@ const FormPlanillas = () => {
    } = useSelector(
     (state) => state.reporte
   );
-
-  // const selectFile = (e, validationFunction, action) => {
-  //   if (e.target.files == null) return
-  //   const f = e.target.files[0]
-  //   const reader = new FileReader()
-  //   reader.onload = (e) => {
-  //     let data = e.target.result
-  //     data = new Uint8Array(data)
-  //     try {
-  //       validationFunction(
-  //         XLSX.read(data, { type: "array"}),
-  //         v => dispatch(action({file: f, data: v}))
-  //       )
-  //     } catch (error) {
-  //       dispatch(
-  //         mostrarErrorFormulario(
-  //           "La planilla que intentó cargar no cumple con el formato necesario."
-  //         )
-  //       );
-  //     }
-  //   };
-  //   reader.readAsArrayBuffer(f)
-  // };
+  
+  useEffect(() => {
+    // Recuperar de localstorage aquellos
+    if (planillaAlimento === "" && localStorage.getItem('planillaAlimento') !== null) {
+      leerPlanilla("alimento", localStorage.getItem('planillaAlimento'))
+    } 
+    if (planillaEficacia === "" && localStorage.getItem('planillaEficacia') !== null) {
+      leerPlanilla("eficacia", localStorage.getItem('planillaEficacia'))
+    } 
+    if (planillaTratamiento === "" && localStorage.getItem('planillaTratamiento') !== null) {
+      leerPlanilla("tratamiento", localStorage.getItem('planillaTratamiento'))
+    } 
+    if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null) {
+      planillaPeces = localStorage.getItem('planillaPeces')
+      leerPlanilla("peces", planillaPeces)
+    } 
+  }, []);
 
   return (
     <div>
@@ -120,25 +124,6 @@ const FormPlanillas = () => {
           accept=".csv, .xl*"
           onChange={
             (e) => leerPlanilla("alimento", e.target.files[0]?.path)
-          }
-        ></input>
-      </div>
-      <div className="FormPlanillas__planilla">
-        <label
-          htmlFor="FormPlanillas__planilla__2"
-          className="FormPlanillas__planilla__label"
-        >
-          <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
-          <div className="FormPlanillas__planilla__label__file">
-            {getShortPath(planillaTratamiento)}
-          </div>
-        </label>
-        <input
-          id="FormPlanillas__planilla__2"
-          type="file"
-          accept=".csv, .xl*"
-          onChange={
-            (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
           }
         ></input>
       </div>
@@ -174,6 +159,25 @@ const FormPlanillas = () => {
           type="file"
           accept=".csv, .xl*"
           onChange={(e) => leerPlanilla("peces", e.target.files[0]?.path)}
+        ></input>
+      </div>
+      <div className="FormPlanillas__planilla">
+        <label
+          htmlFor="FormPlanillas__planilla__2"
+          className="FormPlanillas__planilla__label"
+        >
+          <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
+          <div className="FormPlanillas__planilla__label__file">
+            {getShortPath(planillaTratamiento)}
+          </div>
+        </label>
+        <input
+          id="FormPlanillas__planilla__2"
+          type="file"
+          accept=".csv, .xl*"
+          onChange={
+            (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
+          }
         ></input>
       </div>
       <div id="htmlout"></div>
