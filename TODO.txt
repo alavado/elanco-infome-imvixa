@@ -4,7 +4,6 @@
 - arreglar maximo de graficos piscicultura 300
 - todos los centros de mar 
 TODO
-- localstorage de planillas ultima vez usadas
 - fix comentario
 - HANDLE THIS HARDCODED VALUE
 ------------------------------------------------------------------------------
