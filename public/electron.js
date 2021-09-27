@@ -42,6 +42,7 @@ let mainWindow;
 let menuItemVolverAParametros, menuItemImprimir;
 
 let estadosGraficos = graficos.map(g => ({ ...g, visible: true }))
+let hayComentarios = false
 
 function construirMenu() {
   const menu = new Menu()
@@ -141,6 +142,10 @@ app.on('activate', () => {
 });
 
 const reporteAPDF = async () => {
+  const graficoEficacia = estadosGraficos.find(g => g.id === 'GRAFICO_EFICACIA')
+  const graficoMapa = estadosGraficos.find(g => g.id === 'GRAFICO_MACROZONAS')
+  const graficosSegundaPaginaVisibles = graficoEficacia.visible && graficoMapa.visible
+  const imprimirDosPaginas = graficosSegundaPaginaVisibles || hayComentarios
   try {
     const data = await mainWindow.webContents.printToPDF({
       printBackground: true,
@@ -151,7 +156,7 @@ const reporteAPDF = async () => {
       },
       pageRanges: {
         from: 0,
-        to: 1
+        to: imprimirDosPaginas ? 1 : 0
       }
     })
     fs.writeFileSync(path.join(app.getPath('desktop'), 'Informe Seguimiento Imvixa.pdf'), data)
@@ -170,6 +175,12 @@ ipcMain.on('viendoReporte', async () => {
 ipcMain.on('yaNoViendoReporte', async () => {
   menuItemVolverAParametros.enabled = false
   menuItemImprimir.enabled = false
+})
+ipcMain.on('hayComentarios', async () => {
+  hayComentarios = true
+})
+ipcMain.on('yaNoHayComentarios', async () => {
+  hayComentarios = false
 })
 
 const volverAParametros = async () => {

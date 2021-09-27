@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { agregarComentario } from '../../../redux/ducks/comentarios'
 import Comentario from './Comentario'
 import './Comentarios.css'
+const { ipcRenderer } = window.require('electron')
 
 const Comentarios = () => {
 
@@ -23,7 +24,14 @@ const Comentarios = () => {
     nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentario(c)))
     setNuevoComentario('')
     setAgregandoComentario(false)
+    ipcRenderer.send('hayComentarios')
   }
+
+  useEffect(() => {
+    if (comentarios.length === 0) {
+      ipcRenderer.send('yaNoHayComentarios')
+    }
+  }, [comentarios])
 
   useEffect(() => {
     if (agregandoComentario) {
