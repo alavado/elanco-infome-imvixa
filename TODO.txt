@@ -4,8 +4,13 @@
 - arreglar maximo de graficos piscicultura 300
 - todos los centros de mar 
 TODO
-- fix comentario
+- fix comentario que se traslapa
 - HANDLE THIS HARDCODED VALUE
+- si se elimina los dos ultimso graficos eliminar seccion
+  - si no hay comentarios que se imprima de una pagina
+  - si hay comentario que se muestre foto y comentarios donde estaban los graficos
+
+- ver factibilidad de agrandar los graficos
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS
 
