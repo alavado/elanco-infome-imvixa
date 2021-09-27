@@ -35,7 +35,7 @@ const getBoxPlotData = (datos, nombre) => {
   }
 }
 
-const ComparacionConcentracion = () => {
+const ComparacionConcentracion = ({ agrandar }) => {
 
   const { 
     divisionTemporal,
@@ -71,7 +71,10 @@ const ComparacionConcentracion = () => {
   const separaciones = 1 + xMax / 5
 
   return (
-    <div className="ComparacionConcentracion">
+    <div
+      className="ComparacionConcentracion"
+      style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
+    >
       <p className="ComparacionConcentracion__titulo">
         Comparación concentración (ppb) 
         en músculo

@@ -11,7 +11,7 @@ import {
 } from '../../../../constants'
 import './GraficoPesoPromedio.css'
 
-const GraficoPesoPromedio = () => {
+const GraficoPesoPromedio = ({ agrandar }) => {
 
   const { 
     datosFiltradosPeces,
@@ -63,7 +63,10 @@ const GraficoPesoPromedio = () => {
     .reverse()
 
   return (
-    <div className="GraficoPesoPromedio">
+    <div
+      className="GraficoPesoPromedio"
+      style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
+    >
       <p className="GraficoPesoPromedio__titulo">
         Peso promedio pez (g) al tratamiento por piscicultura
       </p>

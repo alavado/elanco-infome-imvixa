@@ -28,7 +28,7 @@ const ResultadosConcentracion = () => {
         {mostrarGraficoConcentracionMusculo && <ConcentracionEnMusculo />}
       </MensajeError>
       <MensajeError>
-        {mostrarGraficoComparacionConcentracion && <ComparacionConcentracion />}
+        {mostrarGraficoComparacionConcentracion && <ComparacionConcentracion agrandar={!mostrarGraficoCumplimientoConcentracion || !mostrarGraficoConcentracionMusculo} />}
       </MensajeError>
     </div>
   )

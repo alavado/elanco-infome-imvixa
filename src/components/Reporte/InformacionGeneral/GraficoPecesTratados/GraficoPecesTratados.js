@@ -4,7 +4,7 @@ import { dividirDatosSegun, reemplazarNullPorCero } from '../../utilitiesReporte
 import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 
 
-const GraficoPecesTratados = () => {
+const GraficoPecesTratados = ({ agrandar }) => {
   const { 
     datosFiltradosTratamiento,
     divisionTemporal,
@@ -37,7 +37,10 @@ const GraficoPecesTratados = () => {
   const yLineas = ticks.reverse()
 
   return (
-    <div className="GraficoPecesTratados">
+    <div
+      className="GraficoPecesTratados"
+      // style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
+    >
       <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
       <div className="GraficoPecesTratados__contenedor_grafico">
         <p className="GraficoPecesTratados__etiqueta_eje_y">

@@ -1,8 +1,8 @@
 .ConcentracionEnMusculo {
   display: flex;
   flex-direction: column;
-  border-left: .15rem dotted var(--color-gris-4);
-  padding: 0.25rem 3rem 2rem 1rem;
+  border-right: .15rem dotted var(--color-gris-4);
+  padding: 0.25rem 3rem 2rem 0rem;
   justify-content: space-between;
 }
 

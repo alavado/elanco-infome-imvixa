@@ -1,9 +1,9 @@
 .ComparacionConcentracion {
   display: flex;
   flex-direction: column;
-  border-left: .15rem dotted var(--color-gris-4);
   padding: 0.25rem 0rem 2rem 0;
   position: relative;
+  grid-column: span 2;
 }
 
 .ComparacionConcentracion__titulo {
@@ -11,7 +11,7 @@
   margin-bottom: 1.75rem;
   font-size: 1.25rem;
   line-height: 1.15;
-  padding-left: 1rem;
+  padding-left: 0rem;
 }
 
 .ComparacionConcentracion__contenedor_grafico {

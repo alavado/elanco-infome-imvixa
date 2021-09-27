@@ -20,10 +20,10 @@ const InformacionGeneral = () => {
         <TablaResumen />
       </MensajeError>
       <MensajeError>
-        {mostrarGraficoPecesTratados && <GraficoPecesTratados />}
+        {mostrarGraficoPecesTratados && <GraficoPecesTratados agrandar={!mostrarGraficoPesoPromedio} />}
       </MensajeError>
       <MensajeError>
-        {mostrarGraficoPesoPromedio && <GraficoPesoPromedio />}
+        {mostrarGraficoPesoPromedio && <GraficoPesoPromedio agrandar={!mostrarGraficoPecesTratados} />}
       </MensajeError>
     </div>
   )
