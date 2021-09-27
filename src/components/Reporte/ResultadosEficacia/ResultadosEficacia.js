@@ -10,6 +10,10 @@ const ResultadosEficacia = () => {
   const mostrarGraficoTratamientos = graficos.find(g => g.id === 'GRAFICO_EFICACIA').visible
   const mostrarMapaMacrozonas = graficos.find(g => g.id === 'GRAFICO_MACROZONAS').visible
 
+  if (!mostrarGraficoTratamientos && !mostrarMapaMacrozonas) {
+    return null
+  }
+
   return (
     <div className="ResultadosEficacia">
       <h3 className="Reporte__titulo_seccion">

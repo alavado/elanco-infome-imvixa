@@ -2,6 +2,7 @@
   --color-titulo-seccion: var(--color-i);
   display: grid;
   padding-top: 1.5rem;
-  grid-template: 2rem 1fr / 1fr 1.3fr;
+  padding-bottom: 5rem;
+  grid-template: 2rem 1fr / 1fr 1.25fr;
   gap: 0 1rem;
 }

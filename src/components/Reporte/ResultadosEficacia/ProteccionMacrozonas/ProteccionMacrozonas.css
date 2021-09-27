@@ -1,18 +1,17 @@
 .ProteccionMacrozonas {
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem 1rem 0 0rem;
 }
 
 .ProteccionMacrozonas__titulo {
   font-size: 1.25rem;
-  padding-left: 1.25rem;
+  padding-left: .5rem;
   font-weight: 400;
   color: var(--color-gris-4);
   line-height: 1.15;
 }
 
 .ProteccionMacrozonas__contenedor_mapa {
-  border-left: .15rem dotted var(--color-gris-4);
-  padding-left: 1rem;
+  padding-left: .5rem;
   margin-top: 2rem;
   position: relative;
 }
