@@ -3,7 +3,7 @@ import logoImvixa from "../../assets/images/logo-imvixa.svg";
 import logoElanco from "../../assets/images/logo-elanco.svg";
 import FormPlanillas from "./FormPlanillas";
 import FormParametros from "./FormParametros";
-import FormExportar from "./FormExportar";
+import Spinner from "../Spinner"
 import "./Formulario.css";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -110,26 +110,26 @@ const Formulario = () => {
         </div>
         <div className="Formulario__body">
           {pasoActual.componente}
-          {errorFormulario !== null ? (
+          {Object.values(validando).every(v => !v) && errorFormulario !== null ? (
             <div className="Formulario__error">{errorFormulario}</div>
           ) : null}
+          {Object.values(validando).every(v => !v) ? null : <Spinner/> }
         </div>
-
         <div className="Formulario__botones">
-          <button
-            className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': pasoActual.siguienteActivo})}
-            onClick={pasoActual.onClickSiguiente}
-          >
-            {pasoActual.siguiente}
-          </button>
-          {indicePasoActual === 0 ? null : (
             <button
-              className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': true})} 
-              onClick={() => dispatch(pasoAnterior())}
+              className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': pasoActual.siguienteActivo})}
+              onClick={pasoActual.onClickSiguiente}
             >
-              {pasoActual.volver}
+              {pasoActual.siguiente}
             </button>
-          )}
+            {indicePasoActual === 0 ? null : (
+              <button
+                className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': true})} 
+                onClick={() => dispatch(pasoAnterior())}
+              >
+                {pasoActual.volver}
+              </button>
+            )}
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ const FormPlanillas = () => {
   const leerPlanilla = async (tipo, path) => {
     if (path) {
       dispatch(estaValidando({[tipo]: true}))
-      const data = ipcRenderer.send("leer", { tipo, path });
+      ipcRenderer.send("leer", { tipo, path });
     }
   };
 

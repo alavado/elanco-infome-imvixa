@@ -121,24 +121,40 @@ const slice = createSlice({
       state.todasLasPlanillas = false
       state.planillaAlimento = ""
       state.datosAlimento = []
+      state.validando = {
+        ...state.validando,
+        alimento: false
+      }
       localStorage.removeItem("planillaAlimento")
     },
     limpiarFormularioTratamiento(state, action) {
       state.todasLasPlanillas = false
       state.planillaTratamiento = ""
       state.datosTratamiento = []
+      state.validando = {
+        ...state.validando,
+        tratamiento: false
+      }
       localStorage.removeItem("planillaTratamiento")
     },
     limpiarFormularioPeces(state, action) {
       state.todasLasPlanillas = false
       state.planillaPeces = ""
       state.datosPeces = []
+      state.validando = {
+        ...state.validando,
+        peces: false
+      }
       localStorage.removeItem("planillaPeces")
     },
     limpiarFormularioEficacia(state, action) {
       state.todasLasPlanillas = false
       state.planillaEficacia = ""
       state.datosEficacia = []
+      state.validando = {
+        ...state.validando,
+        eficacia: false
+      }
       localStorage.removeItem("planillaEficacia")
     },
     procesarDatosParaExportar(state) {

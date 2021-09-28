@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { getFechaInicio, divisionTemporalAPalabra } from '../utilitiesReporte'
+import { getFechaInicio } from '../utilitiesReporte'
 import './DatosEmpresa.css'
 
 const DatosEmpresa = () => {
@@ -24,12 +24,7 @@ const DatosEmpresa = () => {
         <span className="DatosEmpresa__fecha">Fecha emisión informe: {meses[today.getMonth()]} {today.getFullYear()}</span> · Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco.
         Los datos del presente informe son confidenciales y pertenecen a {nombreEmpresa}. Prohibida su distribución sin autorización de la empresa. 
       </p>
-      {/* <p className="DatosEmpresa__bajada">
-        Los gráficos de las secciones Información General y Resultado de concentración han sido elaborados con datos de los últimos 5 {divisionTemporalAPalabra(divisionTemporal)}
-      </p>
-      <p className="DatosEmpresa__bajada">
-        Los gráficos de la sección Resultados de eficacia Imvixa han sido elaborados con datos de los últimos 18 meses
-      </p> */}
+
     </div>
   )
 }

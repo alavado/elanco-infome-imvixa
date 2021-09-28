@@ -154,8 +154,9 @@ const Tratamientos = () => {
             </div>
           ))}
           <div className="Tratamientos__separador_grupo_barras" />
-          {datosNada.map(d => (
+          {datosNada.map((d, i) => (
             <div
+              key={`separador-tratamientos-nada-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--nada"
             >

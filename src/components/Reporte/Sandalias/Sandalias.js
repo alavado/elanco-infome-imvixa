@@ -18,7 +18,7 @@ const Sandalias = ({ pagina }) => {
       <p
         className={classNames({
           "Sandalias__texto": true,
-          "Sandalias__texto--blanco": !hayComentarios && pagina ==2
+          "Sandalias__texto--blanco": !hayComentarios && pagina === 2
         })}
       >
         Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco
