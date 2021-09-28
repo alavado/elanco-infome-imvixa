@@ -61,7 +61,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
   const datos = [
     getBoxPlotData(datosIndustria, 'Industria'),
     getBoxPlotData(datosEmpresa, 'Empresa'),
-    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc))
+    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
   ]
 

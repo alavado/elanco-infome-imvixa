@@ -48,7 +48,7 @@ const GraficoPesoPromedio = ({ agrandar }) => {
         return row[colPeso2]
       }).reduce((prev, curr) => prev + curr, 0) / datosGrouped[piscicultura].length)
     }
-  })
+  }).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
   const vMax = Math.max(...datos.map(d => d.valor))
   const vMin = Math.min(...datos.map(d => d.valor))

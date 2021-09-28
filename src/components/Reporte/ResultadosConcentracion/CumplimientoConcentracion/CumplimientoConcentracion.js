@@ -52,38 +52,8 @@ const CumplimientoConcentracion = () => {
         max: Math.max(...values),
         min: Math.min(...values),
       }
-    })
+    }).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
   ]
-  // const datos = [
-  //   {
-  //     nombre: 'Cargill 2020',
-  //     promedio: 82,
-  //     iqr: 3,
-  //     max: 99,
-  //     min: 65
-  //   },
-  //   {
-  //     nombre: 'Biomar 2020',
-  //     promedio: 80,
-  //     iqr: 4,
-  //     max: 101,
-  //     min: 55
-  //   },
-  //   {
-  //     nombre: 'Skretting 2020',
-  //     promedio: 74,
-  //     iqr: 3.5,
-  //     max: 80,
-  //     min: 55
-  //   },
-  //   {
-  //     nombre: 'Industria 2020',
-  //     promedio: 75,
-  //     iqr: 3.5,
-  //     max: 103,
-  //     min: 69
-  //   }
-  // ]
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))

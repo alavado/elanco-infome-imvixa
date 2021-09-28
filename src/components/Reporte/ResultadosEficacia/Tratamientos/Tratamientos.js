@@ -72,21 +72,21 @@ const Tratamientos = () => {
     ...Object.keys(datosSinHex).map(nombre => {
       return {
         nombre,
-        valor: getEficacia(datosSinHex[nombre], 2),
+        valor: getEficacia(datosSinHex[nombre], 1),
         tratamiento: TRATAMIENTOS_IMVIXA
       }
     }),
     ...Object.keys(datosConHex).map(nombre => {
       return {
         nombre,
-        valor: getEficacia(datosConHex[nombre], 2),
+        valor: getEficacia(datosConHex[nombre], 1),
         tratamiento: TRATAMIENTOS_HEXAFLUMURON
       }
     }),
     ...Object.keys(datosSinEficacia).map(nombre => {
       return {
         nombre,
-        valor: getEficaciaSegunFecha(datosSinEficacia[nombre], fechaFinal, 2),
+        valor: getEficaciaSegunFecha(datosSinEficacia[nombre], fechaFinal, 1),
       }
     }),
   ]

@@ -1,16 +1,15 @@
+FIX
+- Agregar disclaimer de marcas registrada
+- caja boxplot pequeño tapa número en boxplots
 
 - limpiar funcion en tabla resumen extraer metodo
 - Cambiar a seasite_code
 - arreglar maximo de graficos piscicultura 300
 - todos los centros de mar 
 TODO
-- fix comentario que se traslapa
-- HANDLE THIS HARDCODED VALUE
-- si se elimina los dos ultimso graficos eliminar seccion
-  - si no hay comentarios que se imprima de una pagina
-  - si hay comentario que se muestre foto y comentarios donde estaban los graficos
 
-- ver factibilidad de agrandar los graficos
+- HANDLE THIS HARDCODED VALUE
+
 ------------------------------------------------------------------------------
 PROBLEMAS y PREGUNTAS
 
