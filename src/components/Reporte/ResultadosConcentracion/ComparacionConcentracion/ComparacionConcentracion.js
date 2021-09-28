@@ -14,6 +14,7 @@ import {
   tipoFreshWater,
   colPPB 
 } from '../../../../constants'
+import classNames from 'classnames'
 
 const getBoxPlotData = (datos, nombre) => {
   if (datos.length === 0) {
@@ -69,6 +70,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
     return d.max > max ? (5 * Math.floor((d.max + 5) / 5)) : max
   }, 0)
   const separaciones = 1 + xMax / 5
+  console.log({separaciones, xMax})
 
   return (
     <div
@@ -98,7 +100,11 @@ const ComparacionConcentracion = ({ agrandar }) => {
                 <div
                   className="ComparacionConcentracion__caja"
                 >
-                  {d.promedio}
+                  <span className={
+                    classNames({
+                      "ComparacionConcentracion__caja_peque": (d.iqr / xMax) < 0.1
+                    })
+                  }>{d.promedio}</span> 
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"

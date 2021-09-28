@@ -1,13 +1,14 @@
 FIX
-- Agregar disclaimer de marcas registrada
 - caja boxplot pequeño tapa número en boxplots
+- leyenda tapa otras cosas
+- mostrar loading
 
 - limpiar funcion en tabla resumen extraer metodo
 - Cambiar a seasite_code
 - arreglar maximo de graficos piscicultura 300
 - todos los centros de mar 
-TODO
 
+TODO
 - HANDLE THIS HARDCODED VALUE
 
 ------------------------------------------------------------------------------
