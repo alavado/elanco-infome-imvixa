@@ -1,21 +1,14 @@
 FIX
-- caja boxplot pequeño tapa número en boxplots
-- leyenda tapa otras cosas
-
-- limpiar funcion en tabla resumen extraer metodo
-- Cambiar a seasite_code
-- arreglar maximo de graficos piscicultura 300
-- todos los centros de mar 
 
 TODO
-- HANDLE THIS HARDCODED VALUE
 
 ------------------------------------------------------------------------------
-PROBLEMAS y PREGUNTAS
-
+PREGUNTAS
 ---------------------------------------------------------------------------------
 P - cual es el rango normal de concentracion ppb
   R - normalmente entre 10 y 25. 18 más probable
+
+- maximo de graficos piscicultura 300
 ------------------------------------------------------------------------------
 
 
