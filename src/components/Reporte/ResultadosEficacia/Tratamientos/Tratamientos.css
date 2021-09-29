@@ -114,6 +114,17 @@
   flex: .5;
 }
 
+.Tratamientos__barra__si {
+  position: absolute;
+  bottom: 0.25rem;
+  right: -0.5rem;
+  width: 2rem;
+  font-size: .65rem;
+  color: var(--color-gris-4);
+  text-align: center;
+}
+
+
 .Tratamientos__etiqueta_barra {
   bottom: -2.4rem;
   font-size: .7rem;

@@ -16,8 +16,7 @@ const getEficacia = (datos, decimales) => {
     return Math.round(promedioEficacia) / Math.pow(10, decimales) 
   }
   else {
-    // TODO: HANDLE THIS HARDCODED VALUE
-    return 1.24
+    return 0
   }
 }
 
@@ -132,7 +131,19 @@ const Tratamientos = () => {
           ))}
         </div>
         <div className="Tratamientos__barras_grafico">
-          {datosImvixa.map((d, i) => (
+          {datosImvixa.map((d, i) => {
+            if (d.valor === 0) {
+              return (
+                <div
+                  key={`barra-tratamientos-${i}`}
+                  className="Tratamientos__barra Tratamientos__barra--imvixa"
+                >
+                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
+                </div>
+              )
+            }
+            return (
             <div
               key={`barra-tratamientos-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
@@ -141,9 +152,21 @@ const Tratamientos = () => {
               <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
-          ))}
+          )})}
           <div className="Tratamientos__separador_grupo_barras" />
-          {datosHexa.map((d, i) => (
+          {datosHexa.map((d, i) => {
+            if (d.valor === 0) {
+              return (
+                <div
+                  key={`separador-tratamientos-${i}`}
+                  className="Tratamientos__barra Tratamientos__barra--hexa"
+                >
+                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>  
+                </div>
+              )
+            }
+            return (
             <div
               key={`separador-tratamientos-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
@@ -152,9 +175,21 @@ const Tratamientos = () => {
               <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
-          ))}
+          )})}
           <div className="Tratamientos__separador_grupo_barras" />
-          {datosNada.map((d, i) => (
+          {datosNada.map((d, i) => {
+            if (d.valor === 0) {
+              return (
+                <div
+                  key={`separador-tratamientos-nada-${i}`}
+                  className="Tratamientos__barra Tratamientos__barra--nada"
+                >
+                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>  
+                </div>
+              )
+            }
+            return (
             <div
               key={`separador-tratamientos-nada-${i}`}
               style={{ height: `${100 * d.valor / yMaximo}%` }}
@@ -163,7 +198,7 @@ const Tratamientos = () => {
               <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
-          ))}
+          )})}
         </div>
       </div>
       <p className="Tratamientos__nota">NOTA: Gráfico muestra eficacia de IMVIXA hasta el primer baño en centros que fueron tratados solo con IMVIXA; centros tratados con IMVIXA y otro producto antes del término de la eficacia de IMVIXA; y centros que aún no han recibido baños.</p>

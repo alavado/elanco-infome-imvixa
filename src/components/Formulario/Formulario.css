@@ -54,6 +54,7 @@
 }
 
 .Formulario__body {
+  position: relative;
   display: flex;
   flex: 3;
   flex-direction: column;
