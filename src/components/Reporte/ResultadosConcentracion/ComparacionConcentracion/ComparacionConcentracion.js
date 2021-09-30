@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux'
 import './ComparacionConcentracion.css'
 import { 
-  divisionTemporalALetra, 
   extraerUltimosPeriodos,
   mean,
-  iqr,
+  iqrValues,
   groupBy
 } from '../../utilitiesReporte'
 import { 
@@ -22,6 +21,9 @@ const getBoxPlotData = (datos, nombre) => {
       nombre,
       promedio: 0,
       iqr: 0,
+      iqrMitadInferior: 0,
+      iqrMitadSuperior: 0,
+      mediana: 0,
       max: 0,
       min: 0,
     }
@@ -30,7 +32,7 @@ const getBoxPlotData = (datos, nombre) => {
   return {
     nombre,
     promedio: Math.round(mean(values)),
-    iqr: iqr(values),
+    ...iqrValues(values),
     max: Math.max(...values),
     min: Math.min(...values),
   }
@@ -69,8 +71,9 @@ const ComparacionConcentracion = ({ agrandar }) => {
   const xMax = datos.reduce((max, d) => {
     return d.max > max ? (5 * Math.floor((d.max + 5) / 5)) : max
   }, 0)
+  let datosPlus = datos.map(d => ({ ...d, x: d.mediana - d.iqrMitadInferior - d.min }))
   const separaciones = 1 + xMax / 5
-  console.log({separaciones, xMax})
+  console.log({separaciones, xMax, datosPlus})
 
   return (
     <div
@@ -89,16 +92,19 @@ const ComparacionConcentracion = ({ agrandar }) => {
               <div
                 className="ComparacionConcentracion__contenedor_caja"
                 style={{
-                  left: `calc(5.5rem + ${100 * d.min / xMax}%)`,
-                  right: `calc(.5rem + ${100 * (xMax- d.max) / xMax}%)`,
+                  left: `calc(5.5rem + (100% - 6rem) * ${d.min / xMax})`,
+                  right: `calc(.5rem + (100% - 6rem) * ${(xMax - d.max) / xMax})`,
                 }}
               >
                 <div
                   className="ComparacionConcentracion__bigote_inferior"
-                  style={{ width: `${100 * (d.promedio - d.iqr / 2 - d.min) / xMax}%` }}
+                  style={{ width: `calc((100% - 6rem)  * ${(d.mediana - d.iqrMitadInferior - d.min) / xMax})` }}
                 />
                 <div
-                  className="ComparacionConcentracion__caja"
+                  className={classNames({
+                    "ComparacionConcentracion__caja": true,
+                    "ComparacionConcentracion__caja--chica": (d.iqr / xMax) < 0.1,
+                  })}
                 >
                   <span className={
                     classNames({
@@ -108,7 +114,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"
-                  style={{ width: `${100 * (d.max - d.iqr / 2 - d.promedio) / xMax}%` }}
+                  style={{ width: `calc((100% - 6rem) * ${(d.max - d.iqrMitadSuperior - d.mediana) / xMax})` }}
                 />
               </div>
             }

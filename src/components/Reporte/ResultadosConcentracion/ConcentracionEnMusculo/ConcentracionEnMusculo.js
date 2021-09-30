@@ -51,15 +51,17 @@ const ConcentracionEnMusculo = () => {
       min: Math.min(...values),
   }})
 
-  const vMin = Math.min(...datos.map(v => v.promedio))
-  const vMax = Math.max(...datos.map(v => v.promedio))
+  const vMin = Math.min(...datos.map(v => v.min))
+  const vMax = Math.max(...datos.map(v => v.max))
   const tick = 5 //Math.pow(10, Math.floor(Math.log10(vMin)))
-  const yMax = Math.max(vMax + 5, 10 * Math.ceil(vMax / tick))
-  const yMin = Math.min(0, 10 * Math.floor(vMin / tick))
+  const yMax = Math.min(vMax + 5, 10 * Math.ceil(vMax / tick))
+  const yMin = Math.min(0,vMin)
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
     .fill(0).map((_, i) => yMin + tick * i)
   ].reverse()
+
+  console.log(datos)
 
   return (
     <div className="ConcentracionEnMusculo">

@@ -76,10 +76,15 @@
   position: relative;
 }
 
+.ComparacionConcentracion__caja--chica {
+  max-height: 1rem;
+}
+
 .ComparacionConcentracion__caja_peque {
   top: -.7rem;
   position: absolute;
   font-size: .7rem;
+  height: 1rem;
   color: var(--color-f);
 }
 
