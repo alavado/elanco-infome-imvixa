@@ -71,9 +71,8 @@ const ComparacionConcentracion = ({ agrandar }) => {
   const xMax = datos.reduce((max, d) => {
     return d.max > max ? (5 * Math.floor((d.max + 5) / 5)) : max
   }, 0)
-  let datosPlus = datos.map(d => ({ ...d, x: d.mediana - d.iqrMitadInferior - d.min }))
+  let datosPlus = datos.map(d => ({ ...d, x: d.q25 - d.min, y:  d.max - d.q75}))
   const separaciones = 1 + xMax / 5
-  console.log({separaciones, xMax, datosPlus})
 
   return (
     <div
@@ -85,7 +84,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
         en músculo
       </p>
       <div className="ComparacionConcentracion__contenedor_grafico">
-        {[...datos, { nombre: '' }].map((d, i) => (
+        {[...datosPlus, { nombre: '' }].map((d, i) => (
           <div key={`categoria-cc-${i}`} className="ComparacionConcentracion__categoria">
             <div className="ComparacionConcentracion__etiqueta_categoria">{d.nombre}</div>
             {d.nombre &&
@@ -98,13 +97,14 @@ const ComparacionConcentracion = ({ agrandar }) => {
               >
                 <div
                   className="ComparacionConcentracion__bigote_inferior"
-                  style={{ width: `calc((100% - 6rem)  * ${(d.mediana - d.iqrMitadInferior - d.min) / xMax})` }}
+                  style={{ width: `${100 * d.x / (d.max - d.min)}%` }}
                 />
                 <div
                   className={classNames({
                     "ComparacionConcentracion__caja": true,
                     "ComparacionConcentracion__caja--chica": (d.iqr / xMax) < 0.1,
                   })}
+                 
                 >
                   <span className={
                     classNames({
@@ -114,7 +114,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"
-                  style={{ width: `calc((100% - 6rem) * ${(d.max - d.iqrMitadSuperior - d.mediana) / xMax})` }}
+                  style={{ width: `${100 * d.y /  (d.max - d.min)}%` }}
                 />
               </div>
             }

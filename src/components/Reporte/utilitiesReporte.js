@@ -259,6 +259,8 @@ export const iqrValues = arr => {
   const q50Value = q50(arr)
   const q75Value = q75(arr)
   return {
+    q25: q25Value,
+    q75: q75Value, 
     iqr: q75Value - q25Value,
     iqrMitadInferior: q50Value - q25Value,
     iqrMitadSuperior: q75Value - q50Value,
