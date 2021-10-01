@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { dividirDatosSegun } from '../../utilitiesReporte'
 import { colFechaPeces, colPPB, colSampleOrigin, tipoFreshWater } from '../../../../constants'
-import { mean, iqr } from '../../utilitiesReporte'
+import { mean, iqrValues } from '../../utilitiesReporte'
 import './ConcentracionEnMusculo.css'
 
 const ConcentracionEnMusculo = () => {
@@ -46,21 +46,21 @@ const ConcentracionEnMusculo = () => {
     return {
       nombre,
       promedio: mean(values),
-      iqr: iqr(values),
+      ...iqrValues(values),
       max: Math.max(...values),
       min: Math.min(...values),
   }})
 
-  const vMin = Math.min(...datos.map(v => v.promedio))
-  const vMax = Math.max(...datos.map(v => v.promedio))
+  const vMin = Math.min(...datos.map(v => v.min))
+  const vMax = Math.max(...datos.map(v => v.max))
   const tick = 5 //Math.pow(10, Math.floor(Math.log10(vMin)))
-  const yMax = Math.max(vMax + 5, 10 * Math.ceil(vMax / tick))
-  const yMin = Math.min(0, 10 * Math.floor(vMin / tick))
+  let yMax = Math.min(vMax + 5, 10 * Math.ceil(vMax / tick))
+  const yMin = Math.min(0,vMin)
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
     .fill(0).map((_, i) => yMin + tick * i)
   ].reverse()
-
+  yMax = Math.max(...yLineas)
   return (
     <div className="ConcentracionEnMusculo">
       <p className="ConcentracionEnMusculo__titulo">
@@ -103,8 +103,8 @@ const ConcentracionEnMusculo = () => {
               <div
                 className="ConcentracionEnMusculo__caja"
                 style={{
-                  '--porcentaje-bottom': `${(Math.max(0, (d.promedio - d.iqr / 2 - yMin)) / (yMax - yMin)) * 100}%`,
-                  '--porcentaje-top': `${((yMax - d.iqr / 2 - d.promedio) / (yMax - yMin)) * 100}%`
+                  '--porcentaje-bottom': `${(Math.max(0, (d.mediana - d.iqrMitadInferior - yMin)) / (yMax - yMin)) * 100}%`,
+                  '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
                 }}
               >
                 {d.promedio.toFixed(0).toLocaleString('de-DE')}

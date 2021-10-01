@@ -52,7 +52,7 @@ const GraficoPesoPromedio = ({ agrandar }) => {
 
   const vMax = Math.max(...datos.map(d => d.valor))
   const vMin = Math.min(...datos.map(d => d.valor))
-  const tick = Math.pow(10, Math.floor(Math.log10(vMax))) / 10
+  const tick = Math.min(10, Math.pow(10, Math.floor(Math.log10(vMax))) / 10)
   const yMin = 0 * Math.floor(vMin / tick)
   const yMax = 10 * Math.ceil(vMax / tick)
   const totalLineas = Math.round(1 + (yMax - yMin) / tick)

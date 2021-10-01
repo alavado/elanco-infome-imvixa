@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
-import { extraerUltimosPeriodos } from '../../utilitiesReporte'
-import { groupBy, mean, iqr } from '../../utilitiesReporte'
+import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqr } from '../../utilitiesReporte'
 import { colFechaAlimento, colCumplimiento, colPlanta } from '../../../../constants'
 import './CumplimientoConcentracion.css'
 
@@ -36,7 +35,7 @@ const CumplimientoConcentracion = () => {
   const datosIndustria = {
     nombre: "Industria",
     promedio: mean(cumplimientosIndustria),
-    iqr: iqr(cumplimientosIndustria),
+    ...iqrValues(cumplimientosIndustria),
     max: Math.max(...cumplimientosIndustria),
     min: Math.min(...cumplimientosIndustria),
   }
@@ -48,7 +47,7 @@ const CumplimientoConcentracion = () => {
       return {
         nombre: planta,
         promedio: mean(values),
-        iqr: iqr(values),
+        ...iqrValues(values),
         max: Math.max(...values),
         min: Math.min(...values),
       }
@@ -58,9 +57,10 @@ const CumplimientoConcentracion = () => {
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
-  const yMax = Math.max(100, 10 * Math.ceil(vMax / tick))
+  let yMax = Math.max(100, 10 * Math.ceil(vMax / tick))
   const yMin = Math.min(50, 10 * Math.floor(vMin / tick))
   const yLineas = [...Array(Math.round(1 + (yMax - yMin) / tick)).fill(0).map((_, i) => yMin + tick * i)].reverse()
+  yMax = Math.max(...yLineas)
 
   return (
     <div className="CumplimientoConcentracion">
@@ -92,8 +92,8 @@ const CumplimientoConcentracion = () => {
             <div
               className="CumplimientoConcentracion__caja"
               style={{
-                '--porcentaje-bottom': `${((d.promedio - d.iqr / 2 - yMin) / (yMax - yMin)) * 100}%`,
-                '--porcentaje-top': `${((yMax - d.iqr / 2 - d.promedio) / (yMax - yMin)) * 100}%`
+                '--porcentaje-bottom': `${((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) * 100}%`,
+                '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
               }}
             >
               {d.promedio.toFixed(0).toLocaleString('de-DE')}

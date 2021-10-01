@@ -250,6 +250,25 @@ const q75 = arr => quantile(arr, .75);
 
 export const iqr = arr => q75(arr) - q25(arr)
 
+export const iqrMitadInferior = arr => q50(arr) - q25(arr)
+
+export const iqrMitadSuperior = arr => q75(arr) - q50(arr)
+
+export const iqrValues = arr => {
+  const q25Value = q25(arr)
+  const q50Value = q50(arr)
+  const q75Value = q75(arr)
+  return {
+    q25: q25Value,
+    q75: q75Value, 
+    iqr: q75Value - q25Value,
+    iqrMitadInferior: q50Value - q25Value,
+    iqrMitadSuperior: q75Value - q50Value,
+    mediana: q50Value
+  }
+  
+}
+
 export const reemplazarNullPorCero = valor => {
   if (valor) return valor;
   return 0;
