@@ -4,7 +4,8 @@ import {
   extraerUltimosPeriodos,
   mean,
   iqrValues,
-  groupBy
+  groupBy,
+  iqrValuesFixed
 } from '../../utilitiesReporte'
 import { 
   colFechaPeces, 
@@ -15,7 +16,7 @@ import {
 } from '../../../../constants'
 import classNames from 'classnames'
 
-const getBoxPlotData = (datos, nombre) => {
+const getBoxPlotData = (datos, nombre, concentracion = null) => {
   if (datos.length === 0) {
     return {
       nombre,
@@ -29,13 +30,20 @@ const getBoxPlotData = (datos, nombre) => {
     }
   }
   const values = datos.map(obj => obj[colPPB] / 1000)
-  return {
+  let dat = {
     nombre,
-    promedio: mean(values).toFixed(1).toLocaleString('de-DE'),
+    promedio: concentracion != null && concentracion.prom != "" ? concentracion.prom : mean(values).toFixed(1).toLocaleString('de-DE'),
     ...iqrValues(values),
-    max: Math.max(...values),
-    min: Math.min(...values),
+    max: concentracion != null && concentracion.max != "" ? concentracion.max : Math.max(...values),
+    min: concentracion != null && concentracion.min != "" ? concentracion.min : Math.min(...values),
   }
+  if (concentracion != null && concentracion.q2 != "" ) {
+    dat = {
+      ...dat,
+      ...iqrValuesFixed(concentracion.q2, concentracion.q3, concentracion.q4)
+    }
+  }
+  return dat;
 }
 
 const ComparacionConcentracion = ({ agrandar }) => {
@@ -44,6 +52,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
     divisionTemporal,
     datosFiltradosPeces,
     datosFiltradosIndustriaPeces,
+    concentracion,
     fechaFinal
   } = useSelector(state => state.reporte)
 
@@ -62,7 +71,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
   const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
   
   const datos = [
-    getBoxPlotData(datosIndustria, 'Industria'),
+    getBoxPlotData(datosIndustria, 'Industria', concentracion),
     getBoxPlotData(datosEmpresa, 'Empresa'),
     ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 

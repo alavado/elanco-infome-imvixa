@@ -1,7 +1,8 @@
 .FormIndustria {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: .85rem;
+  margin-top: -1rem;
 }
 
 .FormIndustria__seccion {
@@ -11,17 +12,17 @@
 }
 
 .FormIndustria__seccion_label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
 }
 
 .FormIndustria__seccion_descripcion {
   font-size: 0.7rem;
+  line-height: 1rem;
   color: var(--color-gris-4);
 }
 
 .FormIndustria__label {
   margin-right: .5rem;
-  font-size: 1rem;
   margin-bottom: .25rem;
   color: black;
   position: absolute;
@@ -30,8 +31,7 @@
   left: .25rem;
   background: var(--color-gris-1);
   padding: .25rem .25rem;
-  height: 2rem;
-  width: 6rem;
+  width: 4rem;
   color: 1px solid var(--color-gris-2);
   pointer-events: none;
   display: flex;
@@ -55,6 +55,7 @@
 input[type="number"] {
   text-decoration: none;
   width: 4rem;
+  border: none;
 }
 
 input[type="number"] {
@@ -88,6 +89,7 @@ input[type=number]:hover {
   padding: .25rem .5rem .25rem .25rem;
   box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
   border: 1px solid var(--color-gris-2);
+  font-size: .75rem;
 }
 
 .FormIndustria__parametro__label:hover {
@@ -100,13 +102,8 @@ input[type=number]:hover {
   background-color: var(--color-gris-1);
   color: var(--color-gris-4);
   display: inline-block;
-  padding: 0.5rem;
-  width: 5rem;
+  padding: 0.25rem;
+  width: 4rem;
   text-align: center;
   margin-right: .5rem;
-}
-
-.FormIndustria__parametro__label__number {
-  font-size: 0.8rem;
-  width: 2rem;
 }

@@ -266,7 +266,20 @@ export const iqrValues = arr => {
     iqrMitadSuperior: q75Value - q50Value,
     mediana: q50Value
   }
-  
+}
+
+export const iqrValuesFixed = (q2, q3, q4) => {
+  const q25Value = q2
+  const q50Value = q3
+  const q75Value = q4
+  return {
+    q25: q25Value,
+    q75: q75Value, 
+    iqr: q75Value - q25Value,
+    iqrMitadInferior: q50Value - q25Value,
+    iqrMitadSuperior: q75Value - q50Value,
+    mediana: q50Value
+  }
 }
 
 export const reemplazarNullPorCero = valor => {

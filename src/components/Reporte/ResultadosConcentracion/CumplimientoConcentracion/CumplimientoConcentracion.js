@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux'
-import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqr } from '../../utilitiesReporte'
+import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqr, iqrValuesFixed } from '../../utilitiesReporte'
 import { colFechaAlimento, colCumplimiento, colPlanta } from '../../../../constants'
 import './CumplimientoConcentracion.css'
 
 const CumplimientoConcentracion = () => {
   
-  const { 
+  const {
+    cumplimiento,
     datosFiltradosAlimento,
     datosFiltradosIndustriaAlimento,
     divisionTemporal,
@@ -32,13 +33,21 @@ const CumplimientoConcentracion = () => {
   }
   const ultimosDatosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaAlimento, colFechaAlimento, fechaFinal)
   const cumplimientosIndustria = ultimosDatosIndustria.map(obj => obj[colCumplimiento] * 100)
-  const datosIndustria = {
+  let datosIndustria = {
     nombre: "Industria",
-    promedio: mean(cumplimientosIndustria),
+    promedio: cumplimiento.prom != "" ? cumplimiento.prom : mean(cumplimientosIndustria),
     ...iqrValues(cumplimientosIndustria),
-    max: Math.max(...cumplimientosIndustria),
-    min: Math.min(...cumplimientosIndustria),
+    max: cumplimiento.max != "" ? cumplimiento.max : Math.max(...cumplimientosIndustria),
+    min: cumplimiento.min != "" ? cumplimiento.min : Math.min(...cumplimientosIndustria),
   }
+
+  if (cumplimiento.q2 != "") {
+    datosIndustria = {
+      ...datosIndustria,
+      ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
+    }
+  }
+  
   
   const datos = [
     datosIndustria,

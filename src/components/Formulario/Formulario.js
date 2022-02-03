@@ -4,7 +4,7 @@ import logoElanco from "../../assets/images/logo-elanco.svg";
 import FormPlanillas from "./FormPlanillas";
 import FormParametros from "./FormParametros";
 import FormIndustria from "./FormIndustria";
-import Spinner from "../Spinner"
+import Spinner from "../Spinner";
 import "./Formulario.css";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +12,9 @@ import {
   pasoAnterior,
   pasoSiguiente,
   mostrarErrorFormulario,
-  procesarDatosParaExportar
+  procesarDatosParaExportar,
 } from "../../redux/ducks/reporte";
-import classNames from 'classnames'
+import classNames from "classnames";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -24,8 +24,28 @@ const Formulario = () => {
     errorFormulario,
     todasLasPlanillas,
     nombreEmpresa,
-    validando
+    validando,
+    cumplimiento,
+    concentracion,
   } = useSelector((state) => state.reporte);
+  const cumplimientoOK =
+    (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 == "") &&
+    (cumplimiento.q2 <= cumplimiento.q3 || cumplimiento.q3 == "") &&
+    (cumplimiento.q3 <= cumplimiento.q4 || cumplimiento.q4 == "") &&
+    (cumplimiento.q4 <= cumplimiento.max || cumplimiento.max == "");
+  const concentracionOK =
+    (concentracion.min <= concentracion.q2 || concentracion.q2 == "") &&
+    (concentracion.q2 <= concentracion.q3 || concentracion.q3 == "") &&
+    (concentracion.q3 <= concentracion.q4 || concentracion.q4 == "") &&
+    (concentracion.q4 <= concentracion.max || concentracion.max == "");
+  const valoresOK = cumplimientoOK && concentracionOK;
+  let qCondition = true;
+  if (cumplimiento.q2 != "" || cumplimiento.q3 != "" || cumplimiento.q4 != "" || cumplimiento.prom != "") {
+    qCondition = cumplimiento.q2 != "" && cumplimiento.q3 != "" && cumplimiento.q4 != "" &&  cumplimiento.min != "" && cumplimiento.max != "" && cumplimiento.prom != "";
+  }
+  if (concentracion.q2 != "" || concentracion.q3 != "" || cumplimiento.q4 != "" || concentracion.prom != "") {
+    qCondition = qCondition && (concentracion.q2 != "" && concentracion.q3 != "" && concentracion.q4 != "" && concentracion.min != "" && concentracion.max != "" && concentracion.prom != "");
+  }
   const pasos = useMemo(
     () => [
       {
@@ -34,10 +54,11 @@ const Formulario = () => {
         componente: <FormPlanillas />,
         volver: "",
         siguiente: "Siguiente",
-        siguienteActivo: todasLasPlanillas && Object.values(validando).every(v => !v),
+        siguienteActivo:
+          todasLasPlanillas && Object.values(validando).every((v) => !v),
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
-            dispatch(pasoSiguiente())
+            dispatch(pasoSiguiente());
           } else {
             dispatch(
               mostrarErrorFormulario(
@@ -56,7 +77,7 @@ const Formulario = () => {
         siguienteActivo: nombreEmpresa !== "",
         onClickSiguiente: () => {
           if (todasLasPlanillas && nombreEmpresa !== "") {
-            dispatch(pasoSiguiente())
+            dispatch(pasoSiguiente());
           } else {
             dispatch(
               mostrarErrorFormulario(
@@ -72,16 +93,45 @@ const Formulario = () => {
         componente: <FormIndustria />,
         volver: "Volver",
         siguiente: "Generar reporte",
-        siguienteActivo: true,
+        siguienteActivo: valoresOK && qCondition,
         onClickSiguiente: () => {
-          if (todasLasPlanillas && nombreEmpresa !== "") {
-            dispatch(procesarDatosParaExportar())
+          if (!valoresOK) {
+            dispatch(
+              mostrarErrorFormulario(
+                "Los valores deben respetar la siguiente relación min ≤ p25 ≤ p50 ≤ p75 ≤ max. "
+              )
+            );
+            return
+          }
+          if (
+            todasLasPlanillas &&
+            nombreEmpresa !== "" &&
+            valoresOK &&
+            qCondition
+          ) {
+            dispatch(procesarDatosParaExportar());
             history.push("/reporte");
-          } 
+          } else {
+            // dispatch(
+            //   mostrarErrorFormulario(
+            //     "Si ingresa algún percentil, debe ingresar todos los demás valores."
+            //   )
+            // );
+            return
+          }
         },
-      }
+      },
     ],
-    [validando, todasLasPlanillas, nombreEmpresa, errorFormulario, dispatch, history]
+    [
+      validando,
+      todasLasPlanillas,
+      nombreEmpresa,
+      errorFormulario,
+      cumplimiento,
+      concentracion,
+      dispatch,
+      history,
+    ]
   );
 
   const pasoActual = pasos[indicePasoActual];
@@ -116,26 +166,33 @@ const Formulario = () => {
         </div>
         <div className="Formulario__body">
           {pasoActual.componente}
-          {Object.values(validando).every(v => !v) && errorFormulario !== null ? (
+          {Object.values(validando).every((v) => !v) &&
+          errorFormulario !== null ? (
             <div className="Formulario__error">{errorFormulario}</div>
           ) : null}
-          {Object.values(validando).every(v => !v) ? null : <Spinner/> }
+          {Object.values(validando).every((v) => !v) ? null : <Spinner />}
         </div>
         <div className="Formulario__botones">
+          <button
+            className={classNames({
+              Formulario__boton: true,
+              "Formulario__boton--activo": pasoActual.siguienteActivo,
+            })}
+            onClick={pasoActual.onClickSiguiente}
+          >
+            {pasoActual.siguiente}
+          </button>
+          {indicePasoActual === 0 ? null : (
             <button
-              className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': pasoActual.siguienteActivo})}
-              onClick={pasoActual.onClickSiguiente}
+              className={classNames({
+                Formulario__boton: true,
+                "Formulario__boton--activo": true,
+              })}
+              onClick={() => dispatch(pasoAnterior())}
             >
-              {pasoActual.siguiente}
+              {pasoActual.volver}
             </button>
-            {indicePasoActual === 0 ? null : (
-              <button
-                className={classNames({'Formulario__boton': true, 'Formulario__boton--activo': true})} 
-                onClick={() => dispatch(pasoAnterior())}
-              >
-                {pasoActual.volver}
-              </button>
-            )}
+          )}
         </div>
       </div>
     </div>
