@@ -91,6 +91,8 @@ const ConcentracionEnMusculo = () => {
               </div>
             )
           }
+          var size_box = (d.mediana + d.iqrMitadSuperior) - (d.mediana - d.iqrMitadInferior);
+          var prom_dmin = d.promedio - (d.mediana - d.iqrMitadInferior);
           return (
             <div key={`caja-cc-${d.nombre}`} className="ConcentracionEnMusculo__contenedor_caja">
               <div
@@ -107,7 +109,14 @@ const ConcentracionEnMusculo = () => {
                   '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
                 }}
               >
-                {d.promedio.toFixed(1).toLocaleString('de-DE')}
+                  <div 
+                    className="ConcentracionEnMusculo__caja_item"
+                    style={{
+                      '--porcentaje-bottom': `${(Math.max(0, prom_dmin) / size_box) * 100}%`,
+                    }}
+                  >
+                    {d.promedio.toFixed(1).toLocaleString('de-DE')}
+                  </div>
               </div>
               <div className="ConcentracionEnMusculo__etiqueta_caja">
                 {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}

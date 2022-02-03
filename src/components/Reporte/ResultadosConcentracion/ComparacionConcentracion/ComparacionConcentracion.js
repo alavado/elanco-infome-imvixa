@@ -74,6 +74,8 @@ const ComparacionConcentracion = ({ agrandar }) => {
   let datosPlus = datos.map(d => ({ ...d, x: d.q25 - d.min, y:  d.max - d.q75}))
   const separaciones = 1 + xMax / 5
 
+  var peque = datosPlus.some(d => (d.iqr / xMax) < 0.1)
+
   return (
     <div
       className="ComparacionConcentracion"
@@ -106,7 +108,11 @@ const ComparacionConcentracion = ({ agrandar }) => {
                   })}
                  
                 >
-                  <span className="ComparacionConcentracion__caja_peque">{d.promedio}</span> 
+                  <span className={
+                    classNames({
+                      "ComparacionConcentracion__caja_peque": peque
+                    })
+                  }>{d.promedio}</span> 
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"

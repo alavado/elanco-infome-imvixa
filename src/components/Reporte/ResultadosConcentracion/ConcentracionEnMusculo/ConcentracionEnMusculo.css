@@ -86,13 +86,18 @@
   color: white;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   padding-top: .5rem;
-  font-size: .9rem;
+  font-size: 0.85rem;
   font-weight: 400;
   position: absolute;
   bottom: var(--porcentaje-bottom);
   top: var(--porcentaje-top);
+}
+
+.ConcentracionEnMusculo__caja_item {
+  position: absolute;
+  bottom: calc(var(--porcentaje-bottom) - 0.425rem);
 }
 
 .ConcentracionEnMusculo__etiqueta_caja {

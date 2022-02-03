@@ -92,7 +92,7 @@ const CumplimientoConcentracion = () => {
             <div
               className="CumplimientoConcentracion__caja"
               style={{
-                '--porcentaje-bottom': `${((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) * 100}%`,
+                '--porcentaje-bottom': `${Math.max(0, ((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) * 100)}%`,
                 '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
               }}
             >
