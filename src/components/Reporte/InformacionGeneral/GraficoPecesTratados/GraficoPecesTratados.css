@@ -93,7 +93,7 @@
 .GraficoPecesTratados__etiqueta_barra {
   position: absolute;
   bottom: -2rem;
-  font-size: .75rem;
+  font-size: 0.85rem;
   text-align: center;
   color: var(--color-gris-4);
   font-weight: 300;

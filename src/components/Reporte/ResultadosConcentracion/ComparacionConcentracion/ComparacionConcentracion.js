@@ -31,7 +31,7 @@ const getBoxPlotData = (datos, nombre) => {
   const values = datos.map(obj => obj[colPPB] / 1000)
   return {
     nombre,
-    promedio: Math.round(mean(values)),
+    promedio: mean(values).toFixed(1).toLocaleString('de-DE'),
     ...iqrValues(values),
     max: Math.max(...values),
     min: Math.min(...values),
@@ -106,11 +106,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
                   })}
                  
                 >
-                  <span className={
-                    classNames({
-                      "ComparacionConcentracion__caja_peque": (d.iqr / xMax) < 0.1
-                    })
-                  }>{d.promedio}</span> 
+                  <span className="ComparacionConcentracion__caja_peque">{d.promedio}</span> 
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"

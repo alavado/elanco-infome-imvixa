@@ -96,7 +96,7 @@ const CumplimientoConcentracion = () => {
                 '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
               }}
             >
-              {d.promedio.toFixed(0).toLocaleString('de-DE')}
+              {d.promedio.toFixed(1).toLocaleString('de-DE')}
             </div>
             <div className="CumplimientoConcentracion__etiqueta_caja">
               {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}
