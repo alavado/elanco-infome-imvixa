@@ -1,0 +1,112 @@
+.FormIndustria {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.FormIndustria__seccion {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.FormIndustria__seccion_label {
+  margin-bottom: 0.5rem;
+}
+
+.FormIndustria__seccion_descripcion {
+  font-size: 0.7rem;
+  color: var(--color-gris-4);
+}
+
+.FormIndustria__label {
+  margin-right: .5rem;
+  font-size: 1rem;
+  margin-bottom: .25rem;
+  color: black;
+  position: absolute;
+  z-index: 2;
+  top: calc((100% - 2rem) / 2); 
+  left: .25rem;
+  background: var(--color-gris-1);
+  padding: .25rem .25rem;
+  height: 2rem;
+  width: 6rem;
+  color: 1px solid var(--color-gris-2);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.FormIndustria__parametros {
+  display: flex;
+  gap: 1rem;
+}
+
+.FormIndustria__parametro {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-gris-4);
+  margin-top: .5rem;
+  position: relative;
+}
+
+input[type="number"] {
+  text-decoration: none;
+  width: 4rem;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+input[type=number]:focus {
+  outline: none;
+}
+
+input[type=number]:hover {
+  outline: none;
+}
+
+.FormIndustria__parametro__label:focus-within {
+  border: 1px solid  var(--color-b) ;
+}
+
+.FormIndustria__parametro__label {
+  border-radius: 0.2rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: .25rem .5rem .25rem .25rem;
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
+  border: 1px solid var(--color-gris-2);
+}
+
+.FormIndustria__parametro__label:hover {
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  /* border: 1px solid var(--color-gris-3); */
+  border: 1px solid  var(--color-b) ;
+}
+
+.FormIndustria__parametro__label__button {
+  background-color: var(--color-gris-1);
+  color: var(--color-gris-4);
+  display: inline-block;
+  padding: 0.5rem;
+  width: 5rem;
+  text-align: center;
+  margin-right: .5rem;
+}
+
+.FormIndustria__parametro__label__number {
+  font-size: 0.8rem;
+  width: 2rem;
+}

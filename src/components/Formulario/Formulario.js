@@ -3,6 +3,7 @@ import logoImvixa from "../../assets/images/logo-imvixa.svg";
 import logoElanco from "../../assets/images/logo-elanco.svg";
 import FormPlanillas from "./FormPlanillas";
 import FormParametros from "./FormParametros";
+import FormIndustria from "./FormIndustria";
 import Spinner from "../Spinner"
 import "./Formulario.css";
 import { useHistory } from "react-router-dom";
@@ -51,12 +52,11 @@ const Formulario = () => {
         descripcion: "Seleccionar empresa y periodo de análisis",
         componente: <FormParametros />,
         volver: "Volver",
-        siguiente: "Generar Reporte",
+        siguiente: "Siguiente",
         siguienteActivo: nombreEmpresa !== "",
         onClickSiguiente: () => {
           if (todasLasPlanillas && nombreEmpresa !== "") {
-            dispatch(procesarDatosParaExportar())
-            history.push("/reporte");
+            dispatch(pasoSiguiente())
           } else {
             dispatch(
               mostrarErrorFormulario(
@@ -66,14 +66,20 @@ const Formulario = () => {
           }
         },
       },
-      // {
-      //   paso: 3,
-      //   descripcion: "Exportar reporte y otros gráficos",
-      //   componente: <FormExportar />,
-      //   volver: "Volver",
-      //   siguiente: "Exportar",
-      //   onClickSiguiente: () => history.push('/reporte')
-      // }
+      {
+        paso: 3,
+        descripcion: "Definir rangos mínimo y máximo para industria",
+        componente: <FormIndustria />,
+        volver: "Volver",
+        siguiente: "Generar reporte",
+        siguienteActivo: true,
+        onClickSiguiente: () => {
+          if (todasLasPlanillas && nombreEmpresa !== "") {
+            dispatch(procesarDatosParaExportar())
+            history.push("/reporte");
+          } 
+        },
+      }
     ],
     [validando, todasLasPlanillas, nombreEmpresa, errorFormulario, dispatch, history]
   );
