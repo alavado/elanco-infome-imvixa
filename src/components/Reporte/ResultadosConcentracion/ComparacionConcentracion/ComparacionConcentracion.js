@@ -32,12 +32,12 @@ const getBoxPlotData = (datos, nombre, concentracion = null) => {
   const values = datos.map(obj => obj[colPPB] / 1000)
   let dat = {
     nombre,
-    promedio: concentracion != null && concentracion.prom != "" ? concentracion.prom : mean(values).toFixed(1).toLocaleString('de-DE'),
+    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom : mean(values).toFixed(1).toLocaleString('de-DE'),
     ...iqrValues(values),
-    max: concentracion != null && concentracion.max != "" ? concentracion.max : Math.max(...values),
-    min: concentracion != null && concentracion.min != "" ? concentracion.min : Math.min(...values),
+    max: concentracion !== null && concentracion.max !== "" ? concentracion.max : Math.max(...values),
+    min: concentracion !== null && concentracion.min !== "" ? concentracion.min : Math.min(...values),
   }
-  if (concentracion != null && concentracion.q2 != "" ) {
+  if (concentracion !== null && concentracion.q2 !== "" ) {
     dat = {
       ...dat,
       ...iqrValuesFixed(concentracion.q2, concentracion.q3, concentracion.q4)

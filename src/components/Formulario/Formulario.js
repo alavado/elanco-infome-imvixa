@@ -29,22 +29,22 @@ const Formulario = () => {
     concentracion,
   } = useSelector((state) => state.reporte);
   const cumplimientoOK =
-    (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 == "") &&
-    (cumplimiento.q2 <= cumplimiento.q3 || cumplimiento.q3 == "") &&
-    (cumplimiento.q3 <= cumplimiento.q4 || cumplimiento.q4 == "") &&
-    (cumplimiento.q4 <= cumplimiento.max || cumplimiento.max == "");
+    (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 === "") &&
+    (cumplimiento.q2 <= cumplimiento.q3 || cumplimiento.q3 === "") &&
+    (cumplimiento.q3 <= cumplimiento.q4 || cumplimiento.q4 === "") &&
+    (cumplimiento.q4 <= cumplimiento.max || cumplimiento.max === "");
   const concentracionOK =
-    (concentracion.min <= concentracion.q2 || concentracion.q2 == "") &&
-    (concentracion.q2 <= concentracion.q3 || concentracion.q3 == "") &&
-    (concentracion.q3 <= concentracion.q4 || concentracion.q4 == "") &&
-    (concentracion.q4 <= concentracion.max || concentracion.max == "");
+    (concentracion.min <= concentracion.q2 || concentracion.q2 === "") &&
+    (concentracion.q2 <= concentracion.q3 || concentracion.q3 === "") &&
+    (concentracion.q3 <= concentracion.q4 || concentracion.q4 === "") &&
+    (concentracion.q4 <= concentracion.max || concentracion.max === "");
   const valoresOK = cumplimientoOK && concentracionOK;
   let qCondition = true;
-  if (cumplimiento.q2 != "" || cumplimiento.q3 != "" || cumplimiento.q4 != "" || cumplimiento.prom != "") {
-    qCondition = cumplimiento.q2 != "" && cumplimiento.q3 != "" && cumplimiento.q4 != "" &&  cumplimiento.min != "" && cumplimiento.max != "" && cumplimiento.prom != "";
+  if (cumplimiento.q2 !== "" || cumplimiento.q3 !== "" || cumplimiento.q4 !== "" || cumplimiento.prom !== "") {
+    qCondition = cumplimiento.q2 !== "" && cumplimiento.q3 !== "" && cumplimiento.q4 !== "" &&  cumplimiento.min !== "" && cumplimiento.max !== "" && cumplimiento.prom !== "";
   }
-  if (concentracion.q2 != "" || concentracion.q3 != "" || cumplimiento.q4 != "" || concentracion.prom != "") {
-    qCondition = qCondition && (concentracion.q2 != "" && concentracion.q3 != "" && concentracion.q4 != "" && concentracion.min != "" && concentracion.max != "" && concentracion.prom != "");
+  if (concentracion.q2 !== "" || concentracion.q3 !== "" || cumplimiento.q4 !== "" || concentracion.prom !== "") {
+    qCondition = qCondition && (concentracion.q2 !== "" && concentracion.q3 !== "" && concentracion.q4 !== "" && concentracion.min !== "" && concentracion.max !== "" && concentracion.prom !== "");
   }
   const pasos = useMemo(
     () => [

@@ -35,13 +35,13 @@ const CumplimientoConcentracion = () => {
   const cumplimientosIndustria = ultimosDatosIndustria.map(obj => obj[colCumplimiento] * 100)
   let datosIndustria = {
     nombre: "Industria",
-    promedio: cumplimiento.prom != "" ? cumplimiento.prom : mean(cumplimientosIndustria),
+    promedio: cumplimiento.prom !== "" ? cumplimiento.prom : mean(cumplimientosIndustria),
     ...iqrValues(cumplimientosIndustria),
-    max: cumplimiento.max != "" ? cumplimiento.max : Math.max(...cumplimientosIndustria),
-    min: cumplimiento.min != "" ? cumplimiento.min : Math.min(...cumplimientosIndustria),
+    max: cumplimiento.max !== "" ? cumplimiento.max : Math.max(...cumplimientosIndustria),
+    min: cumplimiento.min !== "" ? cumplimiento.min : Math.min(...cumplimientosIndustria),
   }
 
-  if (cumplimiento.q2 != "") {
+  if (cumplimiento.q2 !== "") {
     datosIndustria = {
       ...datosIndustria,
       ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
