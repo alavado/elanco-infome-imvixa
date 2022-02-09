@@ -30,9 +30,10 @@ const getBoxPlotData = (datos, nombre, concentracion = null) => {
     }
   }
   const values = datos.map(obj => obj[colPPB] / 1000)
+  const args = { maximumFractionDigits: 1, minimumFractionDigits: 1 }
   let dat = {
     nombre,
-    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom : mean(values).toFixed(1).toLocaleString('de-DE'),
+    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom.toLocaleString('de-DE', args) : mean(values).toLocaleString('de-DE', args),
     ...iqrValues(values),
     max: concentracion !== null && concentracion.max !== "" ? concentracion.max : Math.max(...values),
     min: concentracion !== null && concentracion.min !== "" ? concentracion.min : Math.min(...values),
@@ -121,7 +122,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
                     classNames({
                       "ComparacionConcentracion__caja_peque": peque
                     })
-                  }>{d.promedio}</span> 
+                  }>{d.promedio }</span> 
                 </div>
                 <div
                   className="ComparacionConcentracion__bigote_superior"

@@ -52,27 +52,27 @@
   position: relative;
 }
 
-input[type="number"] {
+input[typeForm="locale-decimal"] {
   text-decoration: none;
   width: 4rem;
   border: none;
 }
 
-input[type="number"] {
+input[typeForm="locale-decimal"] {
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
           appearance: textfield;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[typeForm=locale-decimal]::-webkit-inner-spin-button, 
+input[typeForm=locale-decimal]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
 }
 
-input[type=number]:focus {
+input[typeForm=locale-decimal]:focus {
   outline: none;
 }
 
-input[type=number]:hover {
+input[typeForm=locale-decimal]:hover {
   outline: none;
 }
 

@@ -29,22 +29,26 @@ const Formulario = () => {
     concentracion,
   } = useSelector((state) => state.reporte);
   const cumplimientoOK =
+    (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
     (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 === "") &&
     (cumplimiento.q2 <= cumplimiento.q3 || cumplimiento.q3 === "") &&
     (cumplimiento.q3 <= cumplimiento.q4 || cumplimiento.q4 === "") &&
     (cumplimiento.q4 <= cumplimiento.max || cumplimiento.max === "");
   const concentracionOK =
+    (concentracion.min <= concentracion.max || concentracion.max === "") &&
     (concentracion.min <= concentracion.q2 || concentracion.q2 === "") &&
     (concentracion.q2 <= concentracion.q3 || concentracion.q3 === "") &&
     (concentracion.q3 <= concentracion.q4 || concentracion.q4 === "") &&
     (concentracion.q4 <= concentracion.max || concentracion.max === "");
   const valoresOK = cumplimientoOK && concentracionOK;
   let qCondition = true;
-  if (cumplimiento.q2 !== "" || cumplimiento.q3 !== "" || cumplimiento.q4 !== "" || cumplimiento.prom !== "") {
-    qCondition = cumplimiento.q2 !== "" && cumplimiento.q3 !== "" && cumplimiento.q4 !== "" &&  cumplimiento.min !== "" && cumplimiento.max !== "" && cumplimiento.prom !== "";
+  const minCondition = cumplimiento.min === "" || cumplimiento.min >= 50;
+  const boxElements = ['q2', 'q3', 'q4', 'prom']
+  if (boxElements.some(v => cumplimiento[v] !== "")) {
+    qCondition = Object.values(cumplimiento).every(v => v !== "");
   }
-  if (concentracion.q2 !== "" || concentracion.q3 !== "" || cumplimiento.q4 !== "" || concentracion.prom !== "") {
-    qCondition = qCondition && (concentracion.q2 !== "" && concentracion.q3 !== "" && concentracion.q4 !== "" && concentracion.min !== "" && concentracion.max !== "" && concentracion.prom !== "");
+  if (boxElements.some(v => concentracion[v] !== "")) {
+    qCondition = qCondition && Object.values(concentracion).every(v => v !== "");
   }
   const pasos = useMemo(
     () => [
@@ -93,7 +97,7 @@ const Formulario = () => {
         componente: <FormIndustria />,
         volver: "Volver",
         siguiente: "Generar reporte",
-        siguienteActivo: valoresOK && qCondition,
+        siguienteActivo: valoresOK && qCondition && minCondition,
         onClickSiguiente: () => {
           if (!valoresOK) {
             dispatch(

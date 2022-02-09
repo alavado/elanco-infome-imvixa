@@ -115,7 +115,7 @@ const ConcentracionEnMusculo = () => {
                       '--porcentaje-bottom': `${(Math.max(0, prom_dmin) / size_box) * 100}%`,
                     }}
                   >
-                    {d.promedio.toFixed(1).toLocaleString('de-DE')}
+                    {d.promedio.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
                   </div>
               </div>
               <div className="ConcentracionEnMusculo__etiqueta_caja">

@@ -4,7 +4,7 @@ import { dividirDatosSegun, reemplazarNullPorCero } from '../../utilitiesReporte
 import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 
 
-const GraficoPecesTratados = ({ agrandar }) => {
+const GraficoPecesTratados = () => {
   const { 
     datosFiltradosTratamiento,
     divisionTemporal,
