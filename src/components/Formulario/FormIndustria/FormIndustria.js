@@ -43,7 +43,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.min}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'min', valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'min', valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -60,7 +60,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.max}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo:'max',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo:'max',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -79,7 +79,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.q2}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'q2',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'q2',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -96,7 +96,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.q3}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo:'q3',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo:'q3',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -115,7 +115,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.q4}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'q4',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'q4',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -132,7 +132,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={cumplimiento.prom}
-                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'prom',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarCumplimiento({tipo: 'prom',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -156,7 +156,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.min}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'min',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'min',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -173,7 +173,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.max}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'max',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'max',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -192,7 +192,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.q2}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q2',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q2',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -209,7 +209,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.q3}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q3',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q3',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -228,7 +228,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.q4}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q4',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'q4',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>
@@ -245,7 +245,7 @@ const FormIndustria = () => {
                 type="number"
                 min="0"
                 defaultValue={concentracion.prom}
-                onChange={(e) => dispatch(guardarConcentracion({tipo: 'prom',valor: e.target.value != "" ? parseInt(e.target.value) : ""}))}
+                onChange={(e) => dispatch(guardarConcentracion({tipo: 'prom',valor: e.target.value !== "" ? parseInt(e.target.value) : ""}))}
               ></input>
             </label>
           </div>

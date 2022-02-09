@@ -147,6 +147,7 @@
   text-align: center;
   transform: translateX(-50%);
   font-size: .9rem;
+  width: .5rem;
 }
 
 .ComparacionConcentracion__bajada {
