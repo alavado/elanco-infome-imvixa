@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
 import logoElanco from "../../assets/images/logo-elanco.svg";
 import FormPlanillas from "./FormPlanillas";
@@ -12,9 +12,11 @@ import {
   pasoAnterior,
   pasoSiguiente,
   mostrarErrorFormulario,
-  procesarDatosParaExportar,
-} from "../../redux/ducks/reporte";
+} from "../../redux/ducks/parametrosGenerales";
+import { procesarDatosParaExportar as procesarReporteSeguimiento } from "../../redux/ducks/reporteSeguimiento";
+import { procesarDatosParaExportar as procesarReporteAlimento } from "../../redux/ducks/reporteAlimento";
 import classNames from "classnames";
+import FormSeleccionarReporte from "./FormSeleccionarReporte";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -23,11 +25,17 @@ const Formulario = () => {
     pasoActual: indicePasoActual,
     errorFormulario,
     todasLasPlanillas,
-    nombreEmpresa,
     validando,
-    cumplimiento,
-    concentracion,
-  } = useSelector((state) => state.reporte);
+    reporte,
+    datosAlimento,
+    datosPeces,
+    datosEficacia,
+    datosTratamiento,
+  } = useSelector((state) => state.parametrosGenerales);
+  const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
+    (state) => state.reporte
+  );
+  const { lotes } = useSelector((state) => state.reporteAlimento);
   const cumplimientoOK =
     (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
     (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 === "") &&
@@ -43,12 +51,13 @@ const Formulario = () => {
   const valoresOK = cumplimientoOK && concentracionOK;
   let qCondition = true;
   const minCondition = cumplimiento.min === "" || cumplimiento.min >= 50;
-  const boxElements = ['q2', 'q3', 'q4', 'prom']
-  if (boxElements.some(v => cumplimiento[v] !== "")) {
-    qCondition = Object.values(cumplimiento).every(v => v !== "");
+  const boxElements = ["q2", "q3", "q4", "prom"];
+  if (boxElements.some((v) => cumplimiento[v] !== "")) {
+    qCondition = Object.values(cumplimiento).every((v) => v !== "");
   }
-  if (boxElements.some(v => concentracion[v] !== "")) {
-    qCondition = qCondition && Object.values(concentracion).every(v => v !== "");
+  if (boxElements.some((v) => concentracion[v] !== "")) {
+    qCondition =
+      qCondition && Object.values(concentracion).every((v) => v !== "");
   }
   const pasos = useMemo(
     () => [
@@ -74,13 +83,41 @@ const Formulario = () => {
       },
       {
         paso: 2,
-        descripcion: "Seleccionar empresa y periodo de análisis",
+        descripcion: "Seleccionar reporte a emitir",
+        componente: <FormSeleccionarReporte />,
+        volver: "Volver",
+        siguiente: "Siguiente",
+        siguienteActivo: reporte !== null,
+        onClickSiguiente: () => {
+          if (todasLasPlanillas && reporte !== null) {
+            dispatch(pasoSiguiente());
+          } else {
+            dispatch(
+              mostrarErrorFormulario(
+                "Necesita seleccionar un tipo de reporte antes de continuar"
+              )
+            );
+          }
+        },
+      },
+      {
+        paso: 3,
+        descripcion:
+          reporte !== null
+            ? "Definir parámetros del " + reporte.titulo.toLowerCase()
+            : "",
         componente: <FormParametros />,
         volver: "Volver",
         siguiente: "Siguiente",
-        siguienteActivo: nombreEmpresa !== "",
+        siguienteActivo:
+          reporte !== null &&
+          ((reporte.id === 4 && nombreEmpresa !== "") ||
+            (reporte.id === 1 && lotes.length > 0)),
         onClickSiguiente: () => {
-          if (todasLasPlanillas && nombreEmpresa !== "") {
+          if (
+            (reporte.id === 1 && lotes.length > 0) ||
+            (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
+          ) {
             dispatch(pasoSiguiente());
           } else {
             dispatch(
@@ -92,7 +129,7 @@ const Formulario = () => {
         },
       },
       {
-        paso: 3,
+        paso: 4,
         descripcion: "Definir rangos mínimo y máximo para industria",
         componente: <FormIndustria />,
         volver: "Volver",
@@ -105,24 +142,44 @@ const Formulario = () => {
                 "Los valores deben respetar la siguiente relación min ≤ p25 ≤ p50 ≤ p75 ≤ max. "
               )
             );
-            return
+            return;
           }
-          if (
-            todasLasPlanillas &&
-            nombreEmpresa !== "" &&
-            valoresOK &&
-            qCondition
-          ) {
-            dispatch(procesarDatosParaExportar());
-            history.push("/reporte");
-          } else {
-            // dispatch(
-            //   mostrarErrorFormulario(
-            //     "Si ingresa algún percentil, debe ingresar todos los demás valores."
-            //   )
-            // );
-            return
+
+          switch (reporte.id) {
+            case 1:
+              if (
+                lotes.length > 0 &&
+                valoresOK &&
+                qCondition
+              ) {
+                dispatch(procesarReporteAlimento(datosAlimento));
+                history.push("/reporte");
+              }
+              break;
+            default:
+              if (
+                todasLasPlanillas &&
+                nombreEmpresa !== "" &&
+                valoresOK &&
+                qCondition
+              ) {
+                dispatch(
+                  procesarReporteSeguimiento({
+                    datosAlimento,
+                    datosPeces,
+                    datosEficacia,
+                    datosTratamiento,
+                  })
+                );
+                history.push("/reporte");
+              }
+              break;
           }
+          // dispatch(
+          //   mostrarErrorFormulario(
+          //     "Si ingresa algún percentil, debe ingresar todos los demás valores."
+          //   )
+          // );
         },
       },
     ],
@@ -135,6 +192,8 @@ const Formulario = () => {
       concentracion,
       dispatch,
       history,
+      reporte,
+      lotes,
     ]
   );
 

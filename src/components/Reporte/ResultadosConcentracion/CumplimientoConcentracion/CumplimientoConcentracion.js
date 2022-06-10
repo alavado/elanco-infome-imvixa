@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqr, iqrValuesFixed } from '../../utilitiesReporte'
+import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqrValuesFixed } from '../../utilitiesReporte'
 import { colFechaAlimento, colCumplimiento, colPlanta } from '../../../../constants'
 import './CumplimientoConcentracion.css'
 

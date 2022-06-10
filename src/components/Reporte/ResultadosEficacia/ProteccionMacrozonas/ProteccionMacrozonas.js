@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import mapa from '../../../../assets/images/mapa.svg'
 import './ProteccionMacrozonas.css'
-import { extraerUltimosPeriodos, groupBy, mean, divisionTemporalALetra } from '../../utilitiesReporte'
+import { extraerUltimosPeriodos, groupBy, mean } from '../../utilitiesReporte'
 import { colFechaEficacia, colMacrozonaEficacia, colEficaciaEficacia } from '../../../../constants'
 import { onlyUnique } from "../../../../redux/ducks/utilities"
 
@@ -99,7 +99,7 @@ const ProteccionMacrozonas = () => {
       yPorcentaje: 65
     }
   ]
-  const indicadorGeneral = `Promedio últimos 18 meses`
+  // const indicadorGeneral = `Promedio últimos 18 meses`
   const pinesPintados = pines.map(p => ({
     ...p,
     color: `var(--color-${p.perteneceEmpresa ? 'azul' : 'gris-4' }`

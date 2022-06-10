@@ -1,5 +1,5 @@
 .FormParametros__seccion {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -55,4 +55,15 @@
   width: 13rem;
   height: 2.5rem;
   cursor: pointer;
+}
+
+.FormParametros__grupo {
+  display: flex;
+  gap: 2rem;
+}
+
+.FormParametros__elemento {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
 }

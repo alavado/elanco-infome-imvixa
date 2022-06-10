@@ -1,5 +1,5 @@
 import './Tratamientos.css'
-import { extraerUltimosPeriodos, groupBy, mean, divisionTemporalALetra } from '../../utilitiesReporte'
+import { extraerUltimosPeriodos, groupBy, mean } from '../../utilitiesReporte'
 import { 
   colFechaEficacia, 
   colCentroEficacia, 

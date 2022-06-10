@@ -1,10 +1,16 @@
 
 // Columnas para filtrar hoja alimento
-export const colEmpresaAlimento = "company_code"
-export const colFechaAlimento = "fecha_de_fabricacion"
-export const colNMuestrasAlimento = "n_de_muestras"
-export const colCumplimiento = "cumplimiento_logrado_intentado"
-export const colPlanta = "planta_code"
+export const colEmpresaAlimento = "Cliente"
+export const colFechaAlimento = "Fecha de Fabricación"
+export const colNMuestrasAlimento = "N° de Muestras"
+export const colPisciculturaAlimento = "Piscicultura"
+export const colCumplimiento = "Cumplimiento (Logrado/Intentado)"
+export const colPlanta = "Fabricante"
+export const colAñoAlimento = "year"
+export const colRecetaAlimento = "Receta"
+export const colInformeAlimento = "N° informe"
+export const colLoteAlimento = "Lote/Batch"
+export const colCantidadProgramadaAlimento = "Cantidad Programada por receta (kg)"
 
 // Columnas para filtrar hoja pmv
 export const colEmpresaPMV = "company_code"

@@ -14,7 +14,7 @@ const Sandalias = ({ pagina }) => {
 
   return (
     <div className="Sandalias">
-      {pagina === 2 && (!hayComentarios || !hayGraficos) && <img src={imagenHealthy} className="Sandalias__imagen" />}
+      {pagina === 2 && (!hayComentarios || !hayGraficos) && <img src={imagenHealthy} className="Sandalias__imagen" alt="imagen pie de pagina"/>}
       <p
         className={classNames({
           "Sandalias__texto": true,

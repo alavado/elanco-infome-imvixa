@@ -1,49 +1,30 @@
-import './Reporte.css'
-import logoImvixa from '../../assets/images/logo-imvixa.svg'
-import logoElanco from '../../assets/images/logo-elanco.svg'
-import salmon from '../../assets/images/varios-salmones.png'
-import DatosEmpresa from './DatosEmpresa/DatosEmpresa'
-import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
-import ResultadosEficacia from './ResultadosEficacia'
-import ResultadosConcentracion from './ResultadosConcentracion'
-import Comentarios from './Comentarios'
-import Sandalias from './Sandalias'
+import React from "react";
+import { useSelector } from "react-redux";
+import ReporteAlimento from "./ReporteAlimento";
+import ReporteSeguimiento from "./ReporteSeguimiento";
 import { useEffect } from 'react'
-import MensajeError from '../MensajeError'
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
 
+  const { reporte } = useSelector((state) => state.parametrosGenerales);
+  
   useEffect(() => {
     ipcRenderer.send('viendoReporte')
     return () => ipcRenderer.send('yaNoViendoReporte')
   }, [])
 
-  return (
-    <div className="Reporte">
-      <div className="Reporte__contenedor">
-        <div className="Reporte__pagina Reporte__pagina--1">
-          <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
-          <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
-          <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
-          <MensajeError>
-            <DatosEmpresa />
-          </MensajeError>
-          <InformacionGeneral />
-          <ResultadosConcentracion />
-          <Sandalias pagina={1} />
-        </div>
-        <div className="Reporte__pagina Reporte__pagina--2">
-          <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
-          <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
-          <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
-          <ResultadosEficacia />
-          <Comentarios />
-          <Sandalias pagina={2} />
-        </div>
-      </div>
-    </div>
-  )
+  switch (reporte.id) {
+    case 1:
+      return (
+        <ReporteAlimento/>
+      );
+    default:
+      return (
+        <ReporteSeguimiento/>
+      );
+  }
+  
 }
 
 export default Reporte

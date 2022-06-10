@@ -1,0 +1,33 @@
+.FormSeleccionarReporte__seccion {
+  margin-bottom: 2rem;
+  display: grid;
+  flex-direction: column;
+	gap: 2rem;
+}
+
+.FormSeleccionarReporte_boton {
+  opacity: 1;
+  transition: all .2s ease;
+  padding: .75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  background: var(--color-f);
+  border-radius: 9in;
+  color: var(--color-e);
+	border: none;
+	outline: none;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.FormSeleccionarReporte_boton:hover {
+  filter: brightness(115%);
+  box-shadow: 0 .1rem .25rem rgba(0, 0, 0, .15);
+}
+
+.FormSeleccionarReporte_boton--inactivo {
+  background-color: var(--color-gris-3);
+  cursor: pointer;
+}

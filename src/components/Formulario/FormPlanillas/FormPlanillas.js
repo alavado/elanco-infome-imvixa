@@ -11,7 +11,7 @@ import {
   limpiarFormularioPeces,
   limpiarFormularioTratamiento,
   mostrarErrorFormulario,
-} from "../../../redux/ducks/reporte";
+} from "../../../redux/ducks/parametrosGenerales";
 
 import "./FormPlanillas.css";
 const { ipcRenderer } = window.require("electron");
@@ -86,7 +86,7 @@ const FormPlanillas = () => {
     planillaEficacia,
     planillaTratamiento,
    } = useSelector(
-    (state) => state.reporte
+    (state) => state.parametrosGenerales
   );
   
   useEffect(() => {
