@@ -1,0 +1,26 @@
+
+.Encabezado {
+	display: flex;
+	flex-direction: column;
+}
+
+.Encabezado__titulo {
+	padding-top: 2rem;
+	color: var(--color-titulo);
+	text-transform: uppercase;
+	font-size: 3rem;
+	font-weight: 300;
+}
+
+.Reporte__logo_imvixa {
+  width: 25rem;
+  margin-top: 1rem;
+	padding-left: .25rem;
+}
+
+.Reporte__logo_elanco {
+  position: absolute;
+  top: 4.5rem;
+  right: 3rem;
+  width: 10rem;
+}

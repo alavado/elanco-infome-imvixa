@@ -38,18 +38,6 @@
   overflow: hidden;
 }
 
-.Reporte__logo_imvixa {
-  width: 25rem;
-  margin-top: 1rem;
-}
-
-.Reporte__logo_elanco {
-  position: absolute;
-  top: 4.5rem;
-  right: 3rem;
-  width: 14rem;
-}
-
 .Reporte__salmon {
   position: absolute;
   width: 28rem;

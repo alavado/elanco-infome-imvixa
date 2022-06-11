@@ -1,7 +1,5 @@
 import './Reporte.css'
-import logoImvixa from '../../assets/images/logo-imvixa.svg'
-import logoElanco from '../../assets/images/logo-elanco.svg'
-import salmon from '../../assets/images/varios-salmones.png'
+import { useSelector } from 'react-redux'
 import DatosEmpresa from './DatosEmpresa/DatosEmpresa'
 import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
 import ResultadosEficacia from './ResultadosEficacia'
@@ -9,26 +7,29 @@ import ResultadosConcentracion from './ResultadosConcentracion'
 import Comentarios from './Comentarios'
 import Sandalias from './Sandalias'
 import MensajeError from '../MensajeError'
+import { getFechaInicio, meses } from './utilitiesReporte'
+import Encabezado from './Encabezado/Encabezado'
 
-const ReporteSeguimiento = () => {
+const ReporteSeguimiento = ({titulo}) => {
+  const { nombreEmpresa, fechaInicio, fechaFinal, divisionTemporal } = useSelector(state => state.reporte)
+  const fechaInicial = getFechaInicio(fechaInicio, fechaFinal, divisionTemporal)
+  const fechaDatosInicial = `${meses[fechaInicial.getMonth()]} ${fechaInicial.getFullYear()}`
+  const fechaDatosFinal = `${meses[fechaFinal.getMonth()]} ${fechaFinal.getFullYear()}`
+  const fechaDatos = `${fechaDatosInicial} - ${fechaDatosFinal}`
   return (
     <div className="Reporte">
       <div className="Reporte__contenedor">
         <div className="Reporte__pagina Reporte__pagina--1">
-          <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
-          <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
-          <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
+          <Encabezado titulo={titulo}/>
           <MensajeError>
-            <DatosEmpresa />
+            <DatosEmpresa nombreEmpresa={nombreEmpresa} fechaDatos={fechaDatos}/>
           </MensajeError>
           <InformacionGeneral />
           <ResultadosConcentracion />
           <Sandalias pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
-          <img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
-          <img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
-          <img src={salmon} className="Reporte__salmon" alt="Salmón acuático" />
+          <Encabezado />
           <ResultadosEficacia />
           <Comentarios />
           <Sandalias pagina={2} />
