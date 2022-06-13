@@ -1,0 +1,57 @@
+.TablaResumen {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: .15rem dotted var(--color-gris-4);
+  color: var(--color-gris-4);
+  font-size: .85rem;
+}
+
+.TablaResumen__titulo {
+  background-color: var(--color-amarillo);
+  margin: .5rem;
+  color: white;
+  height: 4.75rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.TablaResumenAlimento__tabla {
+  display: grid;
+  grid-template: repeat(7, 1fr) / repeat(2, 1fr);
+  flex: 1;
+  font-weight: 300;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.TablaResumenAlimento__tabla > * {
+  border-bottom: .1rem dotted var(--color-gris-3);
+}
+
+.TablaResumen__nombre_empresa,
+.TablaResumen__encabezados,
+.TablaResumenAlimento__fila {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column: 1 / -1;
+  grid-template-columns: 4fr 1fr;
+  place-items: center;
+}
+
+.TablaResumen__nombre_empresa {
+  grid-template-columns: 3fr 2fr;
+  font-weight: 500;
+}
+
+.TablaResumen__encabezados {
+  font-weight: 500;
+}
+
+.TablaResumenAlimento__fila > :first-child {
+  justify-self: start;
+  font-weight: bold;
+  padding-left: .25rem;
+}

@@ -29,7 +29,7 @@ const ReporteSeguimiento = ({titulo}) => {
           <Sandalias pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
-          <Encabezado />
+          <Encabezado titulo={titulo} />
           <ResultadosEficacia />
           <Comentarios />
           <Sandalias pagina={2} />

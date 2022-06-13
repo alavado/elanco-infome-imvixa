@@ -5,7 +5,6 @@ import {
   colAñoAlimento,
   colFechaAlimento,
   colLoteAlimento } from "../../constants";
-import { filtrarDatosAlimento } from "./utilities";
 
 const slice = createSlice({
   name: "reporteAlimento",
@@ -17,7 +16,7 @@ const slice = createSlice({
     lotes: [],
     lotesOpciones: [],
     datosFiltradosAlimento: null,
-    datosFiltradosIndustriaAlimento: null,
+    datosLotes: null,
     procesandoParaExportar: false
   },
   reducers: {
@@ -69,18 +68,10 @@ const slice = createSlice({
       }
     },
     procesarDatosParaExportar(state, action) {
-      state.datosFiltradosAlimento = filtrarDatosAlimento(
-        action.payload,
-        state.nombreEmpresa,
-        state.fechaInicio,
-        state.fechaFinal
-      );
-      state.datosFiltradosIndustriaAlimento = filtrarDatosAlimento(
-        action.payload,
-        "Todas",
-        state.fechaInicio,
-        state.fechaFinal
-      );
+      const datos = action.payload.filter((obj) => obj[colEmpresaAlimento] === state.nombreEmpresa);
+      state.datosFiltradosAlimento = datos
+      console.log(datos)
+      state.datosLotes = state.lotes.map(l => datos.find((obj) => obj[colLoteAlimento] === l.value && obj[colPisciculturaAlimento] === state.piscicultura.value));
       state.procesandoParaExportar = true;
     },
   },

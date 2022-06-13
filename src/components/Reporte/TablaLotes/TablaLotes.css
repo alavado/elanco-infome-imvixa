@@ -1,0 +1,43 @@
+.TablaLotes {
+	margin: 2rem 0;
+	display: flex;
+  flex-direction: column;
+	font-size: .85rem;
+}
+
+.TablaLotes__tabla {
+	display: grid;
+  grid-template: 3rem 1fr / repeat(11, 1fr);
+	flex: 1;
+	max-height: 6rem;
+}
+
+.TablaLotes__encabezados,
+.TablaLotes__fila {
+	display: grid;
+	grid-auto-flow: column;
+	grid-column: 1 / -3;
+  grid-template-columns: repeat(9, 1fr);
+  place-items: center;
+}
+
+.TablaLotes__encabezados > div {
+	text-align: center;
+}
+/* .TablaLotes__fila {
+	display: grid;
+	grid-auto-flow: column;
+	grid-column: 1 / -1;
+	grid-row: 2 / -1;
+} */
+
+.TablaLotes__encabezados {
+  font-weight: 500;
+	font-size: 1rem;
+  background-color: var(--color-amarillo);
+	color: white;
+}
+
+.TablaLotes__tabla > * {
+  border-bottom: .1rem dotted var(--color-gris-3);
+}
