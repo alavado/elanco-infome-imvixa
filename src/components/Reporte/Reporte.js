@@ -17,11 +17,11 @@ const Reporte = () => {
   switch (reporte.id) {
     case 1:
       return (
-        <ReporteAlimento titulo={reporte.titulo}/>
+        <ReporteAlimento />
       );
     default:
       return (
-        <ReporteSeguimiento titulo={reporte.titulo}/>
+        <ReporteSeguimiento />
       );
   }
   

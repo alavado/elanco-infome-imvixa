@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import "./TablaLotes.css";
 import {
   colLoteAlimento,
-  colALimentoM1,
-  colALimentoM2,
-  colALimentoM3,
-  colALimentoM4,
-  colALimentoCV,
-  colALimentoProm,
-  colALimentoSTD,
+  colAlimentoM1,
+  colAlimentoM2,
+  colAlimentoM3,
+  colAlimentoM4,
+  colAlimentoCV,
+  colAlimentoProm,
+  colAlimentoSTD,
   colCumplimiento
-} from "../../../constants";
+} from "../../../../constants";
 
 const TablaLotes = () => {
   const { datosLotes } = useSelector((state) => state.reporteAlimento);
@@ -40,14 +40,14 @@ const TablaLotes = () => {
         {datosLotes.map((fila, i) => (
           <div key={`TablaLotes-fila-${i}`} className="TablaLotes__fila">
             <div>{fila[colLoteAlimento]}</div>
-            <div>{fila[colALimentoM1]}</div>
-            <div>{fila[colALimentoM2]}</div>
-            <div>{fila[colALimentoM3]}</div>
-            <div>{fila[colALimentoM4]}</div>
-            <div>{fila[colALimentoProm]}</div>
-            <div>{Math.round(fila[colALimentoCV] * 100  * Math.pow(10, decimales2)) / Math.pow(10, decimales2) }%</div>
+            <div>{Math.round(fila[colAlimentoM1] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoM2] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoM3] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoM4] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoProm] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoCV] * 100  * Math.pow(10, decimales2)) / Math.pow(10, decimales2) }%</div>
             <div>{Math.round(fila[colCumplimiento] * 100 * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}%</div>
-            <div>{Math.round(fila[colALimentoSTD] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(fila[colAlimentoSTD] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
           </div>
         ))}
       </div>

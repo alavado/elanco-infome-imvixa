@@ -1,21 +1,25 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Sandalias from "./Sandalias";
-import MensajeError from "../MensajeError";
-import DatosEmpresa from "./DatosEmpresa/DatosEmpresa";
-import Encabezado from "./Encabezado/Encabezado";
+import Sandalias from "../Sandalias";
+import MensajeError from "../../MensajeError";
+import DatosEmpresa from "../DatosEmpresa/DatosEmpresa";
+import Encabezado from "../Encabezado/Encabezado";
 import TablaResumenAlimento from "./TablaResumenAlimento";
-import Comentarios from "./Comentarios";
+import Comentarios from "../Comentarios";
 import TablaLotes from "./TablaLotes/TablaLotes";
+import '../Reporte.css'
+import GraficoCumplimiento from "./GraficoCumplimiento/GraficoCumplimiento";
 
-const ReporteAlimento = ({ titulo }) => {
-  const { nombreEmpresa } = useSelector((state) => state.reporteAlimento);
+const ReporteAlimento = () => {
+  const { lotes, nombreEmpresa } = useSelector((state) => state.reporteAlimento);
+
+  const lote = lotes[0].value;
 
   return (
     <div className="Reporte">
       <div className="Reporte__contenedor">
         <div className="Reporte__pagina ReporteAlimento__pagina--1">
-          <Encabezado titulo={titulo} />
+          <Encabezado />
           <MensajeError>
             <DatosEmpresa nombreEmpresa={nombreEmpresa} />
           </MensajeError>
@@ -26,7 +30,7 @@ const ReporteAlimento = ({ titulo }) => {
                 <TablaResumenAlimento />
               </MensajeError>
               <MensajeError>
-                <TablaResumenAlimento />
+                <GraficoCumplimiento lote={lote}/>
               </MensajeError>
             </div>
           </div>
