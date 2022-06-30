@@ -3,14 +3,28 @@
   flex-direction: column;
   padding: 0.25rem 3.5rem 2rem 2rem;
   justify-content: space-between;
-	max-width: 43%;
+	max-width: 50%;
 }
 
 .GraficoCumplimiento__titulo {
   color: var(--color-gris-4);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   font-size: 1.25rem;
+  font-weight: bold;
   line-height: 1.15;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.GraficoCumplimiento__titulo::before {
+  width: 2rem;
+  height: 2rem;
+  content: '';
+  background: var(--color-titulo-seccion);
+  display: block;
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
 .GraficoCumplimiento__etiqueta_eje_y {

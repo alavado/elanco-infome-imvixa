@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import "./TablaLotes.css";
 import {
   colLoteAlimento,
@@ -13,9 +12,7 @@ import {
   colCumplimiento
 } from "../../../../constants";
 
-const TablaLotes = () => {
-  const { datosLotes } = useSelector((state) => state.reporteAlimento);
-
+const TablaLotes = ({ lote }) => {
   const headers = [
     "Lote",
     "Muestra 1",
@@ -29,6 +26,7 @@ const TablaLotes = () => {
   ];
   const decimales1 = 1;
   const decimales2 = 2;
+  console.log({lote})
   return (
     <div className="TablaLotes">
       <div className="TablaLotes__tabla">
@@ -37,19 +35,19 @@ const TablaLotes = () => {
             <div key={`TablaLotes-encabezados-${i}`}>{col}</div>
           ))}
         </div>
-        {datosLotes.map((fila, i) => (
-          <div key={`TablaLotes-fila-${i}`} className="TablaLotes__fila">
-            <div>{fila[colLoteAlimento]}</div>
-            <div>{Math.round(fila[colAlimentoM1] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
-            <div>{Math.round(fila[colAlimentoM2] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
-            <div>{Math.round(fila[colAlimentoM3] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
-            <div>{Math.round(fila[colAlimentoM4] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
-            <div>{Math.round(fila[colAlimentoProm] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
-            <div>{Math.round(fila[colAlimentoCV] * 100  * Math.pow(10, decimales2)) / Math.pow(10, decimales2) }%</div>
-            <div>{Math.round(fila[colCumplimiento] * 100 * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}%</div>
-            <div>{Math.round(fila[colAlimentoSTD] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+        {(
+          <div key={`TablaLotes-fila-1}`} className="TablaLotes__fila">
+            <div>{lote[colLoteAlimento]}</div>
+            <div>{Math.round(lote[colAlimentoM1] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(lote[colAlimentoM2] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(lote[colAlimentoM3] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(lote[colAlimentoM4] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(lote[colAlimentoProm] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
+            <div>{Math.round(lote[colAlimentoCV] * 100  * Math.pow(10, decimales2)) / Math.pow(10, decimales2) }%</div>
+            <div>{Math.round(lote[colCumplimiento] * 100 * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}%</div>
+            <div>{Math.round(lote[colAlimentoSTD] * Math.pow(10, decimales1)) / Math.pow(10, decimales1)}</div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

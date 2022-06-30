@@ -1,0 +1,27 @@
+.ReporteAlimento {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-fondo);
+}
+
+.ReporteAlimento__contenedor {
+  background-color: var(--color-fondo);
+  animation: aparece-reporte .25s ease both;
+  display: flex;
+  flex-direction: column;
+}
+
+.ReporteAlimento__pagina {
+  flex: 1;
+  position: relative;
+  display: grid;
+  grid-template-rows: 16% 12% 37% 12% auto;
+  padding: 4rem 2rem 12rem 4rem;
+  overflow: hidden;
+}
+
+.ReporteAlimento__seccion {
+  display: flex;
+  gap: 0 4rem; 
+  min-height: 80%;
+}

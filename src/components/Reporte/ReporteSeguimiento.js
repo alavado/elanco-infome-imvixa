@@ -1,4 +1,4 @@
-import './Reporte.css'
+import React, { useEffect } from "react";
 import { useSelector } from 'react-redux'
 import DatosEmpresa from './DatosEmpresa/DatosEmpresa'
 import InformacionGeneral from './InformacionGeneral/InformacionGeneral'
@@ -7,8 +7,10 @@ import ResultadosConcentracion from './ResultadosConcentracion'
 import Comentarios from './Comentarios'
 import Sandalias from './Sandalias'
 import MensajeError from '../MensajeError'
-import { getFechaInicio, meses } from './utilitiesReporte'
 import Encabezado from './Encabezado/Encabezado'
+import { getFechaInicio, meses } from './utilitiesReporte'
+import './Reporte.css'
+const { ipcRenderer } = window.require('electron')
 
 const ReporteSeguimiento = () => {
   const { nombreEmpresa, fechaInicio, fechaFinal, divisionTemporal } = useSelector(state => state.reporte)
@@ -16,6 +18,11 @@ const ReporteSeguimiento = () => {
   const fechaDatosInicial = `${meses[fechaInicial.getMonth()]} ${fechaInicial.getFullYear()}`
   const fechaDatosFinal = `${meses[fechaFinal.getMonth()]} ${fechaFinal.getFullYear()}`
   const fechaDatos = `${fechaDatosInicial} - ${fechaDatosFinal}`
+  useEffect(() => {
+    ipcRenderer.send('datosReporte', {
+      nombreEmpresa
+    })
+  }, [nombreEmpresa])
   return (
     <div className="Reporte">
       <div className="Reporte__contenedor">

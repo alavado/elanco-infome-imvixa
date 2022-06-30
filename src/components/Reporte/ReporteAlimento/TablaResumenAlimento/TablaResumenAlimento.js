@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import {
   colCantidadProgramadaAlimento,
   colConcentracionObjetivo,
@@ -8,20 +7,19 @@ import {
   colPlanta,
   colRecetaAlimento,
   colAlimentoCalibre,
+  colFechaAlimento,
+  colPisciculturaAlimento
 } from "../../../../constants";
 import "./TablaResumenAlimento.css";
 
-const TablaResumenAlimento = () => {
-  const { fecha, piscicultura, datosLotes } = useSelector(
-    (state) => state.reporteAlimento
-  );
-
-  const datos = datosLotes[0];
+const TablaResumenAlimento = ({ lote: datos }) => {
+  const fecha = datos[colFechaAlimento].toString().substring(0,10)
+  const piscicultura = datos[colPisciculturaAlimento]
   const filas = [
     ["ID. Reporte laboratorio", datos[colInformeAlimento]],
-    ["Piscicultura", piscicultura.value],
+    ["Piscicultura", piscicultura],
     ["Planta de alimento", datos[colPlanta]],
-    ["Fecha de elaboración", fecha.value],
+    ["Fecha de elaboración", fecha],
     ["PMV", datos[colRecetaAlimento]],
     ["Lote de alimento", datos[colLoteAlimento]],
     [

@@ -167,6 +167,7 @@ const slice = createSlice({
     },
     seleccionarReporte(state, action) {
       const id = action.payload;
+      console.log("SeleccionarReporte")
       state.reporte = reportes.find((r) => r.id === id);
     },
   },

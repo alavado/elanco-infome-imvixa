@@ -14,6 +14,20 @@
 
 .Reporte__logo_imvixa {
   width: 25rem;
+  margin-top: 4rem;
+	padding-left: .25rem;
+}
+
+
+.Reporte__logo_imagen_alimento {
+	width: 60rem;
+  margin-top: 1rem;
+	padding-left: .25rem;
+}
+
+
+.Reporte__logo_imagen_seguimiento {
+	width: 40rem;
   margin-top: 1rem;
 	padding-left: .25rem;
 }
@@ -22,5 +36,5 @@
   position: absolute;
   top: 4.5rem;
   right: 3rem;
-  width: 10rem;
+  width: 11rem;
 }

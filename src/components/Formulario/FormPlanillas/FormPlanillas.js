@@ -101,8 +101,7 @@ const FormPlanillas = () => {
       leerPlanilla("tratamiento", localStorage.getItem('planillaTratamiento'))
     } 
     if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null) {
-      planillaPeces = localStorage.getItem('planillaPeces')
-      leerPlanilla("peces", planillaPeces)
+      leerPlanilla("peces", localStorage.getItem('planillaPeces'))
     } 
   }, []);
 

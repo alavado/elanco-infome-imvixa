@@ -3,16 +3,16 @@ import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { agregarComentario } from '../../../redux/ducks/comentarios'
+import { agregarComentarioAlimento } from '../../../../redux/ducks/comentarios'
 import Comentario from './Comentario'
 import './Comentarios.css'
-const { ipcRenderer } = window.require('electron')
 
 const Comentarios = ({ indice }) => {
 
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
-  const { comentarios } = useSelector(state => state.comentarios)
+  const { comentariosAlimento } = useSelector(state => state.comentarios)
+  const comentarios = comentariosAlimento[indice] || [];
   const textareaRef = useRef()
   const dispatch = useDispatch()
 
@@ -21,18 +21,10 @@ const Comentarios = ({ indice }) => {
     if (nuevoComentario === '') {
       return
     }
-    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentario(c)))
+    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentarioAlimento({texto: c, indice: indice})))
     setNuevoComentario('')
     setAgregandoComentario(false)
-    ipcRenderer.send('hayComentarios')
   }
-
-  useEffect(() => {
-    if (comentarios.length === 0) {
-      ipcRenderer.send('yaNoHayComentarios')
-    }
-  }, [comentarios])
-
   useEffect(() => {
     if (agregandoComentario) {
       textareaRef.current?.focus()
@@ -49,7 +41,7 @@ const Comentarios = ({ indice }) => {
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">
-        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} />)}
+        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} indice={indice} />)}
       </ul>
       {agregandoComentario
         ? <form

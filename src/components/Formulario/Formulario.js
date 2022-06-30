@@ -14,7 +14,10 @@ import {
   mostrarErrorFormulario,
 } from "../../redux/ducks/parametrosGenerales";
 import { procesarDatosParaExportar as procesarReporteSeguimiento } from "../../redux/ducks/reporteSeguimiento";
-import { procesarDatosParaExportar as procesarReporteAlimento } from "../../redux/ducks/reporteAlimento";
+import {
+  procesarDatosParaExportar as procesarReporteAlimento,
+  cargarDatosAlimento,
+} from "../../redux/ducks/reporteAlimento";
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
 
@@ -35,7 +38,8 @@ const Formulario = () => {
   const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
     (state) => state.reporte
   );
-  const { lotes } = useSelector((state) => state.reporteAlimento);
+  const { lotesSeleccionados: lotes } = useSelector((state) => state.reporteAlimento);
+
   const cumplimientoOK =
     (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
     (cumplimiento.min <= cumplimiento.q2 || cumplimiento.q2 === "") &&
@@ -48,7 +52,10 @@ const Formulario = () => {
     (concentracion.q2 <= concentracion.q3 || concentracion.q3 === "") &&
     (concentracion.q3 <= concentracion.q4 || concentracion.q4 === "") &&
     (concentracion.q4 <= concentracion.max || concentracion.max === "");
-  const valoresOK = cumplimientoOK && concentracionOK;
+
+  const valoresOK =
+    cumplimientoOK &&
+    ((reporte !== null && reporte.id === 1) || concentracionOK);
   let qCondition = true;
   const minCondition = cumplimiento.min === "" || cumplimiento.min >= 50;
   const boxElements = ["q2", "q3", "q4", "prom"];
@@ -57,8 +64,10 @@ const Formulario = () => {
   }
   if (boxElements.some((v) => concentracion[v] !== "")) {
     qCondition =
-      qCondition && Object.values(concentracion).every((v) => v !== "");
+      qCondition &&
+      (reporte.id === 1 || Object.values(concentracion).every((v) => v !== ""));
   }
+
   const pasos = useMemo(
     () => [
       {
@@ -90,6 +99,9 @@ const Formulario = () => {
         siguienteActivo: reporte !== null,
         onClickSiguiente: () => {
           if (todasLasPlanillas && reporte !== null) {
+            if (reporte.id === 1) {
+              dispatch(cargarDatosAlimento(datosAlimento));
+            }
             dispatch(pasoSiguiente());
           } else {
             dispatch(
@@ -149,10 +161,11 @@ const Formulario = () => {
             case 1:
               if (
                 lotes.length > 0 &&
-                valoresOK &&
-                qCondition
+                cumplimientoOK &&
+                qCondition &&
+                minCondition
               ) {
-                dispatch(procesarReporteAlimento(datosAlimento));
+                dispatch(procesarReporteAlimento());
                 history.push("/reporte");
               }
               break;
