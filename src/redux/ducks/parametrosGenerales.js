@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reportes } from "../../helpers/reportes";
 import { localeSort } from "./utilities";
-import { colEmpresaAlimento, colPisciculturaAlimento, colFechaAlimento } from "../../constants";
+import { colEmpresaAlimento, colPisciculturaAlimento, colFechaAlimento, colFechaPeces } from "../../constants";
 
 const slice = createSlice({
   name: "parametrosGenerales",
@@ -9,7 +9,7 @@ const slice = createSlice({
     validando: {
       alimento: false,
       eficacia: false,
-      tratamiento: false,
+      // tratamiento: false,
       peces: false,
     },
     pasoActual: 0,
@@ -79,8 +79,8 @@ const slice = createSlice({
       ];
       if (
         state.planillaEficacia !== "" &&
-        state.planillaPeces !== "" &&
-        state.planillaTratamiento !== ""
+        state.planillaPeces !== ""
+        // state.planillaTratamiento !== ""
       ) {
         state.todasLasPlanillas = true;
       }
@@ -100,14 +100,23 @@ const slice = createSlice({
     },
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path;
-      state.datosPeces = action.payload.datos;
+      state.datosTratamiento = action.payload.datos.datosTratamiento;
+      
+      const datosPeces = [];
+      action.payload.datos.datosPeces.forEach(r => {
+        datosPeces.push({
+          ...r,
+          [colFechaPeces] : new Date(r[colFechaPeces]).toISOString()
+        })
+      })
+      state.datosPeces = datosPeces;
       if (
         state.planillaEficacia !== "" &&
-        state.planillaAlimento !== "" &&
-        state.planillaTratamiento !== ""
-      ) {
-        state.todasLasPlanillas = true;
-      }
+        state.planillaAlimento !== ""
+        // state.planillaTratamiento !== ""
+        ) {
+          state.todasLasPlanillas = true;
+        }
       state.errorFormulario = null;
     },
     guardarPlanillaEficacia(state, action) {
@@ -115,8 +124,8 @@ const slice = createSlice({
       state.datosEficacia = action.payload.datos;
       if (
         state.planillaPeces !== "" &&
-        state.planillaAlimento !== "" &&
-        state.planillaTratamiento !== ""
+        state.planillaAlimento !== ""
+        // state.planillaTratamiento !== ""
       ) {
         state.todasLasPlanillas = true;
       }

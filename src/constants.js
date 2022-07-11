@@ -22,21 +22,21 @@ export const colAlimentoCV = "Coeficiente de variacion (%)"
 export const colAlimentoCalibre = "Calibre"
 
 // Columnas para filtrar hoja pmv
-export const colEmpresaPMV = "company_code"
-export const colFechaPMV = "fecha_pmv"
-export const colTipoPMV = "tipo_pisc"
-export const colNPecesPMV = "n_peces_tratados_fw"
+export const colEmpresaPMV = "Company"
+export const colFechaPMV = "fecha_pmv"  // no existe pero si la comento no corre
+export const colTipoPMV = "tipo_pisc" // no existe pero si la comento no corre
+export const colNPecesPMV = "n_peces_tratados_fw" // no existe pero si la comento no corre
 export const tipoRecPMV = "Recirculación"
 export const tipoFAPMV = "Flujo Abierto"
 
 // Columnas para filtrar hoja peces
-export const colEmpresaPeces = "company_code"
-export const colFechaPeces = "sampling_date"
-export const colPiscicultura = "hatchery_code"
-export const colPeso1 = "peso_al_inicio_tto"
-export const colPeso2 = "fish_body_weight_g"
-export const colPPB = "imvixa_in_fillet_ppb"
-export const colSampleOrigin = "sample_origin"
+export const colEmpresaPeces = "Company"
+export const colFechaPeces = "Sampling date"
+export const colPisciculturaPeces = "Hatchery of origin"
+export const colPeso1 = "peso_al_inicio_tto" // no existe pero si la comento no corre
+export const colPeso2 = "Fish body weight (g)"
+export const colPPB = "Imvixa [] in fillet (ppb)"
+export const colSampleOrigin = "Sample Origin"
 export const tipoFreshWater = "FW"
 export const tipoSeaWater = "SW"
 export const colCentroPeces = "seasite_code"

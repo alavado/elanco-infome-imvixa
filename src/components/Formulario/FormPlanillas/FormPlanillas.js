@@ -5,11 +5,9 @@ import {
   guardarPlanillaAlimento,
   guardarPlanillaEficacia,
   guardarPlanillaPeces,
-  guardarPlanillaTratamiento,
   limpiarFormularioAlimento,
   limpiarFormularioEficacia,
   limpiarFormularioPeces,
-  limpiarFormularioTratamiento,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/parametrosGenerales";
 
@@ -69,22 +67,22 @@ const FormPlanillas = () => {
     }
   });
 
-  ipcRenderer.once("tratamiento", async (e, data) => {
-    dispatch(estaValidando({tratamiento: false}))
-    if (data.datos.length === 0) {
-      dispatchErrorFormulario()
-      dispatch(limpiarFormularioTratamiento())
-    } else {
-      dispatch(guardarPlanillaTratamiento(data))
-      localStorage.setItem("planillaTratamiento", data.path)
-    }
-  });
+  // ipcRenderer.once("tratamiento", async (e, data) => {
+  //   dispatch(estaValidando({tratamiento: false}))
+  //   if (data.datos.length === 0) {
+  //     dispatchErrorFormulario()
+  //     dispatch(limpiarFormularioTratamiento())
+  //   } else {
+  //     dispatch(guardarPlanillaTratamiento(data))
+  //     localStorage.setItem("planillaTratamiento", data.path)
+  //   }
+  // });
 
   let { 
     planillaAlimento, 
     planillaPeces, 
     planillaEficacia,
-    planillaTratamiento,
+    // planillaTratamiento,
    } = useSelector(
     (state) => state.parametrosGenerales
   );
@@ -97,9 +95,9 @@ const FormPlanillas = () => {
     if (planillaEficacia === "" && localStorage.getItem('planillaEficacia') !== null) {
       leerPlanilla("eficacia", localStorage.getItem('planillaEficacia'))
     } 
-    if (planillaTratamiento === "" && localStorage.getItem('planillaTratamiento') !== null) {
-      leerPlanilla("tratamiento", localStorage.getItem('planillaTratamiento'))
-    } 
+    // if (planillaTratamiento === "" && localStorage.getItem('planillaTratamiento') !== null) {
+    //   leerPlanilla("tratamiento", localStorage.getItem('planillaTratamiento'))
+    // } 
     if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null) {
       leerPlanilla("peces", localStorage.getItem('planillaPeces'))
     } 
@@ -160,7 +158,7 @@ const FormPlanillas = () => {
           onChange={(e) => leerPlanilla("peces", e.target.files[0]?.path)}
         ></input>
       </div>
-      <div className="FormPlanillas__planilla">
+      {/* <div className="FormPlanillas__planilla">
         <label
           htmlFor="FormPlanillas__planilla__2"
           className="FormPlanillas__planilla__label"
@@ -178,7 +176,7 @@ const FormPlanillas = () => {
             (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
           }
         ></input>
-      </div>
+      </div> */}
       <div id="htmlout"></div>
     </div>
   );

@@ -18,6 +18,10 @@ import {
   procesarDatosParaExportar as procesarReporteAlimento,
   cargarDatosAlimento,
 } from "../../redux/ducks/reporteAlimento";
+import {
+  procesarDatosParaExportar as procesarReporteMusculo,
+  cargarDatosMusculo,
+} from "../../redux/ducks/reporteMusculo";
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
 
@@ -38,7 +42,15 @@ const Formulario = () => {
   const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
     (state) => state.reporte
   );
-  const { lotesSeleccionados: lotes } = useSelector((state) => state.reporteAlimento);
+  const { lotesSeleccionados: lotes } = useSelector(
+    (state) => state.reporteAlimento
+  );
+
+  const { nombreEmpresa: nEmpresaAlimento, piscicultura, fecha } = useSelector(
+    (state) => state.reporteMusculo
+  );
+
+  const unicaOpcion = [nEmpresaAlimento, piscicultura, fecha].every(v => v !== null)
 
   const cumplimientoOK =
     (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
@@ -101,6 +113,8 @@ const Formulario = () => {
           if (todasLasPlanillas && reporte !== null) {
             if (reporte.id === 1) {
               dispatch(cargarDatosAlimento(datosAlimento));
+            } else if (reporte.id === 2) {
+              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces }));
             }
             dispatch(pasoSiguiente());
           } else {
@@ -124,10 +138,12 @@ const Formulario = () => {
         siguienteActivo:
           reporte !== null &&
           ((reporte.id === 4 && nombreEmpresa !== "") ||
-            (reporte.id === 1 && lotes.length > 0)),
+            (reporte.id === 1 && lotes.length > 0) ||
+            (reporte.id === 2 &&  unicaOpcion)),
         onClickSiguiente: () => {
           if (
             (reporte.id === 1 && lotes.length > 0) ||
+            (reporte.id === 2 && unicaOpcion) ||
             (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
           ) {
             dispatch(pasoSiguiente());
@@ -156,7 +172,6 @@ const Formulario = () => {
             );
             return;
           }
-
           switch (reporte.id) {
             case 1:
               if (
@@ -169,6 +184,16 @@ const Formulario = () => {
                 history.push("/reporte");
               }
               break;
+            case 2:
+              if (
+                unicaOpcion &&
+                cumplimientoOK &&
+                qCondition &&
+                minCondition
+              ) {
+                dispatch(procesarReporteMusculo());
+                history.push("/reporte");
+              }
             default:
               if (
                 todasLasPlanillas &&
@@ -207,6 +232,7 @@ const Formulario = () => {
       history,
       reporte,
       lotes,
+      unicaOpcion
     ]
   );
 

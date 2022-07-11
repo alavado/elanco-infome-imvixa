@@ -9,7 +9,7 @@ import {
 } from '../../utilitiesReporte'
 import { 
   colFechaPeces, 
-  colPiscicultura, 
+  colPisciculturaPeces as colPiscicultura, 
   colSampleOrigin, 
   tipoFreshWater,
   colPPB 

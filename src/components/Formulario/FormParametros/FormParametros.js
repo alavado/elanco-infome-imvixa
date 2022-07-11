@@ -3,6 +3,7 @@ import "./FormParametros.css";
 import { useSelector } from "react-redux";
 import ParametrosReporteAlimento from "./ParametrosReporteAlimento";
 import ParametrosReporteSeguimiento from "./ParametrosReporteSeguimiento";
+import ParametrosReporteMusculo from "./ParametrosReporteMusculo/ParametrosReporteMusculo";
 
 const FormParametros = () => {
 
@@ -11,6 +12,10 @@ const FormParametros = () => {
     case 1:
       return (
         <ParametrosReporteAlimento/>
+      );
+    case 2:
+      return (
+        <ParametrosReporteMusculo/>
       );
     default:
       return (

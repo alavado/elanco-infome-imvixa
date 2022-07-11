@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ReporteAlimento from "./ReporteAlimento";
 import ReporteSeguimiento from "./ReporteSeguimiento";
+import ReporteMusculo from "./ReporteMusculo";
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
@@ -18,6 +19,10 @@ const Reporte = () => {
         return (
           <ReporteAlimento />
         );
+      case 2:
+        return (
+          <ReporteMusculo />
+        )
       default:
         return (
           <ReporteSeguimiento />

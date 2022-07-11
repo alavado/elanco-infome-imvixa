@@ -160,17 +160,6 @@ const ParametrosReporteAlimento = () => {
     [piscicultura, nombreEmpresa, pmv, fecha, filtros, lotesTotales]
   );
 
-  console.log({
-    nombreEmpresa,
-    pmv,
-    fecha,
-    piscicultura,
-    lotesOpciones,
-    filtros,
-    empresas,
-    lotesSeleccionados,
-  });
-
   return (
     <div>
       <div className="FormParametros__seccion">

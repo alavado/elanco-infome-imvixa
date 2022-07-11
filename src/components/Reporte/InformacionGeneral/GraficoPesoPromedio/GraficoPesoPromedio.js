@@ -3,7 +3,7 @@ import { extraerUltimosPeriodos } from '../../utilitiesReporte'
 import { groupBy } from '../../utilitiesReporte'
 import { 
   colFechaPeces, 
-  colPiscicultura, 
+  colPisciculturaPeces as colPiscicultura, 
   colSampleOrigin,
   tipoFreshWater,
   colPeso1, 
