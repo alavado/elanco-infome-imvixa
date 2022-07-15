@@ -1,0 +1,68 @@
+
+
+input[typeForm="number"] {
+  text-decoration: none;
+  width: 4rem;
+	font-size: 1rem;
+  border: none;
+}
+
+input[typeForm="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[typeForm=number]::-webkit-inner-spin-button, 
+input[typeForm=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+input[typeForm=number]:focus {
+  outline: none;
+}
+
+input[typeForm="number"]:hover {
+  outline: none;
+}
+
+.FormParametros__parametro_label:focus-within {
+  border: 2px solid  var(--color-f) ;
+}
+
+.FormParametros__parametro_label {
+  border-radius: 0.2rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: .25rem .5rem .25rem .25rem;
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
+  border: 1px solid var(--color-gris-2);
+  font-size: 1rem;
+	width: 40%;
+}
+
+.FormParametros__parametro_label:hover {
+  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  /* border: 1px solid var(--color-gris-3); */
+  border: 2px solid  var(--color-f) ;
+}
+
+
+.FormParametros__parametro {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-gris-4);
+  margin-top: .5rem;
+  position: relative;
+}
+
+.FormParametros__parametro_label__button {
+  background-color: var(--color-gris-1);
+  color: var(--color-gris-4);
+  display: inline-block;
+  padding: 0.5rem;
+	font-size: 1rem;
+  text-align: center;
+  margin-right: .5rem;
+}

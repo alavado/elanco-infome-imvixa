@@ -1,0 +1,49 @@
+.TablaAntecedentes {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: .15rem dotted var(--color-gris-4);
+  color: var(--color-gris-4);
+	margin-top: 2rem;
+}
+
+.TablaAntecedentes__titulo {
+  background-color: var(--color-amarillo);
+  margin: .5rem;
+  color: white;
+  height: 4.75rem;
+  display: flex;
+  align-items: center;
+  padding: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.TablaAntecedentes__tabla {
+  display: grid;
+  grid-template: repeat(1, 1fr) / repeat(2, 1fr);
+  flex: 1;
+  font-weight: 300;
+  padding: 0 1rem 1rem 1rem;
+  font-size: 1.2rem;
+	gap: 5rem;
+}
+
+.TablaAntecedentes__columna > * {
+  border-bottom: .1rem dotted var(--color-gris-3);
+}
+
+
+.TablaAntecedentes__fila {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column: 1 / -1;
+  grid-template-columns: 5fr 2fr;
+	padding: .7rem;
+}
+
+.TablaAntecedentes__fila > :first-child {
+  justify-self: start;
+  font-weight: bold;
+  padding-left: .25rem;
+}

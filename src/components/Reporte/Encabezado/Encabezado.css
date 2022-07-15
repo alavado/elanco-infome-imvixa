@@ -26,6 +26,12 @@
 }
 
 
+.Reporte__logo_imagen_musculo {
+	width: 65rem;
+  margin-top: 1.5rem;
+	padding-left: .25rem;
+}
+
 .Reporte__logo_imagen_seguimiento {
 	width: 40rem;
   margin-top: 1rem;

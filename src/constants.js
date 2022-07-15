@@ -29,13 +29,30 @@ export const colNPecesPMV = "n_peces_tratados_fw" // no existe pero si la coment
 export const tipoRecPMV = "Recirculación"
 export const tipoFAPMV = "Flujo Abierto"
 
-// Columnas para filtrar hoja peces
+// Columnas para filtrar hoja BD trat
+export const colEmpresaTrat = "Company"
+export const colFechaTrat = "Sampling date"
+export const colInformePecesTrat = "Elanco id."
+export const colInformePecesRTrat = "Report id."
+export const colDestinoTrat = "Sea site of destination"
+export const colPesoInicialTrat = "Peso al Inicio Tto"
+export const colPMVTrat = "PMV"
+export const colLote1Trat = "Lote Alimento 1"
+export const colLote2Trat = "Lote Alimento 2"
+export const colLote3Trat = "Lote Alimento 3"
+export const colLote4Trat = "Lote Alimento 4"
+
+// Columnas para filtrar hoja BD imvixa
 export const colEmpresaPeces = "Company"
 export const colFechaPeces = "Sampling date"
 export const colPisciculturaPeces = "Hatchery of origin"
 export const colPeso1 = "peso_al_inicio_tto" // no existe pero si la comento no corre
 export const colPeso2 = "Fish body weight (g)"
 export const colPPB = "Imvixa [] in fillet (ppb)"
+export const colNumeroPezPeces = "Fish no."
+export const colEstanquePeces = "tank/sea cage"
+export const colInformePeces = "Elanco id."
+export const colInformePecesR = "Report id."
 export const colSampleOrigin = "Sample Origin"
 export const tipoFreshWater = "FW"
 export const tipoSeaWater = "SW"

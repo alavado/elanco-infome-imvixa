@@ -8,6 +8,7 @@ import {
   guardarNombreEmpresa,
   guardarPiscicultura,
   guardarFecha,
+  guardarUmbral
 } from "../../../../redux/ducks/reporteMusculo";
 import {
   colEmpresaPeces,
@@ -17,7 +18,7 @@ import {
 
 const ParametrosReporteMusculo = () => {
   registerLocale("es", es);
-  const { nombreEmpresa, piscicultura, filtros, fecha, datosPeces } =
+  const { nombreEmpresa, piscicultura, filtros, fecha, datosPeces, umbral } =
     useSelector((state) => state.reporteMusculo);
   const empresas = useMemo(
     () =>
@@ -79,7 +80,7 @@ const ParametrosReporteMusculo = () => {
             current[colFechaPeces]
           ) {
             if (typeof current[colFechaPeces] !== "string") {
-              console.log(current[colFechaPeces])
+              console.log(current[colFechaPeces]);
             }
             acc.add(current[colFechaPeces].toString().substring(0, 10));
           }
@@ -164,6 +165,26 @@ const ParametrosReporteMusculo = () => {
             input: (provided) => ({ ...provided, minHeight: "2rem" }),
           }}
         />
+      </div>
+      <div className="FormParametros__seccion">
+        <div className="FormParametros__parametro">
+          <label
+            htmlFor="FormParametros__parametro__umbral"
+            className="FormParametros__parametro_label"
+          >
+            <div className="FormParametros__parametro_label__button">Umbral ppb</div>
+            <input
+              defaultValue={umbral}
+              id="FormParametros__parametro__umbral"
+              typeForm="number"
+              type="number"
+              min="0"
+              onChange={(e) => {
+                console.log("HERE")
+                dispatch(guardarUmbral(e.target.value))}}
+            />
+          </label>
+        </div>
       </div>
     </div>
   );

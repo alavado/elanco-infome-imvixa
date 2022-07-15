@@ -1,0 +1,29 @@
+.CuadroResumen {
+	background-color: var(--color-gris-2);
+	padding: 2rem 3rem 2rem 3rem;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 2rem;
+}
+
+.CuadroResumen__elemento {
+	display: flex;
+	flex: 1;
+	max-width: calc(50% - 1rem);
+	min-width: calc(50% - 1rem);
+	border-bottom: 0.15rem dotted  var(--color-gris-1) ;
+	gap: .5rem;
+}
+
+.CuadroResumen__label {
+	flex: 3;
+	font-weight: bold;
+	font-size: 1.3rem;
+}
+
+.CuadroResumen__value {
+	flex: 4;
+	font-size: 1.3rem;
+}

@@ -15,84 +15,114 @@ import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
 import "./GraficoCumplimiento.css";
 
 const GraficoCumplimiento = ({ lote: datoLote }) => {
-  const loteNombre = datoLote[colLoteAlimento];
+  const {
+    nombreEmpresa,
+    lotesAsociados,
+    plantasAsociadas,
+    datosEjercicio,
+    datosAlimento,
+    datosAlimentoLotesAsociados
+  } = useSelector((state) => state.reporteMusculo);
   const { cumplimiento } = useSelector((state) => state.reporte);
-  const { lotesTotales, lotesSeleccionados } = useSelector(
-    (state) => state.reporteAlimento
-  );
-  const lotesEjercicio = lotesSeleccionados.map((l) => l.data[colLoteAlimento]);
 
-  const cumplimientosEmpresa = lotesTotales
+  console.log({
+    lotesAsociados,
+    datosEjercicio,
+    datosAlimentoLotesAsociados
+  });
+
+  const lotesEjercicio = lotesAsociados;
+
+  const cumplimientosEmpresa = datosAlimento
     .filter(
       (v) =>
-        v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] &&
-        !lotesEjercicio.includes(v.data[colLoteAlimento])
+        v[colEmpresaAlimento] === nombreEmpresa.value &&
+        !lotesEjercicio.includes(v[colLoteAlimento])
     )
-    .map((obj) => obj.data[colCumplimiento] * 100);
+    .map((obj) => obj[colCumplimiento] * 100);
 
-  const cumplimientosPlantaIndustria = lotesTotales
-    .filter(
-      (v) =>
-        v.data[colPlanta] === datoLote[colPlanta] &&
-        !lotesEjercicio.includes(v.data[colLoteAlimento])
-    )
-    .map((obj) => obj.data[colCumplimiento] * 100);
+  const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
+    const datos = datosAlimento
+      .filter(
+        (v) =>
+          v[colPlanta] === planta &&
+          !lotesEjercicio.includes(v[colLoteAlimento])
+      )
+      .map((obj) => obj[colCumplimiento] * 100);
+    return {
+      nombre: planta,
+      cumplimiento: datos,
+    };
+  });
 
   let datosEmpresa = {
-    nombre: "Empresa",
+    nombre: nombreEmpresa.value,
     promedio: mean(cumplimientosEmpresa),
     ...iqrValues(cumplimientosEmpresa),
     max: Math.max(...cumplimientosEmpresa),
     min: Math.min(...cumplimientosEmpresa),
   };
 
-  let datosPlantaIndustria = {
-    nombre: datoLote[colPlanta],
-    promedio:
-      cumplimiento.prom !== ""
-        ? cumplimiento.prom
-        : mean(cumplimientosPlantaIndustria),
-    ...iqrValues(cumplimientosPlantaIndustria),
-    max:
-      cumplimiento.max !== ""
-        ? cumplimiento.max
-        : Math.max(...cumplimientosPlantaIndustria),
-    min:
-      cumplimiento.min !== ""
-        ? cumplimiento.min
-        : Math.min(...cumplimientosPlantaIndustria),
-  };
+  let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
+    const cumplimientosPlantaIndustria = cumplimientos.cumplimiento
+    return {
+      nombre: cumplimientos.nombre,
+      promedio:
+        cumplimiento.prom !== ""
+          ? cumplimiento.prom
+          : mean(cumplimientosPlantaIndustria),
+      ...(cumplimiento.q2 !== "" ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4) : iqrValues(cumplimientosPlantaIndustria)),
+      max:
+        cumplimiento.max !== ""
+          ? cumplimiento.max
+          : Math.max(...cumplimientosPlantaIndustria),
+      min:
+        cumplimiento.min !== ""
+          ? cumplimiento.min
+          : Math.min(...cumplimientosPlantaIndustria)
+    }
+  });
 
-  if (cumplimiento.q2 !== "") {
-    datosPlantaIndustria = {
-      ...datosPlantaIndustria,
-      ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4),
-    };
-  }
-
-  const valuesLote = [
-    colAlimentoM1,
-    colAlimentoM2,
-    colAlimentoM3,
-    colAlimentoM4,
-  ].map(
-    (muestra) => (datoLote[muestra] * 100) / datoLote[colConcentracionObjetivo]
-  );
-
-  const datos = [
-    datosPlantaIndustria,
-    datosEmpresa,
-    {
-      nombre: loteNombre.toString(),
+  const datosPorLote = lotesEjercicio.map(l => {
+    const filaLote = datosAlimentoLotesAsociados.find(f => f[colLoteAlimento].toString() === l)
+    const valuesLote = [
+      colAlimentoM1,
+      colAlimentoM2,
+      colAlimentoM3,
+      colAlimentoM4,
+    ].map(
+      (muestra) => (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
+    );
+    return {
+      nombre: l,
       promedio: mean(valuesLote),
       ...iqrValues(valuesLote),
       max: Math.max(...valuesLote),
       min: Math.min(...valuesLote),
-    },
-  ];
-  console.log({
-    datos
+    }
   })
+
+  const datos = [
+    ...datosPlantaIndustria,
+    datosEmpresa,
+    ...datosPorLote
+  ];
+
+  if (lotesAsociados.length === 0) {
+    return (
+      <div className="GraficoCumplimiento">
+        <p className="GraficoCumplimiento__titulo">
+          Cumplimiento (%) concentración en alimento (logrado / intentado)
+        </p>
+        <div className="GraficoCumplimiento__contenedor_grafico">
+          <div className="GraficoCumplimiento__contenedor_grafico__error">
+            Sin datos disponibles para el periodo seleccionado
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
     datos.reduce((min, v) => Math.min(min, v.promedio), Infinity)

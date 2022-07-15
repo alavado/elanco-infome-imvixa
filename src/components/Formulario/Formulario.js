@@ -114,7 +114,7 @@ const Formulario = () => {
             if (reporte.id === 1) {
               dispatch(cargarDatosAlimento(datosAlimento));
             } else if (reporte.id === 2) {
-              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces }));
+              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento }));
             }
             dispatch(pasoSiguiente());
           } else {

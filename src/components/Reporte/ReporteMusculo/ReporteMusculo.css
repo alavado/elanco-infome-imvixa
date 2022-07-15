@@ -1,0 +1,42 @@
+.ReporteMusculo {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-fondo);
+}
+
+.ReporteMusculo__contenedor {
+  background-color: var(--color-fondo);
+  animation: aparece-reporte .25s ease both;
+  display: flex;
+  flex-direction: column;
+}
+
+.ReporteMusculo__pagina {
+  flex: 1;
+}
+
+.ReporteMusculo__pagina--1 {
+  position: relative;
+  display: grid;
+  grid-template-rows: 16% 13% 13% 30% 32% auto;
+  padding: 4rem 2rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.ReporteMusculo__pagina--2 {
+  position: relative;
+  display: grid;
+  grid-template-rows: 16% 47% 20% auto;
+  padding: 4rem 1rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.ReporteMusculo__seccion {
+  display: flex;
+  gap: 0 2rem; 
+  min-height: 80%;
+}

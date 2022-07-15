@@ -228,7 +228,7 @@ const sum = arr => arr.reduce((a, b) => a + b, 0);
 export const mean = arr => sum(arr) / arr.length;
 
 // sample standard deviation
-const std = (arr) => {
+export const std = (arr) => {
     const mu = mean(arr);
     const diffArr = arr.map(a => (a - mu) ** 2);
     return Math.sqrt(sum(diffArr) / (arr.length - 1));

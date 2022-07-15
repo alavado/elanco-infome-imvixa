@@ -18,7 +18,7 @@ const Encabezado = () => {
 			break;
 		case 2:
 			titulo = tituloReporte2
-			imgClassName = "Reporte__logo_imagen_alimento"
+			imgClassName = "Reporte__logo_imagen_musculo"
 			break;
 		case 3:
 			titulo = tituloReporte3

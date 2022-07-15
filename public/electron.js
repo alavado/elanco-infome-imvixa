@@ -47,6 +47,7 @@ let hayComentarios = false;
 let reporteID = 0;
 let numeroDeLotes; // El reporte de alimento imprime una página por lote
 let nombreEmpresa;
+let numeroDePaginas;
 
 function construirMenu() {
   const menu = new Menu();
@@ -157,6 +158,10 @@ const reporteAPDF = async () => {
       console.log("imprimirReporteAlimento")
       imprimirReporteAlimento()
       break
+    case 1:
+      console.log("imprimirReporteMusculo")
+      imprimirReporteMusculo()
+      break
     default:
       console.log("imprimirReporteSeguimiento")
       imprimirReporteSeguimiento()
@@ -182,6 +187,35 @@ const imprimirReporteAlimento = async () => {
 
     const hoy = new Date().toISOString().substring(0,10);
     const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${hoy}.pdf`
+    fs.writeFileSync(
+      path.join(app.getPath("desktop"), titulo), 
+      data
+    );
+    await electron.shell.openPath(
+      path.join(app.getPath("desktop"), titulo)
+    );
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+const imprimirReporteMusculo = async () => {
+  try {
+    const data = await mainWindow.webContents.printToPDF({
+      printBackground: true,
+      marginsType: 1,
+      pageSize: {
+        width: 25400 * 50.0,
+        height: 25400 * 66.42,
+      },
+      pageRanges: {
+        from: 0,
+        to: numeroDePaginas - 1,
+      },
+    });
+
+    const hoy = new Date().toISOString().substring(0,10);
+    const titulo = `Reporte de concentración en músculo-${nombreEmpresa}-${hoy}.pdf`
     fs.writeFileSync(
       path.join(app.getPath("desktop"), titulo), 
       data
@@ -236,24 +270,22 @@ ipcMain.on("viendoReporte", async (_, rID) => {
   reporteID = rID;
   if (rID === 4) {
     // Reporte de seguimiento
-    console.log("ODLU IM HERE")
-    menuItemVerGraficos.visible = true;
+    menuItemVerGraficos.visible = true
   }
-  menuItemImprimir.enabled = true;
-  menuItemVolverAParametros.enabled = true;
+  menuItemImprimir.enabled = true
+  menuItemVolverAParametros.enabled = true
 });
 
 ipcMain.on("yaNoViendoReporte", async () => {
-  menuItemVolverAParametros.enabled = false;
-  menuItemVerGraficos.visible = false;
-  menuItemImprimir.enabled = false;
+  menuItemVolverAParametros.enabled = false
+  menuItemVerGraficos.visible = false
+  menuItemImprimir.enabled = false
 });
 
 ipcMain.on("datosReporte", async (_, data) => {
-  console.log({data})
-  
-  numeroDeLotes = data.numeroDeLotes;
-  nombreEmpresa = data.nombreEmpresa;
+  numeroDeLotes = data.numeroDeLotes
+  nombreEmpresa = data.nombreEmpresa
+  numeroDePaginas = data.numeroDePaginas
   console.log({numeroDeLotes, nombreEmpresa})
 });
 
