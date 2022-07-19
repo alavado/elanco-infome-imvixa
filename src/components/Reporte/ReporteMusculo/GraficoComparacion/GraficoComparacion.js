@@ -28,12 +28,7 @@ const GraficoComparacion = () => {
   const tick = vMax > 25 ? 5 : 2;
   let yMax = Math.max(20, Math.ceil(vMax + tick));
   const yMin = 0;
-  console.log({
-    vMax,
-    vMin,
-    tick,
-    yMax
-  })
+
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
       .fill(0)

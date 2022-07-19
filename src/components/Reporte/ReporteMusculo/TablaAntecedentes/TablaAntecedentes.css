@@ -29,21 +29,55 @@
 	gap: 5rem;
 }
 
+.TablaAntecedentes__columna {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 .TablaAntecedentes__columna > * {
   border-bottom: .1rem dotted var(--color-gris-3);
 }
-
 
 .TablaAntecedentes__fila {
   display: grid;
   grid-auto-flow: column;
   grid-column: 1 / -1;
-  grid-template-columns: 5fr 2fr;
-	padding: .7rem;
+  grid-template-columns: 7fr 4fr;
+  line-height: 1.6rem;
+  
 }
 
 .TablaAntecedentes__fila > :first-child {
   justify-self: start;
   font-weight: bold;
   padding-left: .25rem;
+}
+
+.TablaAntecedentes__input {
+	position: relative;
+  text-decoration: none;
+  border: none;
+  color: var(--color-gris-4);
+  font-weight: 300;
+  font-size: 1.2rem;
+  width: 11rem;
+}
+
+.TablaAntecedentes__input {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+.TablaAntecedentes__input::-webkit-inner-spin-button, 
+.TablaAntecedentes__input::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+.TablaAntecedentes__input:focus {
+  outline: none;
+}
+
+.TablaAntecedentes__input:hover {
+  outline: none;
 }

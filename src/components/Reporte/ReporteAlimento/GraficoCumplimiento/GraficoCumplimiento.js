@@ -8,9 +8,15 @@ import {
   colConcentracionObjetivo,
   colCumplimiento,
   colEmpresaAlimento,
+  colFechaAlimento,
   colLoteAlimento,
   colPlanta,
 } from "../../../../constants";
+import {
+  esMayorQueFecha,
+  esMenorQueFecha,
+  selectMinMaxFecha,
+} from "../../../../redux/ducks/utilities";
 import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
 import "./GraficoCumplimiento.css";
 
@@ -20,9 +26,30 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
   const { lotesTotales, lotesSeleccionados } = useSelector(
     (state) => state.reporteAlimento
   );
-  const lotesEjercicio = lotesSeleccionados.map((l) => l.data[colLoteAlimento]);
 
-  const cumplimientosEmpresa = lotesTotales
+  const lotesEjercicio = lotesSeleccionados.map((l) => l.data[colLoteAlimento]);
+  const minFechasLotes = new Date(
+    selectMinMaxFecha(
+      lotesSeleccionados.map((l) => l.data[colFechaAlimento])
+    )[0]
+  );
+  const primerDiaDelMes = new Date(
+    [
+      minFechasLotes.getMonth() + 1,
+      "01",
+      minFechasLotes.getFullYear() - 1,
+    ].join("-")
+  );
+
+  const lotesTotalesPeriodo = lotesTotales.filter(
+    (v) =>
+      esMayorQueFecha(v.data[colFechaAlimento], primerDiaDelMes) &&
+      esMenorQueFecha(v.data[colFechaAlimento], minFechasLotes) &&
+      (v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] ||
+        v.data[colPlanta] === datoLote[colPlanta])
+  );
+
+  const cumplimientosEmpresa = lotesTotalesPeriodo
     .filter(
       (v) =>
         v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] &&
@@ -30,7 +57,7 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     )
     .map((obj) => obj.data[colCumplimiento] * 100);
 
-  const cumplimientosPlantaIndustria = lotesTotales
+  const cumplimientosPlantaIndustria = lotesTotalesPeriodo
     .filter(
       (v) =>
         v.data[colPlanta] === datoLote[colPlanta] &&
@@ -39,7 +66,7 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     .map((obj) => obj.data[colCumplimiento] * 100);
 
   let datosEmpresa = {
-    nombre: "Empresa",
+    nombre: datoLote[colEmpresaAlimento],
     promedio: mean(cumplimientosEmpresa),
     ...iqrValues(cumplimientosEmpresa),
     max: Math.max(...cumplimientosEmpresa),
@@ -91,8 +118,8 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     },
   ];
   console.log({
-    datos
-  })
+    datos,
+  });
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
     datos.reduce((min, v) => Math.min(min, v.promedio), Infinity)

@@ -51,12 +51,12 @@ const ReporteMusculo = () => {
             <TablaAntecedentes />
           </MensajeError>
           <div className="ReporteMusculo__seccion">
-						<MensajeError>
-							<GraficoComparacion />
-						</MensajeError>
             <MensajeError>
               <GraficoCumplimiento />
             </MensajeError>
+						<MensajeError>
+							<GraficoComparacion />
+						</MensajeError>
           </div>
           <Sandalias pagina={1} />
         </div>

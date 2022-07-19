@@ -16,11 +16,11 @@ export const localeSort = values => values.sort((a, b) => {
   return a.localeCompare(b, 'en', { sensitivity: 'base' });
 });
 
-const esMenorQueFecha = (fecha, fechaLimite) => {
+export const esMenorQueFecha = (fecha, fechaLimite) => {
   return new Date(fecha) <= fechaLimite;
 };
 
-const esMayorQueFecha = (fecha, fechaLimite) => {
+export const esMayorQueFecha = (fecha, fechaLimite) => {
   if (fechaLimite === null) return true;
   return new Date(fecha) >= fechaLimite;
 };
@@ -88,3 +88,43 @@ export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
 export const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index;
 };
+
+export const selectMinMax = (lista) => {
+  if (lista.length > 0) {
+  return [Math.min(...lista), Math.max(...lista)]
+  } return lista
+}
+
+export const selectMinMaxFecha = (listaCompleta) => {
+  let listaAFecha = listaCompleta.map(v => v.endsWith('Z') ? new Date(v) : v)
+  let lista = listaAFecha.filter(v => typeof(v) === 'object')
+  let listaString = listaAFecha.filter(v => typeof(v) === 'string')
+  if (lista.length > 0) {
+      let menor = lista[0]
+      let mayor = lista[0]
+      lista.forEach(v => {
+        if (esMenorQueFecha(v, menor)) {
+          menor = v
+        }
+        if (esMayorQueFecha(v, mayor)) {
+          mayor = v
+        }
+      })
+      return [menor, mayor]
+  } 
+  return listaString
+}
+
+export const formatearFecha = (fecha) => {
+  try {
+    if ((new Date(fecha) === "Invalid Date") && isNaN(new Date(fecha))) {
+      return fecha.toString()
+    }
+    return new Date(fecha).toISOString().substring(0, 10)
+  } catch (error) {
+    if (fecha) {
+      return fecha.toString()
+    }
+    return fecha
+  }
+}

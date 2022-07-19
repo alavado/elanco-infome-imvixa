@@ -2,16 +2,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
 import {
-  colPPB,
-  colNumeroPezPeces,
   colEstanquePeces,
   colInformePeces,
 } from "../../../../constants";
 
 const TablaMuestras = () => {
-  const { umbral, datosEjercicio } = useSelector(
+  const { umbral, umbralDestacar, datosEjercicio } = useSelector(
     (state) => state.reporteMusculo
   );
+  const valorDestacar = parseInt(umbralDestacar.replace('.',''))
   const nMuestras = 10;
   const headers = [
     "Informe N°",
@@ -71,7 +70,7 @@ const TablaMuestras = () => {
                   muestra === "-"
                   ? muestra
                   : (<p style={{
-                    color: muestra < umbral ? "var(--color-warning)" : "initial"}}>
+                    color: muestra < valorDestacar ? "var(--color-warning)" : "initial"}}>
                     {muestra.toLocaleString("de-DE", {
                       maximumFractionDigits: 0,
                     })}

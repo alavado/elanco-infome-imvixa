@@ -8,7 +8,8 @@ import {
   guardarNombreEmpresa,
   guardarPiscicultura,
   guardarFecha,
-  guardarUmbral
+  guardarUmbral,
+  guardarUmbralDestacar
 } from "../../../../redux/ducks/reporteMusculo";
 import {
   colEmpresaPeces,
@@ -18,7 +19,7 @@ import {
 
 const ParametrosReporteMusculo = () => {
   registerLocale("es", es);
-  const { nombreEmpresa, piscicultura, filtros, fecha, datosPeces, umbral } =
+  const { nombreEmpresa, piscicultura, filtros, fecha, datosPeces, umbral, umbralDestacar } =
     useSelector((state) => state.reporteMusculo);
   const empresas = useMemo(
     () =>
@@ -166,7 +167,7 @@ const ParametrosReporteMusculo = () => {
           }}
         />
       </div>
-      <div className="FormParametros__seccion">
+      <div className="FormParametros__grupo">
         <div className="FormParametros__parametro">
           <label
             htmlFor="FormParametros__parametro__umbral"
@@ -174,14 +175,35 @@ const ParametrosReporteMusculo = () => {
           >
             <div className="FormParametros__parametro_label__button">Umbral ppb</div>
             <input
-              defaultValue={umbral}
+              value={umbral}
               id="FormParametros__parametro__umbral"
               typeForm="number"
-              type="number"
               min="0"
               onChange={(e) => {
                 console.log("HERE")
-                dispatch(guardarUmbral(e.target.value))}}
+                dispatch(guardarUmbral(parseInt(e.target.value.toString().replace(/[^0-9]+/g, "")).toLocaleString('de-DE')))}}
+            />
+          </label>
+        </div>
+        <div className="FormParametros__parametro">
+          <label
+            htmlFor="FormParametros__parametro__destacar"
+            className="FormParametros__parametro_label"
+          >
+            <div className="FormParametros__parametro_label__button">Destacar menor</div>
+            <input
+              value={umbralDestacar}
+              id="FormParametros__parametro__destacar"
+              typeForm="number"
+              min="0"
+              onChange={(e) => {
+                const valor = e.target.value.toString().replace(/[^0-9]+/g, "")
+                if (valor === "") {
+                  dispatch(guardarUmbralDestacar(valor))
+                } else {
+                  dispatch(guardarUmbralDestacar(parseInt(valor).toLocaleString('de-DE')))
+                }
+              }}
             />
           </label>
         </div>

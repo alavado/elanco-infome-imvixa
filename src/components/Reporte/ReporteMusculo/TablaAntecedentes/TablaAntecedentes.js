@@ -1,24 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { colConcentracionObjetivo, colCumplimiento, colDestinoTrat, colFechaInicioTrat, colFechaTerminoTrat, colFechaVeranoTrat, colLoteAlimento, colPesoInicialTrat, colPlanta, colRecetaAlimento } from "../../../../constants";
+import { onlyUnique, selectMinMax, selectMinMaxFecha } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
 
 const TablaAntecedentes = () => {
+
+  const { datosAlimentoLotesAsociados: datos } = useSelector((state) => state.reporteMusculo)
+  const [grupo, setGrupo] = useState("")
+  const [estanques, setEstanques] = useState("")
+  const [peces, setPeces] = useState("")
+  const [alimento, setAlimento] = useState("")
+  console.log({
+    grupo,
+    estanques,
+    peces,
+    alimento
+  })
   const filasColumna1 = [
-    ["PMV", null],
-    ["Grupo", null],
-    ["Número de peces", null],
-    ["Peso al inicio de tratamiento (g)", null],
-    ["Estanques medicados", null],
-    ["Lote de alimento", null],
-    ["Planta de alimento", null],
+    ["PMV", datos.map(v => v[colRecetaAlimento]).filter(onlyUnique).join(' / ')],
+    ["Grupo", (<input
+      className="TablaAntecedentes__input"
+      style={{backgroundColor: grupo !== "" ? "transparent" : "var(--color-highlight)"}}
+      value={grupo}
+      onChange={(e) => {setGrupo(e.target.value)}
+      }
+    />)],
+    ["Número de peces", (<input
+      className="TablaAntecedentes__input"
+      style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
+      value={peces}
+      onChange={(e) => {setPeces(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      }
+    />)],
+    ["Peso al inicio de tratamiento (g)", selectMinMax(datos.map(v => Math.round(v[colPesoInicialTrat]))).filter(onlyUnique).join(' - ')],
+    ["Estanques medicados", (<input
+      className="TablaAntecedentes__input"
+      style={{backgroundColor: estanques !== "" ? "transparent" : "var(--color-highlight)"}}
+      value={estanques}
+      onChange={(e) => {setEstanques(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      }
+    />)],
+    ["Lote de alimento", datos.map(v => v[colLoteAlimento]).filter(onlyUnique).join(' / ')],
+    ["Planta de alimento", datos.map(v => v[colPlanta]).filter(onlyUnique).join(' / ')],
   ];
   const filasColumna2 = [
-    ["Concentración objetivo PMV (ppm)", null],
-    ["Inclusión de activo en alimento (%)", null],
-    ["Alimento consumido (kg)", null],
-    ["Fecha de inicio de tratamiento", null],
-    ["Fecha de término de tratamiento", null],
-    ["Fecha de inicio fotoperiodo", null],
-    ["Centro de destino", null],
+    ["Concentración objetivo PMV (ppm)", datos.map(v => Math.round(v[colConcentracionObjetivo]).toLocaleString("de-DE")).join(' / ')],
+    ["Inclusión de activo en alimento (%)", datos.map(v => (v[colCumplimiento] * 100).toLocaleString("de-DE", {
+      maximumFractionDigits: 1,
+      minimumFractionDigits: 1,
+    })).join(' / ')],
+    ["Alimento consumido (kg)", (<input
+      className="TablaAntecedentes__input"
+      style={{backgroundColor: alimento !== "" ? "transparent" : "var(--color-highlight)"}}
+      value={alimento}
+      onChange={(e) => {setAlimento(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      }
+    />)],
+    ["Fecha de inicio de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaInicioTrat])).filter(onlyUnique).join(' - ')],
+    ["Fecha de término de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaTerminoTrat])).filter(onlyUnique).join(' - ')],
+    ["Fecha de inicio fotoperiodo", selectMinMaxFecha(datos.map(v => v[colFechaVeranoTrat])).filter(onlyUnique).join(' - ')],
+    ["Centro de destino",  datos.map(v => v[colDestinoTrat]).filter(onlyUnique).join(' / ')],
   ];
   return (
     <div className="TablaAntecedentes">
@@ -33,7 +75,7 @@ const TablaAntecedentes = () => {
               className="TablaAntecedentes__fila"
             >
               <div>{fila[0]}:</div>
-              <div>1{fila[1]}</div>
+              <div>{fila[1]}</div>
             </div>
           ))}
         </div>
@@ -44,7 +86,7 @@ const TablaAntecedentes = () => {
               className="TablaAntecedentes__fila"
             >
               <div>{fila[0]}:</div>
-              <div>1{fila[1]}</div>
+              <div>{fila[1]}</div>
             </div>
           ))}
         </div>

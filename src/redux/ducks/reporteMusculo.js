@@ -24,7 +24,13 @@ import {
   colRecetaAlimento,
   colLoteAlimento,
   colPlanta,
+  colPesoInicialTrat,
+  colDestinoTrat,
+  colFechaTerminoTrat,
+  colFechaInicioTrat,
+  colFechaVeranoTrat,
 } from "../../constants";
+import { formatearFecha } from "./utilities";
 
 const slice = createSlice({
   name: "reporteMusculo",
@@ -38,7 +44,9 @@ const slice = createSlice({
     datosEjercicio: null,
     opcion: null,
     filtros: [], // colEmpresa, colFecha, colPiscicultura
-    umbral: 12000,
+    umbral: "12.000",
+    umbralDestacar: "9.600",
+    umbralDestacarModificado: false,
     lotesAsociados: [],
     plantasAsociadas: [],
     datosAlimentoLotesAsociados: []
@@ -74,6 +82,14 @@ const slice = createSlice({
     },
     guardarUmbral(state, action) {
       state.umbral = action.payload;
+      if (!state.umbralDestacarModificado) {
+        const valor80Porciento = parseInt(action.payload.replace('.','')) * 0.8
+        state.umbralDestacar = Math.round((valor80Porciento / 100) * 100).toLocaleString('de-DE')
+      }
+    },
+    guardarUmbralDestacar(state, action) {
+      state.umbralDestacar = action.payload;
+      state.umbralDestacarModificado = true;
     },
     procesarDatosParaExportar(state) {
       // state.opcion = action.payload;
@@ -143,6 +159,7 @@ const slice = createSlice({
       // Por cada informe sacar lotes y pmv, si hay más de un lote tener cuidad join por lote
       const lotesAsociados = new Set()
       const plantasAsociadas = new Set()
+      const datosAlimentosAsociados = []
       datosPorInforme = datosPorInforme.map((datos) => {
         const filaTratamiento = datosFiltradosTratamiento.find(
           (v) =>
@@ -164,7 +181,14 @@ const slice = createSlice({
           );
           filasAlimento.forEach(v => {
             if (!lotesAsociados.has(v[colLoteAlimento].toString())) {
-              state.datosAlimentoLotesAsociados.push(v)
+              datosAlimentosAsociados.push({
+                ...v,
+                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat],
+                [colDestinoTrat]: filaTratamiento[colDestinoTrat],
+                [colFechaVeranoTrat]: formatearFecha(filaTratamiento[colFechaVeranoTrat]),
+                [colFechaInicioTrat]: formatearFecha(filaTratamiento[colFechaInicioTrat]),
+                [colFechaTerminoTrat]: formatearFecha(filaTratamiento[colFechaTerminoTrat]),
+              })
               lotesAsociados.add(v[colLoteAlimento].toString())
             }
             plantasAsociadas.add(v[colPlanta])
@@ -182,6 +206,7 @@ const slice = createSlice({
       state.datosEjercicio = datosPorInforme
       state.lotesAsociados = [...lotesAsociados]
       state.plantasAsociadas = [...plantasAsociadas]
+      state.datosAlimentoLotesAsociados = datosAlimentosAsociados
     },
     cargarDatosMusculo(state, action) {
       state.datosPeces = action.payload.datosPeces.filter(
@@ -198,6 +223,7 @@ export const {
   guardarPiscicultura,
   guardarFecha,
   guardarUmbral,
+  guardarUmbralDestacar,
   cargarDatosMusculo,
   procesarDatosParaExportar,
 } = slice.actions;

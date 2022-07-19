@@ -24,12 +24,17 @@ const TablaResumenAlimento = ({ lote: datos }) => {
     ["Lote de alimento", datos[colLoteAlimento]],
     [
       "Concentración objetivo PMV (ppm)",
-      Math.round(datos[colConcentracionObjetivo] * Math.pow(10, 1)) /
-        Math.pow(10, 1),
+      datos[colConcentracionObjetivo].toLocaleString("de-DE", {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
+      })
     ],
     [
       "Cantidad Programada por receta (kg)",
-      datos[colCantidadProgramadaAlimento],
+      datos[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
+      }),
     ],
     ["Calibre", datos[colAlimentoCalibre] ? datos[colAlimentoCalibre] : '-'],
   ];

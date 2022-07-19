@@ -8,10 +8,16 @@ import {
   colConcentracionObjetivo,
   colCumplimiento,
   colEmpresaAlimento,
+  colFechaAlimento,
   colLoteAlimento,
   colPlanta,
 } from "../../../../constants";
 import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
+import {
+  esMayorQueFecha,
+  esMenorQueFecha,
+  selectMinMaxFecha,
+} from "../../../../redux/ducks/utilities";
 import "./GraficoCumplimiento.css";
 
 const GraficoCumplimiento = ({ lote: datoLote }) => {
@@ -19,19 +25,45 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     nombreEmpresa,
     lotesAsociados,
     plantasAsociadas,
-    datosEjercicio,
-    datosAlimento,
-    datosAlimentoLotesAsociados
+    datosAlimento: datosAlimentoHistorico,
+    datosAlimentoLotesAsociados,
   } = useSelector((state) => state.reporteMusculo);
   const { cumplimiento } = useSelector((state) => state.reporte);
 
-  console.log({
-    lotesAsociados,
-    datosEjercicio,
-    datosAlimentoLotesAsociados
-  });
+  if (lotesAsociados.length === 0) {
+    return (
+      <div className="GraficoCumplimiento">
+        <p className="GraficoCumplimiento__titulo">
+          Cumplimiento (%) concentración en alimento (logrado / intentado)
+        </p>
+        <div className="GraficoCumplimiento__contenedor_grafico">
+          <div className="GraficoCumplimiento__contenedor_grafico__error">
+            Sin datos disponibles para el periodo seleccionado
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const lotesEjercicio = lotesAsociados;
+  const minFechasLotes = new Date(
+    selectMinMaxFecha(
+      datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
+    )[0]
+  );
+  const primerDiaDelMes = new Date(
+    [
+      minFechasLotes.getMonth() + 1,
+      "01",
+      minFechasLotes.getFullYear() - 1,
+    ].join("-")
+  );
+  const datosAlimento = datosAlimentoHistorico.filter((fila) => {
+    return (
+      esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
+      esMenorQueFecha(fila[colFechaAlimento], minFechasLotes)
+    );
+  });
 
   const cumplimientosEmpresa = datosAlimento
     .filter(
@@ -64,14 +96,16 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
   };
 
   let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
-    const cumplimientosPlantaIndustria = cumplimientos.cumplimiento
+    const cumplimientosPlantaIndustria = cumplimientos.cumplimiento;
     return {
       nombre: cumplimientos.nombre,
       promedio:
         cumplimiento.prom !== ""
           ? cumplimiento.prom
           : mean(cumplimientosPlantaIndustria),
-      ...(cumplimiento.q2 !== "" ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4) : iqrValues(cumplimientosPlantaIndustria)),
+      ...(cumplimiento.q2 !== ""
+        ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
+        : iqrValues(cumplimientosPlantaIndustria)),
       max:
         cumplimiento.max !== ""
           ? cumplimiento.max
@@ -79,19 +113,22 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
       min:
         cumplimiento.min !== ""
           ? cumplimiento.min
-          : Math.min(...cumplimientosPlantaIndustria)
-    }
+          : Math.min(...cumplimientosPlantaIndustria),
+    };
   });
 
-  const datosPorLote = lotesEjercicio.map(l => {
-    const filaLote = datosAlimentoLotesAsociados.find(f => f[colLoteAlimento].toString() === l)
+  const datosPorLote = lotesEjercicio.map((l) => {
+    const filaLote = datosAlimentoLotesAsociados.find(
+      (f) => f[colLoteAlimento].toString() === l
+    );
     const valuesLote = [
       colAlimentoM1,
       colAlimentoM2,
       colAlimentoM3,
       colAlimentoM4,
     ].map(
-      (muestra) => (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
+      (muestra) =>
+        (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
     );
     return {
       nombre: l,
@@ -99,29 +136,10 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
       ...iqrValues(valuesLote),
       max: Math.max(...valuesLote),
       min: Math.min(...valuesLote),
-    }
-  })
+    };
+  });
 
-  const datos = [
-    ...datosPlantaIndustria,
-    datosEmpresa,
-    ...datosPorLote
-  ];
-
-  if (lotesAsociados.length === 0) {
-    return (
-      <div className="GraficoCumplimiento">
-        <p className="GraficoCumplimiento__titulo">
-          Cumplimiento (%) concentración en alimento (logrado / intentado)
-        </p>
-        <div className="GraficoCumplimiento__contenedor_grafico">
-          <div className="GraficoCumplimiento__contenedor_grafico__error">
-            Sin datos disponibles para el periodo seleccionado
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const datos = [...datosPlantaIndustria, datosEmpresa, ...datosPorLote];
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
@@ -130,6 +148,15 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)));
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
   const yMin = Math.min(50, 10 * Math.floor(vMin / tick));
+
+  console.log({
+    datos,
+    vMax,
+    vMin,
+    tick,
+    yMax,
+    yMin,
+  });
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
       .fill(0)

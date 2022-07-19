@@ -39,13 +39,13 @@ input[typeForm="number"]:hover {
   box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
   border: 1px solid var(--color-gris-2);
   font-size: 1rem;
-	width: 40%;
 }
 
 .FormParametros__parametro_label:hover {
   box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
   /* border: 1px solid var(--color-gris-3); */
   border: 2px solid  var(--color-f) ;
+  cursor: none;
 }
 
 
