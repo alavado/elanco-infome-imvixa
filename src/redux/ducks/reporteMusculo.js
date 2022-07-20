@@ -44,8 +44,8 @@ const slice = createSlice({
     datosEjercicio: null,
     opcion: null,
     filtros: [], // colEmpresa, colFecha, colPiscicultura
-    umbral: "12.000",
-    umbralDestacar: "9.600",
+    umbral: localStorage.getItem('umbral'),
+    umbralDestacar: localStorage.getItem('umbralDestacar'),
     umbralDestacarModificado: false,
     lotesAsociados: [],
     plantasAsociadas: [],

@@ -46,7 +46,7 @@ const Formulario = () => {
     (state) => state.reporteAlimento
   );
 
-  const { nombreEmpresa: nEmpresaAlimento, piscicultura, fecha } = useSelector(
+  const { nombreEmpresa: nEmpresaAlimento, piscicultura, fecha, umbral, umbralDestacar } = useSelector(
     (state) => state.reporteMusculo
   );
 
@@ -143,9 +143,16 @@ const Formulario = () => {
         onClickSiguiente: () => {
           if (
             (reporte.id === 1 && lotes.length > 0) ||
-            (reporte.id === 2 && unicaOpcion) ||
             (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
           ) {
+            dispatch(pasoSiguiente());
+          } else if (reporte.id === 2 && unicaOpcion) {
+            console.log({
+              umbral,
+              umbralDestacar
+            })
+            localStorage.setItem('umbralDestacar', umbralDestacar)
+            localStorage.setItem('umbral', umbral)
             dispatch(pasoSiguiente());
           } else {
             dispatch(
@@ -232,7 +239,9 @@ const Formulario = () => {
       history,
       reporte,
       lotes,
-      unicaOpcion
+      unicaOpcion,
+      umbral,
+      umbralDestacar
     ]
   );
 
