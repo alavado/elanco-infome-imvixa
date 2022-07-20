@@ -68,3 +68,6 @@ export const colMacrozonaEficacia = "macrozona"
 export const colEficaciaEficacia = "mes_hasta_1er_bano_dias_30_4"
 export const colHexaEficacia = "hexaflumuron"
 export const colCentroEficacia = "seasite_code"
+
+export const comentarioBajoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento son bajos. Se recomienda suplementar con un nuevo lote de alimento fabricado para este fin, así alcanzar niveles adecuados de dosificación en los peces."
+export const comentarioAltoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento se encuentran dentro de los parámetros esperados."

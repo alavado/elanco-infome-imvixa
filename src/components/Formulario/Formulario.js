@@ -22,8 +22,13 @@ import {
   procesarDatosParaExportar as procesarReporteMusculo,
   cargarDatosMusculo,
 } from "../../redux/ducks/reporteMusculo";
+import {
+  agregarComentarioAlimento,
+  limpiarComentariosAlimento
+} from "../../redux/ducks/comentarios"
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
+import { colCumplimiento, colLoteAlimento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -145,12 +150,19 @@ const Formulario = () => {
             (reporte.id === 1 && lotes.length > 0) ||
             (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
           ) {
+            dispatch(limpiarComentariosAlimento())
+            lotes.forEach((l, i) => {
+              try {
+                dispatch(agregarComentarioAlimento({
+                  texto: (l.data[colCumplimiento] * 100) >= 90 ? comentarioAltoCumplimiento : comentarioBajoCumplimiento,
+                  indice: (i + 1)
+                }))
+              } catch (error) {
+                console.log(error)
+              }
+            })
             dispatch(pasoSiguiente());
           } else if (reporte.id === 2 && unicaOpcion) {
-            console.log({
-              umbral,
-              umbralDestacar
-            })
             localStorage.setItem('umbralDestacar', umbralDestacar)
             localStorage.setItem('umbral', umbral)
             dispatch(pasoSiguiente());
@@ -188,7 +200,6 @@ const Formulario = () => {
                 minCondition
               ) {
                 dispatch(procesarReporteAlimento());
-                history.push("/reporte");
               }
               break;
             case 2:
@@ -199,7 +210,6 @@ const Formulario = () => {
                 minCondition
               ) {
                 dispatch(procesarReporteMusculo());
-                history.push("/reporte");
               }
             default:
               if (
@@ -216,10 +226,10 @@ const Formulario = () => {
                     datosTratamiento,
                   })
                 );
-                history.push("/reporte");
               }
               break;
           }
+          history.push("/reporte");
           // dispatch(
           //   mostrarErrorFormulario(
           //     "Si ingresa algún percentil, debe ingresar todos los demás valores."

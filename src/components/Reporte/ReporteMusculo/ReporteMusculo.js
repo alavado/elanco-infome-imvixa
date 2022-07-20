@@ -4,16 +4,21 @@ import MensajeError from "../../MensajeError";
 import DatosEmpresa from "../DatosEmpresa/DatosEmpresa";
 import Encabezado from "../Encabezado/Encabezado";
 import Sandalias from "./Sandalias";
-import Comentarios from "../ReporteAlimento/Comentarios";
+import Comentarios from "../Comentarios";
 import "./ReporteMusculo.css";
 import CuadroResumen from "./CuadroResumen";
 import TablaAntecedentes from "./TablaAntecedentes";
 import GraficoCumplimiento from "./GraficoCumplimiento";
 import GraficoComparacion from "./GraficoComparacion";
 import TablaMuestras from "./TablaMuestras";
+import {
+  agregarComentarioMusculo,
+  eliminarComentarioMusculo,
+} from "../../../redux/ducks/comentarios";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteMusculo = () => {
+  const { comentariosMusculo } = useSelector((state) => state.comentarios);
   const { nombreEmpresa } = useSelector((state) => state.reporteMusculo);
   const numeroDePaginas = 2;
   useEffect(() => {
@@ -54,9 +59,9 @@ const ReporteMusculo = () => {
             <MensajeError>
               <GraficoCumplimiento />
             </MensajeError>
-						<MensajeError>
-							<GraficoComparacion />
-						</MensajeError>
+            <MensajeError>
+              <GraficoComparacion />
+            </MensajeError>
           </div>
           <Sandalias pagina={1} />
         </div>
@@ -68,7 +73,11 @@ const ReporteMusculo = () => {
           <MensajeError>
             <TablaMuestras />
           </MensajeError>
-          <Comentarios indice={2} />
+          <Comentarios
+            agregarComentario={agregarComentarioMusculo}
+            comentarios={comentariosMusculo}
+            eliminarComentario={eliminarComentarioMusculo}
+          />
           <Sandalias pagina={2} />
         </div>
       </div>

@@ -1,11 +1,10 @@
 import './Comentario.css'
 import { Icon } from '@iconify/react'
 import { useDispatch } from 'react-redux'
-import { eliminarComentario } from '../../../../redux/ducks/comentarios'
 import classNames from 'classnames'
 import { useState } from 'react'
 
-const Comentario = ({ texto }) => {
+const Comentario = ({ texto, eliminarComentario }) => {
 
   const dispatch = useDispatch()
   const [tacharTexto, setTacharTexto] = useState(false)

@@ -5,8 +5,7 @@ import classNames from 'classnames'
 
 const Sandalias = ({ pagina }) => {
 
-  const { comentariosAlimento } = useSelector(state => state.comentarios)
-  const comentarios = comentariosAlimento[pagina] || []
+  const { comentariosMusculo: comentarios } = useSelector(state => state.comentarios)
   const hayComentarios = comentarios.length > 0
 
   return (

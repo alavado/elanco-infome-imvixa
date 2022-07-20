@@ -4,6 +4,7 @@ const slice = createSlice({
   name: 'comentarios',
   initialState: {
     comentarios: [],
+    comentariosMusculo: [],
     comentariosAlimento: {}
   },
   reducers: {
@@ -25,7 +26,18 @@ const slice = createSlice({
     eliminarComentarioAlimento(state, action) {
       const { texto, indice } = action.payload
       state.comentariosAlimento[indice] = state.comentariosAlimento[indice].filter(c => c !== texto)
-    }
+    },
+    limpiarComentariosAlimento(state) {
+      state.comentariosAlimento = {}
+    },
+    agregarComentarioMusculo(state, action) {
+      const texto = action.payload
+      state.comentariosMusculo.push(texto)
+    },
+    eliminarComentarioMusculo(state, action) {
+      const texto = action.payload
+      state.comentariosMusculo = state.comentariosMusculo.filter(c => c !== texto)
+    },
   },
 })
 
@@ -33,7 +45,10 @@ export const {
   agregarComentario,
   eliminarComentario,
   agregarComentarioAlimento,
-  eliminarComentarioAlimento
+  eliminarComentarioAlimento,
+  agregarComentarioMusculo,
+  eliminarComentarioMusculo,
+  limpiarComentariosAlimento
 } = slice.actions
 
 export default slice.reducer

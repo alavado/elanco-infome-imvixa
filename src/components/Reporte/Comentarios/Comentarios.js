@@ -2,17 +2,14 @@ import { InlineIcon } from '@iconify/react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { agregarComentario } from '../../../redux/ducks/comentarios'
+import { useDispatch } from 'react-redux'
 import Comentario from './Comentario'
 import './Comentarios.css'
 const { ipcRenderer } = window.require('electron')
 
-const Comentarios = ({ indice }) => {
-
+const Comentarios = ({ comentarios, agregarComentario, eliminarComentario }) => {
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
-  const { comentarios } = useSelector(state => state.comentarios)
   const textareaRef = useRef()
   const dispatch = useDispatch()
 
@@ -49,7 +46,7 @@ const Comentarios = ({ indice }) => {
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">
-        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} />)}
+        {comentarios.map((c, i) => <Comentario eliminarComentario={eliminarComentario} key={`comentario-${i}`} texto={c} />)}
       </ul>
       {agregandoComentario
         ? <form
