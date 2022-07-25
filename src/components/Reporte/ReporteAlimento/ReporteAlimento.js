@@ -8,7 +8,7 @@ import TablaResumenAlimento from "./TablaResumenAlimento";
 import Comentarios from "./Comentarios";
 import TablaLotes from "./TablaLotes/TablaLotes";
 import GraficoCumplimiento from "./GraficoCumplimiento/GraficoCumplimiento";
-import { colEmpresaAlimento } from "../../../constants";
+import { colEmpresaAlimento, colLoteAlimento } from "../../../constants";
 import "./ReporteAlimento.css";
 const { ipcRenderer } = window.require('electron')
 
@@ -17,7 +17,8 @@ const ReporteAlimento = () => {
   useEffect(() => {
     ipcRenderer.send('datosReporte', {
       numeroDeLotes: lotesSeleccionados.length,
-      nombreEmpresa: nombreEmpresa.value
+      nombreEmpresa: nombreEmpresa.value,
+      lotes: lotesSeleccionados.map(v => v.data[colLoteAlimento])
     })
   }, [lotesSeleccionados, nombreEmpresa])
   const dimensions = {

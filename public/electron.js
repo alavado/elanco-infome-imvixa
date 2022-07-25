@@ -48,6 +48,7 @@ let reporteID = 0;
 let numeroDeLotes; // El reporte de alimento imprime una página por lote
 let nombreEmpresa;
 let numeroDePaginas;
+let lotes;
 
 function construirMenu() {
   const menu = new Menu();
@@ -172,28 +173,31 @@ const reporteAPDF = async () => {
 const imprimirReporteAlimento = async () => {
   try {
     console.log({numeroDeLotes, nombreEmpresa})
-    const data = await mainWindow.webContents.printToPDF({
-      printBackground: true,
-      marginsType: 1,
-      pageSize: {
-        width: 25400 * 50.0,
-        height: 25400 * 66.42,
-      },
-      pageRanges: {
-        from: 0,
-        to: numeroDeLotes - 1,
-      },
-    });
-
-    const hoy = new Date().toISOString().substring(0,10);
-    const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${hoy}.pdf`
-    fs.writeFileSync(
-      path.join(app.getPath("desktop"), titulo), 
-      data
-    );
-    await electron.shell.openPath(
-      path.join(app.getPath("desktop"), titulo)
-    );
+    let data;
+    for (let index = 0; index < numeroDeLotes; index++) {
+      data = await mainWindow.webContents.printToPDF({
+        printBackground: true,
+        marginsType: 1,
+        pageSize: {
+          width: 25400 * 50.0,
+          height: 25400 * 66.42,
+        },
+        pageRanges: {
+          from: index,
+          to: index,
+        },
+      });
+      const hoy = new Date().toISOString().substring(0,10);
+      const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${lotes[index]}-${hoy}.pdf`
+      fs.writeFileSync(
+        path.join(app.getPath("desktop"), titulo), 
+        data
+      );
+      await electron.shell.openPath(
+        path.join(app.getPath("desktop"), titulo)
+      );
+      
+    }
   } catch (err) {
     console.log("err", err);
   }
@@ -286,7 +290,8 @@ ipcMain.on("datosReporte", async (_, data) => {
   numeroDeLotes = data.numeroDeLotes
   nombreEmpresa = data.nombreEmpresa
   numeroDePaginas = data.numeroDePaginas
-  console.log({numeroDeLotes, nombreEmpresa})
+  lotes = data.lotes
+  console.log({numeroDeLotes, nombreEmpresa, lotes})
 });
 
 
