@@ -29,6 +29,13 @@ const ParametrosReporteAlimento = () => {
     filtros,
     lotesSeleccionados,
   } = useSelector((state) => state.reporteAlimento);
+  console.log({
+    nombreEmpresa,
+    fecha,
+    pmv,
+    lotesSeleccionados,
+    filtros
+  })
   const dispatch = useDispatch();
   const empresas = useMemo(
     () =>
@@ -165,9 +172,9 @@ const ParametrosReporteAlimento = () => {
       <div className="FormParametros__seccion">
         <div className="FormParametros__seccion_label">Empresa</div>
         <Select
+          value={nombreEmpresa}
           options={empresas}
           isClearable={true}
-          defaultValue={nombreEmpresa}
           onChange={(nombre) => dispatch(guardarNombreEmpresa(nombre))}
           theme={(theme) => ({
             ...theme,

@@ -29,7 +29,7 @@
   --color-elanco: rgb(0, 114, 206);
   --color-titulo: rgb(33, 143, 187);
   --color-highlight: rgba(241,231,64,.4);
-
+  --color-highlight-blue: rgba(33, 143, 187,.4);
   font-family: 'Fira Sans', sans-serif;
   background-color: var(--color-fondo);
 }

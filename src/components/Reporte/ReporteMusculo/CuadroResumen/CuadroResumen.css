@@ -50,6 +50,7 @@
 
 .CuadroResumen__input:focus {
   outline: none;
+	background-color: var(--color-highlight-blue) !important;
 }
 
 .CuadroResumen__input:hover {

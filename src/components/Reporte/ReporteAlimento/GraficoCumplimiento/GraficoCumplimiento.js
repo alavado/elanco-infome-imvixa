@@ -49,6 +49,12 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
         v.data[colPlanta] === datoLote[colPlanta])
   );
 
+  console.log({
+    datoLote,
+    lotesTotalesPeriodo,
+    lotesPlanta : lotesTotalesPeriodo.filter(v => v.data[colPlanta] === datoLote[colPlanta])
+  })
+
   const cumplimientosEmpresa = lotesTotalesPeriodo
     .filter(
       (v) =>
@@ -106,25 +112,34 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     (muestra) => (datoLote[muestra] * 100) / datoLote[colConcentracionObjetivo]
   );
 
-  const datos = [
-    datosPlantaIndustria,
-    datosEmpresa,
-    {
-      nombre: loteNombre.toString(),
+  console.log({
+    valuesLote
+  })
+  const datos = []
+  if (cumplimientosPlantaIndustria.length > 0) {
+    datos.push(datosPlantaIndustria)
+  }
+  if (cumplimientosEmpresa.length > 0) {
+    datos.push(datosEmpresa)
+  }
+  datos.push({
+    nombre: loteNombre.toString(),
       promedio: mean(valuesLote),
       ...iqrValues(valuesLote),
       max: Math.max(...valuesLote),
       min: Math.min(...valuesLote),
-    },
-  ];
-  console.log({
-    datos,
-  });
+  })
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
     datos.reduce((min, v) => Math.min(min, v.promedio), Infinity)
   );
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)));
+  console.log({
+    datos,
+    vMax,
+    vMin,
+    tick
+  })
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
   const yMin = Math.min(50, 10 * Math.floor(vMin / tick));
   const yLineas = [

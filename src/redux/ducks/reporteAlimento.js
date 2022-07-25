@@ -40,6 +40,7 @@ const slice = createSlice({
           state.filtros = [...state.filtros, colPisciculturaAlimento]
         }
       } else {
+        console.log("BORRANDO FILTRO PISCICULTURA")
         state.filtros = state.filtros.filter(v => v !== colPisciculturaAlimento)
       }
     },
@@ -50,6 +51,7 @@ const slice = createSlice({
           state.filtros = [...state.filtros, colFechaAlimento]
         }
       } else {
+        console.log("BORRANDO FILTRO FECHA")
         state.filtros = state.filtros.filter(v => v !== colFechaAlimento)
       }
     },
@@ -60,14 +62,28 @@ const slice = createSlice({
           state.filtros = [...state.filtros, colRecetaAlimento]
         }
       } else {
+        console.log("BORRANDO FILTRO PMV")
         state.filtros = state.filtros.filter(v => v !== colRecetaAlimento)
       }
     },
     guardarLotes(state, action) {
-      state.lotesSeleccionados = action.payload;
+      if (action.payload !== null || action.payload !== []) {
+        if (!state.filtros.includes(colLoteAlimento)) {
+          state.lotesSeleccionados = action.payload;
+          if (!state.filtros.includes(colEmpresaAlimento)) {
+            state.filtros = [...state.filtros, colEmpresaAlimento]
+            const nombreEmpresa = action.payload[0].data[colEmpresaAlimento]
+            state.nombreEmpresa = { value: nombreEmpresa, label: nombreEmpresa }
+          }
+        }
+      } else {
+        console.log("BORRANDO FILTRO Lotes")
+        state.filtros = state.filtros.filter(v => v !== colLoteAlimento)
+      }
     },
     procesarDatosParaExportar(state) {
-      state.nombreEmpresa = state.lotesSeleccionados[0].data[colEmpresaAlimento]
+      const nombreEmpresa = state.lotesSeleccionados[0].data[colEmpresaAlimento]
+      state.nombreEmpresa = { value: nombreEmpresa, label: nombreEmpresa }
       state.procesandoParaExportar = true;
     },
     cargarDatosAlimento(state, action) {

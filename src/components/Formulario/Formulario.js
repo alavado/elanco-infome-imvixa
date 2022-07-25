@@ -167,10 +167,15 @@ const Formulario = () => {
             localStorage.setItem('umbral', umbral)
             dispatch(pasoSiguiente());
           } else {
+            let error = "Necesita completar la información antes de continuar"
+            if (reporte.id === 4) {
+              error = "Necesita seleccionar una empresa antes de continuar"
+            } 
+            if (reporte.id === 1) {
+              error = "Necesita seleccionar al menos un lote antes de continuar"
+            } 
             dispatch(
-              mostrarErrorFormulario(
-                "Necesita seleccionar una empresa antes de continuar"
-              )
+              mostrarErrorFormulario(error)
             );
           }
         },

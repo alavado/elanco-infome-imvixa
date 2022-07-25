@@ -30,7 +30,7 @@ const TablaAntecedentes = () => {
       className="TablaAntecedentes__input"
       style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
       value={peces}
-      onChange={(e) => {setPeces(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      onChange={(e) => {setPeces(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
       }
     />)],
     ["Peso al inicio de tratamiento (g)", selectMinMax(datos.map(v => Math.round(v[colPesoInicialTrat]))).filter(onlyUnique).join(' - ')],
@@ -38,7 +38,7 @@ const TablaAntecedentes = () => {
       className="TablaAntecedentes__input"
       style={{backgroundColor: estanques !== "" ? "transparent" : "var(--color-highlight)"}}
       value={estanques}
-      onChange={(e) => {setEstanques(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      onChange={(e) => {setEstanques(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
       }
     />)],
     ["Lote de alimento", datos.map(v => v[colLoteAlimento]).filter(onlyUnique).join(' / ')],
@@ -54,7 +54,7 @@ const TablaAntecedentes = () => {
       className="TablaAntecedentes__input"
       style={{backgroundColor: alimento !== "" ? "transparent" : "var(--color-highlight)"}}
       value={alimento}
-      onChange={(e) => {setAlimento(parseInt(e.target.value.replace('.','')).toLocaleString("de-DE"))}
+      onChange={(e) => {setAlimento(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
       }
     />)],
     ["Fecha de inicio de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaInicioTrat])).filter(onlyUnique).join(' - ')],

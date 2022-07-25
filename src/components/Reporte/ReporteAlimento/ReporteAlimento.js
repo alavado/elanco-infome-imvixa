@@ -17,7 +17,7 @@ const ReporteAlimento = () => {
   useEffect(() => {
     ipcRenderer.send('datosReporte', {
       numeroDeLotes: lotesSeleccionados.length,
-      nombreEmpresa
+      nombreEmpresa: nombreEmpresa.value
     })
   }, [lotesSeleccionados, nombreEmpresa])
   const dimensions = {

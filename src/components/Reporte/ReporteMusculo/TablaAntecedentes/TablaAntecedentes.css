@@ -76,6 +76,7 @@
 
 .TablaAntecedentes__input:focus {
   outline: none;
+  background-color: var(--color-highlight-blue) !important;
 }
 
 .TablaAntecedentes__input:hover {
