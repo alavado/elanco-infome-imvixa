@@ -5,6 +5,7 @@ import {
   colAlimentoM2,
   colAlimentoM3,
   colAlimentoM4,
+  colAlimentoMuestra,
   colConcentracionObjetivo,
   colCumplimiento,
   colEmpresaAlimento,
@@ -48,12 +49,6 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
       (v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] ||
         v.data[colPlanta] === datoLote[colPlanta])
   );
-
-  console.log({
-    datoLote,
-    lotesTotalesPeriodo,
-    lotesPlanta : lotesTotalesPeriodo.filter(v => v.data[colPlanta] === datoLote[colPlanta])
-  })
 
   const cumplimientosEmpresa = lotesTotalesPeriodo
     .filter(
@@ -102,19 +97,16 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
       ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4),
     };
   }
+  const valuesLote = []
 
-  const valuesLote = [
-    colAlimentoM1,
-    colAlimentoM2,
-    colAlimentoM3,
-    colAlimentoM4,
-  ].map(
-    (muestra) => (datoLote[muestra] * 100) / datoLote[colConcentracionObjetivo]
-  );
+  Object.entries(datoLote).map((e) => {
+    if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
+      valuesLote.push(
+        (e[1] * 100) / datoLote[colConcentracionObjetivo]
+      );
+    }
+  });
 
-  console.log({
-    valuesLote
-  })
   const datos = []
   if (cumplimientosPlantaIndustria.length > 0) {
     datos.push(datosPlantaIndustria)
@@ -134,12 +126,7 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     datos.reduce((min, v) => Math.min(min, v.promedio), Infinity)
   );
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)));
-  console.log({
-    datos,
-    vMax,
-    vMin,
-    tick
-  })
+
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
   const yMin = Math.min(50, 10 * Math.floor(vMin / tick));
   const yLineas = [

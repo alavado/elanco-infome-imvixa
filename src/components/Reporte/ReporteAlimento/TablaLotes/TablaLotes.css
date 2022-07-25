@@ -7,7 +7,7 @@
 
 .TablaLotes__tabla {
 	display: grid;
-  grid-template: 3rem 1fr / repeat(11, 1fr);
+  /* grid-template: 3rem 1fr / repeat(11, 1fr); */
 	flex: 1;
 	max-height: 6rem;
 }
@@ -16,8 +16,8 @@
 .TablaLotes__fila {
 	display: grid;
 	grid-auto-flow: column;
-	grid-column: 1 / -2;
-  grid-template-columns: repeat(9, 1fr);
+	grid-column: 1 / -1;
+  /* grid-template-columns: repeat(9, 1fr); */
   place-items: center;
 }
 
@@ -36,6 +36,7 @@
 	font-size: 1rem;
   background-color: var(--color-amarillo);
 	color: white;
+	white-space: pre-wrap;
 }
 
 .TablaLotes__tabla > * {
