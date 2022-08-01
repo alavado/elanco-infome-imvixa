@@ -22,9 +22,6 @@ const GraficoComparacion = () => {
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
 
-  const vMin = Math.floor(
-    datos.reduce((min, v) => Math.min(min, v.promedio), Infinity)
-  );
   const tick = vMax > 25 ? 5 : 2;
   let yMax = Math.max(20, Math.ceil(vMax + tick));
   const yMin = 0;

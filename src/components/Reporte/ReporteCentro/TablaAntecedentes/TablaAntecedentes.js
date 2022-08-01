@@ -10,7 +10,7 @@ import { onlyUnique } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
-import { format, formatDistance, formatRelative, subDays } from 'date-fns'
+import { formatDistance } from 'date-fns'
 
 const TablaAntecedentes = () => {
   registerLocale("es", es);
@@ -102,7 +102,7 @@ const TablaAntecedentes = () => {
         dateFormat="dd/MM/yyyy"
         className="FormParametros__datepicker"
       />,
-      fechas[i] ? formatDistance(fechas[i], fechaVisita, {locale: es}) : "",
+      fechas[i] ? formatDistance(fechas[i], fechaVisita, {locale: es}) : "Sin información",
       <input
         className="TablaAntecedentesCentro__input"
         style={{

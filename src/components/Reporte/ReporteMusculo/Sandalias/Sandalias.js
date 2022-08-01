@@ -10,11 +10,11 @@ const Sandalias = ({ pagina }) => {
 
   return (
     <div className="Sandalias">
-      {(pagina == 2 && !hayComentarios) && <img src={imagenHealthy} className="Sandalias__imagen" alt="imagen pie de pagina"/>}
+      {(pagina === 2 && !hayComentarios) && <img src={imagenHealthy} className="Sandalias__imagen" alt="imagen pie de pagina"/>}
       <p
         className={classNames({
           "Sandalias__texto": true,
-          "Sandalias__texto--blanco": pagina == 2 && !hayComentarios
+          "Sandalias__texto--blanco": pagina === 2 && !hayComentarios
         })}
       >
         Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco

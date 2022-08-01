@@ -20,15 +20,22 @@ import {
 } from "../../../../redux/ducks/utilities";
 import "./GraficoCumplimiento.css";
 
-const GraficoCumplimiento = ({ lote: datoLote }) => {
+const GraficoCumplimiento = () => {
   const {
+    datosPorInforme,
     nombreEmpresa,
     lotesAsociados,
     plantasAsociadas,
     datosAlimento: datosAlimentoHistorico,
     datosAlimentoLotesAsociados,
-  } = useSelector((state) => state.reporteMusculo);
+  } = useSelector((state) => state.reporteCentro);
   const { cumplimiento } = useSelector((state) => state.reporte);
+
+  console.log({
+    lotesAsociados,
+    datosAlimentoLotesAsociados,
+    datosPorInforme,
+  });
 
   if (lotesAsociados.length === 0) {
     return (
@@ -139,15 +146,37 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     };
   });
 
-  const datos = [...datosPlantaIndustria, datosEmpresa, ...datosPorLote];
+  const valores = [];
+  datosAlimentoLotesAsociados.forEach((filaLote) => {
+    const valuesLote = [
+      colAlimentoM1,
+      colAlimentoM2,
+      colAlimentoM3,
+      colAlimentoM4,
+    ].map(
+      (muestra) =>
+        (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
+    );
+    valores.push(...valuesLote);
+  });
+
+  const datosTodosLosLotes = {
+    nombre: "Grupo tratado",
+    promedio: mean(valores),
+    ...iqrValues(valores),
+    max: Math.max(...valores),
+    min: Math.min(...valores),
+  };
+
+  const datos = [...datosPlantaIndustria, datosEmpresa, datosTodosLosLotes]; //, ...datosPorLote];
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
     datos.reduce((min, v) => Math.min(min, v.min), Infinity)
   );
   let tick = Math.pow(10, Math.floor(Math.log10(vMin)));
-  if (tick <=  0) {
-    tick = 10
+  if (tick <= 0) {
+    tick = 10;
   }
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
   // const yMin = Math.min(50, 10 * Math.floor(vMin / tick));
@@ -223,6 +252,11 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
             </div>
           </div>
         ))}
+        <div className="GraficoCumplimiento__pie">
+          Concentración (mg/kg) en alimento medicado (según lote y planta de
+          alimento correspondiente) utilizado en pisciculturas de origen en
+          estanques destinados a centro de mar en seguimiento.
+        </div>
       </div>
     </div>
   );

@@ -200,10 +200,10 @@ const slice = createSlice({
       const plantasAsociadas = new Set()
       const datosAlimentosAsociados = []
       datosPorInforme = datosPorInforme.map((datos) => {
-        const filaTratamiento = datosEjercicio.find(
+        const filaTratamiento = state.datosTratamiento.find(
           (v) =>
-            datos[colInformePeces] === v[colInformePecesTrat] ||
-            datos[colInformePecesR] === v[colInformePecesRTrat]
+          datos[colInformePeces] === v[colInformePecesTrat] ||
+          datos[colInformePeces] === v[colInformePecesRTrat]
         );
         const lotes = []
         if (filaTratamiento) {

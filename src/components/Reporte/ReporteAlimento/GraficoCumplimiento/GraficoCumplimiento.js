@@ -1,10 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import {
-  colAlimentoM1,
-  colAlimentoM2,
-  colAlimentoM3,
-  colAlimentoM4,
   colAlimentoMuestra,
   colConcentracionObjetivo,
   colCumplimiento,
