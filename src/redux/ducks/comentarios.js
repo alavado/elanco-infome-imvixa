@@ -5,6 +5,7 @@ const slice = createSlice({
   initialState: {
     comentarios: [],
     comentariosMusculo: [],
+    comentariosCentro: [],
     comentariosAlimento: {}
   },
   reducers: {
@@ -38,6 +39,14 @@ const slice = createSlice({
       const texto = action.payload
       state.comentariosMusculo = state.comentariosMusculo.filter(c => c !== texto)
     },
+    agregarComentarioCentro(state, action) {
+      const texto = action.payload
+      state.comentariosCentro.push(texto)
+    },
+    eliminarComentarioCentro(state, action) {
+      const texto = action.payload
+      state.comentariosCentro = state.comentariosCentro.filter(c => c !== texto)
+    },
   },
 })
 
@@ -48,7 +57,9 @@ export const {
   eliminarComentarioAlimento,
   agregarComentarioMusculo,
   eliminarComentarioMusculo,
-  limpiarComentariosAlimento
+  limpiarComentariosAlimento,
+  agregarComentarioCentro,
+  eliminarComentarioCentro
 } = slice.actions
 
 export default slice.reducer

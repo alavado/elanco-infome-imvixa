@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import Select from "react-select";
 import { registerLocale } from "react-datepicker";
-import "./ParametrosReporteMusculo.css";
 import es from "date-fns/locale/es";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +15,7 @@ import {
   colPisciculturaPeces,
   colFechaPeces,
 } from "../../../../constants";
+import "./ParametrosReporteMusculo.css";
 
 const ParametrosReporteMusculo = () => {
   registerLocale("es", es);

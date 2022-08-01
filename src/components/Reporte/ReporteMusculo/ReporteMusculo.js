@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import MensajeError from "../../MensajeError";
-import DatosEmpresa from "../DatosEmpresa/DatosEmpresa";
-import Encabezado from "../Encabezado/Encabezado";
+import DatosEmpresa from "../DatosEmpresa";
+import Encabezado from "../Encabezado";
 import Sandalias from "./Sandalias";
 import Comentarios from "../Comentarios";
 import "./ReporteMusculo.css";
@@ -21,12 +21,13 @@ const ReporteMusculo = () => {
   const { comentariosMusculo } = useSelector((state) => state.comentarios);
   const { nombreEmpresa } = useSelector((state) => state.reporteMusculo);
   const numeroDePaginas = 2;
+  const nEmpresa = nombreEmpresa.label;
   useEffect(() => {
     ipcRenderer.send("datosReporte", {
-      nombreEmpresa,
+      nombreEmpresa: nEmpresa,
       numeroDePaginas,
     });
-  }, [nombreEmpresa]);
+  }, [nEmpresa]);
 
   const dimensions = {
     width: "100%",

@@ -18,8 +18,8 @@ const FormIndustria = () => {
         <br />
         Si ingresa algún percentil, debe ingresar todos los demás valores.
       </p>
-    {(reporte.id === 1 || reporte.id === 2 || reporte.id === 4) && <FormCumplimiento/>}
-    {(reporte.id === 4) && <FormConcentracion/>}
+    <FormCumplimiento/>
+    {(reporte.id === 4 || reporte.id === 3) && <FormConcentracion/>}
     </div>
   );
 };

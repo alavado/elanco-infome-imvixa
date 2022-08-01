@@ -1,0 +1,114 @@
+.TablaAntecedentesCentro {
+  display: flex;
+  justify-content: center;
+}
+
+.TablaAntecedentesCentro__contenedor {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  border: .15rem dotted var(--color-gris-4);
+  color: var(--color-gris-4);
+	margin-top: 2rem;
+  max-width: fit-content;
+}
+
+.TablaAntecedentesCentro__titulo {
+  background-color: var(--color-amarillo);
+  margin: .5rem;
+  color: white;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.TablaAntecedentesCentro__tabla {
+  display: grid;
+  flex: 1;
+  font-weight: 300;
+  padding: 0 1rem 1rem 1rem;
+  font-size: 1.2rem;
+	/* gap: 5rem; */
+}
+
+
+
+.TablaAntecedentesCentro__columna {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-right: .1rem dotted var(--color-gris-3);
+}
+
+.TablaAntecedentesCentro__columna > * {
+  border-bottom: .1rem dotted var(--color-gris-3);
+}
+
+.TablaAntecedentesCentro__tabla > :first-child {
+  font-weight: bold;
+  border-right: none;
+  max-width: 14rem;
+}
+
+.TablaAntecedentesCentro__tabla > :last-child {
+  border-right: none;
+}
+
+.TablaAntecedentesCentro__fila {
+  /* display: grid;
+  grid-auto-flow: column;
+  grid-column: 1 / -1;
+  grid-template-columns: 7fr 4fr; */
+  line-height: 1.8rem;
+  display: flex;
+  
+}
+
+.TablaAntecedentesCentro__button {
+	background: none;
+  color: var(--color-gris-4);
+  text-decoration: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.TablaAntecedentesCentro__fila > :first-child {
+  justify-self: start;
+  padding-left: .5rem;
+}
+
+.TablaAntecedentesCentro__input {
+	position: relative;
+  text-decoration: none;
+  border: none;
+  color: var(--color-gris-4);
+  font-weight: 300;
+  font-size: 1.2rem;
+  width: 11rem;
+}
+
+.TablaAntecedentesCentro__input {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+.TablaAntecedentesCentro__input::-webkit-inner-spin-button, 
+.TablaAntecedentesCentro__input::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+.TablaAntecedentesCentro__input:focus {
+  outline: none;
+  background-color: var(--color-highlight-blue) !important;
+}
+
+.TablaAntecedentesCentro__input:hover {
+  outline: none;
+}

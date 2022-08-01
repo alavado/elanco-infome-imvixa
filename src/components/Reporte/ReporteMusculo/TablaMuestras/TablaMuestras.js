@@ -1,16 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
-import {
-  colEstanquePeces,
-  colInformePeces,
-} from "../../../../constants";
+import { colEstanquePeces, colInformePeces } from "../../../../constants";
 
 const TablaMuestras = () => {
   const { umbral, umbralDestacar, datosEjercicio } = useSelector(
     (state) => state.reporteMusculo
   );
-  const valorDestacar = parseInt(umbralDestacar.replace('.',''))
+  const valorDestacar = parseInt(umbralDestacar.replace(".", ""));
   const nMuestras = 10;
   const headers = [
     "Informe N°",
@@ -37,10 +34,10 @@ const TablaMuestras = () => {
   };
 
   const colorPorResultado = (r) => {
-    if (r === 2) return "var(--color-g)"
-    else if (r === 1) return "var(--color-f)"
-    else return "var(--color-amarillo)"
-  }
+    if (r === 2) return "var(--color-g)";
+    else if (r === 1) return "var(--color-f)";
+    else return "var(--color-amarillo)";
+  };
 
   return (
     <div className="TablaMuestras" style={style0}>
@@ -66,22 +63,39 @@ const TablaMuestras = () => {
                 key={`TablaMuestras-celda-${i}-${j}`}
                 className="TablaMuestras__celda"
               >
-                {
-                  muestra === "-"
-                  ? muestra
-                  : (<p style={{
-                    color: muestra < valorDestacar ? "var(--color-warning)" : "initial"}}>
+                {muestra === "-" ? (
+                  muestra
+                ) : (
+                  <p
+                    style={{
+                      color:
+                        muestra < valorDestacar
+                          ? "var(--color-warning)"
+                          : "initial",
+                    }}
+                  >
                     {muestra.toLocaleString("de-DE", {
                       maximumFractionDigits: 0,
                     })}
-                  </p>)
-                }
+                  </p>
+                )}
               </div>
             ))}
             <div className="TablaMuestras__celda">
-              {fila["prom"].toLocaleString("de-DE", {
-                maximumFractionDigits: 0,
-              })}
+              {
+                <p
+                  style={{
+                    color:
+                      fila["prom"] < valorDestacar
+                        ? "var(--color-warning)"
+                        : "initial",
+                  }}
+                >
+                  {fila["prom"].toLocaleString("de-DE", {
+                    maximumFractionDigits: 0,
+                  })}
+                </p>
+              }
             </div>
             <div className="TablaMuestras__celda">
               {fila["cv"].toLocaleString("de-DE", {
@@ -100,12 +114,15 @@ const TablaMuestras = () => {
                 maximumFractionDigits: 0,
               })}
             </div>
-            <div 
+            <div
               className="TablaMuestras__celda"
               style={{
                 color: "var( --color-fondo)",
-                backgroundColor: colorPorResultado(fila["resultado"])}}  
-            >{fila["resultado"]}</div>
+                backgroundColor: colorPorResultado(fila["resultado"]),
+              }}
+            >
+              {fila["resultado"]}
+            </div>
           </div>
         ))}
       </div>

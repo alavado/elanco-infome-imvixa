@@ -4,8 +4,6 @@ import {
   colEmpresaPeces as colEmpresa,
   colPisciculturaPeces as colPiscicultura,
   colFechaPeces as colFecha,
-  colFechaAlimento,
-  colEmpresaAlimento,
   colInformePeces,
   colPPB,
   colEstanquePeces,
@@ -14,8 +12,6 @@ import {
   colInformePecesRTrat,
   colInformePecesR,
   colInformePecesTrat,
-  colFechaTrat,
-  colEmpresaTrat,
   colPMVTrat,
   colLote1Trat,
   colLote2Trat,
@@ -29,6 +25,7 @@ import {
   colFechaTerminoTrat,
   colFechaInicioTrat,
   colFechaVeranoTrat,
+  colSampleOriginTrat,
 } from "../../constants";
 import { formatearFecha } from "./utilities";
 
@@ -91,35 +88,65 @@ const slice = createSlice({
       state.umbralDestacar = action.payload;
       state.umbralDestacarModificado = true;
     },
+    cargarDatosMusculo(state, action) {
+      state.datosPeces = action.payload.datosPeces.filter(
+        (fila) => fila[colSampleOrigin] === tipoFreshWater
+      );
+      state.datosTratamiento = action.payload.datosTratamiento.filter(
+        (fila) => fila[colSampleOriginTrat] === tipoFreshWater
+        );
+      state.datosAlimento = action.payload.datosAlimento;
+    },
     procesarDatosParaExportar(state) {
-      // state.opcion = action.payload;
-      // state.nombreEmpresa = action.payload[colEmpresa];
       state.procesandoParaExportar = true;
+      // Filtrar datos BD Imvixa según parámetros seleccionados
       const datosEjercicio = state.datosPeces.filter(
         (v) =>
           v[colEmpresa] === state.nombreEmpresa.value &&
           v[colPiscicultura] === state.piscicultura.value &&
           v[colFecha].toString().startsWith(state.fecha.value)
       );
-
+      // Obtener el conjunto mínimo de informes
+      const paresInformeReportes = {}
+      const paresReportesInformes = {}
       const informes = [
         ...datosEjercicio.reduce(
-          (acc, current) => acc.add(current[colInformePeces]),
+          (acc, current) => {
+            if (current[colInformePeces]) {
+              if (current[colInformePecesR]) {
+                paresInformeReportes[current[colInformePeces]] = current[colInformePecesR]
+                if (current[colInformePecesR] in paresReportesInformes) {
+                  paresReportesInformes[current[colInformePecesR]] = current[colInformePeces]
+                }
+              }
+              return acc.add(current[colInformePeces])
+            } 
+            if (current[colInformePecesR] && !(current[colInformePecesR] in paresReportesInformes)) {
+              paresReportesInformes[current[colInformePecesR]] = null
+            }
+            return acc
+          },
           new Set()
         ),
       ];
-
+      // Si es que no hubiese elanco.id busco los reportes
+      const reportesSinInformes = Object.keys(paresReportesInformes).filter(k => paresReportesInformes[k])
+      const reportesEInformes = [
+        ...informes,
+        ...reportesSinInformes
+      ]
+      // Obtener el conjunto mínimo de reportes
       const reportes = [
         ...datosEjercicio.reduce(
           (acc, current) => acc.add(current[colInformePecesRTrat]),
           new Set()
         ),
       ];
-
+      // Por cada informe filtro los datos de la BD Imvixa de ese informe
       let datosPorInforme = [];
-      informes.forEach((informe) => {
+      reportesEInformes.forEach((informe) => {
         const datosEjercicioPorInforme = datosEjercicio.filter(
-          (fila) => fila[colInformePeces] === informe
+          (fila) => fila[colInformePeces] === informe || fila[colInformePecesR] === informe
         );
         const muestras = datosEjercicioPorInforme.map((v) => v[colPPB]);
         const prom = mean(muestras);
@@ -207,14 +234,7 @@ const slice = createSlice({
       state.lotesAsociados = [...lotesAsociados]
       state.plantasAsociadas = [...plantasAsociadas]
       state.datosAlimentoLotesAsociados = datosAlimentosAsociados
-    },
-    cargarDatosMusculo(state, action) {
-      state.datosPeces = action.payload.datosPeces.filter(
-        (fila) => fila[colSampleOrigin] === tipoFreshWater
-      );
-      state.datosAlimento = action.payload.datosAlimento;
-      state.datosTratamiento = action.payload.datosTratamiento;
-    },
+    }
   },
 });
 

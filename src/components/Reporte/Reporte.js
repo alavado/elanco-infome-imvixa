@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ReporteAlimento from "./ReporteAlimento";
 import ReporteSeguimiento from "./ReporteSeguimiento";
 import ReporteMusculo from "./ReporteMusculo";
+import ReporteCentro from "./ReporteCentro";
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
@@ -23,13 +24,17 @@ const Reporte = () => {
         return (
           <ReporteMusculo />
         )
+      case 3:
+        return (
+          <ReporteCentro />
+        )
       default:
         return (
           <ReporteSeguimiento />
         );
     }
   }
-  return <div>Hola</div>
+  return <div>No ha seleccionado el tipo de reporte</div>
   
 }
 

@@ -23,6 +23,9 @@ import {
   cargarDatosMusculo,
 } from "../../redux/ducks/reporteMusculo";
 import {
+  cargarDatosCentro, procesarReporteCentro,
+} from "../../redux/ducks/reporteCentro";
+import {
   agregarComentarioAlimento,
   limpiarComentariosAlimento
 } from "../../redux/ducks/comentarios"
@@ -55,7 +58,12 @@ const Formulario = () => {
     (state) => state.reporteMusculo
   );
 
-  const unicaOpcion = [nEmpresaAlimento, piscicultura, fecha].every(v => v !== null)
+  const { nombreEmpresa: nEmpresaCentro, centro, fecha: fechaCentro } = useSelector(
+    (state) => state.reporteCentro
+  );
+
+  const unicaOpcionMusculo = [nEmpresaAlimento, piscicultura, fecha].every(v => v !== null)
+  const unicaOpcionCentro = [nEmpresaCentro, centro, fechaCentro].every(v => v !== null)
 
   const cumplimientoOK =
     (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
@@ -120,6 +128,8 @@ const Formulario = () => {
               dispatch(cargarDatosAlimento(datosAlimento));
             } else if (reporte.id === 2) {
               dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento }));
+            } else if (reporte.id === 3) {
+              dispatch(cargarDatosCentro({ datosAlimento, datosPeces, datosTratamiento }));
             }
             dispatch(pasoSiguiente());
           } else {
@@ -144,12 +154,10 @@ const Formulario = () => {
           reporte !== null &&
           ((reporte.id === 4 && nombreEmpresa !== "") ||
             (reporte.id === 1 && lotes.length > 0) ||
-            (reporte.id === 2 &&  unicaOpcion)),
+            (reporte.id === 2 &&  unicaOpcionMusculo) ||
+            (reporte.id === 3 && unicaOpcionCentro)),
         onClickSiguiente: () => {
-          if (
-            (reporte.id === 1 && lotes.length > 0) ||
-            (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
-          ) {
+          if (reporte.id === 1 && lotes.length > 0){
             dispatch(limpiarComentariosAlimento())
             lotes.forEach((l, i) => {
               try {
@@ -162,9 +170,11 @@ const Formulario = () => {
               }
             })
             dispatch(pasoSiguiente());
-          } else if (reporte.id === 2 && unicaOpcion) {
+          } else if (reporte.id === 2 && unicaOpcionMusculo) {
             localStorage.setItem('umbralDestacar', umbralDestacar)
             localStorage.setItem('umbral', umbral)
+            dispatch(pasoSiguiente());
+          } else if ((reporte.id === 3 && unicaOpcionCentro) ||(reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")) {
             dispatch(pasoSiguiente());
           } else {
             let error = "Necesita completar la información antes de continuar"
@@ -209,13 +219,25 @@ const Formulario = () => {
               break;
             case 2:
               if (
-                unicaOpcion &&
+                unicaOpcionMusculo &&
                 cumplimientoOK &&
                 qCondition &&
                 minCondition
               ) {
                 dispatch(procesarReporteMusculo());
               }
+              break;
+            case 3:
+                if (
+                  unicaOpcionCentro &&
+                  cumplimientoOK &&
+                  concentracionOK &&
+                  qCondition &&
+                  minCondition
+                ) {
+                  dispatch(procesarReporteCentro());
+                }
+                break;
             default:
               if (
                 todasLasPlanillas &&
@@ -254,9 +276,10 @@ const Formulario = () => {
       history,
       reporte,
       lotes,
-      unicaOpcion,
+      unicaOpcionMusculo,
       umbral,
-      umbralDestacar
+      umbralDestacar,
+      unicaOpcionCentro
     ]
   );
 

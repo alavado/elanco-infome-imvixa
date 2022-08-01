@@ -128,3 +128,15 @@ export const formatearFecha = (fecha) => {
     return fecha
   }
 }
+
+
+Date.prototype.addDays = function(days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
+export const diasAtras = (date, dias) => {
+  const timestamp = new Date(date)
+  return timestamp.addDays(-dias)
+}

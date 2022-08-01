@@ -40,6 +40,7 @@ export const colPesoInicialTrat = "Peso al Inicio Tto"
 export const colFechaVeranoTrat = "Fecha inicio verano"
 export const colFechaInicioTrat = "1st day of treatment"
 export const colFechaTerminoTrat = "Last day of treatment"
+export const colSampleOriginTrat = "Sample Origin";
 export const colPMVTrat = "PMV"
 export const colLote1Trat = "Lote Alimento 1"
 export const colLote2Trat = "Lote Alimento 2"

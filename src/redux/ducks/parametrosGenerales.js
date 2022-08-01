@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reportes } from "../../helpers/reportes";
 import { localeSort } from "./utilities";
-import { colEmpresaAlimento, colPisciculturaAlimento, colFechaAlimento, colFechaPeces } from "../../constants";
+import { colEmpresaAlimento, colPisciculturaAlimento, colFechaAlimento, colFechaPeces, colFechaTrat } from "../../constants";
 
 const slice = createSlice({
   name: "parametrosGenerales",
@@ -100,8 +100,14 @@ const slice = createSlice({
     },
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path;
-      state.datosTratamiento = action.payload.datos.datosTratamiento;
-      
+      const datosTratamiento = [];
+      action.payload.datos.datosTratamiento.forEach(r => {
+        datosTratamiento.push({
+          ...r,
+          [colFechaTrat] : new Date(r[colFechaTrat]).toISOString()
+        })
+      });
+      state.datosTratamiento = datosTratamiento;
       const datosPeces = [];
       action.payload.datos.datosPeces.forEach(r => {
         datosPeces.push({

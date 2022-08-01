@@ -1,0 +1,63 @@
+.ReporteCentro {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-fondo);
+}
+
+.ReporteCentro__contenedor {
+  background-color: var(--color-fondo);
+  animation: aparece-reporte .25s ease both;
+  display: flex;
+  flex-direction: column;
+}
+
+.ReporteCentro__pagina {
+  flex: 1;
+}
+
+.ReporteCentro__pagina--1 {
+  position: relative;
+  display: grid;
+  grid-template-rows: 16% 13% 10% 26% 32% auto;
+  padding: 4rem 2rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.ReporteCentro__pagina--2 {
+  position: relative;
+  display: grid;
+  grid-template-rows: 16% 47% 20% auto;
+  padding: 4rem 1rem 12rem 4rem;
+  min-height: 50%;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.ReporteCentro__seccion {
+  display: flex;
+  min-height: 80%;
+  justify-content: space-between;
+}
+
+.ReporteCentro__titulo {
+	display: flex;
+	align-items: center;
+  color: var(--color-gris-4);
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.15;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ReporteCentro__titulo::before {
+  width: 2rem;
+  height: 2rem;
+  content: '';
+  background: var(--color-amarillo);
+  display: block;
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
