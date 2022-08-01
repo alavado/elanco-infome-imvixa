@@ -82,7 +82,7 @@ const Formulario = () => {
     cumplimientoOK &&
     ((reporte !== null && reporte.id === 1) || concentracionOK);
   let qCondition = true;
-  const minCondition = cumplimiento.min === "" || cumplimiento.min >= 50;
+  const minCondition = cumplimiento.min === "" || cumplimiento.min >= 0;
   const boxElements = ["q2", "q3", "q4", "prom"];
   if (boxElements.some((v) => cumplimiento[v] !== "")) {
     qCondition = Object.values(cumplimiento).every((v) => v !== "");

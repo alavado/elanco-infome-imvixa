@@ -2,10 +2,6 @@ import React from "react";
 import "./TablaLotes.css";
 import {
   colLoteAlimento,
-  colAlimentoM1,
-  colAlimentoM2,
-  colAlimentoM3,
-  colAlimentoM4,
   colAlimentoCV,
   colAlimentoProm,
   colAlimentoSTD,

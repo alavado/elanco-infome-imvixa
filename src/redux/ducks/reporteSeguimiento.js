@@ -6,6 +6,8 @@ import {
   filtrarDatosPeces } from "./utilities"
 
 const today = new Date()
+const cumplimientoMax = localStorage.getItem("cumplimientoIndustriaMax")
+const cumplimientoMin = localStorage.getItem("cumplimientoIndustriaMin")
 const slice = createSlice({
   name: "reporte",
   initialState: {
@@ -14,8 +16,8 @@ const slice = createSlice({
     fechaInicio: null,
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     cumplimiento: {
-      min: "",
-      max: "",
+      min: cumplimientoMin ? cumplimientoMin : "",
+      max: cumplimientoMax ? cumplimientoMax : "",
       q2: "",
       q3: "",
       q4: "",

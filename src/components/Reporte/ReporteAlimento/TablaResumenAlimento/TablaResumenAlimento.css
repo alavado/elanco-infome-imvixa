@@ -4,6 +4,7 @@
   background-color: white;
   border: .15rem dotted var(--color-gris-4);
   color: var(--color-gris-4);
+  min-width: 45%;
 }
 
 .TablaResumen__titulo {
@@ -20,7 +21,7 @@
 
 .TablaResumenAlimento__tabla {
   display: grid;
-  grid-template: repeat(9, 1fr) / repeat(2, 1fr);
+  grid-template: repeat(9, 1fr) / 5fr 4fr;
   flex: 1;
   font-weight: 300;
   padding: 0 1rem 1rem 1rem;
@@ -38,7 +39,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-column: 1 / -1;
-  grid-template-columns: 5fr 2fr;
+  grid-template-columns: 5fr 4fr;
   place-items: center;
 }
 
