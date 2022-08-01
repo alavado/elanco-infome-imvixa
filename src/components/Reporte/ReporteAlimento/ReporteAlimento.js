@@ -7,7 +7,7 @@ import Encabezado from "../Encabezado/Encabezado";
 import TablaResumenAlimento from "./TablaResumenAlimento";
 import Comentarios from "./Comentarios";
 import TablaLotes from "./TablaLotes/TablaLotes";
-import GraficoCumplimiento from "./GraficoCumplimiento/GraficoCumplimiento";
+import GraficoCumplimiento from "./GraficoCumplimiento";
 import { colEmpresaAlimento, colLoteAlimento } from "../../../constants";
 import "./ReporteAlimento.css";
 const { ipcRenderer } = window.require('electron')
