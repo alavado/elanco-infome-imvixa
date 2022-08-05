@@ -46,6 +46,7 @@ export const colLote1Trat = "Lote Alimento 1"
 export const colLote2Trat = "Lote Alimento 2"
 export const colLote3Trat = "Lote Alimento 3"
 export const colLote4Trat = "Lote Alimento 4"
+export const colUTAs = "degree days"
 
 // Columnas para filtrar hoja BD imvixa
 export const colEmpresaPeces = "Company"

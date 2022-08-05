@@ -29,6 +29,7 @@ import {
   colPPB,
   colPisciculturaPeces,
   colFechaPeces,
+  colUTAs,
 } from "../../constants";
 const slice = createSlice({
 	name: "reporteCentro",
@@ -88,10 +89,13 @@ const slice = createSlice({
     procesarReporteCentro(state) { 
       state.procesando = true
       // Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
-      const datosEjercicio = state.datosTratamiento.filter(
+      const datosTratamientoDestino = state.datosTratamiento.filter(
+        (v) =>
+          v[colCentro] === state.centro.value
+      );
+      const datosEjercicio = datosTratamientoDestino.filter(
         (v) =>
           v[colEmpresa] === state.nombreEmpresa.value &&
-          v[colCentro] === state.centro.value &&
           v[colFecha].toString().startsWith(state.fecha.value)
       );
       const informesEjercicio = datosEjercicio.map(f => f[colInformePecesTrat])
@@ -108,26 +112,21 @@ const slice = createSlice({
       // Buscar en peces de máximo un año antes de la fecha de visita en esa piscicultura
       const diaVisita = new Date(state.fecha.value).addDays(1)
       const unAñoDesdeVisita = diasAtras(diaVisita, 365)
+
       // las muestras en FW y SW
       const muestrasEjercicio = state.datosPeces.filter(
         (f) => {
           if (pisciculturasOrigen.includes(f[colPisciculturaPeces])) {
             const fechaFila = new Date(f[colFechaPeces])
-            const estaEnPeriodo = fechaFila >= unAñoDesdeVisita && fechaFila <= diaVisita 
-            // console.log({
-            //   estaEnPeriodo,
-            //   unAñoDesdeVisita,
-            //   fechaFila,
-            //   diaVisita,
-            //   fechaInferior: fechaFila >= unAñoDesdeVisita,
-            //   fechasuperior: fechaFila <= diaVisita,
-            //   fecha: state.fecha.value,
-            //   piscicultura: f[colPisciculturaPeces]
-            // })
-            return estaEnPeriodo
+            const estaEnPeriodo = fechaFila >= unAñoDesdeVisita && fechaFila <= diaVisita
+            if (estaEnPeriodo) {
+              const filaTratamiento = datosTratamientoDestino.find(fTrat => fTrat[colInformePecesTrat] === f[colInformePecesTrat] || fTrat[colInformePecesRTrat] === f[colInformePecesR])
+              return filaTratamiento && filaTratamiento[colDestinoTrat] === state.centro.value
+            }
           }
           return false 
         })
+
       // Obtener el conjunto mínimo de informes de FW y SW
       const paresInformeReportes = {}
       const paresReportesInformes = {}
@@ -177,11 +176,12 @@ const slice = createSlice({
        while (muestras.length < 10) {
          muestras.push("-");
        }
+       
        datosPorInforme.push({
          [colInformePeces]: informe,
-         [colInformePecesR]: datosEjercicioPorInforme[0][colInformePecesR],
-         [colEstanquePeces]: datosEjercicioPorInforme[0][colEstanquePeces],
-         [colPisciculturaPeces]: datosEjercicioPorInforme[0][colPisciculturaPeces],
+         [colInformePecesR]: datosEjercicioPorInforme.find(f => f[colInformePecesR])[colInformePecesR],
+         [colEstanquePeces]: datosEjercicioPorInforme.find(f => f[colEstanquePeces])[colEstanquePeces],
+         [colPisciculturaPeces]: datosEjercicioPorInforme.find(f => f[colPisciculturaPeces])[colPisciculturaPeces],
          fecha: datosEjercicioPorInforme[0][colFechaPeces],
          muestras: muestras,
          prom,
@@ -192,7 +192,7 @@ const slice = createSlice({
          pmv: null,
          lotes: [],
          alimento: [],
-         [colSampleOrigin]: datosEjercicioPorInforme[0][colSampleOrigin]
+         [colSampleOrigin]: datosEjercicioPorInforme[0][colSampleOrigin],
        });
      });
 
@@ -200,7 +200,7 @@ const slice = createSlice({
       const plantasAsociadas = new Set()
       const datosAlimentosAsociados = []
       datosPorInforme = datosPorInforme.map((datos) => {
-        const filaTratamiento = state.datosTratamiento.find(
+        const filaTratamiento = datosTratamientoDestino.find(
           (v) =>
           datos[colInformePeces] === v[colInformePecesTrat] ||
           datos[colInformePeces] === v[colInformePecesRTrat]
@@ -237,6 +237,7 @@ const slice = createSlice({
             pmv: filaTratamiento[colPMVTrat],
             lotes: lotes,
             alimento: filasAlimento,
+            [colUTAs]: filaTratamiento[colUTAs]
           };
         } else {
           return datos

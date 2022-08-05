@@ -1,14 +1,14 @@
-.GraficoCumplimiento {
+.GraficoComparacion {
   display: flex;
   flex-direction: column;
-  padding: 0.25rem 3.5rem 2rem 2rem;
+  padding: 0.25rem 3.5rem 2rem 1rem;
   margin-top: 2rem;
   justify-content: space-between;
 	max-width: 50%;
   --color-titulo-seccion: var(--color-azul);
 }
 
-.GraficoCumplimiento__titulo {
+.GraficoComparacion__titulo {
   color: var(--color-gris-4);
   margin-bottom: 2rem;
   font-size: 1.2rem;
@@ -20,10 +20,8 @@
   grid-area: 1 / 1 / 2 / 4;
 }
 
-.GraficoCumplimiento__titulo::before {
-  /* width: 2rem;
-  height: 2rem; */
-  width: 60px;
+.GraficoComparacion__titulo::before {
+  width: 35.5px;
   height: 30px;
   content: '';
   background: var(--color-amarillo);
@@ -31,24 +29,33 @@
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
-.GraficoCumplimiento__pie {
+.GraficoComparacion__pie {
   font-size: .9rem;
   color: var(--color-gris-4);
   position: absolute;
-  bottom: -5.8rem;
+  bottom: -5rem;
 }
 
-.GraficoCumplimiento__etiqueta_eje_y {
+.GraficoComparacion__etiqueta_eje_y {
   font-weight: 300;
   color: var(--color-gris-4);
   font-size: .9rem;
   position: absolute;
-  left: -7rem;
+  left: -4rem;
   bottom: 3.8rem;
   transform: rotate(-90deg);
 }
 
-.GraficoCumplimiento__contenedor_grafico {
+.GraficoComparacion__etiqueta_eje_x {
+	font-weight: 300;
+  color: var(--color-gris-4);
+  font-size: .9rem;
+  position: absolute;
+  left: 44%;
+  bottom: -3rem;
+}
+
+.GraficoComparacion__contenedor_grafico {
   display: flex;
   width: 100%;
   flex: 1;
@@ -56,15 +63,12 @@
   margin-left: 2.5rem;
 }
 
-.GraficoCumplimiento__contenedor_grafico__error {
+
+.GraficoComparacion__contenedor_grafico__error {
   color: var(--color-gris-4);
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  width: 100%;
 }
 
-.GraficoCumplimiento__contenedor_lineas {
+.GraficoComparacion__contenedor_lineas {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -74,19 +78,19 @@
   width: 100%;
 }
 
-.GraficoCumplimiento__linea {
+.GraficoComparacion__linea {
   border-bottom: 1px solid var(--color-gris-2);
   flex: 1;
   position: relative;
 }
 
-.GraficoCumplimiento__linea:first-child {
+.GraficoComparacion__linea:first-child {
   position: absolute;
   top: 0;
   width: 100%;
 }
 
-.GraficoCumplimiento__etiqueta_linea {
+.GraficoComparacion__etiqueta_linea {
   position: absolute;
   font-size: .9rem;
   color: var(--color-gris-4);
@@ -98,7 +102,7 @@
   left: -2rem;
 }
 
-.GraficoCumplimiento__contenedor_caja {
+.GraficoComparacion__contenedor_caja {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -106,7 +110,7 @@
   position: relative;
 }
 
-.GraficoCumplimiento__caja {
+.GraficoComparacion__caja {
   flex: 1;
   width: 50%;
   background: var(--color-azul);
@@ -125,7 +129,7 @@
   min-height: 1.5rem;
 }
 
-.GraficoCumplimiento__etiqueta_caja {
+.GraficoComparacion__etiqueta_caja {
   position: absolute;
   bottom: -2.25rem;
   font-size: .85rem;
@@ -140,7 +144,7 @@
   height: 2rem;
 }
 
-.GraficoCumplimiento__bigote {
+.GraficoComparacion__bigote {
   width: .1725rem;
   height: 100%;
   background: var(--color-h);
@@ -149,8 +153,8 @@
   left: calc(50% - .2rem);
 }
 
-.GraficoCumplimiento__bigote::before,
-.GraficoCumplimiento__bigote::after {
+.GraficoComparacion__bigote::before,
+.GraficoComparacion__bigote::after {
   content: '';
   position: absolute;
   background: var(--color-h);
@@ -160,7 +164,7 @@
   left: -.4rem;
 }
 
-.GraficoCumplimiento__bigote::after {
+.GraficoComparacion__bigote::after {
   top: auto;
   bottom: 0;
 }

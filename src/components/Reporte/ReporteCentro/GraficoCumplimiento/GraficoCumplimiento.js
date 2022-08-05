@@ -29,19 +29,14 @@ const GraficoCumplimiento = () => {
     datosAlimento: datosAlimentoHistorico,
     datosAlimentoLotesAsociados,
   } = useSelector((state) => state.reporteCentro);
-  const { cumplimiento } = useSelector((state) => state.reporte);
-
-  console.log({
-    lotesAsociados,
-    datosAlimentoLotesAsociados,
-    datosPorInforme,
-  });
+  // const { cumplimiento } = useSelector((state) => state.reporte);
 
   if (lotesAsociados.length === 0) {
     return (
       <div className="GraficoCumplimiento">
         <p className="GraficoCumplimiento__titulo">
-          Cumplimiento (%) concentración en alimento (logrado / intentado)
+          Concentración (mg/kg) en alimento medicado según planta de alimento
+          correspondiente al lote utilizado en pisciculturas de origen
         </p>
         <div className="GraficoCumplimiento__contenedor_grafico">
           <div className="GraficoCumplimiento__contenedor_grafico__error">
@@ -53,6 +48,22 @@ const GraficoCumplimiento = () => {
   }
 
   const lotesEjercicio = lotesAsociados;
+
+  // Agrupar por planta los lotes del ejercicio
+  const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
+    const datos = datosAlimentoLotesAsociados
+      .filter((v) => v[colPlanta] === planta)
+      .map((obj) => obj[colCumplimiento] * 100);
+    return {
+      nombre: planta,
+      cumplimiento: datos,
+      promedio: mean(datos),
+      ...iqrValues(datos),
+      min: Math.min(...datos),
+      max: Math.max(...datos),
+    };
+  });
+
   const minFechasLotes = new Date(
     selectMinMaxFecha(
       datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
@@ -65,110 +76,52 @@ const GraficoCumplimiento = () => {
       minFechasLotes.getFullYear() - 1,
     ].join("-")
   );
-  const datosAlimento = datosAlimentoHistorico.filter((fila) => {
-    return (
+
+  const cumplimientosEmpresa = [];
+  const cumplimientosIndustria = [];
+
+  datosAlimentoHistorico.forEach((fila) => {
+    if (
       esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
-      esMenorQueFecha(fila[colFechaAlimento], minFechasLotes)
-    );
+      esMenorQueFecha(fila[colFechaAlimento], minFechasLotes) &&
+      !lotesEjercicio.includes(fila[colLoteAlimento])
+    ) {
+      // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
+      if (fila[colEmpresaAlimento] === nombreEmpresa.value) {
+        cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
+      } else {
+        cumplimientosIndustria.push(fila[colCumplimiento] * 100);
+      }
+    }
   });
 
-  const cumplimientosEmpresa = datosAlimento
-    .filter(
-      (v) =>
-        v[colEmpresaAlimento] === nombreEmpresa.value &&
-        !lotesEjercicio.includes(v[colLoteAlimento])
-    )
-    .map((obj) => obj[colCumplimiento] * 100);
-
-  const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
-    const datos = datosAlimento
-      .filter(
-        (v) =>
-          v[colPlanta] === planta &&
-          !lotesEjercicio.includes(v[colLoteAlimento])
-      )
-      .map((obj) => obj[colCumplimiento] * 100);
-    return {
-      nombre: planta,
-      cumplimiento: datos,
-    };
-  });
-
-  let datosEmpresa = {
+  const datosEmpresa = {
     nombre: nombreEmpresa.value,
     promedio: mean(cumplimientosEmpresa),
     ...iqrValues(cumplimientosEmpresa),
     max: Math.max(...cumplimientosEmpresa),
     min: Math.min(...cumplimientosEmpresa),
   };
+  // const datosIndustria = {
+  //   nombre: "Industria",
+  //   promedio:
+  //     cumplimiento.prom !== ""
+  //       ? cumplimiento.prom
+  //       : mean(cumplimientosIndustria),
+  //   ...(cumplimiento.q2 !== ""
+  //     ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
+  //     : iqrValues(cumplimientosIndustria)),
+  //   max:
+  //     cumplimiento.max !== ""
+  //       ? cumplimiento.max
+  //       : Math.max(...cumplimientosIndustria),
+  //   min:
+  //     cumplimiento.min !== ""
+  //       ? cumplimiento.min
+  //       : Math.min(...cumplimientosIndustria),
+  // };
 
-  let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
-    const cumplimientosPlantaIndustria = cumplimientos.cumplimiento;
-    return {
-      nombre: cumplimientos.nombre,
-      promedio:
-        cumplimiento.prom !== ""
-          ? cumplimiento.prom
-          : mean(cumplimientosPlantaIndustria),
-      ...(cumplimiento.q2 !== ""
-        ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
-        : iqrValues(cumplimientosPlantaIndustria)),
-      max:
-        cumplimiento.max !== ""
-          ? cumplimiento.max
-          : Math.max(...cumplimientosPlantaIndustria),
-      min:
-        cumplimiento.min !== ""
-          ? cumplimiento.min
-          : Math.min(...cumplimientosPlantaIndustria),
-    };
-  });
-
-  const datosPorLote = lotesEjercicio.map((l) => {
-    const filaLote = datosAlimentoLotesAsociados.find(
-      (f) => f[colLoteAlimento].toString() === l
-    );
-    const valuesLote = [
-      colAlimentoM1,
-      colAlimentoM2,
-      colAlimentoM3,
-      colAlimentoM4,
-    ].map(
-      (muestra) =>
-        (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
-    );
-    return {
-      nombre: l,
-      promedio: mean(valuesLote),
-      ...iqrValues(valuesLote),
-      max: Math.max(...valuesLote),
-      min: Math.min(...valuesLote),
-    };
-  });
-
-  const valores = [];
-  datosAlimentoLotesAsociados.forEach((filaLote) => {
-    const valuesLote = [
-      colAlimentoM1,
-      colAlimentoM2,
-      colAlimentoM3,
-      colAlimentoM4,
-    ].map(
-      (muestra) =>
-        (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
-    );
-    valores.push(...valuesLote);
-  });
-
-  const datosTodosLosLotes = {
-    nombre: "Grupo tratado",
-    promedio: mean(valores),
-    ...iqrValues(valores),
-    max: Math.max(...valores),
-    min: Math.min(...valores),
-  };
-
-  const datos = [...datosPlantaIndustria, datosEmpresa, datosTodosLosLotes]; //, ...datosPorLote];
+  const datos = [datosEmpresa, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
@@ -199,7 +152,8 @@ const GraficoCumplimiento = () => {
   return (
     <div className="GraficoCumplimiento">
       <p className="GraficoCumplimiento__titulo">
-        Cumplimiento (%) concentración en alimento (logrado / intentado)
+        Concentración (mg/kg) en alimento medicado según planta de alimento
+        correspondiente al lote utilizado en pisciculturas de origen
       </p>
       <div className="GraficoCumplimiento__contenedor_grafico">
         <p className="GraficoCumplimiento__etiqueta_eje_y">% de cumplimiento</p>
@@ -252,11 +206,6 @@ const GraficoCumplimiento = () => {
             </div>
           </div>
         ))}
-        <div className="GraficoCumplimiento__pie">
-          Concentración (mg/kg) en alimento medicado (según lote y planta de
-          alimento correspondiente) utilizado en pisciculturas de origen en
-          estanques destinados a centro de mar en seguimiento.
-        </div>
       </div>
     </div>
   );

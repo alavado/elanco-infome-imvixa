@@ -2,8 +2,10 @@ import React, { forwardRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   colEstanquePeces,
+  colInformePeces,
   colPisciculturaPeces,
   colSampleOrigin,
+  colUTAs,
   tipoSeaWater,
 } from "../../../../constants";
 import { onlyUnique } from "../../../../redux/ducks/utilities";
@@ -18,45 +20,21 @@ const TablaAntecedentes = () => {
     (state) => state.reporteCentro
   );
 
-  const datosSW = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater);
-  // ESTOY COMPLICADA PORQUE NOE STOY VIENDO TODAS LAS PISCICULTURAs
-  // QUEDE REVISANDO PORQUE NO AGARRA TRAFUN Y LOS RIOS
-  const datosPorPiscicultura = datosSW.reduce((acc, informe) => {
-    if (informe[colPisciculturaPeces] in acc) {
-      return {
-        ...acc,
-        [informe[colPisciculturaPeces]]: {
-          jaulas: [
-            ...acc[informe[colPisciculturaPeces]].jaulas,
-            informe[colEstanquePeces],
-          ].filter(onlyUnique),
-        },
-      };
-    } else {
-      return {
-        ...acc,
-        [informe[colPisciculturaPeces]]: {
-          jaulas: [informe[colEstanquePeces]],
-        },
-      };
-    }
-  }, {});
+  const datosAntecedentes = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater && o['fecha'].toString().startsWith(fecha.value));
 
   const [grupo, setGrupo] = useState(
-    Object.keys(datosPorPiscicultura).map((v) => "")
+    datosAntecedentes.map((v) => "")
   );
   const [fechas, setFechas] = useState(
-    Object.keys(datosPorPiscicultura).map((v) => "")
+    datosAntecedentes.map((v) => "")
   );
   const [utas, setUtas] = useState(
-    Object.keys(datosPorPiscicultura).map((v) => "")
+    datosAntecedentes.map((v) => "")
   );
-
-  console.log({ datosSW, datosPorPiscicultura, fecha });
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
-      value={value}
+      defaultValue={value}
       className="TablaAntecedentesCentro__button"
       onClick={onClick}
       ref={ref}
@@ -73,8 +51,8 @@ const TablaAntecedentes = () => {
       "Días cultivo al muestreo",
       "Utas al muestreo",
     ],
-    ...Object.keys(datosPorPiscicultura).map((piscicultura, i) => [
-      piscicultura,
+    ...datosAntecedentes.map((informe, i) => [
+      informe[colPisciculturaPeces],
       <input
         className="TablaAntecedentesCentro__input"
         style={{
@@ -88,7 +66,7 @@ const TablaAntecedentes = () => {
           setGrupo(copiaGrupo);
         }}
       />,
-      datosPorPiscicultura[piscicultura].jaulas.join(" - "),
+      informe[colEstanquePeces],
       <DatePicker
         locale="es"
         customInput={<ExampleCustomInput />}
@@ -103,24 +81,25 @@ const TablaAntecedentes = () => {
         className="FormParametros__datepicker"
       />,
       fechas[i] ? formatDistance(fechas[i], fechaVisita, {locale: es}) : "Sin información",
-      <input
-        className="TablaAntecedentesCentro__input"
-        style={{
-          backgroundColor:
-            utas[i] !== "" ? "transparent" : "var(--color-highlight)",
-        }}
-        value={utas[i]}
-        onChange={(e) => {
-          const copiaUtas = [...utas];
-          const valor = e.target.value.replace(/[^0-9]+/g, "");
-          if (valor !== "") {
-            copiaUtas[i] = parseInt(valor).toLocaleString("de-DE");
-          } else {
-            copiaUtas[i] = "";
-          }
-          setUtas(copiaUtas);
-        }}
-      />,
+      informe[colUTAs] ? informe[colUTAs].toLocaleString('de-DE') : "Sin información"
+      // <input
+      //   className="TablaAntecedentesCentro__input"
+      //   style={{
+      //     backgroundColor:
+      //       utas[i] !== "" ? "transparent" : "var(--color-highlight)",
+      //   }}
+      //   value={utas[i]}
+      //   onChange={(e) => {
+      //     const copiaUtas = [...utas];
+      //     const valor = e.target.value.replace(/[^0-9]+/g, "");
+      //     if (valor !== "") {
+      //       copiaUtas[i] = parseInt(valor).toLocaleString("de-DE");
+      //     } else {
+      //       copiaUtas[i] = "";
+      //     }
+      //     setUtas(copiaUtas);
+      //   }}
+      // />,
     ]),
   ];
 

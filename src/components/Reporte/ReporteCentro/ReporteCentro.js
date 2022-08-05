@@ -13,6 +13,7 @@ import Comentarios from "../Comentarios";
 import "./ReporteCentro.css";
 import TablaAntecedentes from "./TablaAntecedentes";
 import GraficoCumplimiento from "./GraficoCumplimiento";
+import GraficoComparacion from "./GraficoComparacion";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteCentro = () => {
@@ -63,6 +64,9 @@ const ReporteCentro = () => {
 						<div className="ReporteCentro__seccion_contenedor">
             <MensajeError>
               <GraficoCumplimiento />
+            </MensajeError>
+            <MensajeError>
+              <GraficoComparacion />
             </MensajeError>
 						</div>
           </div>
