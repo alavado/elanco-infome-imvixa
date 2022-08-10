@@ -2,13 +2,13 @@ import React, { forwardRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   colEstanquePeces,
+  colFechaTerminoTrat,
   colInformePeces,
   colPisciculturaPeces,
   colSampleOrigin,
   colUTAs,
   tipoSeaWater,
 } from "../../../../constants";
-import { onlyUnique } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
@@ -16,11 +16,11 @@ import { formatDistance } from 'date-fns'
 
 const TablaAntecedentes = () => {
   registerLocale("es", es);
-  const { datosPorInforme: datos, fecha } = useSelector(
+  const { datosPorInforme: datosAntecedentes, fecha } = useSelector(
     (state) => state.reporteCentro
   );
 
-  const datosAntecedentes = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater && o['fecha'].toString().startsWith(fecha.value));
+  // const datosAntecedentes = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater && o['fecha'].toString().startsWith(fecha.value));
 
   const [grupo, setGrupo] = useState(
     datosAntecedentes.map((v) => "")
@@ -28,9 +28,13 @@ const TablaAntecedentes = () => {
   const [fechas, setFechas] = useState(
     datosAntecedentes.map((v) => "")
   );
-  const [utas, setUtas] = useState(
-    datosAntecedentes.map((v) => "")
-  );
+  // const [utas, setUtas] = useState(
+  //   datosAntecedentes.map((v) => "")
+  // );
+
+  console.log({
+    datosAntecedentes
+  })
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
@@ -47,12 +51,14 @@ const TablaAntecedentes = () => {
       "Origen",
       "Grupo",
       "Jaulas muestreadas",
+      "Residencia en FW",
       "Fecha de traslado al mar",
       "Días cultivo al muestreo",
       "Utas al muestreo",
     ],
-    ...datosAntecedentes.map((informe, i) => [
-      informe[colPisciculturaPeces],
+    ...datosAntecedentes.map((informe, i) => {
+      return [
+        informe['pisciculturasOrigen'] && informe['pisciculturasOrigen'].length > 0 ? informe['pisciculturasOrigen'].join(' / ') : 'Sin información',
       <input
         className="TablaAntecedentesCentro__input"
         style={{
@@ -67,6 +73,7 @@ const TablaAntecedentes = () => {
         }}
       />,
       informe[colEstanquePeces],
+      fechas[i] && informe[colFechaTerminoTrat] ? formatDistance(fechas[i], informe[colFechaTerminoTrat], {locale: es}) : "Sin información",
       <DatePicker
         locale="es"
         customInput={<ExampleCustomInput />}
@@ -82,25 +89,7 @@ const TablaAntecedentes = () => {
       />,
       fechas[i] ? formatDistance(fechas[i], fechaVisita, {locale: es}) : "Sin información",
       informe[colUTAs] ? informe[colUTAs].toLocaleString('de-DE') : "Sin información"
-      // <input
-      //   className="TablaAntecedentesCentro__input"
-      //   style={{
-      //     backgroundColor:
-      //       utas[i] !== "" ? "transparent" : "var(--color-highlight)",
-      //   }}
-      //   value={utas[i]}
-      //   onChange={(e) => {
-      //     const copiaUtas = [...utas];
-      //     const valor = e.target.value.replace(/[^0-9]+/g, "");
-      //     if (valor !== "") {
-      //       copiaUtas[i] = parseInt(valor).toLocaleString("de-DE");
-      //     } else {
-      //       copiaUtas[i] = "";
-      //     }
-      //     setUtas(copiaUtas);
-      //   }}
-      // />,
-    ]),
+    ]}),
   ];
 
   // const filasColumna1 = [

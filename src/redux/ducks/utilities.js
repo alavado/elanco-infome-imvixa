@@ -117,7 +117,7 @@ export const selectMinMaxFecha = (listaCompleta) => {
 
 export const formatearFecha = (fecha) => {
   try {
-    if ((new Date(fecha) === "Invalid Date") && isNaN(new Date(fecha))) {
+    if ((new Date(fecha) === "Invalid Date") || isNaN(new Date(fecha))) {
       return fecha.toString()
     }
     return new Date(fecha).toISOString().substring(0, 10)

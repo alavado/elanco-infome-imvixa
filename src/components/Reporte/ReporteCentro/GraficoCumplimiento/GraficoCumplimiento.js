@@ -22,7 +22,6 @@ import "./GraficoCumplimiento.css";
 
 const GraficoCumplimiento = () => {
   const {
-    datosPorInforme,
     nombreEmpresa,
     lotesAsociados,
     plantasAsociadas,

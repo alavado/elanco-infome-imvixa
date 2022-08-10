@@ -14,6 +14,8 @@ import "./ReporteCentro.css";
 import TablaAntecedentes from "./TablaAntecedentes";
 import GraficoCumplimiento from "./GraficoCumplimiento";
 import GraficoComparacion from "./GraficoComparacion";
+import TablaMuestras from "./TablaMuestras";
+import CurvaPorUTAs from "./CurvaPorUTAs";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteCentro = () => {
@@ -61,14 +63,14 @@ const ReporteCentro = () => {
               I. Resumen de resultados obtenidos en alimento medicado y
               medicación de agua dulce
             </p>
-						<div className="ReporteCentro__seccion_contenedor">
-            <MensajeError>
-              <GraficoCumplimiento />
-            </MensajeError>
-            <MensajeError>
-              <GraficoComparacion />
-            </MensajeError>
-						</div>
+            <div className="ReporteCentro__seccion_contenedor">
+              <MensajeError>
+                <GraficoCumplimiento />
+              </MensajeError>
+              <MensajeError>
+                <GraficoComparacion />
+              </MensajeError>
+            </div>
           </div>
           <Sandalias pagina={1} />
         </div>
@@ -77,6 +79,17 @@ const ReporteCentro = () => {
           style={dimensionsPage}
         >
           <Encabezado />
+          <MensajeError>
+            <TablaMuestras />
+          </MensajeError>
+          <div className="ReporteCentro__seccion_contenedor">
+            <MensajeError>
+              <CurvaPorUTAs />
+            </MensajeError>
+            {/* <MensajeError>
+              <CurvaPorUTAs />
+            </MensajeError> */}
+          </div>
           <Comentarios
             agregarComentario={agregarComentarioCentro}
             comentarios={comentariosCentro}

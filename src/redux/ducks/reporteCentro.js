@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { mean, std } from "../../components/Reporte/utilitiesReporte";
 import { diasAtras, formatearFecha, onlyUnique } from "./utilities";
+import { min as minDate } from 'date-fns'
 import {
   colEmpresaTrat as colEmpresa,
   colDestinoTrat as colCentro,
   colFechaTrat as colFecha,
-	tipoSeaWater,
-	colSampleOrigin,
-	colSampleOriginTrat,
+  tipoSeaWater,
+  colSampleOrigin,
+  colSampleOriginTrat,
   colInformePeces,
   colInformePecesTrat,
   colInformePecesR,
@@ -30,27 +31,31 @@ import {
   colPisciculturaPeces,
   colFechaPeces,
   colUTAs,
+  tipoFreshWater,
 } from "../../constants";
 const slice = createSlice({
-	name: "reporteCentro",
-	initialState: {
-		nombreEmpresa: null,
-		centro: null,
-		fecha: null,
-		datosTratamiento: null,
-		datosAlimento: null,
-		datosPeces: null,
-		filtros: [],
+  name: "reporteCentro",
+  initialState: {
+    nombreEmpresa: null,
+    centro: null,
+    fecha: null,
+    datosTratamiento: null,
+    datosAlimento: null,
+    datosPeces: null,
+    filtros: [],
     procesando: false,
     datosSeleccionParametros: null,
     datosMuestrasSWFW: [],
     datosPorInforme: [],
     lotesAsociados: [],
+    informesSWFW: null,
+    informesSW: null,
+    informesFW: null,
     plantasAsociadas: [],
-    datosAlimentoLotesAsociados: []
-	},
-	reducers: {
-		guardarNombreEmpresa(state, action) {
+    datosAlimentoLotesAsociados: [],
+  },
+  reducers: {
+    guardarNombreEmpresa(state, action) {
       state.nombreEmpresa = action.payload;
       if (action.payload !== null) {
         if (!state.filtros.includes(colEmpresa)) {
@@ -78,186 +83,224 @@ const slice = createSlice({
         state.filtros = state.filtros.filter((v) => v !== colFecha);
       }
     },
-		cargarDatosCentro(state, action) {
+    cargarDatosCentro(state, action) {
       state.datosPeces = action.payload.datosPeces;
       state.datosAlimento = action.payload.datosAlimento;
-      state.datosTratamiento = action.payload.datosTratamiento
+      state.datosTratamiento = action.payload.datosTratamiento;
       state.datosSeleccionParametros = action.payload.datosTratamiento.filter(
         (fila) => fila[colSampleOriginTrat] === tipoSeaWater
       );
     },
-    procesarReporteCentro(state) { 
-      state.procesando = true
+    procesarReporteCentro(state) {
+      state.procesando = true;
       // Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
       const datosTratamientoDestino = state.datosTratamiento.filter(
-        (v) =>
-          v[colCentro] === state.centro.value
+        (v) => v[colCentro] === state.centro.value
       );
-      const datosEjercicio = datosTratamientoDestino.filter(
+
+      const informesTratamientoDestino = datosTratamientoDestino.map(
+        (f) => f[colInformePecesTrat] || f[colInformePecesRTrat]
+      );
+
+      // Primer Join Tratamiento-Peces incluye todos los potenciales cruces
+      const datosPecesTratamientoDestino = state.datosPeces.filter(
         (v) =>
+          informesTratamientoDestino.includes(v[colInformePeces]) ||
+          informesTratamientoDestino.includes(v[colInformePecesR])
+      );
+      // Ya filtre por centro, para asegurar filtro por empresa y fecha
+      const datosTratEjercicio = datosTratamientoDestino.filter(
+        (v) =>
+          v[colSampleOriginTrat] === tipoSeaWater &&
           v[colEmpresa] === state.nombreEmpresa.value &&
           v[colFecha].toString().startsWith(state.fecha.value)
       );
-      const informesEjercicio = datosEjercicio.map(f => f[colInformePecesTrat])
-      const reportesEjercicio = datosEjercicio.map(f => f[colInformePecesRTrat])
-      // Primer Join Tratamiento-Peces incluye ambos ID solo muestras en SW del día de visita
-      const datosPecesEjercicio = state.datosPeces.filter(
-        (v) =>
-        v[colSampleOriginTrat] === tipoSeaWater &&
-        (informesEjercicio.includes(v[colInformePeces]) ||
-        reportesEjercicio.includes(v[colInformePecesR]))
-      );
-      // Buscar pisciculturas de origen
-      const pisciculturasOrigen = datosPecesEjercicio.map(f => f[colPisciculturaPeces]).filter(onlyUnique)
-      // Buscar en peces de máximo un año antes de la fecha de visita en esa piscicultura
-      const diaVisita = new Date(state.fecha.value).addDays(1)
-      const unAñoDesdeVisita = diasAtras(diaVisita, 365)
 
-      // las muestras en FW y SW
-      const muestrasEjercicio = state.datosPeces.filter(
-        (f) => {
-          if (pisciculturasOrigen.includes(f[colPisciculturaPeces])) {
-            const fechaFila = new Date(f[colFechaPeces])
-            const estaEnPeriodo = fechaFila >= unAñoDesdeVisita && fechaFila <= diaVisita
-            if (estaEnPeriodo) {
-              const filaTratamiento = datosTratamientoDestino.find(fTrat => fTrat[colInformePecesTrat] === f[colInformePecesTrat] || fTrat[colInformePecesRTrat] === f[colInformePecesR])
-              return filaTratamiento && filaTratamiento[colDestinoTrat] === state.centro.value
+      // Buscar en peces de máximo un año antes de la fecha de visita en esa piscicultura
+      const diaVisita = new Date(state.fecha.value).addDays(1);
+      const unAñoDesdeVisita = diasAtras(diaVisita, 365);
+
+      const setInformesSWFW = new Set();
+      const setInformesFW = new Set();
+      const setInformesSW = new Set();
+
+      const newDatosPorInforme = datosTratEjercicio.map((datos) => {
+        // Filtro los que tienen mismo codigo de informe
+        const datosJoin = datosPecesTratamientoDestino.filter(
+          (v) =>
+            datos[colInformePecesTrat] === v[colInformePeces] ||
+            datos[colInformePecesRTrat] === v[colInformePecesR]
+        );
+        const hatcheries = datosJoin
+          .map((fila) => fila[colPisciculturaPeces])
+          .filter(v => v)
+          .filter(onlyUnique);
+        
+        // Filtro los que tienen el mismo origen y estan en el periodo
+        const datosFWSW = datosPecesTratamientoDestino.filter((fila) => {
+          if (hatcheries.includes(fila[colPisciculturaPeces])) {
+            const fechaFila = new Date(fila[colFechaPeces]);
+            const estaEnPeriodo =
+              fechaFila >= unAñoDesdeVisita && fechaFila <= diaVisita;
+            return estaEnPeriodo;
+          }
+          return false;
+        });
+        const informesFWSW = datosFWSW.map(
+          (fila) => fila[colInformePecesTrat] || fila[colInformePecesRTrat]
+        );
+        datosFWSW.forEach((fila) => {
+          if (fila[colSampleOrigin] === tipoFreshWater) {
+            setInformesFW.add(
+              fila[colInformePecesTrat] || fila[colInformePecesRTrat]
+            );
+          }
+          if (fila[colSampleOrigin] === tipoSeaWater) {
+            setInformesSW.add(
+              fila[colInformePecesTrat] || fila[colInformePecesRTrat]
+            );
+          }
+          setInformesSWFW.add(
+            fila[colInformePecesTrat] || fila[colInformePecesRTrat]
+          );
+        });
+        const datosTratFWSW = datosTratamientoDestino.filter(
+          (v) =>
+            informesFWSW.includes(v[colInformePeces]) ||
+            informesFWSW.includes(v[colInformePecesR])
+        );
+        const muestras = datosJoin.map((v) => v[colPPB]);
+        const prom = mean(muestras);
+        const cv = Math.round((std(muestras) / prom) * 10000) / 100;
+        const min = Math.min(...muestras);
+        const max = Math.max(...muestras);
+        const resultado =
+          prom >= state.umbral && cv <= 30
+            ? 2
+            : prom >= state.umbral && cv >= 30
+            ? 1
+            : 0;
+        while (muestras.length < 10) {
+          muestras.push("-");
+        }
+        // Elegir el tratamiento más antiguo
+        const fechasLastTrat = []
+        datosTratFWSW.forEach(fila => {
+          try {
+            const aDate = new Date(fila[colFechaTerminoTrat])
+            console.log({
+              aDate,
+              fecha: fila[colFechaTerminoTrat]
+            })
+            if ((aDate !== "Invalid Date") && !isNaN(aDate)) {
+              fechasLastTrat.push(aDate)
             }
           }
-          return false 
+          catch (e) {
+            console.log({
+              error: fechasLastTrat
+            })
+          }
         })
 
-      // Obtener el conjunto mínimo de informes de FW y SW
-      const paresInformeReportes = {}
-      const paresReportesInformes = {}
-      const informes = [
-        ...muestrasEjercicio.reduce(
-          (acc, current) => {
-            if (current[colInformePeces]) {
-              if (current[colInformePecesR]) {
-                paresInformeReportes[current[colInformePeces]] = current[colInformePecesR]
-                if (current[colInformePecesR] in paresReportesInformes) {
-                  paresReportesInformes[current[colInformePecesR]] = current[colInformePeces]
-                }
-              }
-              return acc.add(current[colInformePeces])
-            } 
-            if (current[colInformePecesR] && !(current[colInformePecesR] in paresReportesInformes)) {
-              paresReportesInformes[current[colInformePecesR]] = null
-            }
-            return acc
-          },
-          new Set()
-        ),
-      ];
-      // Si es que no hubiese elanco.id busco los reportes
-      const reportesSinInformes = Object.keys(paresReportesInformes).filter(k => paresReportesInformes[k])
-      const reportesEInformes = [
-        ...informes,
-        ...reportesSinInformes
-      ]
-     // Por cada informe FW filtro los datos de la BD Imvixa de ese informe
-     let datosPorInforme = [];
-     reportesEInformes.forEach((informe) => {
-       const datosEjercicioPorInforme = muestrasEjercicio.filter(
-         (fila) => fila[colInformePeces] === informe || fila[colInformePecesR] === informe
-       );
-       const muestras = datosEjercicioPorInforme.map((v) => v[colPPB]);
-       const prom = mean(muestras);
-       const cv = Math.round((std(muestras) / prom) * 10000) / 100;
-       const min = Math.min(...muestras);
-       const max = Math.max(...muestras);
-       const resultado =
-         prom >= state.umbral && cv <= 30
-           ? 2
-           : prom >= state.umbral && cv >= 30
-           ? 1
-           : 0;
-       while (muestras.length < 10) {
-         muestras.push("-");
-       }
-       
-       datosPorInforme.push({
-         [colInformePeces]: informe,
-         [colInformePecesR]: datosEjercicioPorInforme.find(f => f[colInformePecesR])[colInformePecesR],
-         [colEstanquePeces]: datosEjercicioPorInforme.find(f => f[colEstanquePeces])[colEstanquePeces],
-         [colPisciculturaPeces]: datosEjercicioPorInforme.find(f => f[colPisciculturaPeces])[colPisciculturaPeces],
-         fecha: datosEjercicioPorInforme[0][colFechaPeces],
-         muestras: muestras,
-         prom,
-         cv,
-         min,
-         max,
-         resultado,
-         pmv: null,
-         lotes: [],
-         alimento: [],
-         [colSampleOrigin]: datosEjercicioPorInforme[0][colSampleOrigin],
-       });
-     });
+        console.log({
+          fechasLastTrat
+        })
+        
+        return {
+          ...datos,
+          muestras,
+          prom,
+          cv,
+          min,
+          max,
+          resultado,
+          pmv: null,
+          lotes: [],
+          alimento: [],
+          // muestras de los informes especificos
+          datosMuestrasPeces: datosJoin,
+          pisciculturasOrigen: hatcheries,
+          datosFWSW,
+          datosTratFWSW,
+          [colFechaTerminoTrat]: fechasLastTrat.length === 0  ? undefined : minDate(fechasLastTrat),
+          [colEstanquePeces]: datosJoin[0][colEstanquePeces]
+        };
+      });
+      const lotesAsociados = new Set();
+      const plantasAsociadas = new Set();
+      const datosAlimentosAsociados = [];
 
-      const lotesAsociados = new Set()
-      const plantasAsociadas = new Set()
-      const datosAlimentosAsociados = []
-      datosPorInforme = datosPorInforme.map((datos) => {
-        const filaTratamiento = datosTratamientoDestino.find(
-          (v) =>
-          datos[colInformePeces] === v[colInformePecesTrat] ||
-          datos[colInformePeces] === v[colInformePecesRTrat]
-        );
-        const lotes = []
-        if (filaTratamiento) {
-          [colLote1Trat, colLote2Trat, colLote3Trat, colLote4Trat].forEach((v) => {
-            if (filaTratamiento[v]) {
-              lotes.push(filaTratamiento[v].toString());
+      // Filtro los informes de FW
+      datosTratamientoDestino
+        .filter((fila) =>
+          setInformesFW.has(
+            fila[colInformePecesTrat] || fila[colInformePecesRTrat]
+          )
+        )
+        .map((filaTratamiento) => {
+          const lotes = [];
+          [colLote1Trat, colLote2Trat, colLote3Trat, colLote4Trat].forEach(
+            (v) => {
+              if (filaTratamiento[v]) {
+                lotes.push(filaTratamiento[v].toString());
+              }
             }
-          });
-          // hacer join con alimento
-          const filasAlimento = state.datosAlimento.filter(
-            (fila) =>
-            (fila[colRecetaAlimento] &&  filaTratamiento[colPMVTrat] && fila[colRecetaAlimento].toString() === filaTratamiento[colPMVTrat].toString()) ||
-             (fila[colLoteAlimento] && lotes.includes(fila[colLoteAlimento].toString()))
           );
-          filasAlimento.forEach(v => {
+          // hacer join con alimento
+          const filasAlimento = state.datosAlimento.filter( 
+            (fila) =>
+              (fila[colRecetaAlimento] &&
+                filaTratamiento[colPMVTrat] &&
+                fila[colRecetaAlimento].toString() ===
+                  filaTratamiento[colPMVTrat].toString()) ||
+              (fila[colLoteAlimento] &&
+                lotes.includes(fila[colLoteAlimento].toString()))
+          )
+          filasAlimento.forEach((v) => {
             if (!lotesAsociados.has(v[colLoteAlimento].toString())) {
               datosAlimentosAsociados.push({
                 ...v,
                 [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat],
                 [colDestinoTrat]: filaTratamiento[colDestinoTrat],
-                [colFechaVeranoTrat]: formatearFecha(filaTratamiento[colFechaVeranoTrat]),
-                [colFechaInicioTrat]: formatearFecha(filaTratamiento[colFechaInicioTrat]),
-                [colFechaTerminoTrat]: formatearFecha(filaTratamiento[colFechaTerminoTrat]),
-              })
-              lotesAsociados.add(v[colLoteAlimento].toString())
+                [colFechaVeranoTrat]: formatearFecha(
+                  filaTratamiento[colFechaVeranoTrat]
+                ),
+                [colFechaInicioTrat]: formatearFecha(
+                  filaTratamiento[colFechaInicioTrat]
+                ),
+                [colFechaTerminoTrat]: formatearFecha(
+                  filaTratamiento[colFechaTerminoTrat]
+                ),
+              });
+              lotesAsociados.add(v[colLoteAlimento].toString());
             }
-            plantasAsociadas.add(v[colPlanta])
-          })
-          return {
-            ...datos,
-            pmv: filaTratamiento[colPMVTrat],
-            lotes: lotes,
-            alimento: filasAlimento,
-            [colUTAs]: filaTratamiento[colUTAs]
-          };
-        } else {
-          return datos
-        }
-      });
-      state.datosPorInforme = datosPorInforme
-      state.datosMuestrasSWFW = muestrasEjercicio
-      state.lotesAsociados = [...lotesAsociados]
-      state.plantasAsociadas = [...plantasAsociadas]
-      state.datosAlimentoLotesAsociados = datosAlimentosAsociados
-    }
-	}
-})
+            plantasAsociadas.add(v[colPlanta]);
+          });
+        })
+      const datosGeneralesPecesEjercicio = datosPecesTratamientoDestino.filter(
+        (fila) =>
+          setInformesSWFW.has(fila[colInformePeces]) ||
+          setInformesSWFW.has(fila[colInformePecesR])
+      );
+      state.informesSWFW = setInformesSWFW;
+      state.informesSW = setInformesSW;
+      state.informesFW = setInformesFW;
+      state.datosPorInforme = newDatosPorInforme;
+      state.datosMuestrasSWFW = datosGeneralesPecesEjercicio;
+      state.lotesAsociados = [...lotesAsociados];
+      state.plantasAsociadas = [...plantasAsociadas];
+      state.datosAlimentoLotesAsociados = datosAlimentosAsociados;
+    },
+  },
+});
 
 export const {
   guardarNombreEmpresa,
   guardarCentro,
   guardarFecha,
   cargarDatosCentro,
-  procesarReporteCentro
+  procesarReporteCentro,
 } = slice.actions;
 
 export default slice.reducer;

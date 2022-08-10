@@ -1,6 +1,6 @@
-import { min } from "lodash";
 import React from "react";
 import { useSelector } from "react-redux";
+import { min, compareAsc } from "date-fns";
 import {
   colEmpresaPeces,
   colEstanquePeces,
@@ -11,50 +11,63 @@ import {
   colPPB,
   colSampleOrigin,
   tipoFreshWater,
-  tipoSeaWater,
 } from "../../../../constants";
 import {
-  esMayorQueFecha,
-  esMenorQueFecha,
+  diasAtras,
   onlyUnique,
 } from "../../../../redux/ducks/utilities";
 import { iqrValues, iqrValuesFixed, mean } from "../../utilitiesReporte";
 import "./GraficoComparacion.css";
 
 const GraficoComparacion = () => {
-  const { datosPeces, datosPorInforme, fecha, nombreEmpresa } = useSelector(
-    (state) => state.reporteCentro
-  );
+  const {
+    datosMuestrasSWFW,
+    datosPeces,
+    datosPorInforme: datosEjercicio,
+    informesFW,
+    nombreEmpresa,
+  } = useSelector((state) => state.reporteCentro);
   const { concentracion } = useSelector((state) => state.reporte);
 
   // Obtener los datos historicos
-
-  const datosEjercicio = datosPorInforme.filter(
-    (datos) =>
-      datos[colSampleOrigin] === tipoSeaWater &&
-      datos["fecha"].toString().startsWith(fecha.value)
-  );
-
+  // const datosEjercicio = datosPorInforme.filter(
+  //   (datos) =>
+  //     datos[colSampleOrigin] === tipoSeaWater &&
+  //     datos["fecha"].toString().startsWith(fecha.value)
+  // );
   // Sacar todos los muestreos en el centro en cuestion
-  const informeOReportesEjercicio = datosPorInforme
-    .filter((datos) => datos[colSampleOrigin] === tipoSeaWater)
-    .map((v) => v[colInformePeces]);
+  // const informeOReportesEjercicio = datosPorInforme
+  //   .filter((datos) => datos[colSampleOrigin] === tipoSeaWater)
+  //   .map((v) => v[colInformePeces]);
 
   const comparacionEmpresa = [];
   const comparacionIndustria = [];
-
+  const minFechasPeces = min(
+    datosMuestrasSWFW.map((v) => new Date(v[colFechaPeces]))
+  );
+  const unAñoAtras = diasAtras(minFechasPeces, 366);
   datosPeces.forEach((fila) => {
+    // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
     if (
-      fila[colSampleOrigin] === tipoSeaWater &&
-      !informeOReportesEjercicio.includes(fila[colInformePeces]) &&
-      !informeOReportesEjercicio.includes(fila[colInformePecesR]) &&
+      fila[colSampleOrigin] === tipoFreshWater &&
+      fila[colFechaPeces] &&
+      !informesFW.has(fila[colInformePeces] || fila[colInformePecesR]) &&
       fila[colPPB]
     ) {
-      // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
-      if (fila[colEmpresaPeces] === nombreEmpresa.value) {
-        comparacionEmpresa.push(fila[colPPB] / 1000);
-      } else {
-        comparacionIndustria.push(fila[colPPB] / 1000);
+      try {
+        const thisDate = new Date(fila[colFechaPeces]);
+        if (
+          compareAsc(thisDate, unAñoAtras) &&
+          compareAsc(minFechasPeces, thisDate)
+        )
+          if (fila[colEmpresaPeces] === nombreEmpresa.value) {
+            
+            comparacionEmpresa.push(fila[colPPB] / 1000);
+          } else {
+            comparacionIndustria.push(fila[colPPB] / 1000);
+          }
+      } catch (error) {
+        console.log(error);
       }
     }
   });
@@ -79,7 +92,7 @@ const GraficoComparacion = () => {
     max:
       concentracion.max !== ""
         ? concentracion.max
-        : Math.min(12, Math.max(...comparacionIndustria)),
+        : Math.max(...comparacionIndustria),
     min:
       concentracion.min !== ""
         ? concentracion.min
@@ -89,19 +102,23 @@ const GraficoComparacion = () => {
   const datos = [datosIndustria, datosEmpresa];
   // Obtener datos de los centros de este ejercicio
   const pisciculturasOrigen = datosEjercicio
-    .map((f) => f[colPisciculturaPeces])
+    .map((f) => f["pisciculturasOrigen"])
+    .flat(1)
     .filter(onlyUnique);
 
   const datosPisciculturas = [];
   pisciculturasOrigen.map((piscicultura) => {
-    const muestrasPorPiscicultura = datosEjercicio.filter(
-      (fila) => fila[colPisciculturaPeces] === piscicultura
+    const muestrasPorPiscicultura = datosMuestrasSWFW.filter(
+      (fila) => fila[colPisciculturaPeces] === piscicultura && fila[colSampleOrigin] === tipoFreshWater
     );
     if (muestrasPorPiscicultura.length > 0) {
       const muestras = [];
-      muestrasPorPiscicultura.map((muestrasInforme) => {
-        muestras.push(...muestrasInforme.muestras.map((valor) => valor / 1000));
+      muestrasPorPiscicultura.forEach((muestrasInforme) => {
+        if (muestrasInforme[colPPB]) {
+          muestras.push(muestrasInforme[colPPB] / 1000);
+        }
       });
+
       datosPisciculturas.push({
         nombre: piscicultura,
         promedio: mean(muestras),
@@ -113,11 +130,12 @@ const GraficoComparacion = () => {
   });
 
   datosPisciculturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  datos.push(...datosPisciculturas)
+  datos.push(...datosPisciculturas);
 
   console.log({
     pisciculturasOrigen,
     datos,
+    concentracion
   });
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
