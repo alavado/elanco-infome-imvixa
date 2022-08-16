@@ -21,8 +21,8 @@
 }
 
 .GraficoComparacion__titulo::before {
-  width: 35.5px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   content: '';
   background: var(--color-amarillo);
   display: block;

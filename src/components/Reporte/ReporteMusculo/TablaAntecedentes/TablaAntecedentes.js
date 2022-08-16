@@ -11,12 +11,7 @@ const TablaAntecedentes = () => {
   const [estanques, setEstanques] = useState("")
   const [peces, setPeces] = useState("")
   const [alimento, setAlimento] = useState("")
-  console.log({
-    grupo,
-    estanques,
-    peces,
-    alimento
-  })
+
   const filasColumna1 = [
     ["PMV", datos.map(v => v[colRecetaAlimento]).filter(onlyUnique).join(' / ')],
     ["Grupo", (<input

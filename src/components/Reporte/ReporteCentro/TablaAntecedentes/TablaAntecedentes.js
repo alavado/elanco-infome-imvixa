@@ -32,10 +32,6 @@ const TablaAntecedentes = () => {
   //   datosAntecedentes.map((v) => "")
   // );
 
-  console.log({
-    datosAntecedentes
-  })
-
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
       defaultValue={value}

@@ -133,14 +133,7 @@ const GraficoCumplimiento = () => {
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
   // const yMin = Math.min(50, 10 * Math.floor(vMin / tick));
   const yMin = Math.min(50, parseInt(vMin / 10) * 10);
-  console.log({
-    datos,
-    vMax,
-    vMin,
-    tick,
-    yMax,
-    yMin,
-  });
+
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
       .fill(0)

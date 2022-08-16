@@ -117,8 +117,8 @@ const slice = createSlice({
       );
 
       // Buscar en peces de máximo un año antes de la fecha de visita en esa piscicultura
-      const diaVisita = new Date(state.fecha.value).addDays(1);
-      const unAñoDesdeVisita = diasAtras(diaVisita, 365);
+      const diaVisita = new Date(state.fecha.value).addDays(2);
+      const unAñoDesdeVisita = diasAtras(diaVisita, 367);
 
       const setInformesSWFW = new Set();
       const setInformesFW = new Set();
@@ -188,10 +188,6 @@ const slice = createSlice({
         datosTratFWSW.forEach(fila => {
           try {
             const aDate = new Date(fila[colFechaTerminoTrat])
-            console.log({
-              aDate,
-              fecha: fila[colFechaTerminoTrat]
-            })
             if ((aDate !== "Invalid Date") && !isNaN(aDate)) {
               fechasLastTrat.push(aDate)
             }

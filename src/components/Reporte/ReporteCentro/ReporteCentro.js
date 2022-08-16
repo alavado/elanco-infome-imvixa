@@ -16,6 +16,7 @@ import GraficoCumplimiento from "./GraficoCumplimiento";
 import GraficoComparacion from "./GraficoComparacion";
 import TablaMuestras from "./TablaMuestras";
 import CurvaPorUTAs from "./CurvaPorUTAs";
+import CurvaPorPeso from "./CurvaPorPeso";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteCentro = () => {
@@ -84,11 +85,11 @@ const ReporteCentro = () => {
           </MensajeError>
           <div className="ReporteCentro__seccion_contenedor">
             <MensajeError>
+              <CurvaPorPeso />
+            </MensajeError>
+            <MensajeError>
               <CurvaPorUTAs />
             </MensajeError>
-            {/* <MensajeError>
-              <CurvaPorUTAs />
-            </MensajeError> */}
           </div>
           <Comentarios
             agregarComentario={agregarComentarioCentro}

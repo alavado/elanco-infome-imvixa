@@ -132,12 +132,6 @@ const GraficoComparacion = () => {
   datosPisciculturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
   datos.push(...datosPisciculturas);
 
-  console.log({
-    pisciculturasOrigen,
-    datos,
-    concentracion
-  });
-
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
   const tick = vMax > 25 ? 5 : 2;

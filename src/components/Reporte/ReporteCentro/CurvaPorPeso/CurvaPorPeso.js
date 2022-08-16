@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Chart } from "react-chartjs-2";
-import "./CurvaPorUTAs.css";
+import "./CurvaPorPeso.css";
 import {
   colEstanquePeces,
   colFechaTrat,
@@ -21,6 +21,7 @@ import {
   colInformePecesR,
   colInformePecesRTrat,
   colInformePecesTrat,
+  colPeso2,
   colPPB,
   colSampleOriginTrat,
   colUTAs,
@@ -38,22 +39,14 @@ ChartJS.register(
   Legend
 );
 
-const CurvaPorUTAs = () => {
+const CurvaPorPeso = () => {
   const { datosPorInforme } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
-  let maxUTAS = 0;
   console.log({
     datosPorInforme,
   });
   const setXValues = new Set();
-
-  // window.addEventListener('beforeprint', () => {
-  //   myChart.resize(600, 600);
-  // });
-  // window.addEventListener('afterprint', () => {
-  //   myChart.resize();
-  // });
 
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
     if (informe[colUTAs] && !isNaN(informe[colUTAs])) {
@@ -62,32 +55,24 @@ const CurvaPorUTAs = () => {
       const yValues = [];
       const xValues = [];
       todosLosInformes.forEach((fila) => {
-        if (fila[colUTAs] && !isNaN(fila[colUTAs])) {
           const filasInforme = todasLasMuestras.filter(
             (v) =>
               v[colInformePeces] === fila[colInformePecesTrat] ||
               v[colInformePecesR] === fila[colInformePecesRTrat]
           );
-          if (
-            fila[colSampleOriginTrat] === tipoFreshWater ||
-            filasInforme[0][colEstanquePeces] === informe[colEstanquePeces]
-          ) {
-            setXValues.add(fila[colUTAs]);
-            maxUTAS = Math.max(maxUTAS, fila[colUTAs]);
-            yValues.push(...filasInforme.map((m) => m[colPPB]));
-            xValues.push(...filasInforme.map((v) => fila[colUTAs]));
-          }
-        } else {
-          allInfo = false;
-        }
+          if ((fila[colSampleOriginTrat] === tipoFreshWater) || (filasInforme[0][colEstanquePeces] === informe[colEstanquePeces])) {
+            yValues.push(...filasInforme.map((v) => v[colPPB]));
+            xValues.push(...filasInforme.map((v) => v[colPeso2]));
+          } 
       });
-
+      setXValues.add(Math.max(...xValues));
       return {
         label: `Jaula ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
         fill: false,
         borderColor: colorsScatter[i],
         backgroundColor: "transparent",
         pointRadius: 4,
+        pointBorderWidth: 2,
         data: yValues.map((yv, j) => {
           return {
             x: xValues[j],
@@ -103,7 +88,7 @@ const CurvaPorUTAs = () => {
   if (!allInfo) {
     return (
       <div className="CurvaPorUTAs">
-        <p className="CurvaPorUTAs__titulo">Curva de depleción según UTAS</p>
+        <p className="CurvaPorUTAs__titulo">Curva de depleción según peso</p>
         <div className="CurvaPorUTAs__contenedor_grafico">
           <div className="CurvaPorUTAs__contenedor_grafico__error">
             Sin datos disponibles en el periodo seleccionado
@@ -114,43 +99,34 @@ const CurvaPorUTAs = () => {
   }
 
   const minXAprox = 0;
-  const maxXAprox = Math.max(...setXValues) * 1.1;
-  const xGeneralValues = [minXAprox, maxXAprox];
+  const maxXAprox = Math.max(...setXValues) * 1.05;
+  const xMiddleValues = [...Array(40).keys()].map(v => minXAprox + (25 * v))
+  const xGeneralValues = [minXAprox,...xMiddleValues, maxXAprox];
   const coef = -0.001;
   // Inf
-  const aInf = 1512.2;
-  const twoPointsInf = xGeneralValues.map((x) => aInf * Math.exp(coef * x));
+  const aInf = 4 * Math.pow(10,6)
+  const coefInf = -1.47786927
+  const twoPointsInf = xGeneralValues.map((x) => aInf * Math.pow(x, coefInf));
   // Est
-  const aEst = 8228.1;
-  const twoPointsEst = xGeneralValues.map((x) => aEst * Math.exp(coef * x));
+  const aEst = 1 * Math.pow(10,7)
+  const coefEst = -1.4790
+  const twoPointsEst = xGeneralValues.map((x) => aEst * Math.pow(x, coefEst));
   // Sup
-  const aSup = 44769;
-  const twoPointsSup = xGeneralValues.map((x) => aSup * Math.exp(coef * x));
+  const aSup = 30656311.0721;
+  const coefSup = -1.4757
+  const twoPointsSup = xGeneralValues.map((x) => aSup * Math.pow(x, coefSup));
 
   const data = {
-    // labels: [minXAprox, maxXAprox],
+    labels: [...Array(40).keys()].map(x => x * 100),
     datasets: [
       {
         label: "Inf",
         showLine: true,
         fill: false,
-        // tension: 0.1,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
         borderDash: [10, 5],
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#5F7D8B",
-        // pointBackgroundColor: "#5F7D8B",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#5F7D8B",
-        // pointHoverBorderColor: "#5F7D8B",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 0,
         data: twoPointsInf.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -162,22 +138,9 @@ const CurvaPorUTAs = () => {
         label: "Est",
         showLine: true,
         fill: false,
-        // tension: 0.4,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#EF7B10",
-        // pointBackgroundColor: "#EF7B10",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#EF7B10",
-        // pointHoverBorderColor: "#EF7B10",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 1,
         data: twoPointsEst.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -189,23 +152,10 @@ const CurvaPorUTAs = () => {
         label: "Sup",
         fill: false,
         showLine: true,
-        // tension: 0.1,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
         borderDash: [10, 5],
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#EF7B10",
-        // pointBackgroundColor: "#EF7B10",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#EF7B10",
-        // pointHoverBorderColor: "#EF7B10",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 0,
         data: twoPointsSup.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -234,23 +184,12 @@ const CurvaPorUTAs = () => {
         },
       },
     },
-    // legend: {
-    //   display: false,
-    //   // labels: {
-    //   //   boxWidth: 14,
-    //   //   filter: function(item, chart) {
-    //   //     // Logic to remove a particular legend item goes here
-    //   //     console.log(item.text)
-    //   //     return !['Sup','Inf', 'Est'].includes(item.text);
-    //   // }
-    //   // },
-    // },
     scales: {
       x: {
         display: true,
         title: {
           display: true,
-          text: "Grados días",
+          text: "Peso (gr.)",
           font: {
             size: 16,
           },
@@ -263,7 +202,7 @@ const CurvaPorUTAs = () => {
         type: "logarithmic",
         title: {
           display: true,
-          text: "Concentración de activo en filete (ppb)",
+          text: "Concentración de Imvixa en músculo + piel (ppb)",
           font: {
             size: 16,
           },
@@ -274,13 +213,13 @@ const CurvaPorUTAs = () => {
     },
   };
   return (
-    <div className="CurvaPorUTAs" style={{ marginTop: 12, position: "relative", width: "40vw", height: "33vw" }}>
-      <p className="CurvaPorUTAs__titulo">Curva de depleción según UTAS</p>
-      <div className="CurvaPorUTAs__contenedor_grafico">
+    <div className="CurvaPorPeso" style={{ marginTop: 12, position: "relative", width: "40vw", height: "33vw" }}>
+      <p className="CurvaPorPeso__titulo">Curva de depleción según peso</p>
+      <div className="CurvaPorPeso__contenedor_grafico">
         <Chart type="scatter" data={data} options={options}/>
       </div>
     </div>
   );
 };
 
-export default CurvaPorUTAs;
+export default CurvaPorPeso;

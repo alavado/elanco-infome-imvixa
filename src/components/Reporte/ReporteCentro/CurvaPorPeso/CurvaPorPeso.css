@@ -1,11 +1,11 @@
-.CurvaPorUTAs {
+.CurvaPorPeso {
   display: flex;
   flex-direction: column;
   flex: 1;
   max-width: 80%;
 }
 
-.CurvaPorUTAs__titulo {
+.CurvaPorPeso__titulo {
   color: var(--color-gris-4);
   align-items: center;
   margin-bottom: 1rem;
@@ -17,7 +17,7 @@
   width: 100%;
 }
 
-.CurvaPorUTAs__titulo::before {
+.CurvaPorPeso__titulo::before {
   width: 1.5rem;
   height: 2rem;
   content: '';
@@ -26,13 +26,13 @@
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
-.CurvaPorUTAs__contenedor_grafico {
+.CurvaPorPeso__contenedor_grafico {
   display: flex;
   flex: 1;
   max-height: 85%;
 }
 
-.CurvaPorUTAs__contenedor_grafico__error {
+.CurvaPorPeso__contenedor_grafico__error {
   color: var(--color-gris-4);
 }
 
