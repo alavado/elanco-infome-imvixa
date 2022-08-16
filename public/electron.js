@@ -49,6 +49,18 @@ let numeroDeLotes; // El reporte de alimento imprime una página por lote
 let nombreEmpresa;
 let numeroDePaginas;
 let lotes;
+let configFile = null
+let appUserDataPath = app.getPath('userData');
+const configRootPath = path.join(appUserDataPath, 'config.json');
+
+console.log({appUserDataPath});
+
+try {
+  configFile = JSON.parse(fs.readFileSync(configRootPath, 'utf-8'));
+  console.log({configFile, configRootPath});
+} catch (e) {
+  console.error(e);
+}
 
 function construirMenu() {
   const menu = new Menu();
@@ -360,6 +372,21 @@ ipcMain.on("leer", async (event, state) => {
     });
     console.log("err", err);
   }
+});
+
+// Manejar configuracion de gráficos de reporte centro
+
+ipcMain.on("cargarConfiguracionGraficos", async (event) => {
+  mainWindow.webContents.send("cargarConfiguracionGraficos", configFile);
+});
+
+ipcMain.on("guardarConfiguracionGraficos", async (event, data) => {
+  const newConfigJSON = {
+    defaultGraficoUtas: data.graficoUTAs,
+    defaultGraficoPeso: data.graficoPeso
+  }
+  // guardar objeto de configuracion
+  fs.writeFileSync(configRootPath, JSON.stringify(newConfigJSON))
 });
 
 autoUpdater.on("checking-for-update", () => {

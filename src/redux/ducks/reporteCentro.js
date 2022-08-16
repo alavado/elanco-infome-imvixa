@@ -33,6 +33,23 @@ import {
   colUTAs,
   tipoFreshWater,
 } from "../../constants";
+
+let defaultGraficoUtas = {
+  coef: -0.001,
+  aInf: 1512.2,
+  aEst: 8228.1,
+  aSup: 44769
+}
+
+let defaultGraficoPeso = {
+  coefInf: -1.47786927,
+  aInf: 4 * Math.pow(10,6),
+  coefEst: -1.4790,
+  aEst: 1 * Math.pow(10,7),
+  coefSup: -1.4757,
+  aSup: 30656311.0721
+}
+
 const slice = createSlice({
   name: "reporteCentro",
   initialState: {
@@ -53,6 +70,9 @@ const slice = createSlice({
     informesFW: null,
     plantasAsociadas: [],
     datosAlimentoLotesAsociados: [],
+    parametrosGraficoUTAs: defaultGraficoUtas,
+    parametrosGraficoPeso: defaultGraficoPeso,
+    mostrandoModalConf: false,
   },
   reducers: {
     guardarNombreEmpresa(state, action) {
@@ -288,6 +308,13 @@ const slice = createSlice({
       state.plantasAsociadas = [...plantasAsociadas];
       state.datosAlimentoLotesAsociados = datosAlimentosAsociados;
     },
+    cargarConfigGraficos(state, action) {
+      state.parametrosGraficoUTAs = action.payload.defaultGraficoUtas
+      state.parametrosGraficoPeso = action.payload.defaultGraficoPeso
+    },
+    toggleModal(state) {
+      state.mostrandoModalConf = !state.mostrandoModalConf
+    }
   },
 });
 
@@ -297,6 +324,8 @@ export const {
   guardarFecha,
   cargarDatosCentro,
   procesarReporteCentro,
+  cargarConfigGraficos,
+  toggleModal
 } = slice.actions;
 
 export default slice.reducer;

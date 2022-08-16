@@ -11,12 +11,10 @@ import {
   Legend,
   LogarithmicScale,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
 import { Chart } from "react-chartjs-2";
 import "./CurvaPorUTAs.css";
 import {
   colEstanquePeces,
-  colFechaTrat,
   colInformePeces,
   colInformePecesR,
   colInformePecesRTrat,
@@ -39,7 +37,7 @@ ChartJS.register(
 );
 
 const CurvaPorUTAs = () => {
-  const { datosPorInforme } = useSelector((state) => state.reporteCentro);
+  const { datosPorInforme, parametrosGraficoUTAs } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   let maxUTAS = 0;
@@ -116,15 +114,12 @@ const CurvaPorUTAs = () => {
   const minXAprox = 0;
   const maxXAprox = Math.max(...setXValues) * 1.1;
   const xGeneralValues = [minXAprox, maxXAprox];
-  const coef = -0.001;
+  const {aInf, aEst, aSup, coef} = parametrosGraficoUTAs
   // Inf
-  const aInf = 1512.2;
   const twoPointsInf = xGeneralValues.map((x) => aInf * Math.exp(coef * x));
   // Est
-  const aEst = 8228.1;
   const twoPointsEst = xGeneralValues.map((x) => aEst * Math.exp(coef * x));
   // Sup
-  const aSup = 44769;
   const twoPointsSup = xGeneralValues.map((x) => aSup * Math.exp(coef * x));
 
   const data = {

@@ -5,7 +5,7 @@ import {
   eliminarComentarioCentro,
 } from "../../../redux/ducks/comentarios";
 import MensajeError from "../../MensajeError";
-import Sandalias from "../Sandalias";
+import Sandalias from "./Sandalias";
 import Encabezado from "../Encabezado";
 import DatosEmpresa from "../DatosEmpresa";
 import CuadroResumen from "./CuadroResumen";

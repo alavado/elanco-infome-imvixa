@@ -40,7 +40,7 @@ ChartJS.register(
 );
 
 const CurvaPorPeso = () => {
-  const { datosPorInforme } = useSelector((state) => state.reporteCentro);
+  const { datosPorInforme, parametrosGraficoPeso } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   console.log({
@@ -102,18 +102,12 @@ const CurvaPorPeso = () => {
   const maxXAprox = Math.max(...setXValues) * 1.05;
   const xMiddleValues = [...Array(40).keys()].map(v => minXAprox + (25 * v))
   const xGeneralValues = [minXAprox,...xMiddleValues, maxXAprox];
-  const coef = -0.001;
+  const {aInf, coefInf, aEst, coefEst, aSup, coefSup} = parametrosGraficoPeso
   // Inf
-  const aInf = 4 * Math.pow(10,6)
-  const coefInf = -1.47786927
   const twoPointsInf = xGeneralValues.map((x) => aInf * Math.pow(x, coefInf));
   // Est
-  const aEst = 1 * Math.pow(10,7)
-  const coefEst = -1.4790
   const twoPointsEst = xGeneralValues.map((x) => aEst * Math.pow(x, coefEst));
   // Sup
-  const aSup = 30656311.0721;
-  const coefSup = -1.4757
   const twoPointsSup = xGeneralValues.map((x) => aSup * Math.pow(x, coefSup));
 
   const data = {

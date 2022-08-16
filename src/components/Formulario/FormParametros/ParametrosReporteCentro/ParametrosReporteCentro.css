@@ -1,0 +1,33 @@
+.FormParametros__action {
+	display: flex;
+	justify-content: flex-end;
+	height: 1.5rem;
+}
+
+.FormParametros__boton_config {
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  background: none;
+  border-radius: 9in;
+  border: none;
+  color: var(--color-f);
+}
+
+.FormParametros__boton_config:hover {
+	font-size: 1.25rem;
+	border: none;
+	outline: none;
+	filter: brightness(115%);
+}
+
+.FormParametros__boton_config:focus {
+	border: none;
+	outline: none;
+}
+.FormParametros__boton_config:active {
+	border: none;
+	outline: none;
+}
