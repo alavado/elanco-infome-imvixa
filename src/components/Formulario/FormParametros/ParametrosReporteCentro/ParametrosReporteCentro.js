@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { registerLocale } from "react-datepicker";
@@ -40,25 +40,12 @@ const ParametrosReporteCentro = () => {
     parametrosGraficoPeso,
     parametrosGraficoUTAs
   } = useSelector((state) => state.reporteCentro);
+  
 
   const [graficoUTAs, setGraficoUTAs] = useState(parametrosGraficoUTAs)
   const [graficoPeso, setGraficoPeso] = useState(parametrosGraficoPeso)
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    ipcRenderer.send("cargarConfiguracionGraficos");
-    ipcRenderer.once("cargarConfiguracionGraficos", async (e, data) => {
-      if (data !== null) {
-        // cargar config graficos en state
-        console.log("SI HAY ARCHIVO")
-        console.log({data})
-        dispatch(cargarConfigGraficos(data));
-      } else {
-        console.log("NO HAY ARCHIVO")
-      }
-    });
-  }, []);
 
   const closeModal = () => {
     dispatch(toggleModal());
