@@ -202,7 +202,7 @@ const ParametrosReporteCentro = () => {
               primary: "#2f4269",
             },
           })}
-          placeholder="Seleccione piscicultura"
+          placeholder="Seleccione centro"
           styles={{
             // Fixes the overlapping problem of the component
             menu: (provided) => ({ ...provided, zIndex: 3 }),

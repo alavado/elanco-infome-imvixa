@@ -258,7 +258,7 @@ const CurvaPorUTAs = () => {
         type: "logarithmic",
         title: {
           display: true,
-          text: "Concentración de activo en filete (ppb)",
+          text: "Concentración de Imvixa en músculo + piel (ppb)",
           font: {
             size: 16,
           },
