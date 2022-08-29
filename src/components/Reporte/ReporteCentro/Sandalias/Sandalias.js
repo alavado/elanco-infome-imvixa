@@ -7,7 +7,7 @@ const Sandalias = ({ pagina }) => {
 
   const { comentariosCentro } = useSelector(state => state.comentarios)
   const nPalabras = comentariosCentro.reduce((acc, curr) => acc + curr.length, 0)
-  const hayComentarios = nPalabras > 900
+  const hayComentarios = (nPalabras > 900 || comentariosCentro.length > 3)
   console.log({nPalabras})
   return (
     <div className="Sandalias">

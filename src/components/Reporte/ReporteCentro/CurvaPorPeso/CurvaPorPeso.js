@@ -10,8 +10,9 @@ import {
   Tooltip,
   Legend,
   LogarithmicScale,
+  LineController,
+  ScatterController
 } from "chart.js";
-import { Line } from "react-chartjs-2";
 import { Chart } from "react-chartjs-2";
 import "./CurvaPorPeso.css";
 import {
@@ -36,7 +37,9 @@ ChartJS.register(
   LogarithmicScale,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  ScatterController
 );
 
 const CurvaPorPeso = () => {
