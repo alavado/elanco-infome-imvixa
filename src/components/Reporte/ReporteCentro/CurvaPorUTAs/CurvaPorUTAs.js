@@ -37,7 +37,7 @@ ChartJS.register(
 );
 
 const CurvaPorUTAs = () => {
-  const { datosPorInforme, parametrosGraficoUTAs } = useSelector((state) => state.reporteCentro);
+  const { datosPorInforme, parametrosGraficoUTAs, parametrosGraficoPeso } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   let maxUTAS = 0;
@@ -45,14 +45,7 @@ const CurvaPorUTAs = () => {
     datosPorInforme,
   });
   const setXValues = new Set();
-
-  // window.addEventListener('beforeprint', () => {
-  //   myChart.resize(600, 600);
-  // });
-  // window.addEventListener('afterprint', () => {
-  //   myChart.resize();
-  // });
-
+  const setYValues = new Set();
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
     if (informe[colUTAs] && !isNaN(informe[colUTAs])) {
       const todosLosInformes = informe["datosTratFWSW"];
@@ -71,6 +64,8 @@ const CurvaPorUTAs = () => {
             filasInforme[0][colEstanquePeces] === informe[colEstanquePeces]
           ) {
             setXValues.add(fila[colUTAs]);
+            
+
             maxUTAS = Math.max(maxUTAS, fila[colUTAs]);
             yValues.push(...filasInforme.map((m) => m[colPPB]));
             xValues.push(...filasInforme.map((v) => fila[colUTAs]));
@@ -80,11 +75,14 @@ const CurvaPorUTAs = () => {
         }
       });
 
+      setYValues.add(Math.max(...yValues))
+
       return {
         label: `Jaula ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
         fill: false,
         borderColor: colorsScatter[i],
         backgroundColor: "transparent",
+        pointBorderWidth: 2,
         pointRadius: 4,
         data: yValues.map((yv, j) => {
           return {
@@ -122,6 +120,11 @@ const CurvaPorUTAs = () => {
   // Sup
   const twoPointsSup = xGeneralValues.map((x) => aSup * Math.exp(coef * x));
 
+  // Grafico Peso
+  const {aSup: aSupPeso, coefSup} = parametrosGraficoPeso
+  const SupPeso = aSupPeso * Math.pow(25, coefSup)
+  const maxGrafico = Math.max(SupPeso,twoPointsSup[0], ...setYValues);
+
   const data = {
     // labels: [minXAprox, maxXAprox],
     datasets: [
@@ -129,23 +132,10 @@ const CurvaPorUTAs = () => {
         label: "Inf",
         showLine: true,
         fill: false,
-        // tension: 0.1,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
         borderDash: [10, 5],
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#5F7D8B",
-        // pointBackgroundColor: "#5F7D8B",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#5F7D8B",
-        // pointHoverBorderColor: "#5F7D8B",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 0,
         data: twoPointsInf.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -157,22 +147,9 @@ const CurvaPorUTAs = () => {
         label: "Est",
         showLine: true,
         fill: false,
-        // tension: 0.4,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#EF7B10",
-        // pointBackgroundColor: "#EF7B10",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#EF7B10",
-        // pointHoverBorderColor: "#EF7B10",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 1,
         data: twoPointsEst.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -184,23 +161,10 @@ const CurvaPorUTAs = () => {
         label: "Sup",
         fill: false,
         showLine: true,
-        // tension: 0.1,
         backgroundColor: "#5F7D8B",
         borderColor: "#5F7D8B",
         borderDash: [10, 5],
-        // borderCapStyle: "butt",
-        // borderDash: [],
-        // borderDashOffset: 0.0,
-        // borderJoinStyle: "miter",
-        // pointBorderColor: "#EF7B10",
-        // pointBackgroundColor: "#EF7B10",
-        // pointBorderWidth: 1,
-        // pointHoverRadius: 5,
-        // pointHoverBackgroundColor: "#EF7B10",
-        // pointHoverBorderColor: "#EF7B10",
-        // pointHoverBorderWidth: 2,
         pointRadius: 0,
-        // pointHitRadius: 0,
         data: twoPointsSup.map((v, i) => {
           return {
             x: xGeneralValues[i],
@@ -229,17 +193,6 @@ const CurvaPorUTAs = () => {
         },
       },
     },
-    // legend: {
-    //   display: false,
-    //   // labels: {
-    //   //   boxWidth: 14,
-    //   //   filter: function(item, chart) {
-    //   //     // Logic to remove a particular legend item goes here
-    //   //     console.log(item.text)
-    //   //     return !['Sup','Inf', 'Est'].includes(item.text);
-    //   // }
-    //   // },
-    // },
     scales: {
       x: {
         display: true,
@@ -264,7 +217,7 @@ const CurvaPorUTAs = () => {
           },
         },
         suggestedMin: 0,
-        suggestedMax: 100000,
+        suggestedMax: maxGrafico,
       },
     },
   };

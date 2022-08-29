@@ -40,13 +40,14 @@ ChartJS.register(
 );
 
 const CurvaPorPeso = () => {
-  const { datosPorInforme, parametrosGraficoPeso } = useSelector((state) => state.reporteCentro);
+  const { datosPorInforme, parametrosGraficoPeso, parametrosGraficoUTAs } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   console.log({
     datosPorInforme,
   });
   const setXValues = new Set();
+  const setYValues = new Set();
 
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
     if (informe[colUTAs] && !isNaN(informe[colUTAs])) {
@@ -66,6 +67,7 @@ const CurvaPorPeso = () => {
           } 
       });
       setXValues.add(Math.max(...xValues));
+      setYValues.add(Math.max(...yValues));
       return {
         label: `Jaula ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
         fill: false,
@@ -109,6 +111,11 @@ const CurvaPorPeso = () => {
   const twoPointsEst = xGeneralValues.map((x) => aEst * Math.pow(x, coefEst));
   // Sup
   const twoPointsSup = xGeneralValues.map((x) => aSup * Math.pow(x, coefSup));
+  // Grafico UTA
+  const {aSup: aSupUta, coef} = parametrosGraficoUTAs
+  // Sup
+  const SupUTA =  aSupUta * Math.exp(coef * 25);
+  const maxGrafico = Math.max(SupUTA, twoPointsSup[0], ...setYValues);
 
   const data = {
     labels: [...Array(40).keys()].map(x => x * 100),
@@ -202,7 +209,7 @@ const CurvaPorPeso = () => {
           },
         },
         suggestedMin: 0,
-        suggestedMax: 100000,
+        suggestedMax: maxGrafico,
       },
     },
   };
