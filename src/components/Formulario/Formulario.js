@@ -31,7 +31,7 @@ import {
 } from "../../redux/ducks/comentarios"
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
-import { colCumplimiento, colLoteAlimento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
+import { colCumplimiento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const Formulario = () => {
     datosPeces,
     datosEficacia,
     datosTratamiento,
+    datosPecesTratados
   } = useSelector((state) => state.parametrosGenerales);
   const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
     (state) => state.reporte
@@ -250,7 +251,7 @@ const Formulario = () => {
                     datosAlimento,
                     datosPeces,
                     datosEficacia,
-                    datosTratamiento,
+                    datosPecesTratados
                   })
                 );
               }

@@ -34,35 +34,37 @@ const TablaResumen = () => {
     nombreEmpresa, 
     datosFiltradosAlimento,
     datosFiltradosPeces,
-    datosFiltradosTratamiento
+    datosFiltradosPecesTratados,
+    fechaFinal
   } = useSelector(state => state.reporte)
-
-  const esteAño = new Date().getFullYear()
+  const esteAño = new Date(fechaFinal).getFullYear()
   const añoPasado = esteAño - 1
   const años = [añoPasado, esteAño]
+
   // Separar datos por año
   const datosAñoPasado = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
-    pmv: datosFiltradosTratamiento.filter(obj => esAño(obj[colFechaPMV], añoPasado))
+    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado))
   }
   const datosAñoActual = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
-    pmv: datosFiltradosTratamiento.filter(obj => esAño(obj[colFechaPMV], esteAño))
+    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
+
   // Calcular valores de cada fila
   const filas = [
     [
       'N° visitas piscicultura', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
-      .map(row => row[colFechaPeces].toLocaleDateString())
+      .map(row => row[colFechaPeces].substring(0, 10))
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
-      .map(row => row[colFechaPeces].toLocaleDateString())
+      .map(row => row[colFechaPeces].substring(0, 10))
       .filter(onlyUnique)
       .length, 
     ],
@@ -70,12 +72,12 @@ const TablaResumen = () => {
       'N° visitas a centros de mar', 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
-      .map(row => row[colFechaPeces].toLocaleDateString())
+      .map(row => row[colFechaPeces].substring(0, 10))
       .filter(onlyUnique)
       .length, 
       datosAñoActual.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
-      .map(row => row[colFechaPeces].toLocaleDateString())
+      .map(row => row[colFechaPeces].substring(0, 10))
       .filter(onlyUnique)
       .length, 
     ],

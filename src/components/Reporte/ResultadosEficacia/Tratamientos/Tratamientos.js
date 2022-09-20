@@ -33,12 +33,17 @@ const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
 }
 
 const Tratamientos = () => {
-
   const {
     datosFiltradosEficacia,
     datosFiltradosIndustriaEficacia,
     fechaFinal
   } = useSelector((state) => state.reporte)
+
+  console.log({
+    datosFiltradosEficacia,
+    datosFiltradosIndustriaEficacia,
+    fechaFinal
+  })
 
   // ultimos 18 meses (3 semestres)
   const datosEmpresa = extraerUltimosPeriodos(
@@ -54,17 +59,17 @@ const Tratamientos = () => {
       datosFiltradosIndustriaEficacia, 
       colFechaEficacia, 
       fechaFinal,
-      3).filter(obj => obj[colHexaEficacia] !== 'Si' && obj[colEficaciaEficacia])
+      3).filter(obj => !obj[colHexaEficacia] && obj[colEficaciaEficacia])
 
   const promedioIndustria = getEficacia(datosIndustria, 1)
 
   // filtro los datos empresa los que no han usado alfaflux
-  const datosImvixaEmpresa = datosEmpresa.filter(obj => obj[colHexaEficacia] !== 'Si')
+  const datosImvixaEmpresa = datosEmpresa.filter(obj => !obj[colHexaEficacia])
   // Para calcular el promedio filtro los datos que tienen reportada eficacia
   const promedioEmpresa = getEficacia(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), 1)
   
   // Agrupo los datos por centro de mar
-  const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia] === 'Si'), colCentroEficacia)
+  const datosConHex = groupBy(datosEmpresa.filter(obj => obj[colHexaEficacia]), colCentroEficacia)
   const datosSinHex = groupBy(datosImvixaEmpresa.filter(obj => obj[colEficaciaEficacia]), colCentroEficacia)
   const datosSinEficacia = groupBy(datosImvixaEmpresa.filter(obj => !obj[colEficaciaEficacia]), colCentroEficacia)
   const datos = [
@@ -74,20 +79,20 @@ const Tratamientos = () => {
         valor: getEficacia(datosSinHex[nombre], 1),
         tratamiento: TRATAMIENTOS_IMVIXA
       }
-    }),
+    }).sort((a, b) => a.nombre.localeCompare(b.nombre)),
     ...Object.keys(datosConHex).map(nombre => {
       return {
         nombre,
         valor: getEficacia(datosConHex[nombre], 1),
         tratamiento: TRATAMIENTOS_HEXAFLUMURON
       }
-    }),
+    }).sort((a, b) => a.nombre.localeCompare(b.nombre)),
     ...Object.keys(datosSinEficacia).map(nombre => {
       return {
         nombre,
         valor: getEficaciaSegunFecha(datosSinEficacia[nombre], fechaFinal, 1),
       }
-    }),
+    }).sort((a, b) => a.nombre.localeCompare(b.nombre)) ,
   ]
 
   if (datos.length === 0) {

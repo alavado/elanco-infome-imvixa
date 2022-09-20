@@ -27,11 +27,9 @@ const App = () => {
     ipcRenderer.on("cargarConfiguracionGraficos", async (e, data) => {
       if (data !== null) {
         // cargar config graficos en state
-        console.log("SI HAY ARCHIVO de configuración de graficos")
-        console.log({data})
         dispatch(cargarConfigGraficos(data));
       } else {
-        console.log("NO HAY ARCHIVO")
+        console.log("NO HAY ARCHIVO DE CONF")
       }
     });
   }, []);

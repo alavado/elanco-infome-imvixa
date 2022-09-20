@@ -46,9 +46,6 @@ const CurvaPorPeso = () => {
   const { datosPorInforme, parametrosGraficoPeso, parametrosGraficoUTAs } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
-  console.log({
-    datosPorInforme,
-  });
   const setXValues = new Set();
   const setYValues = new Set();
 

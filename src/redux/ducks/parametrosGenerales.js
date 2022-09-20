@@ -14,7 +14,7 @@ const slice = createSlice({
     },
     pasoActual: 0,
     planillaAlimento: "",
-    planillaTratamiento: "",
+    planillaPecesTratados: "",
     planillaPeces: "",
     planillaEficacia: "",
     empresas: [],
@@ -25,6 +25,7 @@ const slice = createSlice({
     datosPeces: null,
     datosTratamiento: null,
     datosEficacia: null,
+    datosPecesTratados: null,
     reporte: null,
   },
   reducers: {
@@ -79,16 +80,16 @@ const slice = createSlice({
       ];
       if (
         state.planillaEficacia !== "" &&
-        state.planillaPeces !== ""
-        // state.planillaTratamiento !== ""
+        state.planillaPeces !== "" &&
+        state.planillaPecesTratados !== ""
       ) {
         state.todasLasPlanillas = true;
       }
       state.errorFormulario = null;
     },
-    guardarPlanillaTratamiento(state, action) {
-      state.planillaTratamiento = action.payload.path;
-      state.datosTratamiento = action.payload.datos;
+    guardarPlanillaPecesTratados(state, action) {
+      state.planillaPecesTratados = action.payload.path;
+      state.datosPecesTratados = action.payload.datos;
       if (
         state.planillaEficacia !== "" &&
         state.planillaAlimento !== "" &&
@@ -118,8 +119,8 @@ const slice = createSlice({
       state.datosPeces = datosPeces;
       if (
         state.planillaEficacia !== "" &&
-        state.planillaAlimento !== ""
-        // state.planillaTratamiento !== ""
+        state.planillaAlimento !== "" &&
+        state.planillaPecesTratados !== ""
         ) {
           state.todasLasPlanillas = true;
         }
@@ -130,8 +131,8 @@ const slice = createSlice({
       state.datosEficacia = action.payload.datos;
       if (
         state.planillaPeces !== "" &&
-        state.planillaAlimento !== ""
-        // state.planillaTratamiento !== ""
+        state.planillaAlimento !== "" &&
+        state.planillaPecesTratados !== ""
       ) {
         state.todasLasPlanillas = true;
       }
@@ -150,15 +151,15 @@ const slice = createSlice({
       };
       localStorage.removeItem("planillaAlimento");
     },
-    limpiarFormularioTratamiento(state, action) {
+    limpiarFormularioPecesTratados(state, action) {
       state.todasLasPlanillas = false;
-      state.planillaTratamiento = "";
-      state.datosTratamiento = [];
+      state.planillaPecesTratados = "";
+      state.datosPecesTratados = [];
       state.validando = {
         ...state.validando,
         tratamiento: false,
       };
-      localStorage.removeItem("planillaTratamiento");
+      localStorage.removeItem("planillaPecesTratados");
     },
     limpiarFormularioPeces(state, action) {
       state.todasLasPlanillas = false;
@@ -191,12 +192,12 @@ const slice = createSlice({
 export const {
   estaValidando,
   guardarPlanillaAlimento,
-  guardarPlanillaTratamiento,
+  guardarPlanillaPecesTratados,
   guardarPlanillaPeces,
   guardarPlanillaEficacia,
   mostrarErrorFormulario,
   limpiarFormularioAlimento,
-  limpiarFormularioTratamiento,
+  limpiarFormularioPecesTratados,
   limpiarFormularioPeces,
   limpiarFormularioEficacia,
   pasoSiguiente,

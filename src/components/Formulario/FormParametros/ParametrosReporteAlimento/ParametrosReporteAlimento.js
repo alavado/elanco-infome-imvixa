@@ -29,13 +29,7 @@ const ParametrosReporteAlimento = () => {
     filtros,
     lotesSeleccionados,
   } = useSelector((state) => state.reporteAlimento);
-  console.log({
-    nombreEmpresa,
-    fecha,
-    pmv,
-    lotesSeleccionados,
-    filtros
-  })
+
   const dispatch = useDispatch();
   const empresas = useMemo(
     () =>

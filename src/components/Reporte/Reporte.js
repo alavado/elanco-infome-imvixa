@@ -9,7 +9,6 @@ const { ipcRenderer } = window.require('electron')
 const Reporte = () => {
 
   const { reporte } = useSelector((state) => state.parametrosGenerales);
-  console.log({reporte})
   useEffect(() => {
     ipcRenderer.send('viendoReporte', reporte.id)
     return () => ipcRenderer.send('yaNoViendoReporte')

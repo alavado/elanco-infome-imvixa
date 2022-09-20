@@ -95,7 +95,7 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
   }
   const valuesLote = []
 
-  Object.entries(datoLote).map((e) => {
+  Object.entries(datoLote).forEach((e) => {
     if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
       valuesLote.push(
         (e[1] * 100) / datoLote[colConcentracionObjetivo]

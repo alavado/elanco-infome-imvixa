@@ -1,18 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import {
-  colAlimentoM1,
-  colAlimentoM2,
-  colAlimentoM3,
-  colAlimentoM4,
-  colConcentracionObjetivo,
   colCumplimiento,
   colEmpresaAlimento,
   colFechaAlimento,
   colLoteAlimento,
   colPlanta,
 } from "../../../../constants";
-import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
+import { mean, iqrValues } from "../../utilitiesReporte";
 import {
   esMayorQueFecha,
   esMenorQueFecha,

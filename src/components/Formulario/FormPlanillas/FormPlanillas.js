@@ -5,11 +5,11 @@ import {
   guardarPlanillaAlimento,
   guardarPlanillaEficacia,
   guardarPlanillaPeces,
-  guardarPlanillaTratamiento,
+  guardarPlanillaPecesTratados,
   limpiarFormularioAlimento,
   limpiarFormularioEficacia,
   limpiarFormularioPeces,
-  limpiarFormularioTratamiento,
+  limpiarFormularioPecesTratados,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/parametrosGenerales";
 
@@ -73,10 +73,10 @@ const FormPlanillas = () => {
     dispatch(estaValidando({tratamiento: false}))
     if (data.datos.length === 0) {
       dispatchErrorFormulario()
-      dispatch(limpiarFormularioTratamiento())
+      dispatch(limpiarFormularioPecesTratados())
     } else {
-      dispatch(guardarPlanillaTratamiento(data))
-      localStorage.setItem("planillaTratamiento", data.path)
+      dispatch(guardarPlanillaPecesTratados(data))
+      localStorage.setItem("planillaPecesTratados", data.path)
     }
   });
 
@@ -84,7 +84,7 @@ const FormPlanillas = () => {
     planillaAlimento, 
     planillaPeces, 
     planillaEficacia,
-    planillaTratamiento,
+    planillaPecesTratados,
    } = useSelector(
     (state) => state.parametrosGenerales
   );
@@ -97,8 +97,8 @@ const FormPlanillas = () => {
     if (planillaEficacia === "" && localStorage.getItem('planillaEficacia') !== null) {
       leerPlanilla("eficacia", localStorage.getItem('planillaEficacia'))
     } 
-    if (planillaTratamiento === "" && localStorage.getItem('planillaTratamiento') !== null) {
-      leerPlanilla("tratamiento", localStorage.getItem('planillaTratamiento'))
+    if (planillaPecesTratados === "" && localStorage.getItem('planillaPecesTratados') !== null) {
+      leerPlanilla("tratamiento", localStorage.getItem('planillaPecesTratados'))
     } 
     if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null) {
       leerPlanilla("peces", localStorage.getItem('planillaPeces'))
@@ -167,7 +167,7 @@ const FormPlanillas = () => {
         >
           <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
           <div className="FormPlanillas__planilla__label__file">
-            {getShortPath(planillaTratamiento)}
+            {getShortPath(planillaPecesTratados)}
           </div>
         </label>
         <input

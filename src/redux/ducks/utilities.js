@@ -43,10 +43,10 @@ export const filtrarDatosAlimento = (
   return datosFiltrados;
 };
 
-export const filtrarDatosTratamiento = (datos, empresa, fechaInicial, fechaFinal) => {
+export const filtrarDatosPecesTratados = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados = datos
   if (empresa !== "Todas") {
-    datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaPMV] === empresa);
+    datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaPMV].toLowerCase() === empresa.toLowerCase());
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>
@@ -62,7 +62,7 @@ export const filtrarDatosTratamiento = (datos, empresa, fechaInicial, fechaFinal
 export const filtrarDatosEficacia = (datos, empresa, fechaFinal) => {
   let datosFiltrados = datos
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia].toLowerCase() === empresa.toLowerCase());
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) => esMenorQueFecha(obj[colFechaEficacia], fechaFinal)
@@ -70,11 +70,10 @@ export const filtrarDatosEficacia = (datos, empresa, fechaFinal) => {
   return datosFiltrados;
 };
 
-// TODO: Confirmar con patricio si Sampling date es la columna que filtrar por fecha
 export const filtrarDatosPeces = (datos, empresa, fechaInicial, fechaFinal) => {
   let datosFiltrados = datos;
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj[colEmpresaPeces] === empresa);
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaPeces].toLowerCase() === empresa.toLowerCase());
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) =>

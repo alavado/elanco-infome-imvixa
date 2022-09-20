@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { 
   filtrarDatosAlimento, 
-  filtrarDatosTratamiento,
+  filtrarDatosPecesTratados,
   filtrarDatosEficacia,
   filtrarDatosPeces } from "./utilities"
 
@@ -35,7 +35,7 @@ const slice = createSlice({
     datosFiltradosAlimento: null,
     datosFiltradosPeces: null,
     datosFiltradosEficacia: null,
-    datosFiltradosTratamiento: null,
+    datosFiltradosPecesTratados: null,
     datosFiltradosIndustriaAlimento: null,
     datosFiltradosIndustriaPeces: null,
     datosFiltradosIndustriaEficacia: null,
@@ -106,7 +106,7 @@ const slice = createSlice({
         datosAlimento,
         datosPeces,
         datosEficacia,
-        datosTratamiento } = action.payload
+        datosPecesTratados } = action.payload
       state.datosFiltradosAlimento = filtrarDatosAlimento(
         datosAlimento,
         state.nombreEmpresa,
@@ -119,8 +119,8 @@ const slice = createSlice({
         state.fechaInicio,
         state.fechaFinal
       )
-      state.datosFiltradosTratamiento = filtrarDatosTratamiento(
-        datosTratamiento,
+      state.datosFiltradosPecesTratados = filtrarDatosPecesTratados(
+        datosPecesTratados,
         state.nombreEmpresa,
         state.fechaInicio,
         state.fechaFinal

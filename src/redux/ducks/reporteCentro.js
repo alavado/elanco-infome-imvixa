@@ -219,10 +219,6 @@ const slice = createSlice({
           }
         })
 
-        console.log({
-          fechasLastTrat
-        })
-        
         return {
           ...datos,
           muestras,
