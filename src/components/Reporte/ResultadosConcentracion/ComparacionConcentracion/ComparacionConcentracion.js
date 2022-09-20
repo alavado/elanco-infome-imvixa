@@ -70,6 +70,20 @@ const ComparacionConcentracion = ({ agrandar }) => {
     fechaFinal)
 
   const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
+
+  if (Object.values(datosPorPiscicultura).every(obj => obj.length === 0)) {
+    return (
+      <div className="ComparacionConcentracion">
+        <p className="ComparacionConcentracion__titulo">Comparación concentración (ppb) 
+        en músculo</p>
+        <div className="ComparacionConcentracion__contenedor_grafico">
+          <div className="ComparacionConcentracion__contenedor_grafico_error">
+            Sin datos disponibles para el periodo seleccionado
+          </div>
+        </div>
+      </div>
+    )
+  }
   
   const datos = [
     getBoxPlotData(datosIndustria, 'Industria', concentracion),

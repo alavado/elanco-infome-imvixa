@@ -3,7 +3,8 @@
   flex-direction: column;
   padding: 0.25rem 0rem 2rem 0;
   position: relative;
-  grid-column: span 2;
+  /* grid-column: span 2; */
+  justify-content: space-between;
 }
 
 .ComparacionConcentracion__titulo {
@@ -19,6 +20,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.ComparacionConcentracion__contenedor_grafico_error {
+  color: var(--color-gris-4);
+  padding: 1rem;
 }
 
 .ComparacionConcentracion__categoria {
@@ -119,6 +125,7 @@
   transform: translateY(7.5%);
   color: var(--color-gris-4);
   font-weight: 300;
+  text-align: end;
   overflow: hidden;
 }
 

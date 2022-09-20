@@ -202,7 +202,8 @@ const CurvaPorPeso = () => {
         suggestedMax: maxXAprox,
       },
       y: {
-        display: true,
+        min: 10,
+        max: maxGrafico,
         type: "logarithmic",
         title: {
           display: true,
@@ -211,13 +212,11 @@ const CurvaPorPeso = () => {
             size: 16,
           },
         },
-        suggestedMin: 0,
-        suggestedMax: maxGrafico,
       },
     },
   };
   return (
-    <div className="CurvaPorPeso" style={{ marginTop: 12, position: "relative", width: "40vw", height: "33vw" }}>
+    <div className="CurvaPorPeso" style={{ marginTop: 12, position: "relative", width: "40vw", height: "35vw" }}>
       <p className="CurvaPorPeso__titulo">Curva de depleción según peso</p>
       <div className="CurvaPorPeso__contenedor_grafico">
         <Chart type="scatter" data={data} options={options}/>

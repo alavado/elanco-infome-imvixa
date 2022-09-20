@@ -338,8 +338,8 @@ ipcMain.on("leer", async (event, state) => {
         });
         break;
       case "peces":
-        datosPeces = validation.checkPeces(wb);
-        datosTratamiento = validation.checkTratamiento(wb);
+        datosPeces = validation.checkPecesHojaImvixa(wb);
+        datosTratamiento = validation.checkPecesHojaTratamiento(wb);
         event.sender.send(state.tipo, {
           path: state.path,
           datos: {
@@ -355,13 +355,13 @@ ipcMain.on("leer", async (event, state) => {
           datos: datosEficacia,
         });
         break;
-      // case "tratamiento":
-      //   datosTratamiento = validation.checkTratamiento(wb);
-      //   event.sender.send(state.tipo, {
-      //     path: state.path,
-      //     datos: datosTratamiento,
-      //   });
-      //   break;
+      case "tratamiento":
+        datosTratamiento = validation.checkTratamiento(wb);
+        event.sender.send(state.tipo, {
+          path: state.path,
+          datos: datosTratamiento,
+        });
+        break;
       default:
         datos = [];
     }

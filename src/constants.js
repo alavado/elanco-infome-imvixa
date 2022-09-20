@@ -23,10 +23,10 @@ export const colAlimentoCV = "Coeficiente de variacion (%)"
 export const colAlimentoCalibre = "Calibre"
 
 // Columnas para filtrar hoja pmv
-export const colEmpresaPMV = "Company"
-export const colFechaPMV = "fecha_pmv"  // no existe pero si la comento no corre
-export const colTipoPMV = "tipo_pisc" // no existe pero si la comento no corre
-export const colNPecesPMV = "n_peces_tratados_fw" // no existe pero si la comento no corre
+export const colEmpresaPMV = "Empresa"
+export const colFechaPMV = "Fecha inicio "
+export const colTipoPMV = "tipo"
+export const colNPecesPMV = "peces tratados"
 export const tipoRecPMV = "Recirculación"
 export const tipoFAPMV = "Flujo Abierto"
 
@@ -65,12 +65,12 @@ export const tipoSeaWater = "SW"
 export const colCentroPeces = "seasite_code"
 
 // Columnas para filtrar hoja eficacia
-export const colEmpresaEficacia = "company_code"
-export const colFechaEficacia = "inicio_siembra"
-export const colMacrozonaEficacia = "macrozona"
-export const colEficaciaEficacia = "mes_hasta_1er_bano_dias_30_4"
+export const colEmpresaEficacia = "Empresa"
+export const colFechaEficacia = "Inicio siembra"
+export const colMacrozonaEficacia = "Macrozona"
+export const colEficaciaEficacia = "Mes hasta 1er baño (días/30,4)"
 export const colHexaEficacia = "hexaflumuron"
-export const colCentroEficacia = "seasite_code"
+export const colCentroEficacia = "Centro"
 
 export const comentarioBajoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento son bajos. Se recomienda suplementar con un nuevo lote de alimento fabricado para este fin, así alcanzar niveles adecuados de dosificación en los peces."
 export const comentarioAltoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento se encuentran dentro de los parámetros esperados."

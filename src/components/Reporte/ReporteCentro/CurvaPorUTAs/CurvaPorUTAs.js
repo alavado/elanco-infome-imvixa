@@ -45,9 +45,7 @@ const CurvaPorUTAs = () => {
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   let maxUTAS = 0;
-  console.log({
-    datosPorInforme,
-  });
+
   const setXValues = new Set();
   const setYValues = new Set();
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
@@ -211,7 +209,8 @@ const CurvaPorUTAs = () => {
         suggestedMax: maxXAprox,
       },
       y: {
-        display: true,
+        min: 10,
+        max: maxGrafico,
         type: "logarithmic",
         title: {
           display: true,
@@ -220,13 +219,27 @@ const CurvaPorUTAs = () => {
             size: 16,
           },
         },
-        suggestedMin: 0,
-        suggestedMax: maxGrafico,
       },
+      // yAxes: [{
+      //   ticks: {
+      //     beginAtZero: true,
+      //     min: 0
+      //   },
+      //   min: 0.1,
+      //   max: maxGrafico,
+      //   type: "logarithmic",
+      //   title: {
+      //     display: true,
+      //     text: "Concentración de Imvixa en músculo + piel (ppb)",
+      //     font: {
+      //       size: 16,
+      //     },
+      //   },
+      // },]
     },
   };
   return (
-    <div className="CurvaPorUTAs" style={{ marginTop: 12, position: "relative", width: "40vw", height: "33vw" }}>
+    <div className="CurvaPorUTAs" style={{ marginTop: 12, position: "relative", width: "40vw", height: "35vw" }}>
       <p className="CurvaPorUTAs__titulo">Curva de depleción según UTAS</p>
       <div className="CurvaPorUTAs__contenedor_grafico">
         <Chart type="scatter" data={data} options={options}/>

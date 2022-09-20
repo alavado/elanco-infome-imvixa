@@ -37,7 +37,7 @@ const headerAlimentos = [
   "Calibre",
 ];
 const estadoAlimento = headerAlimentos[0];
-const headerPeces = [
+const headerPecesHojaImvixa = [
   "Sampling date",
   "Elanco id.",
   "Company",
@@ -50,20 +50,27 @@ const headerPeces = [
   "Fish body weight (g)",
 ];
 
-const headerTrat = [
+const headerPecesHojaTrat = [
   "Company", 
   "Sea site of destination", 
   "Peso al Inicio Tto"
-]; //Faltan: ["tipo_pisc", "n_peces_tratados_fw", "fecha_pmv"]
+];
+
+const headerTrat = [
+  "Empresa", 
+  "peces tratados",
+  "tipo",
+  "Fecha inicio "
+];
 
 const headerEficacia = [
-  "company_code",
-  "seasite_code",
-  "inicio_siembra",
-  "macrozona",
-  "region",
-  "mes_hasta_1er_bano_dias_30_4",
-  "hexaflumuron",
+  "Empresa",
+  "Centro",
+  "Inicio siembra",
+  "Macrozona",
+  "Región",
+  "Mes hasta 1er baño (días/30,4)",
+  "Causa",
 ];
 
 function get_header_row(sheet) {
@@ -89,7 +96,6 @@ function get_header_row(sheet) {
 const checkAlimento = (wb) => {
   // abrir hoja Alimento
   const sheetName = wb.SheetNames[0];
-  console.log(wb.SheetNames);
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const alimentoJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -114,7 +120,7 @@ const checkAlimento = (wb) => {
   return alimentoJsonReportado;
 };
 
-const checkTratamiento = (wb) => {
+const checkPecesHojaTratamiento = (wb) => {
   // abrir hoja BD Trat
   const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("trat"));
   if (!sheetName) {
@@ -133,13 +139,13 @@ const checkTratamiento = (wb) => {
     throw Error("Hoja BD Trat no tiene datos");
   }
   // Revisar que tenga las columnas de PMV
-  if (!headerTrat.every((element) => headerJSON.includes(element))) {
+  if (!headerPecesHojaTrat.every((element) => headerJSON.includes(element))) {
     throw Error("Hoja BD Trat no tiene las columnas necesarias");
   }
   return tratJSON;
 };
 
-const checkPeces = (wb) => {
+const checkPecesHojaImvixa = (wb) => {
   const sheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("imvixa")
   );
@@ -159,7 +165,7 @@ const checkPeces = (wb) => {
     throw Error("Planilla Peces no tiene datos");
   }
   // Revisar que tenga las columnas de peces
-  if (!headerPeces.every((element) => headerJson.includes(element))) {
+  if (!headerPecesHojaImvixa.every((element) => headerJson.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias");
   }
   // const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
@@ -170,7 +176,7 @@ const checkPeces = (wb) => {
 };
 
 const checkEficacia = (wb) => {
-  const sheetName = wb.SheetNames[0];
+  const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("eficacia"));
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const eficaciaJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -185,12 +191,55 @@ const checkEficacia = (wb) => {
   if (!headerEficacia.every((element) => headerJson.includes(element))) {
     throw Error("Planilla Eficacia no tiene las columnas necesarias");
   }
-  return eficaciaJson;
+  const cleanEficacia = eficaciaJson.map(v => {
+    cleanRow = {}
+    headerEficacia.forEach(h => {
+      cleanRow[h] = v[h]
+    })
+    return {
+      ...cleanRow,
+      hexaflumuron: v['Causa'] ? v['Causa'].toString().toLowerCase().includes('hexa') : false
+    }
+  })
+  return cleanEficacia;
+};
+
+const checkTratamiento = (wb) => {
+  const sheetsNames = []
+  wb.SheetNames.forEach((sheet, i) => {
+    const headerJSON = get_header_row(wb.Sheets[sheet]);
+    // Revisar que tenga las columnas de PMV
+    if (headerTrat.every((element) => headerJSON.includes(element))) {
+      sheetsNames.push(sheet)
+    }
+  }) 
+
+  if (sheetsNames.length === 0) {
+    throw Error("Planilla no tiene hojas con las columnas necesarias");
+  }
+  const tratJSON = []
+  sheetsNames.forEach((sheet, i) => {
+    const headerJSON = get_header_row(wb.Sheets[sheet]);
+    sheetData = XLSX.utils.sheet_to_json(
+      wb.Sheets[sheet],
+      (header = headerJSON),
+      (range = 2)
+    )
+    if (sheetData.length >= 1) {
+      tratJSON.push(...sheetData);
+    }
+  })
+  // Revisar que tenga datos
+  if (tratJSON.length < 1) {
+    throw Error("Hoja BD Trat no tiene datos");
+  }
+  return tratJSON;
 };
 
 module.exports = {
   checkAlimento,
   checkTratamiento,
+  checkPecesHojaImvixa,
+  checkPecesHojaTratamiento,
   checkEficacia,
-  checkPeces,
 };
