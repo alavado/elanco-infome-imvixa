@@ -43,6 +43,7 @@ let menuItemVolverAParametros, menuItemImprimir;
 let menuItemVerGraficos;
 
 let estadosGraficos = graficos.map((g) => ({ ...g, visible: true }));
+let visibilityVerMenu = false;
 let hayComentarios = false;
 let reporteID = 0;
 let numeroDeLotes; // El reporte de alimento imprime una página por lote
@@ -75,28 +76,30 @@ function construirMenu() {
       ],
     })
   );
-  menuItemVerGraficos = new MenuItem({
-    label: "Ver",
-    visible: false,
-    submenu: estadosGraficos.map(
-      (g) =>
-        new MenuItem({
-          label: g.titulo,
-          type: "checkbox",
-          checked: g.visible,
-          click: () => {
-            if (g.visible) {
-              g.visible = false;
-              mainWindow.webContents.send("ocultar-grafico", g);
-            } else {
-              g.visible = true;
-              mainWindow.webContents.send("mostrar-grafico", g);
-            }
-          },
-        })
-    ),
-  });
-  menu.append(menuItemVerGraficos);
+  if (visibilityVerMenu) {
+    menuItemVerGraficos = new MenuItem({
+      label: "Ver",
+      visible: visibilityVerMenu,
+      submenu: estadosGraficos.map(
+        (g) =>
+          new MenuItem({
+            label: g.titulo,
+            type: "checkbox",
+            checked: g.visible,
+            click: () => {
+              if (g.visible) {
+                g.visible = false;
+                mainWindow.webContents.send("ocultar-grafico", g);
+              } else {
+                g.visible = true;
+                mainWindow.webContents.send("mostrar-grafico", g);
+              }
+            },
+          })
+      ),
+    });
+    menu.append(menuItemVerGraficos);
+  }
   menuItemVolverAParametros = new MenuItem({
     label: "Reingresar parámetros",
     click: volverAParametros,
@@ -286,7 +289,13 @@ ipcMain.on("viendoReporte", async (_, rID) => {
   reporteID = rID;
   if (rID === 4) {
     // Reporte de seguimiento
-    menuItemVerGraficos.visible = true
+    visibilityVerMenu = true
+    construirMenu()
+  } else {
+    if (visibilityVerMenu) {
+      visibilityVerMenu = false
+      construirMenu()
+    }
   }
   menuItemImprimir.enabled = true
   menuItemVolverAParametros.enabled = true
