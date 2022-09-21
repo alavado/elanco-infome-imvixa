@@ -30,8 +30,8 @@ import {
   colPPB,
   colPisciculturaPeces,
   colFechaPeces,
-  colUTAs,
   tipoFreshWater,
+  colPeso2,
 } from "../../constants";
 
 let defaultGraficoUtas = {
@@ -151,6 +151,7 @@ const slice = createSlice({
             datos[colInformePecesTrat] === v[colInformePeces] ||
             datos[colInformePecesRTrat] === v[colInformePecesR]
         );
+        // Obtengo todas las pisciculturas de origen correspondiente a los informes del ejercicio
         const hatcheries = datosJoin
           .map((fila) => fila[colPisciculturaPeces])
           .filter(v => v)
@@ -259,6 +260,10 @@ const slice = createSlice({
               }
             }
           );
+          // get datos peso
+          const inf = filaTratamiento[colInformePecesTrat] || filaTratamiento[colInformePecesRTrat]
+          const datInf = datosPecesTratamientoDestino.filter(v => v[colInformePeces] === inf || v[colInformePecesR] === inf)
+          const infoPeso = mean(datInf.map(v => v[colPeso2]).filter(v => v))
           // hacer join con alimento
           const filasAlimento = state.datosAlimento.filter( 
             (fila) =>
@@ -273,7 +278,7 @@ const slice = createSlice({
             if (!lotesAsociados.has(v[colLoteAlimento].toString())) {
               datosAlimentosAsociados.push({
                 ...v,
-                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat],
+                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat] || infoPeso,
                 [colDestinoTrat]: filaTratamiento[colDestinoTrat],
                 [colFechaVeranoTrat]: formatearFecha(
                   filaTratamiento[colFechaVeranoTrat]

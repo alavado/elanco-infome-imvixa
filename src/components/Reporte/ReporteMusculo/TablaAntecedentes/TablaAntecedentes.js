@@ -52,9 +52,9 @@ const TablaAntecedentes = () => {
       onChange={(e) => {setAlimento(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
       }
     />)],
-    ["Fecha de inicio de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaInicioTrat])).filter(onlyUnique).join(' - ')],
-    ["Fecha de término de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaTerminoTrat])).filter(onlyUnique).join(' - ')],
-    ["Fecha de inicio fotoperiodo", selectMinMaxFecha(datos.map(v => v[colFechaVeranoTrat])).filter(onlyUnique).join(' - ')],
+    ["Fecha de inicio de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaInicioTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
+    ["Fecha de término de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaTerminoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
+    ["Fecha de inicio fotoperiodo", selectMinMaxFecha(datos.map(v => v[colFechaVeranoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
     ["Centro de destino",  datos.map(v => v[colDestinoTrat]).filter(onlyUnique).join(' / ')],
   ];
   return (

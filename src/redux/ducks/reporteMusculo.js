@@ -26,6 +26,7 @@ import {
   colFechaInicioTrat,
   colFechaVeranoTrat,
   colSampleOriginTrat,
+  colPeso2,
 } from "../../constants";
 import { formatearFecha } from "./utilities";
 
@@ -149,6 +150,7 @@ const slice = createSlice({
           (fila) => fila[colInformePeces] === informe || fila[colInformePecesR] === informe
         );
         const muestras = datosEjercicioPorInforme.map((v) => v[colPPB]);
+        const pesos = datosEjercicioPorInforme.map(v => v[colPeso2]).filter(v => v)
         const prom = mean(muestras);
         const cv = Math.round((std(muestras) / prom) * 10000) / 100;
         const min = Math.min(...muestras);
@@ -166,6 +168,7 @@ const slice = createSlice({
           [colInformePeces]: informe,
           [colInformePecesR]: datosEjercicioPorInforme[0][colInformePecesR],
           [colEstanquePeces]: datosEjercicioPorInforme[0][colEstanquePeces],
+          [colPeso2]: mean(pesos),
           muestras: muestras,
           prom,
           cv,
@@ -210,7 +213,7 @@ const slice = createSlice({
             if (!lotesAsociados.has(v[colLoteAlimento].toString())) {
               datosAlimentosAsociados.push({
                 ...v,
-                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat],
+                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat] ? filaTratamiento[colPesoInicialTrat] : datos[colPeso2],
                 [colDestinoTrat]: filaTratamiento[colDestinoTrat],
                 [colFechaVeranoTrat]: formatearFecha(filaTratamiento[colFechaVeranoTrat]),
                 [colFechaInicioTrat]: formatearFecha(filaTratamiento[colFechaInicioTrat]),
@@ -222,6 +225,7 @@ const slice = createSlice({
           })
           return {
             ...datos,
+            [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat] ? filaTratamiento[colPesoInicialTrat] : datos[colPeso2],
             pmv: filaTratamiento[colPMVTrat],
             lotes: lotes,
             alimento: filasAlimento,
