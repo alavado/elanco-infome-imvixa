@@ -123,11 +123,11 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     datos.reduce((min, v) => Math.min(min, v.min), Infinity)
   );
   let tick = Math.pow(10, Math.floor(Math.log10(vMin)));
-  if (tick <=  0) {
+  if (tick <=  5) {
     tick = 10
   }
 
-  let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));
+  let yMax = Math.min(Math.max(100, 10 * Math.ceil(vMax / tick)), vMax + 2 * tick);
   const yMin = Math.min(50, parseInt(vMin / 10) * 10);
   const yLineas = [
     ...Array(Math.round(1 + (yMax - yMin) / tick))
