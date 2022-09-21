@@ -6,3 +6,10 @@
   grid-template: 2rem 1fr / 1fr 1.25fr;
   gap: 0 1rem;
 }
+
+.Salmones__imagen {
+  /* position: absolute; */
+  width: 80%;
+  align-self: center;
+  justify-self: center;
+}

@@ -9,7 +9,8 @@ const Sandalias = ({ pagina }) => {
   const { graficos } = useSelector(state => state.graficos)
   const mostrarGraficoTratamientos = graficos.find(g => g.id === 'GRAFICO_EFICACIA').visible
   const mostrarMapaMacrozonas = graficos.find(g => g.id === 'GRAFICO_MACROZONAS').visible
-  const hayComentarios = comentarios.length > 0
+  const nPalabras = comentarios.reduce((acc, curr) => acc + curr.length, 0)
+  const hayComentarios = comentarios.length > 0 && (nPalabras > 500 || comentarios.length > 2)
   const hayGraficos = mostrarGraficoTratamientos || mostrarMapaMacrozonas
 
   return (

@@ -255,7 +255,7 @@ const imprimirReporteSeguimiento = async () => {
     (g) => g.id === "GRAFICO_MACROZONAS"
   );
   const graficosSegundaPaginaVisibles =
-    graficoEficacia.visible && graficoMapa.visible;
+    graficoEficacia.visible || graficoMapa.visible;
   const imprimirDosPaginas = graficosSegundaPaginaVisibles || hayComentarios;
   try {
     const data = await mainWindow.webContents.printToPDF({
