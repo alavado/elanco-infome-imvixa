@@ -9,6 +9,7 @@ const Sandalias = ({ pagina }) => {
   const comentarios = comentariosAlimento[pagina] || []
   const hayComentarios = comentarios.length > 0
 
+  
   return (
     <div className="Sandalias">
       {(!hayComentarios) && <img src={imagenHealthy} className="Sandalias__imagen" alt="imagen pie de pagina"/>}
@@ -20,7 +21,6 @@ const Sandalias = ({ pagina }) => {
       >
         Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco
       </p>
-      {/*    Siempre 1 porque cada hoja se imprime por separado    */}
       <p className="Sandalias__numero_pagina">{1}</p> 
     </div>
   )

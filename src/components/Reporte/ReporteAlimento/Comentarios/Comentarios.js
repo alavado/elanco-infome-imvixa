@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { agregarComentarioAlimento } from '../../../../redux/ducks/comentarios'
 import Comentario from './Comentario'
+import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
 
 const Comentarios = ({ indice }) => {
@@ -32,7 +33,7 @@ const Comentarios = ({ indice }) => {
   }, [agregandoComentario])
 
   const hayComentarios = comentarios.length > 0
-
+  const nPalabras = comentarios.reduce((acc, curr) => acc + curr.length, 0)
   return (
     <div className="Comentarios">
       {hayComentarios && (
@@ -79,6 +80,10 @@ const Comentarios = ({ indice }) => {
             <InlineIcon icon="mdi:comment-plus" />
             Agregar comentario
           </button>
+      }
+      {
+        (comentarios.length == 1 || (comentarios.length > 1 && nPalabras < 300)) 
+        && <div className="Salmones__contenedor"><img src={salmones} className="Salmones__imagen" alt="imagen salmones"/></div>
       }
     </div>
   )
