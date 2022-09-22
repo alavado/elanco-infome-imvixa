@@ -1,10 +1,8 @@
 import './DatosEmpresa.css'
 import { meses } from '../utilitiesReporte'
 
-const DatosEmpresa = ({ nombreEmpresa, fechaDatos }) => {
-
-
-  const today = new Date();
+const DatosEmpresa = ({ nombreEmpresa, fechaDatos, fecha }) => {
+  const today = new Date(fecha);
   return (
     <div className="DatosEmpresa">
       <div className="DatosEmpresa__titulo">

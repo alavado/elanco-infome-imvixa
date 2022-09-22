@@ -17,4 +17,9 @@ const reportes = [
   }
 ]
 
-module.exports = { reportes }
+const REPORTE_ID_ALIMENTO = 1
+const REPORTE_ID_MUSCULO = 2
+const REPORTE_ID_CENTRO = 3
+const REPORTE_ID_SEGUIMIENTO = 4
+
+module.exports = { reportes, REPORTE_ID_ALIMENTO, REPORTE_ID_MUSCULO, REPORTE_ID_CENTRO, REPORTE_ID_SEGUIMIENTO }

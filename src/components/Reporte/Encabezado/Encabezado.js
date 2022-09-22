@@ -6,12 +6,10 @@ import tituloReporte1 from '../../../assets/images/Reporte Concentración en Ali
 import tituloReporte2 from '../../../assets/images/Reporte de Concentración en Músculo Piel.svg'
 import tituloReporte3 from '../../../assets/images/Reporte Seguimiento por Centro de Mar.svg'
 import tituloReporte4 from '../../../assets/images/Reporte de Seguimiento.svg'
-import { useSelector } from 'react-redux'
 
-const Encabezado = () => {
-  const { reporte } = useSelector((state) => state.parametrosGenerales);
+const Encabezado = ({ reporteID }) => {
 	let titulo, imgClassName;
-	switch (reporte.id) {
+	switch (reporteID) {
 		case 1:
 			titulo = tituloReporte1
 			imgClassName = "Reporte__logo_imagen_alimento"

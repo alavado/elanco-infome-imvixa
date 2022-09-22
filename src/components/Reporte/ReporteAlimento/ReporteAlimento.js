@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Sandalias from "./Sandalias";
 import MensajeError from "../../MensajeError";
-import DatosEmpresa from "../DatosEmpresa/DatosEmpresa";
+import DatosEmpresa from "../DatosEmpresa";
 import Encabezado from "../Encabezado/Encabezado";
 import TablaResumenAlimento from "./TablaResumenAlimento";
 import Comentarios from "./Comentarios";
@@ -10,6 +10,7 @@ import TablaLotes from "./TablaLotes/TablaLotes";
 import GraficoCumplimiento from "./GraficoCumplimiento";
 import { colEmpresaAlimento, colLoteAlimento } from "../../../constants";
 import "./ReporteAlimento.css";
+import { REPORTE_ID_ALIMENTO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require('electron')
 
 const ReporteAlimento = () => {
@@ -31,14 +32,15 @@ const ReporteAlimento = () => {
     minHeight: `${percentage}%`,
     maxHeight: `${percentage}%`
   }
+  const today = new Date();
   return (
     <div className="ReporteAlimento">
       <div className="ReporteAlimento__contenedor" style={dimensions}>
         {lotesSeleccionados.map((l, i) => (
           <div className="ReporteAlimento__pagina" style={dimensionsPage} key={`reporte-lote-${i}`}>
-            <Encabezado />
+            <Encabezado reporteID={REPORTE_ID_ALIMENTO}/>
             <MensajeError>
-              <DatosEmpresa nombreEmpresa={l.data[colEmpresaAlimento]} />
+              <DatosEmpresa nombreEmpresa={l.data[colEmpresaAlimento]} fecha={today}/>
             </MensajeError>
             <div className="Reporte__InformacionGeneral">
               <h3 className="Reporte__titulo_seccion">Información General</h3>

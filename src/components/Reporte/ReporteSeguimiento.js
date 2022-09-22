@@ -14,6 +14,7 @@ import {
 } from "../../redux/ducks/comentarios";
 import { getFechaInicio, meses } from "./utilitiesReporte";
 import "./Reporte.css";
+import { REPORTE_ID_SEGUIMIENTO } from "../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteSeguimiento = () => {
@@ -37,15 +38,17 @@ const ReporteSeguimiento = () => {
       nombreEmpresa,
     });
   }, [nombreEmpresa]);
+  const today = new Date();
   return (
     <div className="Reporte">
       <div className="Reporte__contenedor">
         <div className="Reporte__pagina Reporte__pagina--1">
-          <Encabezado />
+          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO}/>
           <MensajeError>
             <DatosEmpresa
               nombreEmpresa={nombreEmpresa}
               fechaDatos={fechaDatos}
+              fecha={today}
             />
           </MensajeError>
           <InformacionGeneral />
@@ -53,7 +56,7 @@ const ReporteSeguimiento = () => {
           <Sandalias pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
-          <Encabezado />
+          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} />
           <ResultadosEficacia />
           <Comentarios
             comentarios={comentarios}
