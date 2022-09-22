@@ -17,7 +17,7 @@ import GraficoComparacion from "./GraficoComparacion";
 import TablaMuestras from "./TablaMuestras";
 import CurvaPorUTAs from "./CurvaPorUTAs";
 import CurvaPorPeso from "./CurvaPorPeso";
-import { REPORTE_ID_CENTRO } from "../../../helpers/reportes";
+import { REPORTE_ID_CENTRO, REPORTE_NOMBRE_CENTRO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteCentro = () => {
@@ -51,7 +51,7 @@ const ReporteCentro = () => {
           className="ReporteCentro__pagina ReporteCentro__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} />
+          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO}/>
           <MensajeError>
             <DatosEmpresa nombreEmpresa={encabezado} fecha={today}/>
           </MensajeError>
@@ -81,7 +81,7 @@ const ReporteCentro = () => {
           className="ReporteCentro__pagina ReporteCentro__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO}/>
+          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO}/>
           <MensajeError>
             <TablaMuestras />
           </MensajeError>

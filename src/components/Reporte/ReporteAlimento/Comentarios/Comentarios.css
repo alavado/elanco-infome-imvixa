@@ -81,12 +81,12 @@
   border-radius: 5rem;
   padding: .5rem 1rem;
 }
-.Salmones__contenedor {
+.Comentarios__Salmones_contenedor {
   display: flex;
   justify-content: flex-end;
 }
 
-.Salmones__imagen {
+.Comentarios__Salmones_imagen {
   width: 40%;
   z-index: -1;
 }

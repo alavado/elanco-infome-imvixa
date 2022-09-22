@@ -10,7 +10,7 @@ import TablaLotes from "./TablaLotes/TablaLotes";
 import GraficoCumplimiento from "./GraficoCumplimiento";
 import { colEmpresaAlimento, colLoteAlimento } from "../../../constants";
 import "./ReporteAlimento.css";
-import { REPORTE_ID_ALIMENTO } from "../../../helpers/reportes";
+import { REPORTE_ID_ALIMENTO, REPORTE_NOMBRE_ALIMENTO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require('electron')
 
 const ReporteAlimento = () => {
@@ -38,7 +38,7 @@ const ReporteAlimento = () => {
       <div className="ReporteAlimento__contenedor" style={dimensions}>
         {lotesSeleccionados.map((l, i) => (
           <div className="ReporteAlimento__pagina" style={dimensionsPage} key={`reporte-lote-${i}`}>
-            <Encabezado reporteID={REPORTE_ID_ALIMENTO}/>
+            <Encabezado reporteID={REPORTE_ID_ALIMENTO} reporteNombre={REPORTE_NOMBRE_ALIMENTO}/>
             <MensajeError>
               <DatosEmpresa nombreEmpresa={l.data[colEmpresaAlimento]} fecha={today}/>
             </MensajeError>
@@ -53,8 +53,10 @@ const ReporteAlimento = () => {
                 </MensajeError>
               </div>
             </div>
-            <TablaLotes lote={l.data} />
-            <Comentarios indice={i + 1} />
+            <MensajeError>
+              <TablaLotes lote={l.data} />
+            </MensajeError>
+            <Comentarios pagina={i + 1} />
             <Sandalias pagina={i + 1} />
           </div>
         ))}

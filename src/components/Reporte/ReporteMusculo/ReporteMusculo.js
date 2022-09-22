@@ -15,7 +15,7 @@ import {
   agregarComentarioMusculo,
   eliminarComentarioMusculo,
 } from "../../../redux/ducks/comentarios";
-import { REPORTE_ID_MUSCULO } from "../../../helpers/reportes";
+import { REPORTE_ID_MUSCULO, REPORTE_NOMBRE_MUSCULO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteMusculo = () => {
@@ -48,7 +48,7 @@ const ReporteMusculo = () => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO}/>
+          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO}/>
           <MensajeError>
             <DatosEmpresa nombreEmpresa={nombreEmpresa.label} fecha={today}/>
           </MensajeError>
@@ -72,7 +72,7 @@ const ReporteMusculo = () => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO}/>
+          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO}/>
           <MensajeError>
             <TablaMuestras />
           </MensajeError>

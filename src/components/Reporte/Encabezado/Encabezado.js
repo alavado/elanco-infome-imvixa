@@ -7,7 +7,7 @@ import tituloReporte2 from '../../../assets/images/Reporte de Concentración en 
 import tituloReporte3 from '../../../assets/images/Reporte Seguimiento por Centro de Mar.svg'
 import tituloReporte4 from '../../../assets/images/Reporte de Seguimiento.svg'
 
-const Encabezado = ({ reporteID }) => {
+const Encabezado = ({ reporteID, reporteNombre }) => {
 	let titulo, imgClassName;
 	switch (reporteID) {
 		case 1:
@@ -31,7 +31,7 @@ const Encabezado = ({ reporteID }) => {
 	return (
 		<div className='Encabezado'>
 			<img src={logoImvixa} className="Reporte__logo_imvixa" alt="Logo Imvixa" />
-			<img src={titulo} className={imgClassName} alt={reporte.titulo} />
+			<img src={titulo} className={imgClassName} alt={reporteNombre} />
 			<img src={logoElanco} className="Reporte__logo_elanco" alt="Logo Elanco" />
 		</div>
 	)

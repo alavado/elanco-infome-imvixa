@@ -8,12 +8,12 @@ import Comentario from './Comentario'
 import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
 
-const Comentarios = ({ indice }) => {
+const Comentarios = ({ pagina }) => {
 
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
   const { comentariosAlimento } = useSelector(state => state.comentarios)
-  const comentarios = comentariosAlimento[indice] || [];
+  const comentarios = comentariosAlimento[pagina] || [];
   const textareaRef = useRef()
   const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const Comentarios = ({ indice }) => {
     if (nuevoComentario === '') {
       return
     }
-    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentarioAlimento({texto: c, indice: indice})))
+    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentarioAlimento({texto: c, indice: pagina})))
     setNuevoComentario('')
     setAgregandoComentario(false)
   }
@@ -42,7 +42,7 @@ const Comentarios = ({ indice }) => {
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">
-        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} indice={indice} />)}
+        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} indice={pagina} />)}
       </ul>
       {agregandoComentario
         ? <form
@@ -83,7 +83,7 @@ const Comentarios = ({ indice }) => {
       }
       {
         (comentarios.length == 1 || (comentarios.length > 1 && nPalabras < 300)) 
-        && <div className="Salmones__contenedor"><img src={salmones} className="Salmones__imagen" alt="imagen salmones"/></div>
+        && <div className="Comentarios__Salmones_contenedor"><img src={salmones} className="Comentarios__Salmones_imagen" alt="imagen salmones"/></div>
       }
     </div>
   )
