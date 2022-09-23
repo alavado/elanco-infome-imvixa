@@ -52,27 +52,27 @@
   position: relative;
 }
 
-input[typeForm="locale-decimal"] {
+input[typeform="locale-decimal"] {
   text-decoration: none;
   width: 4rem;
   border: none;
 }
 
-input[typeForm="locale-decimal"] {
+input[typeform="locale-decimal"] {
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
           appearance: textfield;
 }
-input[typeForm=locale-decimal]::-webkit-inner-spin-button, 
-input[typeForm=locale-decimal]::-webkit-outer-spin-button { 
+input[typeform=locale-decimal]::-webkit-inner-spin-button, 
+input[typeform=locale-decimal]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
 }
 
-input[typeForm=locale-decimal]:focus {
+input[typeform=locale-decimal]:focus {
   outline: none;
 }
 
-input[typeForm=locale-decimal]:hover {
+input[typeform=locale-decimal]:hover {
   outline: none;
 }
 

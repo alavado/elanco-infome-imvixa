@@ -177,7 +177,7 @@ const ParametrosReporteMusculo = () => {
             <input
               value={umbral}
               id="FormParametros__parametro__umbral"
-              typeForm="number"
+              typeform="number"
               min="0"
               onChange={(e) => {
                 console.log("HERE")
@@ -194,7 +194,7 @@ const ParametrosReporteMusculo = () => {
             <input
               value={umbralDestacar}
               id="FormParametros__parametro__destacar"
-              typeForm="number"
+              typeform="number"
               min="0"
               onChange={(e) => {
                 const valor = e.target.value.toString().replace(/[^0-9]+/g, "")

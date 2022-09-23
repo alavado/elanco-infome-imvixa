@@ -20,7 +20,7 @@ const FormCumplimiento = () => {
             <div className="FormIndustria__parametro__label__button">Mín.</div>
             <input
               id="FormIndustria__parametro__g11"
-              typeForm="locale-decimal"
+              typeform="locale-decimal"
               min="0"
               defaultValue={cumplimiento.min.toString().replace(".", ",")}
               onChange={(e) => {
@@ -52,7 +52,7 @@ const FormCumplimiento = () => {
             <input
               id="FormIndustria__parametro__g12"
               min="0"
-              typeForm="locale-decimal"
+              typeform="locale-decimal"
               defaultValue={cumplimiento.max.toString().replace(".", ",")}
               onChange={(e) => {
                 dispatch(

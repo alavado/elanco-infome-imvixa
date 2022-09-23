@@ -1,27 +1,27 @@
 
 
-input[typeForm="number"] {
+input[typeform="number"] {
   text-decoration: none;
   width: 4rem;
 	font-size: 1rem;
   border: none;
 }
 
-input[typeForm="number"] {
+input[typeform="number"] {
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
           appearance: textfield;
 }
-input[typeForm=number]::-webkit-inner-spin-button, 
-input[typeForm=number]::-webkit-outer-spin-button { 
+input[typeform=number]::-webkit-inner-spin-button, 
+input[typeform=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
 }
 
-input[typeForm=number]:focus {
+input[typeform=number]:focus {
   outline: none;
 }
 
-input[typeForm="number"]:hover {
+input[typeform="number"]:hover {
   outline: none;
 }
 

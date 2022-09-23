@@ -57,7 +57,7 @@
 .GraficoCumplimiento__contenedor_grafico__error {
   color: var(--color-gris-4);
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
 }
