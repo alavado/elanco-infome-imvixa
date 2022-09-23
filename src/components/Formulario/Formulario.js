@@ -19,6 +19,9 @@ import {
   cargarDatosAlimento,
 } from "../../redux/ducks/reporteAlimento";
 import {
+  guardarInfoLotes
+} from "../../redux/ducks/visualizadorReporteAlimento";
+import {
   procesarDatosParaExportar as procesarReporteMusculo,
   cargarDatosMusculo,
 } from "../../redux/ducks/reporteMusculo";
@@ -31,7 +34,7 @@ import {
 } from "../../redux/ducks/comentarios"
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
-import { colCumplimiento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
+import { colAlimentoCalibre, colCantidadProgramadaAlimento, colConcentracionObjetivo, colCumplimiento, colEmpresaAlimento, colFechaAlimento, colInformeAlimento, colLoteAlimento, colPisciculturaAlimento, colPlanta, colRecetaAlimento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -216,6 +219,31 @@ const Formulario = () => {
                 minCondition
               ) {
                 dispatch(procesarReporteAlimento());
+                dispatch(guardarInfoLotes({
+                  nombreEmpresa: lotes[0].data[colEmpresaAlimento],
+                  fecha: new Date().toLocaleDateString(),
+                  infoLotes: lotes.map((lote, index) => {
+                    const l = lote.data
+                    const fecha = l[colFechaAlimento].toString().substring(0,10)
+                    const programa = l[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0,
+                    })
+                    const calibre = l[colAlimentoCalibre] ? l[colAlimentoCalibre] : '-'
+                    return {
+                      index,
+                      informe: l[colInformeAlimento],
+                      piscicultura: l[colPisciculturaAlimento],
+                      planta: l[colPlanta],
+                      pmv: l[colRecetaAlimento],
+                      lote: l[colLoteAlimento],
+                      objetivo: l[colConcentracionObjetivo],
+                      fecha,
+                      programa,
+                      calibre
+                    }
+                  })
+                }))
               }
               break;
             case 2:

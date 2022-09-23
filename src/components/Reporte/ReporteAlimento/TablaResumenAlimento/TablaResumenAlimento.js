@@ -1,34 +1,30 @@
 import React from "react";
-import {
-  colCantidadProgramadaAlimento,
-  colConcentracionObjetivo,
-  colInformeAlimento,
-  colLoteAlimento,
-  colPlanta,
-  colRecetaAlimento,
-  colAlimentoCalibre,
-  colFechaAlimento,
-  colPisciculturaAlimento
-} from "../../../../constants";
+import { useSelector } from "react-redux";
 import "./TablaResumenAlimento.css";
 import TablaResumenAlimentoUI from "./TablaResumenAlimentoUI";
 
-const TablaResumenAlimento = ({ lote: datos }) => {
-  const fecha = datos[colFechaAlimento].toString().substring(0,10)
-  const programa = datos[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  })
-  const calibre = datos[colAlimentoCalibre] ? datos[colAlimentoCalibre] : '-'
+const TablaResumenAlimento = ({ index }) => {
+  const { lotes } = useSelector(state => state.visualizadorReporteAlimento)
+  const {
+    informe,
+    piscicultura,
+    planta,
+    fecha,
+    pmv,
+    lote,
+    objetivo,
+    programa,
+    calibre
+  } = lotes[index]
   return (
     <TablaResumenAlimentoUI 
-      informe={datos[colInformeAlimento]}
-      piscicultura={datos[colPisciculturaAlimento]}
-      planta={datos[colPlanta]}
+      informe={informe}
+      piscicultura={piscicultura}
+      planta={planta}
       fecha={fecha}
-      pmv={datos[colRecetaAlimento]}
-      lote={datos[colLoteAlimento]}
-      objetivo={datos[colConcentracionObjetivo]}
+      pmv={pmv}
+      lote={lote}
+      objetivo={objetivo}
       programa={programa}
       calibre={calibre}
     />

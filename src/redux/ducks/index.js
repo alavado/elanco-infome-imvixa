@@ -6,6 +6,7 @@ import reporteCentro from './reporteCentro'
 import comentarios from './comentarios'
 import graficos from './graficos'
 import parametrosGenerales from './parametrosGenerales'
+import visualizadorReporteAlimento from './visualizadorReporteAlimento'
 
 export default combineReducers({
   reporte,
@@ -14,5 +15,6 @@ export default combineReducers({
   reporteCentro,
   graficos,
   comentarios,
-  parametrosGenerales
+  parametrosGenerales,
+  visualizadorReporteAlimento
 })

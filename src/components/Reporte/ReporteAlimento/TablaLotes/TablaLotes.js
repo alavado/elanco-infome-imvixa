@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   colLoteAlimento,
   colAlimentoCV,
@@ -7,9 +8,10 @@ import {
   colCumplimiento,
   colAlimentoMuestra,
 } from "../../../../constants";
+import { guardarHeadersValues } from "../../../../redux/ducks/visualizadorReporteAlimento";
 import TablaLotesUI from "./TablaLotesUI";
 
-const TablaLotes = ({ lote }) => {
+const TablaLotes = ({ lote, index }) => {
   const headers = ["Lote"];
   let values = [lote[colLoteAlimento]];
 
@@ -48,6 +50,11 @@ const TablaLotes = ({ lote }) => {
       minimumFractionDigits: 1,
     })
   ]
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(guardarHeadersValues({headers, values, index}))
+  }, [headers, values])
 
   return (
     <TablaLotesUI headers={headers} values={values} />

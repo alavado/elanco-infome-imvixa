@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   colAlimentoMuestra,
   colConcentracionObjetivo,
@@ -14,11 +14,12 @@ import {
   esMenorQueFecha,
   selectMinMaxFecha,
 } from "../../../../redux/ducks/utilities";
+import { guardarDatosLote } from "../../../../redux/ducks/visualizadorReporteAlimento";
 import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
 import "./GraficoCumplimiento.css";
 import GraficoCumplimientoUI from "./GraficoCumplimientoUI";
 
-const GraficoCumplimiento = ({ lote: datoLote }) => {
+const GraficoCumplimiento = ({ lote: datoLote, index }) => {
   const loteNombre = datoLote[colLoteAlimento];
   const { cumplimiento } = useSelector((state) => state.reporte);
   const { lotesTotales, lotesSeleccionados } = useSelector(
@@ -118,6 +119,11 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
       max: Math.max(...valuesLote),
       min: Math.min(...valuesLote),
   })
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(guardarDatosLote({datos, index}))
+  }, [datos])
+  
   return (<GraficoCumplimientoUI datos={datos}/>);
 };
 

@@ -7,6 +7,7 @@ import { agregarComentarioAlimento } from '../../../../redux/ducks/comentarios'
 import Comentario from './Comentario'
 import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
+import { guardarComentariosLote } from '../../../../redux/ducks/visualizadorReporteAlimento'
 
 const Comentarios = ({ pagina }) => {
 
@@ -16,6 +17,11 @@ const Comentarios = ({ pagina }) => {
   const comentarios = comentariosAlimento[pagina] || [];
   const textareaRef = useRef()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(guardarComentariosLote({comentarios, index: pagina - 1}))
+  }, [comentarios])
+  
 
   const comentar = e => {
     e.preventDefault()

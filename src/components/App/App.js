@@ -17,7 +17,7 @@ const App = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  ipcRenderer.on('volverAParametros', () => history.push('/'))
+  ipcRenderer.on('volverAParametros', () => history.goBack())
   ipcRenderer.on('ocultar-grafico', (_, args) => dispatch(ocultarGrafico(args.id)))
   ipcRenderer.on('mostrar-grafico', (_, args) => dispatch(mostrarGrafico(args.id)))
 

@@ -46,15 +46,15 @@ const ReporteAlimento = () => {
               <h3 className="Reporte__titulo_seccion">Información General</h3>
               <div className="ReporteAlimento__seccion">
                 <MensajeError>
-                  <TablaResumenAlimento lote={l.data} />
+                  <TablaResumenAlimento index={i}/>
                 </MensajeError>
                 <MensajeError>
-                  <GraficoCumplimiento lote={l.data} />
+                  <GraficoCumplimiento lote={l.data} index={i}/>
                 </MensajeError>
               </div>
             </div>
             <MensajeError>
-              <TablaLotes lote={l.data} />
+              <TablaLotes lote={l.data} index={i}/>
             </MensajeError>
             <Comentarios pagina={i + 1} />
             <Sandalias pagina={i + 1} />
