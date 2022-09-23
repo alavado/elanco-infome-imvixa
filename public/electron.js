@@ -173,10 +173,15 @@ const reporteAPDF = async () => {
     case 1:
       console.log("imprimirReporteAlimento")
       imprimirReporteAlimento()
+      // mainWindow.webContents.send("reporteAlimentoImpreso");
       break
-    case 1:
+    case 2:
       console.log("imprimirReporteMusculo")
       imprimirReporteMusculo()
+      break
+    case 3:
+      console.log("imprimirReporteCentro")
+      imprimirReporteCentro()
       break
     default:
       console.log("imprimirReporteSeguimiento")
@@ -235,6 +240,35 @@ const imprimirReporteMusculo = async () => {
 
     const hoy = new Date().toISOString().substring(0,10);
     const titulo = `Reporte de concentración en músculo-${nombreEmpresa}-${hoy}.pdf`
+    fs.writeFileSync(
+      path.join(app.getPath("desktop"), titulo), 
+      data
+    );
+    await electron.shell.openPath(
+      path.join(app.getPath("desktop"), titulo)
+    );
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+
+const imprimirReporteCentro = async () => {
+  try {
+    const data = await mainWindow.webContents.printToPDF({
+      printBackground: true,
+      marginsType: 1,
+      pageSize: {
+        width: 25400 * 50.0,
+        height: 25400 * 66.42,
+      },
+      pageRanges: {
+        from: 0,
+        to: numeroDePaginas - 1,
+      },
+    });
+
+    const hoy = new Date().toISOString().substring(0,10);
+    const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}.pdf`
     fs.writeFileSync(
       path.join(app.getPath("desktop"), titulo), 
       data
