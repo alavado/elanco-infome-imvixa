@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  esMayorQueFecha,
-  esMenorQueFecha,
-  selectMinMaxFecha,
-} from "../../../../redux/ducks/utilities";
-import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
 import "./GraficoCumplimiento.css";
 
 const GraficoCumplimientoUI = ({ datos }) => {

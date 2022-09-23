@@ -251,7 +251,7 @@ const slice = createSlice({
             fila[colInformePecesTrat] || fila[colInformePecesRTrat]
           )
         )
-        .map((filaTratamiento) => {
+        .forEach((filaTratamiento) => {
           const lotes = [];
           [colLote1Trat, colLote2Trat, colLote3Trat, colLote4Trat].forEach(
             (v) => {

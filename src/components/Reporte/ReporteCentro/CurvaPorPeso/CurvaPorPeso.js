@@ -17,7 +17,6 @@ import { Chart } from "react-chartjs-2";
 import "./CurvaPorPeso.css";
 import {
   colEstanquePeces,
-  colFechaTrat,
   colInformePeces,
   colInformePecesR,
   colInformePecesRTrat,

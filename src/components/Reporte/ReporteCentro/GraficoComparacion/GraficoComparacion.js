@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { min, compareAsc } from "date-fns";
 import {
   colEmpresaPeces,
-  colEstanquePeces,
   colFechaPeces,
   colInformePeces,
   colInformePecesR,
@@ -107,7 +106,7 @@ const GraficoComparacion = () => {
     .filter(onlyUnique);
 
   const datosPisciculturas = [];
-  pisciculturasOrigen.map((piscicultura) => {
+  pisciculturasOrigen.forEach((piscicultura) => {
     const muestrasPorPiscicultura = datosMuestrasSWFW.filter(
       (fila) => fila[colPisciculturaPeces] === piscicultura && fila[colSampleOrigin] === tipoFreshWater
     );

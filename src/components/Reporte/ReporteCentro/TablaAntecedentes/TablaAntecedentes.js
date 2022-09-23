@@ -3,11 +3,7 @@ import { useSelector } from "react-redux";
 import {
   colEstanquePeces,
   colFechaTerminoTrat,
-  colInformePeces,
-  colPisciculturaPeces,
-  colSampleOrigin,
   colUTAs,
-  tipoSeaWater,
 } from "../../../../constants";
 import "./TablaAntecedentes.css";
 import DatePicker, { registerLocale } from "react-datepicker";

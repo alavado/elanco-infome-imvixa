@@ -15,7 +15,7 @@ const TablaLotes = ({ lote, index }) => {
   const headers = ["Lote"];
   let values = [lote[colLoteAlimento]];
 
-  Object.entries(lote).map((e) => {
+  Object.entries(lote).forEach((e) => {
     if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
       headers.push(e[0].split(' ').join('\n'));
       values.push(
@@ -29,7 +29,7 @@ const TablaLotes = ({ lote, index }) => {
 
   [
     "Promedio\n(ppm)", "CV\n", "Cumplimiento\n", "Desviación\nEstándar"
-  ].map((v) => headers.push(v))
+  ].forEach((v) => headers.push(v))
 
   values = [
     ...values,

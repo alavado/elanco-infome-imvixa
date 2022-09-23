@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
-import { colEstanquePeces, colFechaPeces, colInformePeces, colSampleOrigin, tipoSeaWater } from "../../../../constants";
+import { colEstanquePeces, colInformePeces } from "../../../../constants";
 
 const TablaMuestras = () => {
   const { datosPorInforme: datosEjercicio, fecha } = useSelector(

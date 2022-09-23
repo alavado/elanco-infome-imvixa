@@ -73,7 +73,7 @@ const GraficoCumplimiento = ({ lote: datoLote, index }) => {
   };
 
   let datosPlantaIndustria = {
-    nombre: datoLote[colPlanta],
+    nombre: datoLote[colPlanta] === datoLote[colEmpresaAlimento] ? `Planta ${datoLote[colPlanta]}` : datoLote[colPlanta],
     promedio:
       cumplimiento.prom !== ""
         ? cumplimiento.prom
@@ -96,6 +96,11 @@ const GraficoCumplimiento = ({ lote: datoLote, index }) => {
     };
   }
   const valuesLote = []
+
+  console.log({
+    datosPlantaIndustria,
+    datosEmpresa
+  })
 
   Object.entries(datoLote).forEach((e) => {
     if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
