@@ -88,7 +88,7 @@ const Comentarios = ({ pagina }) => {
           </button>
       }
       {
-        (comentarios.length == 1 || (comentarios.length > 1 && nPalabras < 300)) 
+        (comentarios.length >= 1 && comentarios.length <= 2 && nPalabras < 300) 
         && <div className="Comentarios__Salmones_contenedor"><img src={salmones} className="Comentarios__Salmones_imagen" alt="imagen salmones"/></div>
       }
     </div>
