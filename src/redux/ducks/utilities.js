@@ -56,6 +56,19 @@ export const filtrarDatosPecesTratados = (datos, empresa, fechaInicial, fechaFin
   return datosFiltrados;
 };
 
+export const filtrarDatosPecesTratadosSinInicio = (datos, empresa, fechaFinal) => {
+  let datosFiltrados = datos
+  if (empresa !== "Todas") {
+    datosFiltrados = datosFiltrados.filter((obj) => obj[colEmpresaPMV].toLowerCase() === empresa.toLowerCase());
+  }
+  datosFiltrados = datosFiltrados.filter(
+    (obj) =>
+      esMenorQueFecha(obj[colFechaPMV], fechaFinal)
+  );
+  return datosFiltrados;
+};
+
+
 // Por acuerdo con Patricio se filtran los datos de aquellos que hayan sido sembrados
 // hasta la fecha final, sin considerar la fecha inicial
 // SOLO VALIDO PARA LOS GRAFICOS DE EFICACIA

@@ -3,7 +3,8 @@ import {
   filtrarDatosAlimento, 
   filtrarDatosPecesTratados,
   filtrarDatosEficacia,
-  filtrarDatosPeces } from "./utilities"
+  filtrarDatosPeces,
+  filtrarDatosPecesTratadosSinInicio } from "./utilities"
 
 const today = new Date()
 const cumplimientoMax = localStorage.getItem("cumplimientoIndustriaMax")
@@ -36,6 +37,7 @@ const slice = createSlice({
     datosFiltradosPeces: null,
     datosFiltradosEficacia: null,
     datosFiltradosPecesTratados: null,
+    datosPecesTratados: null,
     datosFiltradosIndustriaAlimento: null,
     datosFiltradosIndustriaPeces: null,
     datosFiltradosIndustriaEficacia: null,
@@ -123,6 +125,11 @@ const slice = createSlice({
         datosPecesTratados,
         state.nombreEmpresa,
         state.fechaInicio,
+        state.fechaFinal
+      )
+      state.datosPecesTratados = filtrarDatosPecesTratadosSinInicio(
+        datosPecesTratados,
+        state.nombreEmpresa,
         state.fechaFinal
       )
       state.datosFiltradosEficacia = filtrarDatosEficacia(

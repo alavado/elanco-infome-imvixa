@@ -35,6 +35,7 @@ const TablaResumen = () => {
     datosFiltradosAlimento,
     datosFiltradosPeces,
     datosFiltradosPecesTratados,
+    datosPecesTratados,
     fechaFinal
   } = useSelector(state => state.reporte)
   const esteAño = new Date(fechaFinal).getFullYear()
@@ -45,12 +46,14 @@ const TablaResumen = () => {
   const datosAñoPasado = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
-    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado))
+    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado)),
+    pmvSinFiltro: datosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado)),
   }
   const datosAñoActual = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
     peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
-    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño))
+    pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño)),
+    pmvSinFiltro: datosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño))
   }
 
   // Calcular valores de cada fila
@@ -105,20 +108,20 @@ const TablaResumen = () => {
       datosAñoActual.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0)
     ],
     [
-      'N° peces tratados RAS', 
-      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
+      'N° acumulado peces tratados RAS', 
+      datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
+      datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
     ]
     ,
     [
-      'N° peces tratados - Flujo abierto', 
-      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
+      'N° acumulado peces tratados - Flujo abierto', 
+      datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
+      datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
     ],
     [
-      'N° total de peces tratados', 
-      datosAñoPasado.pmv.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0), 
-      datosAñoActual.pmv.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0)
+      'N° acumulado total de peces tratados', 
+      datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0), 
+      datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0)
     ]
   ]
 
