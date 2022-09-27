@@ -50,8 +50,8 @@ const GraficoPesoPromedio = ({ agrandar }) => {
     }
   }).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
-  const vMax = Math.max(...datos.map(d => d.valor))
-  const vMin = Math.min(...datos.map(d => d.valor))
+  const vMax = Math.max(...datos.filter(v => v.valor).map(d => d.valor))
+  const vMin = Math.min(...datos.filter(v => v.valor).map(d => d.valor))
   const tick = Math.min(10, Math.pow(10, Math.floor(Math.log10(vMax))) / 10)
   const yMin = 0 * Math.floor(vMin / tick)
   const yMax = 10 * Math.ceil(vMax / tick)
@@ -83,19 +83,32 @@ const GraficoPesoPromedio = ({ agrandar }) => {
             </div>
           ))}
         </div>
-        {datos.map(d => (
-          <div key={`barra-${d.nombre}`} className="GraficoPesoPromedio__contenedor_barra">
-            <div
-              className="GraficoPesoPromedio__barra"
-              style={{ '--porcentaje-lleno': `${((d.valor - yMin) / (yMax - yMin)) * 100}%` }}
-            >
-              {d.valor.toFixed(0).toLocaleString('de-DE')}
-            </div>
-            <div className="GraficoPesoPromedio__etiqueta_barra">
-              {d.nombre}
-            </div>
-          </div>
-        ))}
+        {datos.map(d => {
+          if (d.valor && d.valor !== 0) {
+            return (
+              <div key={`barra-${d.nombre}`} className="GraficoPesoPromedio__contenedor_barra">
+                <div
+                  className="GraficoPesoPromedio__barra"
+                  style={{ '--porcentaje-lleno': `${((d.valor - yMin) / (yMax - yMin)) * 100}%` }}
+                >
+                  {d.valor.toFixed(0).toLocaleString('de-DE')}
+                </div>
+                <div className="GraficoPesoPromedio__etiqueta_barra">
+                  {d.nombre}
+                </div>
+              </div>
+            )
+          } else {
+            return (
+              <div key={`barra-${d.nombre}`} className="GraficoPesoPromedio__contenedor_barra">
+                <div className="GraficoPesoPromedio__si">sin datos</div>
+                <div className="GraficoPesoPromedio__etiqueta_barra">
+                  {d.nombre}
+                </div>
+              </div>
+            )
+          }
+          })}
       </div>
     </div>
   )

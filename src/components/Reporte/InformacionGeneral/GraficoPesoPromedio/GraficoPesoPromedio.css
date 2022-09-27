@@ -120,3 +120,12 @@
   height: 2rem;
   transform: rotate(-45deg);
 }
+
+.GraficoPesoPromedio__si {
+  position: absolute;
+  bottom: 0.25rem;
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
+}

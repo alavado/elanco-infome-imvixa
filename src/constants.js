@@ -24,7 +24,7 @@ export const colAlimentoCalibre = "Calibre"
 
 // Columnas para filtrar hoja pmv
 export const colEmpresaPMV = "Empresa"
-export const colFechaPMV = "Fecha inicio "
+export const colFechaPMV = "Fecha inicio"
 export const colTipoPMV = "tipo"
 export const colNPecesPMV = "peces tratados"
 export const tipoRecPMV = "Recirculación"

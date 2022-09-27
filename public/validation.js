@@ -60,7 +60,7 @@ const headerTrat = [
   "Empresa", 
   "peces tratados",
   "tipo",
-  "Fecha inicio "
+  "Fecha inicio"
 ];
 
 const headerEficacia = [
@@ -93,6 +93,10 @@ function get_header_row(sheet) {
   return headers;
 }
 
+function trimKeys(anObject) {
+  return Object.entries(anObject).reduce((acc, curr) => ({...acc, [curr[0].trim()]: curr[1]}), {})
+}
+
 const checkAlimento = (wb) => {
   // abrir hoja Alimento
   const sheetName = wb.SheetNames[0];
@@ -101,13 +105,14 @@ const checkAlimento = (wb) => {
     wb.Sheets[sheetName],
     (header = headerJson),
     (range = 2)
-  );
+  ).map(row => trimKeys(row));
   // Revisar que tenga datos
   if (alimentoJson.length < 1) {
     throw Error("Hoja Alimento no tiene datos");
   }
   // Revisar que tenga las columnas de alimento
-  if (!headerAlimentos.every((element) => headerJson.includes(element))) {
+  const headerTrimmed = headerJson.map(v => v.trim())
+  if (!headerAlimentos.every((element) => headerTrimmed.includes(element))) {
     throw Error("Hoja alimento no tiene las columnas necesarias");
   }
   // Filtrar datos por estado Reportado
@@ -133,13 +138,14 @@ const checkPecesHojaTratamiento = (wb) => {
     wb.Sheets[sheetName],
     (header = headerJSON),
     (range = 2)
-  );
+  ).map(row => trimKeys(row));
   // Revisar que tenga datos
   if (tratJSON.length < 1) {
     throw Error("Hoja BD Trat no tiene datos");
   }
   // Revisar que tenga las columnas de PMV
-  if (!headerPecesHojaTrat.every((element) => headerJSON.includes(element))) {
+  const headerTrimmed = headerJSON.map(v => v.trim())
+  if (!headerPecesHojaTrat.every((element) => headerTrimmed.includes(element))) {
     throw Error("Hoja BD Trat no tiene las columnas necesarias");
   }
   return tratJSON;
@@ -159,13 +165,14 @@ const checkPecesHojaImvixa = (wb) => {
     wb.Sheets[sheetName],
     (header = headerJson),
     (range = 2)
-  );
+  ).map(row => trimKeys(row));
   // Revisar que tenga datos
   if (pecesJson.length < 1) {
     throw Error("Planilla Peces no tiene datos");
   }
   // Revisar que tenga las columnas de peces
-  if (!headerPecesHojaImvixa.every((element) => headerJson.includes(element))) {
+  const headerTrimmed = headerJson.map(v => v.trim())
+  if (!headerPecesHojaImvixa.every((element) => headerTrimmed.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias");
   }
   // const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
@@ -182,13 +189,14 @@ const checkEficacia = (wb) => {
     wb.Sheets[sheetName],
     (header = headerJson),
     (range = 2)
-  );
+  ).map(row => trimKeys(row));
   // Revisar que tenga datos
   if (eficaciaJson.length < 1) {
     throw Error("Planilla Eficacia no tiene datos");
   }
   // Revisar que tenga las columnas de peces
-  if (!headerEficacia.every((element) => headerJson.includes(element))) {
+  const headerTrimmed = headerJson.map(v => v.trim())
+  if (!headerEficacia.every((element) => headerTrimmed.includes(element))) {
     throw Error("Planilla Eficacia no tiene las columnas necesarias");
   }
   const cleanEficacia = eficaciaJson.map(v => {
@@ -207,7 +215,7 @@ const checkEficacia = (wb) => {
 const checkTratamiento = (wb) => {
   const sheetsNames = []
   wb.SheetNames.forEach((sheet, i) => {
-    const headerJSON = get_header_row(wb.Sheets[sheet]);
+    const headerJSON = get_header_row(wb.Sheets[sheet]).map(v => v.trim());
     // Revisar que tenga las columnas de PMV
     if (headerTrat.every((element) => headerJSON.includes(element))) {
       sheetsNames.push(sheet)
@@ -224,14 +232,14 @@ const checkTratamiento = (wb) => {
       wb.Sheets[sheet],
       (header = headerJSON),
       (range = 2)
-    )
+    ).map(row => trimKeys(row))
     if (sheetData.length >= 1) {
       tratJSON.push(...sheetData);
     }
   })
   // Revisar que tenga datos
   if (tratJSON.length < 1) {
-    throw Error("Hoja BD Trat no tiene datos");
+    throw Error("BD Trat no tiene datos");
   }
   return tratJSON;
 };
