@@ -63,6 +63,9 @@ try {
   console.error(e);
 }
 
+// const REGISTER_FILE = 'Registro_reportes_impreso.xlsx'
+// const registerPath =  path.join(appUserDataPath, REGISTER_FILE)
+
 function construirMenu() {
   const menu = new Menu();
   menu.append(
@@ -168,12 +171,18 @@ app.on("activate", () => {
   }
 });
 
+const uuidv4 = require("uuid/v4")
+
 const reporteAPDF = async () => {
+  // mainWindow.webContents.send("imprimirReporte")
+  
+// };
+
+// ipcMain.on("imprimirReporte", async (_, datosRegistro) => {
   switch (reporteID) {
     case 1:
       console.log("imprimirReporteAlimento")
       imprimirReporteAlimento()
-      // mainWindow.webContents.send("reporteAlimentoImpreso");
       break
     case 2:
       console.log("imprimirReporteMusculo")
@@ -188,7 +197,26 @@ const reporteAPDF = async () => {
       imprimirReporteSeguimiento()
       break
   }
-};
+  // guardarRegistro({...datosRegistro, reporteID: uuidv4()})
+}//)
+
+// const guardarRegistro = async (datosRegistro) => {
+//   const {
+//     reporteID,
+//     tipoID,
+//     reporte,
+//     fecha,
+//     empresa,
+//     datos
+//   } = datosRegistro
+//   const datosString = JSON.stringify(datos)
+//   // TODO: Check if file exists if not create if exists then append
+//   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
+//   const firstSheetName = workbook.SheetNames[0];
+//   const sheet = workbook.Sheets[firstSheetName];
+//   XLSX.utils.sheet_add_aoa(sheet, [reporteID, tipoID, reporte, fecha, empresa, datosString], {origin:-1})
+//   XLSX.writeFile(wb, registerPath)
+// }
 
 const imprimirReporteAlimento = async () => {
   try {
@@ -349,8 +377,6 @@ ipcMain.on("datosReporte", async (_, data) => {
   console.log({numeroDeLotes, nombreEmpresa, lotes})
 });
 
-
-
 // Reporte seguimiento - si hay comentarios son dos páginas
 ipcMain.on("hayComentarios", async () => {
   hayComentarios = true;
@@ -370,21 +396,23 @@ var validation = require("./validation");
 
 ipcMain.on("leer", async (event, state) => {
   try {
-    const wb = XLSX.readFile(state.path, { type: "binary", cellDates: true });
     let datos;
+    let wb;
+    const path = state.path;
     switch (state.tipo) {
       case "alimento":
+        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
         datosAlimento = validation.checkAlimento(wb);
         event.sender.send(state.tipo, {
-          path: state.path,
+          path: path,
           datos: datosAlimento,
         });
         break;
       case "peces":
-        datosPeces = validation.checkPecesHojaImvixa(wb);
-        datosTratamiento = validation.checkPecesHojaTratamiento(wb);
+        datosPeces = validation.checkPecesHojaImvixa(path);
+        datosTratamiento = validation.checkPecesHojaTratamiento(path);
         event.sender.send(state.tipo, {
-          path: state.path,
+          path: path,
           datos: {
             datosPeces,
             datosTratamiento
@@ -392,16 +420,18 @@ ipcMain.on("leer", async (event, state) => {
         });
         break;
       case "eficacia":
+        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
         datosEficacia = validation.checkEficacia(wb);
         event.sender.send(state.tipo, {
-          path: state.path,
+          path: path,
           datos: datosEficacia,
         });
         break;
       case "tratamiento":
+        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
         datosTratamiento = validation.checkTratamiento(wb);
         event.sender.send(state.tipo, {
-          path: state.path,
+          path: path,
           datos: datosTratamiento,
         });
         break;
@@ -410,7 +440,7 @@ ipcMain.on("leer", async (event, state) => {
     }
   } catch (err) {
     event.sender.send(state.tipo, {
-      path: state.path,
+      path: path,
       datos: [],
     });
     console.log("err", err);

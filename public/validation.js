@@ -125,8 +125,9 @@ const checkAlimento = (wb) => {
   return alimentoJsonReportado;
 };
 
-const checkPecesHojaTratamiento = (wb) => {
+const checkPecesHojaTratamiento = (path) => {
   // abrir hoja BD Trat
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Trat'});
   const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("trat"));
   if (!sheetName) {
     throw Error(
@@ -151,7 +152,8 @@ const checkPecesHojaTratamiento = (wb) => {
   return tratJSON;
 };
 
-const checkPecesHojaImvixa = (wb) => {
+const checkPecesHojaImvixa = (path) => {
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Imvixa'});
   const sheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("imvixa")
   );

@@ -153,46 +153,66 @@ const GraficoCumplimiento = () => {
             </div>
           ))}
         </div>
-        {datos.map((d) => (
-          <div
-            key={`caja-cc-${d.nombre}`}
-            className="GraficoCumplimiento__contenedor_caja"
-          >
-            <div
-              className="GraficoCumplimiento__bigote"
-              style={{
-                "--porcentaje-top": `${
-                  ((yMax - d.max) / (yMax - yMin)) * 100
-                }%`,
-                height: `${((d.max - d.min) / (yMax - yMin)) * 100}%`,
-              }}
-            />
-            <div
-              className="GraficoCumplimiento__caja"
-              style={{
-                "--porcentaje-bottom": `${Math.max(
-                  0,
-                  ((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) *
-                    100
-                )}%`,
-                "--porcentaje-top": `${
-                  ((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) *
-                  100
-                }%`,
-              }}
+        {datos.map((d) => {
+          if (d.promedio) {
+            return (<div
+              key={`caja-cc-${d.nombre}`}
+              className="GraficoCumplimiento__contenedor_caja"
             >
-              {d.promedio.toLocaleString("de-DE", {
-                maximumFractionDigits: 1,
-                minimumFractionDigits: 1,
-              })}
+              <div
+                className="GraficoCumplimiento__bigote"
+                style={{
+                  "--porcentaje-top": `${
+                    ((yMax - d.max) / (yMax - yMin)) * 100
+                  }%`,
+                  height: `${((d.max - d.min) / (yMax - yMin)) * 100}%`,
+                }}
+              />
+              <div
+                className="GraficoCumplimiento__caja"
+                style={{
+                  "--porcentaje-bottom": `${Math.max(
+                    0,
+                    ((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) *
+                      100
+                  )}%`,
+                  "--porcentaje-top": `${
+                    ((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) *
+                    100
+                  }%`,
+                }}
+              >
+                {d.promedio.toLocaleString("de-DE", {
+                  maximumFractionDigits: 1,
+                  minimumFractionDigits: 1,
+                })}
+              </div>
+              <div className="GraficoCumplimiento__etiqueta_caja">
+                {d.nombre.split(" ").map((n, i) => (
+                  <div key={`${d.nombre}-${i}`}>{n}</div>
+                ))}
+              </div>
+            </div>)
+          } else {
+            return (
+              <div
+              key={`caja-cc-${d.nombre}`}
+              className="GraficoCumplimiento__contenedor_caja"
+            >
+              <div
+                className="GraficoCumplimiento__si"
+              >
+                Sin datos
+              </div>
+              <div className="GraficoCumplimiento__etiqueta_caja">
+                {d.nombre.split(" ").map((n, i) => (
+                  <div key={`${d.nombre}-${i}`}>{n}</div>
+                ))}
+              </div>
             </div>
-            <div className="GraficoCumplimiento__etiqueta_caja">
-              {d.nombre.split(" ").map((n, i) => (
-                <div key={`${d.nombre}-${i}`}>{n}</div>
-              ))}
-            </div>
-          </div>
-        ))}
+            )
+          }
+        })}
       </div>
     </div>
   );

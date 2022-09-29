@@ -162,3 +162,11 @@
   top: auto;
   bottom: 0;
 }
+
+.GraficoCumplimiento__si {
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
+  align-self: center; 
+}
