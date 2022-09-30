@@ -25,6 +25,16 @@ const getShortPath = (path) => {
 const FormPlanillas = () => {
   const dispatch = useDispatch();
 
+  
+  let { 
+    planillaAlimento, 
+    planillaPeces, 
+    planillaEficacia,
+    planillaPecesTratados
+   } = useSelector(
+    (state) => state.parametrosGenerales
+  );
+
   const leerPlanilla = async (tipo, path) => {
     if (path) {
       dispatch(estaValidando({[tipo]: true}))
@@ -35,61 +45,51 @@ const FormPlanillas = () => {
   const dispatchErrorFormulario = () => dispatch(mostrarErrorFormulario(
     "La planilla que intentó cargar no cumple con el formato necesario."
   ))
-
-  ipcRenderer.once("alimento", async (e, data) => {
-    dispatch(estaValidando({alimento: false}))
-    if (data.datos.length === 0) {
-      dispatchErrorFormulario()
-      dispatch(limpiarFormularioAlimento())
-    } else {
-      dispatch(guardarPlanillaAlimento(data))
-      localStorage.setItem("planillaAlimento", data.path)
-    }
-  });
-  
-  ipcRenderer.once("eficacia", async (e, data) => {
-    dispatch(estaValidando({eficacia: false}))
-    if (data.datos.length === 0) {
-      dispatchErrorFormulario()
-      dispatch(limpiarFormularioEficacia())
-    } else {
-      dispatch(guardarPlanillaEficacia(data))
-      localStorage.setItem("planillaEficacia", data.path)
-    }
-  });
-
-  ipcRenderer.once("peces", async (e, data) => {
-    dispatch(estaValidando({peces: false}))
-    if (data.datos.length === 0) {
-      dispatchErrorFormulario()
-      dispatch(limpiarFormularioPeces())
-    } else {
-      dispatch(guardarPlanillaPeces(data))
-      localStorage.setItem("planillaPeces", data.path)
-    }
-  });
-
-  ipcRenderer.once("tratamiento", async (e, data) => {
-    dispatch(estaValidando({tratamiento: false}))
-    if (data.datos.length === 0) {
-      dispatchErrorFormulario()
-      dispatch(limpiarFormularioPecesTratados())
-    } else {
-      dispatch(guardarPlanillaPecesTratados(data))
-      localStorage.setItem("planillaPecesTratados", data.path)
-    }
-  });
-
-  let { 
-    planillaAlimento, 
-    planillaPeces, 
-    planillaEficacia,
-    planillaPecesTratados,
-   } = useSelector(
-    (state) => state.parametrosGenerales
-  );
   
   useEffect(() => {
+    ipcRenderer.on("alimento", async (e, data) => {
+      dispatch(estaValidando({alimento: false}))
+      if (data.datos && data.datos.length === 0) {
+        dispatchErrorFormulario()
+        dispatch(limpiarFormularioAlimento())
+      } else {
+        dispatch(guardarPlanillaAlimento(data))
+        localStorage.setItem("planillaAlimento", data.path)
+      }
+    });
+    
+    ipcRenderer.on("eficacia", async (e, data) => {
+      dispatch(estaValidando({eficacia: false}))
+      if (data.datos && data.datos.length === 0) {
+        dispatchErrorFormulario()
+        dispatch(limpiarFormularioEficacia())
+      } else {
+        dispatch(guardarPlanillaEficacia(data))
+        localStorage.setItem("planillaEficacia", data.path)
+      }
+    });
+  
+    ipcRenderer.on("peces", async (e, data) => {
+      dispatch(estaValidando({peces: false}))
+      if (data.datos && data.datos.length === 0) {
+        dispatchErrorFormulario()
+        dispatch(limpiarFormularioPeces())
+      } else {
+        dispatch(guardarPlanillaPeces(data))
+        localStorage.setItem("planillaPeces", data.path)
+      }
+    });
+  
+    ipcRenderer.on("tratamiento", async (e, data) => {
+      dispatch(estaValidando({tratamiento: false}))
+      if (data.datos && data.datos.length === 0) {
+        dispatchErrorFormulario()
+        dispatch(limpiarFormularioPecesTratados())
+      } else {
+        dispatch(guardarPlanillaPecesTratados(data))
+        localStorage.setItem("planillaPecesTratados", data.path)
+      }
+    });
     // Recuperar de localstorage aquellos
     if (planillaAlimento === "" && localStorage.getItem('planillaAlimento') !== null) {
       leerPlanilla("alimento", localStorage.getItem('planillaAlimento'))

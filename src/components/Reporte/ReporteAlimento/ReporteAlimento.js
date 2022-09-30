@@ -18,7 +18,7 @@ const ReporteAlimento = () => {
   useEffect(() => {
     ipcRenderer.send('datosReporte', {
       numeroDeLotes: lotesSeleccionados.length,
-      nombreEmpresa: nombreEmpresa.value,
+      nombreEmpresa: nombreEmpresa,
       lotes: lotesSeleccionados.map(v => v.data[colLoteAlimento])
     })
   }, [lotesSeleccionados, nombreEmpresa])

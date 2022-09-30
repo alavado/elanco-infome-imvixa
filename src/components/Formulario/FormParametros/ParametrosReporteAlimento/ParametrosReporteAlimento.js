@@ -21,7 +21,7 @@ import "../FormParametros.css";
 const ParametrosReporteAlimento = () => {
   registerLocale("es", es);
   const {
-    nombreEmpresa,
+    opcionEmpresa: nombreEmpresa,
     piscicultura,
     pmv,
     fecha,

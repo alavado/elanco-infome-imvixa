@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reportes } from "../../helpers/reportes";
 import { localeSort } from "./utilities";
-import { colEmpresaAlimento, colPisciculturaAlimento, colFechaAlimento, colFechaPeces, colFechaTrat } from "../../constants";
+import {
+  colEmpresaAlimento,
+  colPisciculturaAlimento,
+  colFechaAlimento,
+  colFechaPeces,
+  colFechaTrat,
+} from "../../constants";
 
 const slice = createSlice({
   name: "parametrosGenerales",
@@ -9,7 +15,7 @@ const slice = createSlice({
     validando: {
       alimento: false,
       eficacia: false,
-      // tratamiento: false,
+      tratamiento: false,
       peces: false,
     },
     pasoActual: 0,
@@ -50,28 +56,27 @@ const slice = createSlice({
     guardarPlanillaAlimento(state, action) {
       state.planillaAlimento = action.payload.path;
       const datos = [];
-      action.payload.datos.forEach(r => {
+      action.payload.datos.forEach((r) => {
         datos.push({
           ...r,
-          [colFechaAlimento] : new Date(r[colFechaAlimento]).toISOString()
-        })
-      }) 
-      let objPisciculturas = {}
-      action.payload.datos
-      .forEach((r) => {
+          [colFechaAlimento]: new Date(r[colFechaAlimento]).toISOString(),
+        });
+      });
+      let objPisciculturas = {};
+      action.payload.datos.forEach((r) => {
         if (!(r[colEmpresaAlimento] in objPisciculturas)) {
-          objPisciculturas[r[colEmpresaAlimento]] = new Set()
+          objPisciculturas[r[colEmpresaAlimento]] = new Set();
         }
-        objPisciculturas[r[colEmpresaAlimento]].add(r[colPisciculturaAlimento])
-      })
+        objPisciculturas[r[colEmpresaAlimento]].add(r[colPisciculturaAlimento]);
+      });
       state.datosAlimento = datos;
       let empresas = localeSort(Object.keys(objPisciculturas));
-      empresas.forEach(e => {
+      empresas.forEach((e) => {
         objPisciculturas[e] = localeSort([...objPisciculturas[e]]).map((v) => {
           return { value: v, label: v };
-        })
-      })
-      state.pisciculturas = objPisciculturas
+        });
+      });
+      state.pisciculturas = objPisciculturas;
       state.empresas = [
         //{ value: "Todas", label: "Todas" },
         ...empresas.map((v) => {
@@ -102,28 +107,58 @@ const slice = createSlice({
     guardarPlanillaPeces(state, action) {
       state.planillaPeces = action.payload.path;
       const datosTratamiento = [];
-      action.payload.datos.datosTratamiento.forEach(r => {
-        datosTratamiento.push({
-          ...r,
-          [colFechaTrat] : new Date(r[colFechaTrat]).toISOString()
-        })
-      });
+      let date;
+      let r;
+      for (
+        let index = 0;
+        index < action.payload.datos.datosTratamiento.length;
+        index++
+      ) {
+        r = action.payload.datos.datosTratamiento[index];
+        if (r[colFechaTrat]) {
+          date = new Date(r[colFechaTrat]).toISOString();
+          datosTratamiento.push({
+            ...r,
+            [colFechaTrat]: date,
+          });
+        } else {
+          console.log({
+            error: "ERROR",
+            fecha: r[colFechaTrat],
+            datos: r,
+          })
+        }
+      }
       state.datosTratamiento = datosTratamiento;
       const datosPeces = [];
-      action.payload.datos.datosPeces.forEach(r => {
-        datosPeces.push({
-          ...r,
-          [colFechaPeces] : new Date(r[colFechaPeces]).toISOString()
-        })
-      })
+      for (
+        let index = 0;
+        index < action.payload.datos.datosPeces.length;
+        index++
+      ) {
+        r = action.payload.datos.datosPeces[index];
+        if (r[colFechaPeces]) {
+          date = new Date(r[colFechaPeces]).toISOString();
+          datosPeces.push({
+            ...r,
+            [colFechaPeces]: date,
+          });
+        } else {
+          console.log({
+            error: "ERROR",
+            fecha: r[colFechaTrat],
+            datos: r,
+          });
+        }
+      }
       state.datosPeces = datosPeces;
       if (
         state.planillaEficacia !== "" &&
         state.planillaAlimento !== "" &&
         state.planillaPecesTratados !== ""
-        ) {
-          state.todasLasPlanillas = true;
-        }
+      ) {
+        state.todasLasPlanillas = true;
+      }
       state.errorFormulario = null;
     },
     guardarPlanillaEficacia(state, action) {
@@ -165,6 +200,7 @@ const slice = createSlice({
       state.todasLasPlanillas = false;
       state.planillaPeces = "";
       state.datosPeces = [];
+      state.datosTratamiento = []
       state.validando = {
         ...state.validando,
         peces: false,
@@ -183,7 +219,7 @@ const slice = createSlice({
     },
     seleccionarReporte(state, action) {
       const id = action.payload;
-      console.log("SeleccionarReporte")
+      console.log("SeleccionarReporte");
       state.reporte = reportes.find((r) => r.id === id);
     },
   },

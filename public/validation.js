@@ -126,6 +126,15 @@ const checkAlimento = (wb) => {
 };
 
 const checkPecesHojaTratamiento = (path) => {
+  wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
+  const checkSheetName = wb.SheetNames.find((v) =>
+    v.toLowerCase().includes("trat")
+    );
+  if (!checkSheetName) {
+    throw Error(
+      "Hoja de registro de tratamientos no encontrada: el nombre de la hoja debe incluir 'trat'"
+    );
+  }
   // abrir hoja BD Trat
   wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Trat'});
   const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("trat"));
@@ -153,6 +162,15 @@ const checkPecesHojaTratamiento = (path) => {
 };
 
 const checkPecesHojaImvixa = (path) => {
+  wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
+  const checkSheetName = wb.SheetNames.find((v) =>
+    v.toLowerCase().includes("imvixa")
+    );
+  if (!checkSheetName) {
+    throw Error(
+      "Hoja de registro BD Imvixa no encontrada: el nombre de la hoja debe incluir 'imvixa'"
+    );
+  }
   wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Imvixa'});
   const sheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("imvixa")

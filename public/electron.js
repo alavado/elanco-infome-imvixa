@@ -176,7 +176,9 @@ const uuidv4 = require("uuid/v4")
 const reporteAPDF = async () => {
   // mainWindow.webContents.send("imprimirReporte")
   
-// };
+// ipcMain.on("visualizandoReporte", async (_, datosRegistro) => {
+//   mainWindow.webContents.send("imprimirReporte")
+// })
 
 // ipcMain.on("imprimirReporte", async (_, datosRegistro) => {
   switch (reporteID) {
@@ -395,24 +397,25 @@ var XLSX = require("xlsx");
 var validation = require("./validation");
 
 ipcMain.on("leer", async (event, state) => {
+  const typeSheet = state.tipo
+  const pathString = state.path;
   try {
     let datos;
     let wb;
-    const path = state.path;
-    switch (state.tipo) {
+    switch (typeSheet) {
       case "alimento":
-        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
         datosAlimento = validation.checkAlimento(wb);
-        event.sender.send(state.tipo, {
-          path: path,
+        event.sender.send(typeSheet, {
+          path: pathString,
           datos: datosAlimento,
         });
         break;
       case "peces":
-        datosPeces = validation.checkPecesHojaImvixa(path);
-        datosTratamiento = validation.checkPecesHojaTratamiento(path);
-        event.sender.send(state.tipo, {
-          path: path,
+        datosPeces = validation.checkPecesHojaImvixa(pathString);
+        datosTratamiento = validation.checkPecesHojaTratamiento(pathString);
+        event.sender.send(typeSheet, {
+          path: pathString,
           datos: {
             datosPeces,
             datosTratamiento
@@ -420,30 +423,30 @@ ipcMain.on("leer", async (event, state) => {
         });
         break;
       case "eficacia":
-        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
         datosEficacia = validation.checkEficacia(wb);
-        event.sender.send(state.tipo, {
-          path: path,
-          datos: datosEficacia,
+        event.sender.send(typeSheet, {
+          path: pathString,
+          datos: datosEficacia
         });
         break;
       case "tratamiento":
-        wb = XLSX.readFile(path, { type: "binary", cellDates: true });
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
         datosTratamiento = validation.checkTratamiento(wb);
-        event.sender.send(state.tipo, {
-          path: path,
-          datos: datosTratamiento,
+        event.sender.send(typeSheet, {
+          path: pathString,
+          datos: datosTratamiento
         });
         break;
       default:
         datos = [];
     }
   } catch (err) {
-    event.sender.send(state.tipo, {
-      path: path,
-      datos: [],
+    console.log("ERR ", err);
+    event.sender.send(typeSheet, {
+      path: pathString,
+      datos: []
     });
-    console.log("err", err);
   }
 });
 
