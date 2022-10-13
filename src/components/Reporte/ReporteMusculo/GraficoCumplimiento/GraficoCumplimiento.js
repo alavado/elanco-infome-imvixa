@@ -20,17 +20,13 @@ import {
 } from "../../../../redux/ducks/utilities";
 import "./GraficoCumplimiento.css";
 
-const GraficoCumplimiento = ({ lote: datoLote }) => {
+const GraficoCumplimiento = () => {
   const {
-    nombreEmpresa,
-    lotesAsociados,
-    plantasAsociadas,
-    datosAlimento: datosAlimentoHistorico,
-    datosAlimentoLotesAsociados,
+    datosGCumpl: datos
   } = useSelector((state) => state.reporteMusculo);
-  const { cumplimiento } = useSelector((state) => state.reporte);
+  // const { cumplimiento } = useSelector((state) => state.reporte);
 
-  if (lotesAsociados.length === 0) {
+  if (datos.length === 0) {
     return (
       <div className="GraficoCumplimiento">
         <p className="GraficoCumplimiento__titulo">
@@ -45,101 +41,101 @@ const GraficoCumplimiento = ({ lote: datoLote }) => {
     );
   }
 
-  const lotesEjercicio = lotesAsociados;
-  const minFechasLotes = new Date(
-    selectMinMaxFecha(
-      datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
-    )[0]
-  );
-  const primerDiaDelMes = new Date(
-    [
-      minFechasLotes.getMonth() + 1,
-      "01",
-      minFechasLotes.getFullYear() - 1,
-    ].join("-")
-  );
-  const datosAlimento = datosAlimentoHistorico.filter((fila) => {
-    return (
-      esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
-      esMenorQueFecha(fila[colFechaAlimento], minFechasLotes)
-    );
-  });
+  // const lotesEjercicio = lotesAsociados;
+  // const minFechasLotes = new Date(
+  //   selectMinMaxFecha(
+  //     datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
+  //   )[0]
+  // );
+  // const primerDiaDelMes = new Date(
+  //   [
+  //     minFechasLotes.getMonth() + 1,
+  //     "01",
+  //     minFechasLotes.getFullYear() - 1,
+  //   ].join("-")
+  // );
+  // const datosAlimento = datosAlimentoHistorico.filter((fila) => {
+  //   return (
+  //     esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
+  //     esMenorQueFecha(fila[colFechaAlimento], minFechasLotes)
+  //   );
+  // });
 
-  const cumplimientosEmpresa = datosAlimento
-    .filter(
-      (v) =>
-        v[colEmpresaAlimento] === nombreEmpresa.value &&
-        !lotesEjercicio.includes(v[colLoteAlimento])
-    )
-    .map((obj) => obj[colCumplimiento] * 100);
+  // const cumplimientosEmpresa = datosAlimento
+  //   .filter(
+  //     (v) =>
+  //       v[colEmpresaAlimento] === nombreEmpresa.value &&
+  //       !lotesEjercicio.includes(v[colLoteAlimento])
+  //   )
+  //   .map((obj) => obj[colCumplimiento] * 100);
 
-  const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
-    const datos = datosAlimento
-      .filter(
-        (v) =>
-          v[colPlanta] === planta &&
-          !lotesEjercicio.includes(v[colLoteAlimento])
-      )
-      .map((obj) => obj[colCumplimiento] * 100);
-    return {
-      nombre: planta,
-      cumplimiento: datos,
-    };
-  });
+  // const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
+  //   const datos = datosAlimento
+  //     .filter(
+  //       (v) =>
+  //         v[colPlanta] === planta &&
+  //         !lotesEjercicio.includes(v[colLoteAlimento])
+  //     )
+  //     .map((obj) => obj[colCumplimiento] * 100);
+  //   return {
+  //     nombre: planta,
+  //     cumplimiento: datos,
+  //   };
+  // });
 
-  let datosEmpresa = {
-    nombre: nombreEmpresa.value,
-    promedio: mean(cumplimientosEmpresa),
-    ...iqrValues(cumplimientosEmpresa),
-    max: Math.max(...cumplimientosEmpresa),
-    min: Math.min(...cumplimientosEmpresa),
-  };
+  // let datosEmpresa = {
+  //   nombre: nombreEmpresa.value,
+  //   promedio: mean(cumplimientosEmpresa),
+  //   ...iqrValues(cumplimientosEmpresa),
+  //   max: Math.max(...cumplimientosEmpresa),
+  //   min: Math.min(...cumplimientosEmpresa),
+  // };
 
-  let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
-    const cumplimientosPlantaIndustria = cumplimientos.cumplimiento;
-    return {
-      nombre: cumplimientos.nombre,
-      promedio:
-        cumplimiento.prom !== ""
-          ? cumplimiento.prom
-          : mean(cumplimientosPlantaIndustria),
-      ...(cumplimiento.q2 !== ""
-        ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
-        : iqrValues(cumplimientosPlantaIndustria)),
-      max:
-        cumplimiento.max !== ""
-          ? cumplimiento.max
-          : Math.max(...cumplimientosPlantaIndustria),
-      min:
-        cumplimiento.min !== ""
-          ? cumplimiento.min
-          : Math.min(...cumplimientosPlantaIndustria),
-    };
-  });
+  // let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
+  //   const cumplimientosPlantaIndustria = cumplimientos.cumplimiento;
+  //   return {
+  //     nombre: cumplimientos.nombre,
+  //     promedio:
+  //       cumplimiento.prom !== ""
+  //         ? cumplimiento.prom
+  //         : mean(cumplimientosPlantaIndustria),
+  //     ...(cumplimiento.q2 !== ""
+  //       ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
+  //       : iqrValues(cumplimientosPlantaIndustria)),
+  //     max:
+  //       cumplimiento.max !== ""
+  //         ? cumplimiento.max
+  //         : Math.max(...cumplimientosPlantaIndustria),
+  //     min:
+  //       cumplimiento.min !== ""
+  //         ? cumplimiento.min
+  //         : Math.min(...cumplimientosPlantaIndustria),
+  //   };
+  // });
 
-  const datosPorLote = lotesEjercicio.map((l) => {
-    const filaLote = datosAlimentoLotesAsociados.find(
-      (f) => f[colLoteAlimento].toString() === l
-    );
-    const valuesLote = [
-      colAlimentoM1,
-      colAlimentoM2,
-      colAlimentoM3,
-      colAlimentoM4,
-    ].map(
-      (muestra) =>
-        (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
-    );
-    return {
-      nombre: l,
-      promedio: mean(valuesLote),
-      ...iqrValues(valuesLote),
-      max: Math.max(...valuesLote),
-      min: Math.min(...valuesLote),
-    };
-  });
+  // const datosPorLote = lotesEjercicio.map((l) => {
+  //   const filaLote = datosAlimentoLotesAsociados.find(
+  //     (f) => f[colLoteAlimento].toString() === l
+  //   );
+  //   const valuesLote = [
+  //     colAlimentoM1,
+  //     colAlimentoM2,
+  //     colAlimentoM3,
+  //     colAlimentoM4,
+  //   ].map(
+  //     (muestra) =>
+  //       (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
+  //   );
+  //   return {
+  //     nombre: l,
+  //     promedio: mean(valuesLote),
+  //     ...iqrValues(valuesLote),
+  //     max: Math.max(...valuesLote),
+  //     min: Math.min(...valuesLote),
+  //   };
+  // });
 
-  const datos = [...datosPlantaIndustria, datosEmpresa, ...datosPorLote];
+  // const datos = [...datosPlantaIndustria, datosEmpresa, ...datosPorLote];
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(

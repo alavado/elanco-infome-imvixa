@@ -180,7 +180,6 @@ const ParametrosReporteMusculo = () => {
               typeform="number"
               min="0"
               onChange={(e) => {
-                console.log("HERE")
                 dispatch(guardarUmbral(parseInt(e.target.value.toString().replace(/[^0-9]+/g, "")).toLocaleString('de-DE')))}}
             />
           </label>

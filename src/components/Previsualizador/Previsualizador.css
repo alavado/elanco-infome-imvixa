@@ -1,0 +1,72 @@
+.Previsualizador {
+  width: 100vw;
+  min-width: 40rem;
+  min-height: 100vh;
+  max-height: 100vh;
+  padding: 3rem 0 4rem 0;
+  background-color: var(--color-azul);
+  display: flex;
+  justify-content: center;
+  opacity: 1;
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, var(--color-azul) 5px ), repeating-linear-gradient( #2a3b5e55, var(--color-azul));
+  overflow-x: auto;
+}
+
+.Previsualizador__contenedor {
+  display: flex;
+  flex-direction: column;
+  min-width: 34rem;
+  background-color: var(--color-fondo);
+  box-shadow: 0 .2rem 1rem rgba(0, 0, 0, .25);
+}
+
+.Previsualizador__header {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: var(--color-azul);
+  padding: 1rem 2rem;
+}
+
+
+.Previsualizador__titulo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  /* font-size: 0.8rem; */
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+
+.Previsualizador__stepper_paso {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  display: flex;
+}
+
+.Previsualizador__body {
+  position: relative;
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.Previsualizador__logo_elanco {
+  width: 5rem;
+  bottom: .5rem;
+  right: 1rem;
+}
+
+.Previsualizador__logo_imvixa {
+  width: 6rem;
+  margin-right: 1rem;
+}
+
+.logos {
+  display: flex;
+}

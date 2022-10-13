@@ -51,10 +51,10 @@ const TablaLotes = ({ lote, index }) => {
     })
   ]
 
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(guardarHeadersValues({headers, values, index}))
-  }, [headers, values])
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(guardarHeadersValues({headers, values, index}))
+  // }, [headers, values])
 
   return (
     <TablaLotesUI headers={headers} values={values} />

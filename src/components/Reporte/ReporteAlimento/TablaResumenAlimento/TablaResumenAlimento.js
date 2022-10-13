@@ -4,7 +4,7 @@ import "./TablaResumenAlimento.css";
 import TablaResumenAlimentoUI from "./TablaResumenAlimentoUI";
 
 const TablaResumenAlimento = ({ index }) => {
-  const { lotes } = useSelector(state => state.visualizadorReporteAlimento)
+  const { lotes } = useSelector(state => state.reporteAlimento)
   const {
     informe,
     piscicultura,

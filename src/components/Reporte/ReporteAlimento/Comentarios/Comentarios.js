@@ -7,28 +7,32 @@ import { agregarComentarioAlimento } from '../../../../redux/ducks/comentarios'
 import Comentario from './Comentario'
 import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
-import { guardarComentariosLote } from '../../../../redux/ducks/visualizadorReporteAlimento'
+import { guardarComentariosLote } from '../../../../redux/ducks/reporteAlimento'
 
-const Comentarios = ({ pagina }) => {
+const Comentarios = ({ indice }) => {
 
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
-  const { comentariosAlimento } = useSelector(state => state.comentarios)
-  const comentarios = comentariosAlimento[pagina] || [];
+  const { comentariosAlimento, preViz } = useSelector(state => state.comentarios)
+  const comentarios = comentariosAlimento[indice] || [];
   const textareaRef = useRef()
   const dispatch = useDispatch()
 
+  const comentariosTexto = comentarios.join('-')
+
   useEffect(() => {
-    dispatch(guardarComentariosLote({comentarios, index: pagina - 1}))
-  }, [comentarios])
-  
+    // Si es un nuevo reporte, guardar los comentairos en la informacion del lote
+    if (!preViz) {
+      dispatch(guardarComentariosLote({comentarios, index: indice}))
+    }
+  }, [comentariosTexto])
 
   const comentar = e => {
     e.preventDefault()
     if (nuevoComentario === '') {
       return
     }
-    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentarioAlimento({texto: c, indice: pagina})))
+    nuevoComentario.split('\n').filter(c => c).forEach(c => dispatch(agregarComentarioAlimento({texto: c, indice: indice})))
     setNuevoComentario('')
     setAgregandoComentario(false)
   }
@@ -48,7 +52,7 @@ const Comentarios = ({ pagina }) => {
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">
-        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} indice={pagina} />)}
+        {comentarios.map((c, i) => <Comentario key={`comentario-${i}`} texto={c} indice={indice} />)}
       </ul>
       {agregandoComentario
         ? <form

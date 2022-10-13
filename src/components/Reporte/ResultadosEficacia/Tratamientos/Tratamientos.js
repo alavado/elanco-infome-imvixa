@@ -39,12 +39,6 @@ const Tratamientos = () => {
     fechaFinal
   } = useSelector((state) => state.reporte)
 
-  console.log({
-    datosFiltradosEficacia,
-    datosFiltradosIndustriaEficacia,
-    fechaFinal
-  })
-
   // ultimos 18 meses (3 semestres)
   const datosEmpresa = extraerUltimosPeriodos(
     'semestral', 

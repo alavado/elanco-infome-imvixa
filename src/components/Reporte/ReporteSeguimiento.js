@@ -59,6 +59,7 @@ const ReporteSeguimiento = () => {
           <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} />
           <ResultadosEficacia />
           <Comentarios
+            reporteID={REPORTE_ID_SEGUIMIENTO}
             comentarios={comentarios}
             agregarComentario={agregarComentario}
             eliminarComentario={eliminarComentario}

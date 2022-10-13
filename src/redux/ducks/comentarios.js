@@ -6,7 +6,8 @@ const slice = createSlice({
     comentarios: [],
     comentariosMusculo: [],
     comentariosCentro: [],
-    comentariosAlimento: {}
+    comentariosAlimento: {},
+    preViz: false
   },
   reducers: {
     agregarComentario(state, action) {
@@ -23,19 +24,24 @@ const slice = createSlice({
         state.comentariosAlimento[indice] = []
       }
       state.comentariosAlimento[indice].push(texto)
+      state.preViz = false // se ha modificado
     },
     eliminarComentarioAlimento(state, action) {
+      state.preViz = false // se ha modificado
       const { texto, indice } = action.payload
       state.comentariosAlimento[indice] = state.comentariosAlimento[indice].filter(c => c !== texto)
     },
     limpiarComentariosAlimento(state) {
       state.comentariosAlimento = {}
+      state.preViz = false 
     },
     agregarComentarioMusculo(state, action) {
+      state.preViz = false // se ha modificado
       const texto = action.payload
       state.comentariosMusculo.push(texto)
     },
     eliminarComentarioMusculo(state, action) {
+      state.preViz = false // se ha modificado
       const texto = action.payload
       state.comentariosMusculo = state.comentariosMusculo.filter(c => c !== texto)
     },
@@ -46,6 +52,22 @@ const slice = createSlice({
     eliminarComentarioCentro(state, action) {
       const texto = action.payload
       state.comentariosCentro = state.comentariosCentro.filter(c => c !== texto)
+    },
+    cargarComentariosAlimento(state, action) {
+      state.comentariosAlimento = [action.payload]
+      state.preViz = true
+    },
+    cargarComentariosMusculo(state, action) {
+      state.comentariosMusculo = action.payload
+      state.preViz = true
+    },
+    cargarComentariosCentro(state, action) {
+      state.comentariosCentro = action.payload
+      state.preViz = true
+    },
+    cargarComentariosSeguimiento(state, action) {
+      state.comentarios = action.payload
+      state.preViz = true
     },
   },
 })
@@ -59,7 +81,11 @@ export const {
   eliminarComentarioMusculo,
   limpiarComentariosAlimento,
   agregarComentarioCentro,
-  eliminarComentarioCentro
+  eliminarComentarioCentro,
+  cargarComentariosAlimento,
+  cargarComentariosMusculo,
+  cargarComentariosCentro,
+  cargarComentariosSeguimiento
 } = slice.actions
 
 export default slice.reducer

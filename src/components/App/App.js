@@ -9,6 +9,9 @@ import { mostrarGrafico, ocultarGrafico } from '../../redux/ducks/graficos'
 import {
   cargarConfigGraficos,
 } from "../../redux/ducks/reporteCentro";
+import Visualizador from "../Visualizador";
+import Selector from "../Selector";
+import Previsualizador from "../Previsualizador";
 
 const { ipcRenderer } = window.require('electron')
 
@@ -17,12 +20,14 @@ const App = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  ipcRenderer.on('volverAParametros', () => history.goBack())
+
   ipcRenderer.on('ocultar-grafico', (_, args) => dispatch(ocultarGrafico(args.id)))
   ipcRenderer.on('mostrar-grafico', (_, args) => dispatch(mostrarGrafico(args.id)))
 
   // Cargar configuracion reporte centro
   useEffect(() => {
+    ipcRenderer.on('volverAParametros', () => {
+      history.goBack()})
     ipcRenderer.send("cargarConfiguracionGraficos");
     ipcRenderer.on("cargarConfiguracionGraficos", async (e, data) => {
       if (data !== null) {
@@ -38,11 +43,20 @@ const App = () => {
     <div className="App">
       <Actualizando />
       <Switch>
+        <Route exact path="/visualizador">
+          <Visualizador />
+        </Route>
         <Route exact path="/reporte">
           <Reporte />
         </Route>
-        <Route exact path="/">
+        <Route exact path="/formulario">
           <Formulario />
+        </Route>
+        <Route exact path="/previz">
+          <Previsualizador />
+        </Route>
+        <Route exact path="/">
+          <Selector />
         </Route>
       </Switch>
     </div>

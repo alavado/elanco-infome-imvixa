@@ -97,11 +97,6 @@ const GraficoCumplimiento = ({ lote: datoLote, index }) => {
   }
   const valuesLote = []
 
-  console.log({
-    datosPlantaIndustria,
-    datosEmpresa
-  })
-
   Object.entries(datoLote).forEach((e) => {
     if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
       valuesLote.push(
@@ -124,10 +119,10 @@ const GraficoCumplimiento = ({ lote: datoLote, index }) => {
       max: Math.max(...valuesLote),
       min: Math.min(...valuesLote),
   })
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(guardarDatosLote({datos, index}))
-  }, [datos])
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(guardarDatosLote({datos, index}))
+  // }, [datos])
   
   return (<GraficoCumplimientoUI datos={datos}/>);
 };

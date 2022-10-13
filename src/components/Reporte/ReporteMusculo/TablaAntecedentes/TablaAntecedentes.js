@@ -1,61 +1,79 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { colConcentracionObjetivo, colCumplimiento, colDestinoTrat, colFechaInicioTrat, colFechaTerminoTrat, colFechaVeranoTrat, colLoteAlimento, colPesoInicialTrat, colPlanta, colRecetaAlimento } from "../../../../constants";
+import { guardarAlimento, guardarEstanques, guardarGrupo, guardarPeces } from "../../../../redux/ducks/reporteMusculo";
 import { onlyUnique, selectMinMax, selectMinMaxFecha } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
 
 const TablaAntecedentes = () => {
+  const dispatch = useDispatch()
+  const parseNumber = (valor) => {
+    if (valor.replace(/[^0-9]+/g, "") === "") return ""
+    return parseInt(valor.replace(/[^0-9]+/g, "")).toLocaleString("de-DE")
+  }
 
-  const { datosAlimentoLotesAsociados: datos } = useSelector((state) => state.reporteMusculo)
-  const [grupo, setGrupo] = useState("")
-  const [estanques, setEstanques] = useState("")
-  const [peces, setPeces] = useState("")
-  const [alimento, setAlimento] = useState("")
+  const { 
+    initialGrupo: grupo,
+    initialEstanques: estanques,
+    initialPeces: peces,
+    initialAlimento: alimento,
+    ta_pmv,
+    ta_peso,
+    ta_lotes,
+    ta_plantas,
+    ta_coppmv,
+    ta_inclusion,
+    ta_fini,
+    ta_fterm,
+    ta_foto,
+    ta_cd
+   } = useSelector((state) => state.reporteMusculo)
+  // const [grupo, setGrupo] = useState(initialGrupo)
+  // const [estanques, setEstanques] = useState(initialEstanques)
+  // const [peces, setPeces] = useState(initialPeces)
+  // const [alimento, setAlimento] = useState(initialAlimento)
 
   const filasColumna1 = [
-    ["PMV", datos.map(v => v[colRecetaAlimento]).filter(onlyUnique).join(' / ')],
+    ["PMV", ta_pmv],
     ["Grupo", (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: grupo !== "" ? "transparent" : "var(--color-highlight)"}}
       value={grupo}
-      onChange={(e) => {setGrupo(e.target.value)}
+      onChange={(e) => {dispatch(guardarGrupo(e.target.value))}
       }
     />)],
     ["Número de peces", (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
       value={peces}
-      onChange={(e) => {setPeces(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
+      onChange={(e) => {dispatch(guardarPeces(parseNumber(e.target.value)))}
       }
     />)],
-    ["Peso al inicio de tratamiento (g)", selectMinMax(datos.map(v => Math.round(v[colPesoInicialTrat]))).filter(onlyUnique).join(' - ')],
+    ["Peso al inicio de tratamiento (g)", ta_peso],
     ["Estanques medicados", (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: estanques !== "" ? "transparent" : "var(--color-highlight)"}}
       value={estanques}
-      onChange={(e) => {setEstanques(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
+      onChange={(e) => {dispatch(guardarEstanques(parseNumber(e.target.value)))}
       }
     />)],
-    ["Lote de alimento", datos.map(v => v[colLoteAlimento]).filter(onlyUnique).join(' / ')],
-    ["Planta de alimento", datos.map(v => v[colPlanta]).filter(onlyUnique).join(' / ')],
+    ["Lote de alimento", ta_lotes],
+    ["Planta de alimento", ta_plantas],
   ];
   const filasColumna2 = [
-    ["Concentración objetivo PMV (ppm)", datos.map(v => Math.round(v[colConcentracionObjetivo]).toLocaleString("de-DE")).join(' / ')],
-    ["Inclusión de activo en alimento (%)", datos.map(v => (v[colCumplimiento] * 100).toLocaleString("de-DE", {
-      maximumFractionDigits: 1,
-      minimumFractionDigits: 1,
-    })).join(' / ')],
+    ["Concentración objetivo PMV (ppm)", ta_coppmv],
+    ["Inclusión de activo en alimento (%)", ta_inclusion],
     ["Alimento consumido (kg)", (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: alimento !== "" ? "transparent" : "var(--color-highlight)"}}
       value={alimento}
-      onChange={(e) => {setAlimento(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
+      onChange={(e) => {dispatch(guardarAlimento(parseNumber(e.target.value)))}
       }
     />)],
-    ["Fecha de inicio de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaInicioTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
-    ["Fecha de término de tratamiento", selectMinMaxFecha(datos.map(v => v[colFechaTerminoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
-    ["Fecha de inicio fotoperiodo", selectMinMaxFecha(datos.map(v => v[colFechaVeranoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'],
-    ["Centro de destino",  datos.map(v => v[colDestinoTrat]).filter(onlyUnique).join(' / ')],
+    ["Fecha de inicio de tratamiento", ta_fini],
+    ["Fecha de término de tratamiento", ta_fterm],
+    ["Fecha de inicio fotoperiodo", ta_foto],
+    ["Centro de destino", ta_cd],
   ];
   return (
     <div className="TablaAntecedentes">

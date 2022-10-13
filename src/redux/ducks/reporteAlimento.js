@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { iqrValues, iqrValuesFixed, mean } from "../../components/Reporte/utilitiesReporte";
 import {
   colEmpresaAlimento,
   colPisciculturaAlimento,
@@ -10,7 +11,13 @@ import {
   colAlimentoCalibre,
   colCantidadProgramadaAlimento,
   colPlanta,
+  colAlimentoMuestra,
+  colCumplimiento,
+  colAlimentoSTD,
+  colAlimentoCV,
+  colAlimentoProm,
 } from "../../constants";
+import { esMayorQueFecha, esMenorQueFecha, selectMinMaxFecha } from "./utilities";
 
 const slice = createSlice({
   name: "reporteAlimento",
@@ -93,39 +100,170 @@ const slice = createSlice({
       state.nombreEmpresa = nombreEmpresa
       state.opcionEmpresa = { value: nombreEmpresa, label: nombreEmpresa }
       state.procesandoParaExportar = true;
+
+      const { cumplimiento } = action.payload;
+      const lotesEjercicio = state.lotesSeleccionados.map((l) => l.data[colLoteAlimento]);
+      const minFechasLotes = new Date(
+        selectMinMaxFecha(
+          state.lotesSeleccionados.map((l) => l.data[colFechaAlimento])
+        )[0]
+      );
+      const primerDiaDelMes = new Date(
+        [
+          minFechasLotes.getMonth() + 1,
+          "01",
+          minFechasLotes.getFullYear() - 1,
+        ].join("-")
+      );
+
       const lotes = state.lotesSeleccionados.map((lote, index) => {
-        const l = lote.data
-        const fecha = l[colFechaAlimento].toString().substring(0,10)
-        const programa = l[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
+        const datoLote = lote.data
+        const fecha = datoLote[colFechaAlimento].toString().substring(0,10)
+        const programa = datoLote[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
         })
-        const calibre = l[colAlimentoCalibre] ? l[colAlimentoCalibre] : '-'
-         // TODO: Guardar datos: Copiar de grafico cumplimiento
-         const { cumplimiento } = action.payload;
+        const calibre = datoLote[colAlimentoCalibre] ? datoLote[colAlimentoCalibre] : '-'
+        // Guardar datos de grafico cumplimiento
+        const lotesTotalesPeriodo = state.lotesTotales.filter(
+          (v) =>
+            esMayorQueFecha(v.data[colFechaAlimento], primerDiaDelMes) &&
+            esMenorQueFecha(v.data[colFechaAlimento], minFechasLotes) &&
+            (v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] ||
+              v.data[colPlanta] === datoLote[colPlanta])
+        );
 
-         // TODO: Guardar headers
+        const cumplimientosEmpresa = lotesTotalesPeriodo
+          .filter(
+            (v) =>
+              v.data[colEmpresaAlimento] === datoLote[colEmpresaAlimento] &&
+              !lotesEjercicio.includes(v.data[colLoteAlimento])
+          )
+          .map((obj) => obj.data[colCumplimiento] * 100);
 
+        const cumplimientosPlantaIndustria = lotesTotalesPeriodo
+          .filter(
+            (v) =>
+              v.data[colPlanta] === datoLote[colPlanta] &&
+              !lotesEjercicio.includes(v.data[colLoteAlimento])
+          )
+          .map((obj) => obj.data[colCumplimiento] * 100);
+
+        let datosEmpresa = {
+          nombre: datoLote[colEmpresaAlimento],
+          promedio: mean(cumplimientosEmpresa),
+          ...iqrValues(cumplimientosEmpresa),
+          max: Math.max(...cumplimientosEmpresa),
+          min: Math.min(...cumplimientosEmpresa),
+        };
+
+        let datosPlantaIndustria = {
+          nombre: datoLote[colPlanta] === datoLote[colEmpresaAlimento] ? `Planta ${datoLote[colPlanta]}` : datoLote[colPlanta],
+          promedio:
+            cumplimiento.prom !== ""
+              ? cumplimiento.prom
+              : mean(cumplimientosPlantaIndustria),
+          ...iqrValues(cumplimientosPlantaIndustria),
+          max:
+            cumplimiento.max !== ""
+              ? cumplimiento.max
+              : Math.max(...cumplimientosPlantaIndustria),
+          min:
+            cumplimiento.min !== ""
+              ? cumplimiento.min
+              : Math.min(...cumplimientosPlantaIndustria),
+        };
+
+        if (cumplimiento.q2 !== "") {
+          datosPlantaIndustria = {
+            ...datosPlantaIndustria,
+            ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4),
+          };
+        }
+        const valuesLote = []
+
+        Object.entries(datoLote).forEach((e) => {
+          if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
+            valuesLote.push(
+              (e[1] * 100) / datoLote[colConcentracionObjetivo]
+            );
+          }
+        });
+
+        const datos = []
+        if (cumplimientosPlantaIndustria.length > 0) {
+          datos.push(datosPlantaIndustria)
+        }
+        if (cumplimientosEmpresa.length > 0) {
+          datos.push(datosEmpresa)
+        }
+        datos.push({
+          nombre: datoLote[colLoteAlimento].toString(),
+            promedio: mean(valuesLote),
+            ...iqrValues(valuesLote),
+            max: Math.max(...valuesLote),
+            min: Math.min(...valuesLote),
+        })
+
+         // Guardar headers y values Tabla Lotes
+         const headers = ["Lote"];
+         let values = [datoLote[colLoteAlimento]];
+       
+         Object.entries(datoLote).forEach((e) => {
+           if (e[0].startsWith(colAlimentoMuestra) && e[1]) {
+             headers.push(e[0].split(' ').join('\n'));
+             values.push(
+               e[1].toLocaleString("de-DE", {
+                 maximumFractionDigits: 1,
+                 minimumFractionDigits: 1,
+               })
+             );
+           }
+         });
+       
+         [
+           "Promedio\n(ppm)", "CV\n", "Cumplimiento\n", "Desviación\nEstándar"
+         ].forEach((v) => headers.push(v))
+       
+         values = [
+           ...values,
+           datoLote[colAlimentoProm].toLocaleString("de-DE", {
+             maximumFractionDigits: 1,
+             minimumFractionDigits: 1,
+           }),
+           (datoLote[colAlimentoCV] * 100).toLocaleString("de-DE", {
+             maximumFractionDigits: 1,
+             minimumFractionDigits: 1,
+           }) + '%',
+           (datoLote[colCumplimiento] * 100).toLocaleString("de-DE", {
+             maximumFractionDigits: 1,
+             minimumFractionDigits: 1,
+           }) + '%',
+           datoLote[colAlimentoSTD].toLocaleString("de-DE", {
+             maximumFractionDigits: 1,
+             minimumFractionDigits: 1,
+           })
+         ]
 
         return {
           index,
-          informe: l[colInformeAlimento],
-          piscicultura: l[colPisciculturaAlimento],
-          planta: l[colPlanta],
-          pmv: l[colRecetaAlimento],
-          lote: l[colLoteAlimento],
-          objetivo: l[colConcentracionObjetivo],
+          informe: datoLote[colInformeAlimento],
+          piscicultura: datoLote[colPisciculturaAlimento],
+          planta: datoLote[colPlanta],
+          pmv: datoLote[colRecetaAlimento],
+          lote: datoLote[colLoteAlimento],
+          objetivo: datoLote[colConcentracionObjetivo],
           fecha,
           programa,
           calibre,
-          datos: [],
-          headers: [],
-          values: [],
+          datos: [...datos],
+          headers: [...headers],
+          values: [...values],
           comentarios: []
         }
       })
       state.lotes = lotes
-      state.fecha = new Date().toISOString()
+      state.fechaReporte = new Date().toISOString()
     },
     cargarDatosAlimento(state, action) {
       state.datosSinFiltrar = action.payload;
@@ -135,6 +273,19 @@ const slice = createSlice({
       opciones.sort((a, b) => a.value - b.value);
       state.lotesTotales = opciones;
     },
+    guardarComentariosLote(state, action) {
+      const { index, comentarios } = action.payload
+      const copyLotes = [...state.lotes]
+      copyLotes[index].comentarios = comentarios
+      state.lotes = copyLotes
+      console.log('GUARDAR COMENTARIOS')
+    },
+    cargarPreViz(state, action) {
+      const { fecha, nombreEmpresa, lotes } = action.payload
+      state.fechaReporte = fecha
+      state.nombreEmpresa = nombreEmpresa
+      state.lotes = lotes
+    }
   },
 });
 
@@ -146,6 +297,8 @@ export const {
   guardarLotes,
   procesarDatosParaExportar,
   cargarDatosAlimento,
+  guardarComentariosLote,
+  cargarPreViz
 } = slice.actions;
 
 export default slice.reducer;

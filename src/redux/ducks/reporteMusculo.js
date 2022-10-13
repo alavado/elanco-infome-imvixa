@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mean, std } from "../../components/Reporte/utilitiesReporte";
+import { iqrValues, iqrValuesFixed, mean, std } from "../../components/Reporte/utilitiesReporte";
 import {
   colEmpresaPeces as colEmpresa,
   colPisciculturaPeces as colPiscicultura,
@@ -27,15 +27,26 @@ import {
   colFechaVeranoTrat,
   colSampleOriginTrat,
   colPeso2,
+  colCumplimiento,
+  colConcentracionObjetivo,
+  colFechaAlimento,
+  colEmpresaAlimento,
+  colAlimentoM1,
+  colAlimentoM2,
+  colAlimentoM3,
+  colAlimentoM4,
 } from "../../constants";
-import { formatearFecha } from "./utilities";
+import { esMayorQueFecha, esMenorQueFecha, formatearFecha, onlyUnique, selectMinMax, selectMinMaxFecha } from "./utilities";
 
 const slice = createSlice({
   name: "reporteMusculo",
   initialState: {
+    empresa: null,
     nombreEmpresa: null,
     piscicultura: null,
+    pisciculturaValue: null,
     fecha: null,
+    fechaValue: null,
     datosPeces: null,
     datosAlimento: null,
     datosTratamiento: null,
@@ -47,7 +58,27 @@ const slice = createSlice({
     umbralDestacarModificado: false,
     lotesAsociados: [],
     plantasAsociadas: [],
-    datosAlimentoLotesAsociados: []
+    datosAlimentoLotesAsociados: [], 
+    initialRepElanco: "",
+    initialRepVisita: "",
+    initialRepCliente: "",
+    initialGrupo: "",
+    initialEstanques: "",
+    initialPeces: "",
+    initialAlimento: "",
+    ta_pmv: "",
+    ta_peso: "",
+    ta_lotes: "",
+    ta_plantas: "",
+    ta_coppmv: "",
+    ta_inclusion: "",
+    ta_fini: "",
+    ta_fterm: "",
+    ta_foto: "",
+    ta_cd: "",
+    datosGComp: null,
+    datosGCumpl: null,
+    comentarios: []
   },
   reducers: {
     guardarNombreEmpresa(state, action) {
@@ -56,6 +87,13 @@ const slice = createSlice({
         if (!state.filtros.includes(colEmpresa)) {
           state.filtros = [...state.filtros, colEmpresa];
         }
+        state.initialRepElanco = ""
+        state.initialRepVisita = ""
+        state.initialRepCliente = ""
+        state.initialGrupo = ""
+        state.initialEstanques = ""
+        state.initialPeces = ""
+        state.initialAlimento = ""
       } else {
         state.filtros = state.filtros.filter((v) => v !== colEmpresa);
       }
@@ -63,8 +101,16 @@ const slice = createSlice({
     guardarPiscicultura(state, action) {
       state.piscicultura = action.payload;
       if (action.payload !== null) {
-        if (!state.filtros.includes(colPiscicultura))
+        if (!state.filtros.includes(colPiscicultura)) {
           state.filtros = [...state.filtros, colPiscicultura];
+        }
+        state.initialRepElanco = ""
+        state.initialRepVisita = ""
+        state.initialRepCliente = ""
+        state.initialGrupo = ""
+        state.initialEstanques = ""
+        state.initialPeces = ""
+        state.initialAlimento = ""
       } else {
         state.filtros = state.filtros.filter((v) => v !== colPiscicultura);
       }
@@ -72,8 +118,16 @@ const slice = createSlice({
     guardarFecha(state, action) {
       state.fecha = action.payload;
       if (action.payload !== null) {
-        if (!state.filtros.includes(colFecha))
+        if (!state.filtros.includes(colFecha)) {
           state.filtros = [...state.filtros, colFecha];
+        }
+        state.initialRepElanco = ""
+        state.initialRepVisita = ""
+        state.initialRepCliente = ""
+        state.initialGrupo = ""
+        state.initialEstanques = ""
+        state.initialPeces = ""
+        state.initialAlimento = ""
       } else {
         state.filtros = state.filtros.filter((v) => v !== colFecha);
       }
@@ -98,7 +152,7 @@ const slice = createSlice({
         );
       state.datosAlimento = action.payload.datosAlimento;
     },
-    procesarDatosParaExportar(state) {
+    procesarDatosParaExportar(state, action) {
       state.procesandoParaExportar = true;
       // Filtrar datos BD Imvixa según parámetros seleccionados
       const datosEjercicio = state.datosPeces.filter(
@@ -235,9 +289,210 @@ const slice = createSlice({
         }
       });
       state.datosEjercicio = datosPorInforme
+      state.empresa = state.nombreEmpresa.value
+      state.pisciculturaValue = state.piscicultura.value
+      state.fechaValue = state.fecha.value
+      // state.plantasAsociadas = [...plantasAsociadas]
+      // state.datosAlimentoLotesAsociados = datosAlimentosAsociados
+      state.ta_pmv = datosAlimentosAsociados.map(v => v[colRecetaAlimento]).filter(onlyUnique).join(' / ')
+      state.ta_peso = selectMinMax(datosAlimentosAsociados.map(v => Math.round(v[colPesoInicialTrat]))).filter(onlyUnique).join(' - ')
+      state.ta_lotes = datosAlimentosAsociados.map(v => v[colLoteAlimento]).filter(onlyUnique).join(' / ')
+      state.ta_plantas = datosAlimentosAsociados.map(v => v[colPlanta]).filter(onlyUnique).join(' / ')
+      state.ta_coppmv = datosAlimentosAsociados.map(v => Math.round(v[colConcentracionObjetivo]).toLocaleString("de-DE")).join(' / ')
+      state.ta_inclusion = datosAlimentosAsociados.map(v => (v[colCumplimiento] * 100).toLocaleString("de-DE", {
+        maximumFractionDigits: 1,
+        minimumFractionDigits: 1,
+      })).join(' / ')
+      state.ta_fini = selectMinMaxFecha(datosAlimentosAsociados.map(v => v[colFechaInicioTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'
+      state.ta_fterm = selectMinMaxFecha(datosAlimentosAsociados.map(v => v[colFechaTerminoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'
+      state.ta_foto =  selectMinMaxFecha(datosAlimentosAsociados.map(v => v[colFechaVeranoTrat]).filter(v => v)).filter(onlyUnique).join(' - ') || 'Sin información'
+      state.ta_cd = datosAlimentosAsociados.map(v => v[colDestinoTrat]).filter(onlyUnique).join(' / ')
+      state.datosGComp = datosPorInforme.map(fila => {
+        const muestras = fila["muestras"].filter(v => v !== "-").map(v => v / 1000)
+        return {
+          nombre: fila[colEstanquePeces].toString(),
+          promedio: fila["prom"] / 1000,
+          ...iqrValues(muestras),
+          max: fila["max"] / 1000,
+          min: fila["min"] / 1000
+        }});
+        // Armar DatosGCumpl
       state.lotesAsociados = [...lotesAsociados]
-      state.plantasAsociadas = [...plantasAsociadas]
-      state.datosAlimentoLotesAsociados = datosAlimentosAsociados
+      const arrayLotesAsociados = [...lotesAsociados]
+      if (arrayLotesAsociados.length === 0) {
+        state.datosGCumpl = []
+        return
+      }
+      const { cumplimiento } = action.payload;
+      const minFechasLotes = new Date(
+        selectMinMaxFecha(
+          datosAlimentosAsociados.map((v) => v[colFechaAlimento])
+        )[0]
+      );
+      const primerDiaDelMes = new Date(
+        [
+          minFechasLotes.getMonth() + 1,
+          "01",
+          minFechasLotes.getFullYear() - 1,
+        ].join("-")
+      );
+      const datosAlimento = state.datosAlimento.filter((fila) => {
+        return (
+          esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
+          esMenorQueFecha(fila[colFechaAlimento], minFechasLotes)
+        );
+      });
+      const cumplimientosEmpresa = datosAlimento.filter(
+      (v) =>
+        v[colEmpresaAlimento] === state.nombreEmpresa.value &&
+        !arrayLotesAsociados.includes(v[colLoteAlimento])
+    ).map((obj) => obj[colCumplimiento] * 100);
+
+    const cumplimientosPorPlanta = [...plantasAsociadas].map((planta) => {
+      const datos = datosAlimento
+        .filter(
+          (v) =>
+            v[colPlanta] === planta &&
+            !arrayLotesAsociados.includes(v[colLoteAlimento])
+        )
+        .map((obj) => obj[colCumplimiento] * 100);
+      return {
+        nombre: planta,
+        cumplimiento: datos,
+      };
+    });
+    let datosEmpresa = {
+      nombre: state.nombreEmpresa.value,
+      promedio: mean(cumplimientosEmpresa),
+      ...iqrValues(cumplimientosEmpresa),
+      max: Math.max(...cumplimientosEmpresa),
+      min: Math.min(...cumplimientosEmpresa),
+    };
+    let datosPlantaIndustria = cumplimientosPorPlanta.map((cumplimientos) => {
+      const cumplimientosPlantaIndustria = cumplimientos.cumplimiento;
+      return {
+        nombre: cumplimientos.nombre,
+        promedio:
+          cumplimiento.prom !== ""
+            ? cumplimiento.prom
+            : mean(cumplimientosPlantaIndustria),
+        ...(cumplimiento.q2 !== ""
+          ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
+          : iqrValues(cumplimientosPlantaIndustria)),
+        max:
+          cumplimiento.max !== ""
+            ? cumplimiento.max
+            : Math.max(...cumplimientosPlantaIndustria),
+        min:
+          cumplimiento.min !== ""
+            ? cumplimiento.min
+            : Math.min(...cumplimientosPlantaIndustria),
+      };
+    });
+
+    const datosPorLote = arrayLotesAsociados.map((l) => {
+      const filaLote = datosAlimentosAsociados.find(
+        (f) => f[colLoteAlimento].toString() === l
+      );
+      const valuesLote = [
+        colAlimentoM1,
+        colAlimentoM2,
+        colAlimentoM3,
+        colAlimentoM4,
+      ].map(
+        (muestra) =>
+          (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
+      );
+      return {
+        nombre: l,
+        promedio: mean(valuesLote),
+        ...iqrValues(valuesLote),
+        max: Math.max(...valuesLote),
+        min: Math.min(...valuesLote),
+      };
+    });
+  
+    state.datosGCumpl =[...datosPlantaIndustria, datosEmpresa, ...datosPorLote]
+    },
+    guardarComentarios(state, action) {
+      state.comentarios = action.payload;
+    },
+    guardarAlimento(state, action) {
+      state.initialAlimento = action.payload
+    },
+    guardarEstanques(state, action) {
+      state.initialEstanques = action.payload;
+    },
+    guardarPeces(state, action) {
+      state.initialPeces = action.payload;
+    },
+    guardarGrupo(state, action) {
+      state.initialGrupo = action.payload;
+    },
+    guardarRepElanco(state, action) {
+      state.initialRepElanco = action.payload;
+    },
+    guardarRepVisita(state, action) {
+      state.initialRepVisita = action.payload;
+    },
+    guardarRepCliente(state, action) {
+      state.initialRepCliente = action.payload;
+    },
+    cargarPreViz(state, action) {
+      const { nombreEmpresa, datos } = action.payload
+      state.empresa = nombreEmpresa
+      const {
+        pisciculturaValue, 
+        fechaValue,
+        umbral,
+        umbralDestacar,
+        datosEjercicio,
+        initialRepElanco,
+        initialRepVisita,
+        initialRepCliente,
+        initialGrupo,
+        initialEstanques,
+        initialPeces,
+        initialAlimento,
+        ta_pmv,
+        ta_peso,
+        ta_lotes,
+        ta_plantas,
+        ta_coppmv,
+        ta_inclusion,
+        ta_fini,
+        ta_fterm,
+        ta_foto,
+        ta_cd,
+        datosGComp,
+        datosGCumpl,
+        comentarios
+      } = datos
+      state.pisciculturaValue = pisciculturaValue
+      state.fechaValue = fechaValue
+      state.umbral = umbral
+      state.umbralDestacar = umbralDestacar
+      state.datosEjercicio = datosEjercicio
+      state.initialRepElanco = initialRepElanco
+      state.initialRepVisita = initialRepVisita
+      state.initialRepCliente = initialRepCliente
+      state.initialGrupo = initialGrupo
+      state.initialEstanques = initialEstanques
+      state.initialPeces = initialPeces
+      state.initialAlimento = initialAlimento
+      state.ta_pmv = ta_pmv
+      state.ta_peso = ta_peso
+      state.ta_lotes = ta_lotes
+      state.ta_plantas = ta_plantas
+      state.ta_coppmv = ta_coppmv
+      state.ta_inclusion = ta_inclusion
+      state.ta_fini = ta_fini
+      state.ta_fterm = ta_fterm
+      state.ta_foto = ta_foto
+      state.ta_cd = ta_cd
+      state.datosGComp = datosGComp
+      state.datosGCumpl = datosGCumpl
+      state.comentarios = comentarios
     }
   },
 });
@@ -250,6 +505,15 @@ export const {
   guardarUmbralDestacar,
   cargarDatosMusculo,
   procesarDatosParaExportar,
+  guardarComentarios,
+  guardarAlimento,
+  guardarEstanques,
+  guardarPeces,
+  guardarGrupo,
+  guardarRepElanco,
+  guardarRepVisita,
+  guardarRepCliente,
+  cargarPreViz
 } = slice.actions;
 
 export default slice.reducer;

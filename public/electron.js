@@ -46,6 +46,7 @@ let estadosGraficos = graficos.map((g) => ({ ...g, visible: true }));
 let visibilityVerMenu = false;
 let hayComentarios = false;
 let reporteID = 0;
+let reporteUID = 0;
 let numeroDeLotes; // El reporte de alimento imprime una página por lote
 let nombreEmpresa;
 let numeroDePaginas;
@@ -63,8 +64,31 @@ try {
   console.error(e);
 }
 
-// const REGISTER_FILE = 'Registro_reportes_impreso.xlsx'
-// const registerPath =  path.join(appUserDataPath, REGISTER_FILE)
+const REGISTER_FILE = 'Registro_reportes_impreso.xlsx'
+const REGISTER_HEADER = [
+  'ReporteID',
+  'TipoID',
+  'Fecha',
+  'Empresa',
+  'Datos'
+]
+const registerPath =  path.join(appUserDataPath, REGISTER_FILE)
+var XLSX = require("xlsx");
+const REGISTRO_SHEET_NAME = 'Reportes'
+// Si no existe crear
+try {
+  if (!fs.existsSync(registerPath)) {
+    const workSheet = XLSX.utils.aoa_to_sheet([REGISTER_HEADER]);
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, REGISTRO_SHEET_NAME);
+    // Package and Release Data (`writeFile` tries to write and save an XLSB file)
+    XLSX.writeFile(workBook, registerPath);
+  }
+} catch (e) {
+  console.error(e);
+}
+
+
 
 function construirMenu() {
   const menu = new Menu();
@@ -174,82 +198,109 @@ app.on("activate", () => {
 const uuidv4 = require("uuid/v4")
 
 const reporteAPDF = async () => {
-  // mainWindow.webContents.send("imprimirReporte")
-  
-// ipcMain.on("visualizandoReporte", async (_, datosRegistro) => {
-//   mainWindow.webContents.send("imprimirReporte")
-// })
-
-// ipcMain.on("imprimirReporte", async (_, datosRegistro) => {
-  switch (reporteID) {
-    case 1:
-      console.log("imprimirReporteAlimento")
-      imprimirReporteAlimento()
-      break
-    case 2:
-      console.log("imprimirReporteMusculo")
-      imprimirReporteMusculo()
-      break
-    case 3:
-      console.log("imprimirReporteCentro")
-      imprimirReporteCentro()
-      break
-    default:
-      console.log("imprimirReporteSeguimiento")
-      imprimirReporteSeguimiento()
-      break
+  try {
+    reporteUID = uuidv4().split('-')[0]
+    switch (reporteID) {
+      case 1:
+        console.log("imprimirReporteAlimento")
+        await imprimirReporteAlimento().then((value) => {
+          console.log("REPORTE IMPRESO");
+          mainWindow.webContents.send("reporteAlimentoImpreso")
+        },(err) => {
+          console.log("NO SE HA IMPRESO EL REPORTE: ", err);
+        })
+        break
+      case 2:
+        console.log("imprimirReporteMusculo")
+        await imprimirReporteMusculo().then((value) => {
+          console.log("REPORTE IMPRESO");
+          mainWindow.webContents.send("reporteMusculoImpreso")
+        },(err) => {
+          console.log("NO SE HA IMPRESO EL REPORTE: ", err);
+        })
+        break
+      case 3:
+        console.log("imprimirReporteCentro")
+        imprimirReporteCentro()
+        break
+      default:
+        console.log("imprimirReporteSeguimiento")
+        imprimirReporteSeguimiento()
+        break
+    }
+    
+  } catch (err) {
+    console.log("NO SE HA IMPRESO EL REPORTE: ", err);
   }
-  // guardarRegistro({...datosRegistro, reporteID: uuidv4()})
+  
 }//)
 
-// const guardarRegistro = async (datosRegistro) => {
-//   const {
-//     reporteID,
-//     tipoID,
-//     reporte,
-//     fecha,
-//     empresa,
-//     datos
-//   } = datosRegistro
-//   const datosString = JSON.stringify(datos)
-//   // TODO: Check if file exists if not create if exists then append
-//   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
-//   const firstSheetName = workbook.SheetNames[0];
-//   const sheet = workbook.Sheets[firstSheetName];
-//   XLSX.utils.sheet_add_aoa(sheet, [reporteID, tipoID, reporte, fecha, empresa, datosString], {origin:-1})
-//   XLSX.writeFile(wb, registerPath)
-// }
+ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
+  const { tipoID,
+    fecha,
+    empresa,
+    datos
+  } = datosRegistro
+  const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
+  const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
+  const rows = []
+  for (let index = 0; index < numeroDeLotes; index++) {
+    const datosString = JSON.stringify([datos[index]])
+    rows.push([
+      reporteUID + index.toString(), tipoID, fecha, empresa, datosString
+    ])
+  }
+  XLSX.utils.sheet_add_aoa(sheet, rows, {origin:-1})
+  XLSX.writeFile(wb, registerPath)
+})
+
+ipcMain.on("guardarReporteMusculo", async (_, datosRegistro) => {
+  guardarRegistro(datosRegistro)
+})
+
+const guardarRegistro = async (datosRegistro) => {
+  const {
+    reporteID,
+    tipoID,
+    fecha,
+    empresa,
+    datos
+  } = datosRegistro
+  const datosString = JSON.stringify(datos)
+  // TODO: Check if file exists if not create if exists then append
+  const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
+  const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
+  XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString]], {origin:-1})
+  XLSX.writeFile(wb, registerPath)
+}
 
 const imprimirReporteAlimento = async () => {
   try {
-    console.log({numeroDeLotes, nombreEmpresa})
-    let data;
-    for (let index = 0; index < numeroDeLotes; index++) {
-      data = await mainWindow.webContents.printToPDF({
-        printBackground: true,
-        marginsType: 1,
-        pageSize: {
-          width: 25400 * 50.0,
-          height: 25400 * 66.42,
-        },
-        pageRanges: {
-          from: index,
-          to: index,
-        },
-      });
-      const hoy = new Date().toISOString().substring(0,10);
-      const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${lotes[index]}-${hoy}.pdf`
-      fs.writeFileSync(
-        path.join(app.getPath("desktop"), titulo), 
-        data
-      );
-      await electron.shell.openPath(
-        path.join(app.getPath("desktop"), titulo)
-      );
-      
-    }
+  console.log({numeroDeLotes, nombreEmpresa})
+  let data;
+  for (let index = 0; index < numeroDeLotes; index++) {
+    data = await mainWindow.webContents.printToPDF({
+      printBackground: true,
+      marginsType: 1,
+      pageSize: {
+        width: 25400 * 50.0,
+        height: 25400 * 66.42,
+      },
+      pageRanges: {
+        from: index,
+        to: index,
+      },
+    });
+    const hoy = new Date().toISOString().substring(0,10);
+    const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${lotes[index]}-${hoy}-${reporteUID}${index}.pdf`
+    fs.writeFileSync(
+      path.join(app.getPath("desktop"), titulo), 
+      data)
+    await electron.shell.openPath(
+      path.join(app.getPath("desktop"), titulo))
+  }
   } catch (err) {
-    console.log("err", err);
+    throw err
   }
 };
 
@@ -269,7 +320,7 @@ const imprimirReporteMusculo = async () => {
     });
 
     const hoy = new Date().toISOString().substring(0,10);
-    const titulo = `Reporte de concentración en músculo-${nombreEmpresa}-${hoy}.pdf`
+    const titulo = `Reporte de concentración en músculo-${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
     fs.writeFileSync(
       path.join(app.getPath("desktop"), titulo), 
       data
@@ -278,37 +329,33 @@ const imprimirReporteMusculo = async () => {
       path.join(app.getPath("desktop"), titulo)
     );
   } catch (err) {
-    console.log("err", err);
+    throw err
   }
 };
 
 const imprimirReporteCentro = async () => {
-  try {
-    const data = await mainWindow.webContents.printToPDF({
-      printBackground: true,
-      marginsType: 1,
-      pageSize: {
-        width: 25400 * 50.0,
-        height: 25400 * 66.42,
-      },
-      pageRanges: {
-        from: 0,
-        to: numeroDePaginas - 1,
-      },
-    });
+  const data = await mainWindow.webContents.printToPDF({
+    printBackground: true,
+    marginsType: 1,
+    pageSize: {
+      width: 25400 * 50.0,
+      height: 25400 * 66.42,
+    },
+    pageRanges: {
+      from: 0,
+      to: numeroDePaginas - 1,
+    },
+  });
 
-    const hoy = new Date().toISOString().substring(0,10);
-    const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}.pdf`
-    fs.writeFileSync(
-      path.join(app.getPath("desktop"), titulo), 
-      data
-    );
-    await electron.shell.openPath(
-      path.join(app.getPath("desktop"), titulo)
-    );
-  } catch (err) {
-    console.log("err", err);
-  }
+  const hoy = new Date().toISOString().substring(0,10);
+  const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}.pdf`
+  fs.writeFileSync(
+    path.join(app.getPath("desktop"), titulo), 
+    data
+  );
+  await electron.shell.openPath(
+    path.join(app.getPath("desktop"), titulo)
+  );
 };
 
 const imprimirReporteSeguimiento = async () => {
@@ -321,32 +368,39 @@ const imprimirReporteSeguimiento = async () => {
   const graficosSegundaPaginaVisibles =
     graficoEficacia.visible || graficoMapa.visible;
   const imprimirDosPaginas = graficosSegundaPaginaVisibles || hayComentarios;
-  try {
-    const data = await mainWindow.webContents.printToPDF({
-      printBackground: true,
-      marginsType: 1,
-      pageSize: {
-        width: 25400 * 50.0,
-        height: 25400 * 66.42,
-      },
-      pageRanges: {
-        from: 0,
-        to: imprimirDosPaginas ? 1 : 0,
-      },
-    });
-    const hoy = new Date().toISOString().substring(0,10);
-    const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}.pdf`
-    fs.writeFileSync(
-      path.join(app.getPath("desktop"), titulo),
-      data
-    );
-    await electron.shell.openPath(
-      path.join(app.getPath("desktop"), titulo)
-    );
-  } catch (err) {
-    console.log("err", err);
-  }
+  const data = await mainWindow.webContents.printToPDF({
+    printBackground: true,
+    marginsType: 1,
+    pageSize: {
+      width: 25400 * 50.0,
+      height: 25400 * 66.42,
+    },
+    pageRanges: {
+      from: 0,
+      to: imprimirDosPaginas ? 1 : 0,
+    },
+  });
+  const hoy = new Date().toISOString().substring(0,10);
+  const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}.pdf`
+  fs.writeFileSync(
+    path.join(app.getPath("desktop"), titulo),
+    data
+  );
+  await electron.shell.openPath(
+    path.join(app.getPath("desktop"), titulo)
+  );
 };
+
+ipcMain.on("leerRegistro", async () => {
+  console.log("LEYENDO REGISTRO")
+  const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
+  const records = XLSX.utils.sheet_to_json(
+    wb.Sheets[REGISTRO_SHEET_NAME],
+    (header = REGISTER_HEADER),
+    (range = 2)
+  )
+  mainWindow.webContents.send("registros", records);
+});
 
 // ESTADO DE BOTÓN DE REGRESAR A PARÁMETROS
 ipcMain.on("viendoReporte", async (_, rID) => {
@@ -393,7 +447,6 @@ const volverAParametros = async () => {
 
 // LEER ARCHIVOS XLSX
 
-var XLSX = require("xlsx");
 var validation = require("./validation");
 
 ipcMain.on("leer", async (event, state) => {

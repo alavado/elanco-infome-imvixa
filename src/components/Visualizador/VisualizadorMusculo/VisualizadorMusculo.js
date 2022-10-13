@@ -1,33 +1,14 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import MensajeError from "../../MensajeError";
-import DatosEmpresa from "../DatosEmpresa";
-import Encabezado from "../Encabezado";
-import Sandalias from "./Sandalias";
-import Comentarios from "../Comentarios";
-import "./ReporteMusculo.css";
-import CuadroResumen from "./CuadroResumen";
-import TablaAntecedentes from "./TablaAntecedentes";
-import GraficoCumplimiento from "./GraficoCumplimiento";
-import GraficoComparacion from "./GraficoComparacion";
-import TablaMuestras from "./TablaMuestras";
-import {
-  agregarComentarioMusculo,
-  eliminarComentarioMusculo
-} from "../../../redux/ducks/comentarios";
-import {
-  guardarComentarios
-} from "../../../redux/ducks/reporteMusculo";
-import { REPORTE_ID_MUSCULO, REPORTE_NOMBRE_MUSCULO } from "../../../helpers/reportes";
-const { ipcRenderer } = window.require("electron");
+import React from 'react'
+import { agregarComentarioMusculo, eliminarComentarioMusculo } from '../../../redux/ducks/comentarios';
+import { guardarComentarios } from '../../../redux/ducks/reporteMusculo';
 
-const ReporteMusculo = () => {
+const VisualizadorMusculo = () => {
   const { comentariosMusculo, preViz } = useSelector((state) => state.comentarios);
   const { 
     empresa,
     datosEjercicio,
-    pisciculturaValue, 
-    fechaValue,
+    piscicultura, 
+    fecha,
     umbral,
     umbralDestacar,
     initialRepElanco,
@@ -73,8 +54,8 @@ const ReporteMusculo = () => {
   }, [empresa]);
   
   const datos = {
-    pisciculturaValue, 
-    fechaValue,
+    piscicultura, 
+    fecha,
     umbral,
     umbralDestacar,
     datosEjercicio,
@@ -105,12 +86,13 @@ const ReporteMusculo = () => {
     ipcRenderer.on("reporteMusculoImpreso", async (e, data) => {
       ipcRenderer.send('guardarReporteMusculo', {
         tipoID: REPORTE_ID_MUSCULO,
-        fecha: today.toISOString(),
+        fecha: today,
         empresa: empresa,
         datos 
       })
     });
   }, [datos, empresa]);
+  
 
   return (
     <div className="ReporteMusculo">
@@ -159,6 +141,6 @@ const ReporteMusculo = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ReporteMusculo;
+export default VisualizadorMusculo

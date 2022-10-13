@@ -24,8 +24,6 @@ const getShortPath = (path) => {
 
 const FormPlanillas = () => {
   const dispatch = useDispatch();
-
-  
   let { 
     planillaAlimento, 
     planillaPeces, 

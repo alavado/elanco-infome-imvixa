@@ -7,7 +7,7 @@ import Comentario from './Comentario'
 import './Comentarios.css'
 const { ipcRenderer } = window.require('electron')
 
-const Comentarios = ({ comentarios, agregarComentario, eliminarComentario }) => {
+const Comentarios = ({ preViz, comentarios, agregarComentario, eliminarComentario, guardarComentarios }) => {
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
   const textareaRef = useRef()
@@ -35,6 +35,13 @@ const Comentarios = ({ comentarios, agregarComentario, eliminarComentario }) => 
       textareaRef.current?.focus()
     }
   }, [agregandoComentario])
+
+  useEffect(() => {
+    // Si es un nuevo reporte, guardar los comentairos en la informacion en reporteMusculo
+    if (!preViz) {
+      dispatch(guardarComentarios(comentarios))
+    }
+  }, [comentarios])
 
   const hayComentarios = comentarios.length > 0
 

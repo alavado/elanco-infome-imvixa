@@ -94,6 +94,7 @@ const ReporteCentro = () => {
             </MensajeError>
           </div>
           <Comentarios
+            reporteID={REPORTE_ID_CENTRO}
             agregarComentario={agregarComentarioCentro}
             comentarios={comentariosCentro}
             eliminarComentario={eliminarComentarioCentro}

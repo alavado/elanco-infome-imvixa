@@ -5,23 +5,11 @@ import { iqrValues } from "../../utilitiesReporte";
 import "./GraficoComparacion.css";
 
 const GraficoComparacion = () => {
-  const { datosEjercicio } = useSelector(
+  const { datosGComp: datos } = useSelector(
     (state) => state.reporteMusculo
   );
   
-  const datos = datosEjercicio.map(fila => {
-    const muestras = fila["muestras"].filter(v => v !== "-").map(v => v / 1000)
-    return {
-    nombre: fila[colEstanquePeces].toString(),
-    promedio: fila["prom"] / 1000,
-    ...iqrValues(muestras),
-    max: fila["max"] / 1000,
-    min: fila["min"] / 1000
-  }});
-
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
-
-
   const tick = vMax > 25 ? 5 : 2;
   let yMax = Math.max(20, Math.ceil(vMax + tick));
   const yMin = 0;

@@ -19,9 +19,6 @@ import {
   cargarDatosAlimento,
 } from "../../redux/ducks/reporteAlimento";
 import {
-  guardarInfoLotes
-} from "../../redux/ducks/visualizadorReporteAlimento";
-import {
   procesarDatosParaExportar as procesarReporteMusculo,
   cargarDatosMusculo,
 } from "../../redux/ducks/reporteMusculo";
@@ -34,7 +31,7 @@ import {
 } from "../../redux/ducks/comentarios"
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
-import { colAlimentoCalibre, colCantidadProgramadaAlimento, colConcentracionObjetivo, colCumplimiento, colEmpresaAlimento, colFechaAlimento, colInformeAlimento, colLoteAlimento, colPisciculturaAlimento, colPlanta, colRecetaAlimento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
+import { colCumplimiento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -103,7 +100,7 @@ const Formulario = () => {
         paso: 1,
         descripcion: "Seleccionar las bases de datos",
         componente: <FormPlanillas />,
-        volver: "",
+        volver: "Volver",
         siguiente: "Siguiente",
         siguienteActivo:
           todasLasPlanillas && Object.values(validando).every((v) => !v),
@@ -167,7 +164,7 @@ const Formulario = () => {
               try {
                 dispatch(agregarComentarioAlimento({
                   texto: (l.data[colCumplimiento] * 100) >= 90 ? comentarioAltoCumplimiento : comentarioBajoCumplimiento,
-                  indice: (i + 1)
+                  indice: i
                 }))
               } catch (error) {
                 console.log(error)
@@ -218,32 +215,7 @@ const Formulario = () => {
                 qCondition &&
                 minCondition
               ) {
-                dispatch(procesarReporteAlimento());
-                dispatch(guardarInfoLotes({
-                  nombreEmpresa: lotes[0].data[colEmpresaAlimento],
-                  fecha: new Date().toLocaleDateString(),
-                  infoLotes: lotes.map((lote, index) => {
-                    const l = lote.data
-                    const fecha = l[colFechaAlimento].toString().substring(0,10)
-                    const programa = l[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    })
-                    const calibre = l[colAlimentoCalibre] ? l[colAlimentoCalibre] : '-'
-                    return {
-                      index,
-                      informe: l[colInformeAlimento],
-                      piscicultura: l[colPisciculturaAlimento],
-                      planta: l[colPlanta],
-                      pmv: l[colRecetaAlimento],
-                      lote: l[colLoteAlimento],
-                      objetivo: l[colConcentracionObjetivo],
-                      fecha,
-                      programa,
-                      calibre
-                    }
-                  })
-                }))
+                dispatch(procesarReporteAlimento({cumplimiento}));
               }
               break;
             case 2:
@@ -253,7 +225,7 @@ const Formulario = () => {
                 qCondition &&
                 minCondition
               ) {
-                dispatch(procesarReporteMusculo());
+                dispatch(procesarReporteMusculo({cumplimiento}));
               }
               break;
             case 3:
@@ -359,18 +331,22 @@ const Formulario = () => {
             onClick={pasoActual.onClickSiguiente}
           >
             {pasoActual.siguiente}
+        </button>
+          <button
+            className={classNames({
+              Formulario__boton: true,
+              "Formulario__boton--activo": Object.values(validando).every((v) => !v),
+            })}
+            onClick={() => {
+              if (indicePasoActual === 0) {
+                history.push('/')
+              } else {
+                dispatch(pasoAnterior())
+              }
+            }}
+          >
+            {pasoActual.volver}
           </button>
-          {indicePasoActual === 0 ? null : (
-            <button
-              className={classNames({
-                Formulario__boton: true,
-                "Formulario__boton--activo": true,
-              })}
-              onClick={() => dispatch(pasoAnterior())}
-            >
-              {pasoActual.volver}
-            </button>
-          )}
         </div>
       </div>
     </div>
