@@ -4,8 +4,9 @@ import { colConcentracionObjetivo, colCumplimiento, colDestinoTrat, colFechaInic
 import { guardarAlimento, guardarEstanques, guardarGrupo, guardarPeces } from "../../../../redux/ducks/reporteMusculo";
 import { onlyUnique, selectMinMax, selectMinMaxFecha } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
+import { generalTexts } from '../generalTexts';
 
-const TablaAntecedentes = () => {
+const TablaAntecedentes = ({language}) => {
   const dispatch = useDispatch()
   const parseNumber = (valor) => {
     if (valor.replace(/[^0-9]+/g, "") === "") return ""
@@ -28,57 +29,55 @@ const TablaAntecedentes = () => {
     ta_foto,
     ta_cd
    } = useSelector((state) => state.reporteMusculo)
-  // const [grupo, setGrupo] = useState(initialGrupo)
-  // const [estanques, setEstanques] = useState(initialEstanques)
-  // const [peces, setPeces] = useState(initialPeces)
-  // const [alimento, setAlimento] = useState(initialAlimento)
-
+  const { gt_TablaAntecedentes } = generalTexts
+  const labelsColumna1 = gt_TablaAntecedentes[language].columna1
+  const labelsColumna2 = gt_TablaAntecedentes[language].columna2
   const filasColumna1 = [
-    ["PMV", ta_pmv],
-    ["Grupo", (<input
+    [labelsColumna1[0], ta_pmv],
+    [labelsColumna1[1], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: grupo !== "" ? "transparent" : "var(--color-highlight)"}}
       value={grupo}
       onChange={(e) => {dispatch(guardarGrupo(e.target.value))}
       }
     />)],
-    ["Número de peces", (<input
+    [labelsColumna1[2], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
       value={peces}
       onChange={(e) => {dispatch(guardarPeces(parseNumber(e.target.value)))}
       }
     />)],
-    ["Peso al inicio de tratamiento (g)", ta_peso],
-    ["Estanques medicados", (<input
+    [labelsColumna1[3], ta_peso],
+    [labelsColumna1[4], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: estanques !== "" ? "transparent" : "var(--color-highlight)"}}
       value={estanques}
       onChange={(e) => {dispatch(guardarEstanques(parseNumber(e.target.value)))}
       }
     />)],
-    ["Lote de alimento", ta_lotes],
-    ["Planta de alimento", ta_plantas],
+    [labelsColumna1[5], ta_lotes],
+    [labelsColumna1[6], ta_plantas],
   ];
   const filasColumna2 = [
-    ["Concentración objetivo PMV (ppm)", ta_coppmv],
-    ["Inclusión de activo en alimento (%)", ta_inclusion],
-    ["Alimento consumido (kg)", (<input
+    [labelsColumna2[0], ta_coppmv],
+    [labelsColumna2[1], ta_inclusion],
+    [labelsColumna2[2], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: alimento !== "" ? "transparent" : "var(--color-highlight)"}}
       value={alimento}
       onChange={(e) => {dispatch(guardarAlimento(parseNumber(e.target.value)))}
       }
     />)],
-    ["Fecha de inicio de tratamiento", ta_fini],
-    ["Fecha de término de tratamiento", ta_fterm],
-    ["Fecha de inicio fotoperiodo", ta_foto],
-    ["Centro de destino", ta_cd],
+    [labelsColumna2[3], ta_fini],
+    [labelsColumna2[4], ta_fterm],
+    [labelsColumna2[5], ta_foto],
+    [labelsColumna2[6], ta_cd],
   ];
   return (
     <div className="TablaAntecedentes">
       <h4 className="TablaAntecedentes__titulo">
-        Antecedentes del grupo tratado
+        {gt_TablaAntecedentes[language].titulo}
       </h4>
       <div className="TablaAntecedentes__tabla">
         <div className="TablaAntecedentes__columna">

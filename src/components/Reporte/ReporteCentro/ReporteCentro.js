@@ -18,20 +18,54 @@ import TablaMuestras from "./TablaMuestras";
 import CurvaPorUTAs from "./CurvaPorUTAs";
 import CurvaPorPeso from "./CurvaPorPeso";
 import { REPORTE_ID_CENTRO, REPORTE_NOMBRE_CENTRO } from "../../../helpers/reportes";
+import { generalTexts } from "./generalTexts";
+import {
+  guardarComentarios
+} from "../../../redux/ducks/reporteCentro";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteCentro = () => {
-  const { comentariosCentro } = useSelector((state) => state.comentarios);
-  const { nombreEmpresa, centro } = useSelector((state) => state.reporteCentro);
+const ReporteCentro = ({ language }) => {
+  const { comentariosCentro, preViz } = useSelector((state) => state.comentarios);
+  const { 
+    empresa, 
+    seasite, 
+    fechaValor,
+    datosPorInforme, 
+    parametrosGraficoPeso, 
+    parametrosGraficoUTAs, 
+    datosGraficoComparacion } = useSelector((state) => state.reporteCentro);
   const numeroDePaginas = 2;
-  const nEmpresa = nombreEmpresa.label;
-  const encabezado = centro.label + " - " + nEmpresa;
+  const encabezado = seasite + " - " + empresa;
+  const titulo1 = generalTexts.seccion1[language]
+
   useEffect(() => {
     ipcRenderer.send("datosReporte", {
-      nombreEmpresa: nEmpresa,
+      nombreEmpresa: empresa,
       numeroDePaginas,
     });
-  }, [nEmpresa]);
+  }, [empresa]);
+
+  const datos = {
+    seasite,
+    fechaValor,
+    datosPorInforme,
+    parametrosGraficoPeso,
+    parametrosGraficoUTAs,
+    datosGraficoComparacion, 
+    comentarios: comentariosCentro
+  }
+
+  useEffect(() => {
+    ipcRenderer.removeAllListeners("reporteCentroImpreso")
+    ipcRenderer.on("reporteCentroImpreso", async (e, data) => {
+      ipcRenderer.send('guardarReporteCentro', {
+        tipoID: REPORTE_ID_CENTRO,
+        fecha: today.toISOString(),
+        empresa: empresa,
+        datos 
+      })
+    });
+  }, [datos, empresa]);
 
   const dimensions = {
     width: "100%",
@@ -51,46 +85,45 @@ const ReporteCentro = () => {
           className="ReporteCentro__pagina ReporteCentro__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO}/>
+          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
-            <DatosEmpresa nombreEmpresa={encabezado} fecha={today}/>
+            <DatosEmpresa nombreEmpresa={encabezado} fecha={today} language={language}/>
           </MensajeError>
           <MensajeError>
-            <CuadroResumen />
+            <CuadroResumen language={language}/>
           </MensajeError>
           <MensajeError>
-            <TablaAntecedentes />
+            <TablaAntecedentes language={language}/>
           </MensajeError>
           <div className="ReporteCentro__seccion">
             <p className="ReporteCentro__titulo">
-              I. Resumen de resultados obtenidos en alimento medicado y
-              medicación de agua dulce
+              {titulo1}
             </p>
             <div className="ReporteCentro__seccion_contenedor">
               <MensajeError>
-                <GraficoCumplimiento />
+                <GraficoCumplimiento language={language}/>
               </MensajeError>
               <MensajeError>
-                <GraficoComparacion />
+                <GraficoComparacion language={language}/>
               </MensajeError>
             </div>
           </div>
-          <Sandalias pagina={1} />
+          <Sandalias pagina={1} language={language} />
         </div>
         <div
           className="ReporteCentro__pagina ReporteCentro__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO}/>
+          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
-            <TablaMuestras />
+            <TablaMuestras language={language} />
           </MensajeError>
           <div className="ReporteCentro__seccion_contenedor">
             <MensajeError>
-              <CurvaPorPeso />
+              <CurvaPorPeso language={language}/>
             </MensajeError>
             <MensajeError>
-              <CurvaPorUTAs />
+              <CurvaPorUTAs language={language}/>
             </MensajeError>
           </div>
           <Comentarios
@@ -98,8 +131,12 @@ const ReporteCentro = () => {
             agregarComentario={agregarComentarioCentro}
             comentarios={comentariosCentro}
             eliminarComentario={eliminarComentarioCentro}
+            guardarComentarios={guardarComentarios}
+            language={language}
           />
-          <Sandalias pagina={2} />
+          <Sandalias pagina={2}
+          language={language}
+          />
         </div>
       </div>
     </div>

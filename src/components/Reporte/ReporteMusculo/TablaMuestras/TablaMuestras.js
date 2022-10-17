@@ -2,24 +2,27 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
 import { colEstanquePeces, colInformePeces } from "../../../../constants";
+import { generalTexts } from '../generalTexts'
 
-const TablaMuestras = () => {
+const TablaMuestras = ({language}) => {
   const { umbral, umbralDestacar, datosEjercicio } = useSelector(
     (state) => state.reporteMusculo
   );
   const valorDestacar = parseInt(umbralDestacar.replace(".", ""));
   const nMuestras = 10;
+  const { gt_TablaMuestras } = generalTexts
+  const { titulo, headers: headersLabels, headers2, rows } = gt_TablaMuestras[language]
   const headers = [
-    "Informe N°",
-    "Estanque",
+    headersLabels[0],
+    headersLabels[1],
     ...Array(nMuestras)
       .fill(1)
-      .map((v, i) => `Muestra\n${i + 1}`),
-    "Promedio",
-    "CV",
-    "min",
-    "máx",
-    "Resultado",
+      .map((v, i) => `${headersLabels[2]}\n${i + 1}`),
+    headersLabels[3],
+    headersLabels[4],
+    headersLabels[5],
+    headersLabels[6],
+    headersLabels[7]
   ];
 
   const filas = datosEjercicio;
@@ -42,7 +45,7 @@ const TablaMuestras = () => {
   return (
     <div className="TablaMuestras" style={style0}>
       <p className="TablaMuestras__titulo">
-        Tabla de resultados de muestras por estanque
+        {titulo}
       </p>
       <div className="TablaMuestras__tabla" style={style1}>
         <div className="TablaMuestras__encabezados">
@@ -128,27 +131,26 @@ const TablaMuestras = () => {
       </div>
       <div className="TablaMuestras__footer">
         <div className="TablaMuestras__encabezado_footer">
-          <div>Resultado</div>
-          <div>Interpretación</div>
+          <div>{headers2[0]}</div>
+          <div>{headers2[1]}</div>
         </div>
         <div className="TablaMuestras__fila_footer">
           <div style={{ backgroundColor: "var(--color-g)" }}>2</div>
           <div>
-            Cumple con rango de concentración y dispersión (media &ge; {umbral}{" "}
-            ppb; CV &le; 30%)
+          {rows[0]} &ge; {umbral}{" "}
+            ppb; CV &le; 30%{")"}
           </div>
         </div>
         <div className="TablaMuestras__fila_footer">
           <div style={{ backgroundColor: "var(--color-f)" }}>1</div>
           <div>
-            Cumple con rango de concentración pero presenta alta dispersión
-            (media &ge; {umbral} ppb; CV &ge; 30%)
+          {rows[1]} &ge; {umbral} ppb; CV &ge; 30%{")"}
           </div>
         </div>
         <div className="TablaMuestras__fila_footer">
           <div style={{ backgroundColor: "var(--color-amarillo)" }}>0</div>
           <div>
-            No cumple con rango de concentración (media &le; {umbral} ppb)
+          {rows[2]} &le; {umbral} ppb{")"}
           </div>
         </div>
       </div>

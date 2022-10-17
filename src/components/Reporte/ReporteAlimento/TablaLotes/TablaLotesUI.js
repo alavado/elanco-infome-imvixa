@@ -1,7 +1,21 @@
 import React from "react";
 import "./TablaLotes.css";
 
-const TablaLotesUI = ({ headers, values }) => {
+const translate = (v) => {
+  return v.replace('Lote', 'Lot').replace('Muestra', 'Sample').replace('Promedio', 'Average').replace('Cumplimiento', 'Achievement').replace('Desviación','Standard').replace('Estándar', 'Deviation')
+}
+const translateNumbers = (v) => {
+  return v.replace(',', '-').replace('.', ',').replace('-','.')
+}
+const translateHeaders = (headers) => {
+  return headers.map(v => translate(v))
+}
+const translateValues = (headers) => {
+  return headers.map(v => translateNumbers(v))
+}
+const TablaLotesUI = ({ headers, values, language }) => {
+  const finalHeaders = language === 'es' ? headers : translateHeaders(headers)
+  const finalValues = language === 'es' ? values : translateValues(values)
   return (
     <div className="TablaLotes">
       <div
@@ -14,7 +28,7 @@ const TablaLotesUI = ({ headers, values }) => {
           className="TablaLotes__encabezados"
           style={{ gridTemplateColumns: `1.5fr repeat(${headers.length - 3}, 1fr) 1.5fr 1.5fr` }}
         >
-          {headers.map((col, i) => (
+          {finalHeaders.map((col, i) => (
             <div key={`TablaLotes-encabezados-${i}`}>{col}</div>
           ))}
         </div>
@@ -23,7 +37,7 @@ const TablaLotesUI = ({ headers, values }) => {
           className="TablaLotes__fila"
           style={{ gridTemplateColumns: `1.5fr repeat(${headers.length - 3}, 1fr) 1.5fr 1.5fr` }}
         >
-          {values.map((v, i) => (
+          {finalValues.map((v, i) => (
             <div key={`TablaLotes-valores-${i}`}>{v}</div>
           ))}
         </div>

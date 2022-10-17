@@ -17,17 +17,21 @@ import {
 } from "../../../../redux/ducks/utilities";
 import { iqrValues, iqrValuesFixed, mean } from "../../utilitiesReporte";
 import "./GraficoComparacion.css";
+import { generalTexts } from '../generalTexts';
 
-const GraficoComparacion = () => {
+
+const GraficoComparacion = ({ language }) => {
   const {
     datosMuestrasSWFW,
     datosPeces,
     datosPorInforme: datosEjercicio,
     informesFW,
-    nombreEmpresa,
+    empresa,
   } = useSelector((state) => state.reporteCentro);
   const { concentracion } = useSelector((state) => state.reporte);
-
+  const { gt_GraficoComparacion } = generalTexts
+  const { titulo, yaxis } = gt_GraficoComparacion[language]
+  
   // Obtener los datos historicos
   // const datosEjercicio = datosPorInforme.filter(
   //   (datos) =>
@@ -59,7 +63,7 @@ const GraficoComparacion = () => {
           compareAsc(thisDate, unAñoAtras) &&
           compareAsc(minFechasPeces, thisDate)
         )
-          if (fila[colEmpresaPeces] === nombreEmpresa.value) {
+          if (fila[colEmpresaPeces] === empresa) {
             
             comparacionEmpresa.push(fila[colPPB] / 1000);
           } else {
@@ -72,7 +76,7 @@ const GraficoComparacion = () => {
   });
 
   const datosEmpresa = {
-    nombre: nombreEmpresa.value,
+    nombre: empresa,
     promedio: mean(comparacionEmpresa),
     ...iqrValues(comparacionEmpresa),
     max: Math.max(...comparacionEmpresa),
@@ -147,11 +151,10 @@ const GraficoComparacion = () => {
   return (
     <div className="GraficoComparacion">
       <p className="GraficoComparacion__titulo">
-        Concentración (ug/kg) en músculo post tratamiento según piscicultura de
-        origen
+        {titulo}
       </p>
       <div className="GraficoComparacion__contenedor_grafico">
-        <p className="GraficoComparacion__etiqueta_eje_y">Miles</p>
+        <p className="GraficoComparacion__etiqueta_eje_y" style={{left: language === 'es'? '-4rem' : '-5rem'}}>{yaxis}</p>
         <div className="GraficoComparacion__contenedor_lineas">
           {yLineas.map((y) => (
             <div

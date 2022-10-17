@@ -1,8 +1,11 @@
 import './DatosEmpresa.css'
-import { meses } from '../utilitiesReporte'
+import { generalTexts } from '../ReporteAlimento/generalTexts';
 
-const DatosEmpresa = ({ nombreEmpresa, fechaDatos, fecha }) => {
+const DatosEmpresa = ({ nombreEmpresa, fechaDatos, fecha, language }) => {
   const today = new Date(fecha);
+  const { gt_DatosEmpresa } = generalTexts
+  const fechaEmision = gt_DatosEmpresa.fechaEmision[language](today.getFullYear(), today.getMonth(), today.getDate())
+  const subtitulo = gt_DatosEmpresa.subtitulo[language](nombreEmpresa)
   return (
     <div className="DatosEmpresa">
       <div className="DatosEmpresa__titulo">
@@ -10,8 +13,7 @@ const DatosEmpresa = ({ nombreEmpresa, fechaDatos, fecha }) => {
        { fechaDatos !== null && <div className="DatosEmpresa__fechadatos">{fechaDatos}</div>}
       </div>
       <p className="DatosEmpresa__bajada">
-        <span className="DatosEmpresa__fecha">Fecha emisión informe: {today.getDate()} de {meses[today.getMonth()]} {today.getFullYear()}</span> · Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco.
-        Los datos del presente informe son confidenciales y pertenecen a {nombreEmpresa}. Prohibida su distribución sin autorización de la empresa. 
+        <span className="DatosEmpresa__fecha">{fechaEmision}</span> {subtitulo} 
       </p>
 
     </div>

@@ -1,7 +1,9 @@
 import React from "react";
+import { generalTexts } from "../generalTexts";
 import "./GraficoCumplimiento.css";
 
-const GraficoCumplimientoUI = ({ datos }) => {
+const GraficoCumplimientoUI = ({ datos, language }) => {
+  const { titulo, textoEje } = generalTexts.gt_GraficoCumplimiento[language]
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
   const vMin = Math.floor(
@@ -22,16 +24,16 @@ const GraficoCumplimientoUI = ({ datos }) => {
   yMax = Math.max(...yLineas);
 
   return (
-    <div className="GraficoCumplimiento">
-      <p className="GraficoCumplimiento__titulo">
-        Cumplimiento (%) concentración en alimento (logrado / intentado)
+    <div className="GraficoCumplimientoAl">
+      <p className="GraficoCumplimientoAl__titulo">
+        {titulo}
       </p>
-      <div className="GraficoCumplimiento__contenedor_grafico">
-        <p className="GraficoCumplimiento__etiqueta_eje_y">% de cumplimiento</p>
-        <div className="GraficoCumplimiento__contenedor_lineas">
+      <div className="GraficoCumplimientoAl__contenedor_grafico">
+        <p className="GraficoCumplimientoAl__etiqueta_eje_y" style={{left: language === 'es' ? '-7.5rem' : '-5.5rem'}}>{textoEje}</p>
+        <div className="GraficoCumplimientoAl__contenedor_lineas">
           {yLineas.map((y) => (
-            <div key={`lineay-${y}`} className="GraficoCumplimiento__linea">
-              <p className="GraficoCumplimiento__etiqueta_linea">
+            <div key={`lineay-${y}`} className="GraficoCumplimientoAl__linea">
+              <p className="GraficoCumplimientoAl__etiqueta_linea">
                 {y.toLocaleString("de-DE")}
               </p>
             </div>
@@ -40,10 +42,10 @@ const GraficoCumplimientoUI = ({ datos }) => {
         {datos.map((d) => (
           <div
             key={`caja-cc-${d.nombre}`}
-            className="GraficoCumplimiento__contenedor_caja"
+            className="GraficoCumplimientoAl__contenedor_caja"
           >
             <div
-              className="GraficoCumplimiento__bigote"
+              className="GraficoCumplimientoAl__bigote"
               style={{
                 "--porcentaje-top": `${
                   ((yMax - d.max) / (yMax - yMin)) * 100
@@ -52,7 +54,7 @@ const GraficoCumplimientoUI = ({ datos }) => {
               }}
             />
             <div
-              className="GraficoCumplimiento__caja"
+              className="GraficoCumplimientoAl__caja"
               style={{
                 "--porcentaje-bottom": `${Math.max(
                   0,
@@ -65,12 +67,12 @@ const GraficoCumplimientoUI = ({ datos }) => {
                 }%`,
               }}
             >
-              {d.promedio.toLocaleString("de-DE", {
+              {d.promedio.toLocaleString(language, {
                 maximumFractionDigits: 1,
                 minimumFractionDigits: 1,
               })}
             </div>
-            <div className="GraficoCumplimiento__etiqueta_caja">
+            <div className="GraficoCumplimientoAl__etiqueta_caja">
               {d.nombre.split(" ").map((n, i) => (
                 <div key={`${d.nombre}-${i}`}>{n}</div>
               ))}

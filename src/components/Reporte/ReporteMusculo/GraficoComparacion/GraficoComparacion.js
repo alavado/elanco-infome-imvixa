@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { colEstanquePeces } from "../../../../constants";
 import { iqrValues } from "../../utilitiesReporte";
 import "./GraficoComparacion.css";
+import { generalTexts } from '../generalTexts';
 
-const GraficoComparacion = () => {
+const GraficoComparacion = ({language}) => {
   const { datosGComp: datos } = useSelector(
     (state) => state.reporteMusculo
   );
-  
+  const { gt_GraficoComparacion } = generalTexts
+  const { titulo, yaxis, xaxis } = gt_GraficoComparacion[language]
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const tick = vMax > 25 ? 5 : 2;
   let yMax = Math.max(20, Math.ceil(vMax + tick));
@@ -24,10 +26,10 @@ const GraficoComparacion = () => {
   return (
     <div className="GraficoComparacion">
       <p className="GraficoComparacion__titulo">
-        Comparación concentración (ppb) en músculo
+        {titulo}
       </p>
       <div className="GraficoComparacion__contenedor_grafico">
-        <p className="GraficoComparacion__etiqueta_eje_y">Miles</p>
+        <p className="GraficoComparacion__etiqueta_eje_y" style={{left: language === 'es'? '-4rem' : '-5rem'}}>{yaxis}</p>
 				<div className="GraficoComparacion__contenedor_lineas">
           {yLineas.map((y) => (
             <div key={`compc-lineay-${y}`} className="GraficoComparacion__linea">
@@ -78,7 +80,7 @@ const GraficoComparacion = () => {
             </div>
           </div>
         ))}
-				<p className="GraficoComparacion__etiqueta_eje_x">Estanque</p>
+				<p className="GraficoComparacion__etiqueta_eje_x">{xaxis}</p>
       </div>
     </div>
   );

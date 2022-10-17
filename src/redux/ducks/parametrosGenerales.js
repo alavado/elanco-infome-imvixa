@@ -33,6 +33,7 @@ const slice = createSlice({
     datosEficacia: null,
     datosPecesTratados: null,
     reporte: null,
+    language: 'es'
   },
   reducers: {
     estaValidando(state, action) {
@@ -222,6 +223,9 @@ const slice = createSlice({
       console.log("SeleccionarReporte");
       state.reporte = reportes.find((r) => r.id === id);
     },
+    cambiarIdioma(state) {
+      state.language = state.language === 'es' ? 'en' : 'es'
+    }
   },
 });
 
@@ -240,6 +244,7 @@ export const {
   pasoAnterior,
   validando,
   seleccionarReporte,
+  cambiarIdioma
 } = slice.actions;
 
 export default slice.reducer;

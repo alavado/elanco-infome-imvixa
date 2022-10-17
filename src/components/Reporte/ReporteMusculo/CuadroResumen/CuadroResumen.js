@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { guardarRepCliente, guardarRepElanco, guardarRepVisita } from "../../../../redux/ducks/reporteMusculo";
 import "./CuadroResumen.css";
+import { generalTexts } from '../generalTexts';
 
-const CuadroResumen = () => {
+
+const CuadroResumen = ({ language }) => {
   const dispatch = useDispatch()
   const { 
     pisciculturaValue, 
@@ -11,17 +13,16 @@ const CuadroResumen = () => {
     initialRepElanco: repElanco, 
     initialRepVisita: repVisita, 
     initialRepCliente: repCliente } = useSelector((state) => state.reporteMusculo);
-  // const [repElanco, setRepElanco] = useState(initialRepElanco);
-  // const [repVisita, setRepVisita] = useState(initialRepVisita);
-  // const [repCliente, setRepCliente] = useState(initialRepCliente);
+  const { gt_CuadroResumen } = generalTexts
+  const labels = gt_CuadroResumen[language].filas
   return (
     <div className="CuadroResumen">
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Piscicultura:</div>
+        <div className="CuadroResumen__label">{labels[0]}:</div>
         <div className="CuadroResumen__value">{pisciculturaValue}</div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante Elanco:</div>
+        <div className="CuadroResumen__label">{labels[1]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""
@@ -35,11 +36,11 @@ const CuadroResumen = () => {
         </div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Fecha de visita:</div>
+        <div className="CuadroResumen__label">{labels[2]}:</div>
         <div className="CuadroResumen__value">{fechaValue}</div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante visita:</div>
+        <div className="CuadroResumen__label">{labels[3]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""
@@ -53,7 +54,7 @@ const CuadroResumen = () => {
         </div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante cliente:</div>
+        <div className="CuadroResumen__label">{labels[4]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""

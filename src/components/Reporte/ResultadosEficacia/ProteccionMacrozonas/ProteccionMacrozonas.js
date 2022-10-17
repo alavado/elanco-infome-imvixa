@@ -4,6 +4,7 @@ import './ProteccionMacrozonas.css'
 import { extraerUltimosPeriodos, groupBy, mean } from '../../utilitiesReporte'
 import { colFechaEficacia, colMacrozonaEficacia, colEficaciaEficacia } from '../../../../constants'
 import { onlyUnique } from "../../../../redux/ducks/utilities"
+import { generalTexts } from '../../generalTexts'
 
 const getEficaciaMacrozona = (datos, zona) => {
   if (datos[zona]) {
@@ -14,7 +15,9 @@ const getEficaciaMacrozona = (datos, zona) => {
   return '-'
 }
 
-const ProteccionMacrozonas = () => {
+const ProteccionMacrozonas = ({language}) => {
+  const {macrozona, titulo, leyenda1, leyenda2} = generalTexts.ProteccionMacrozonas[language]
+
   const {
     nombreEmpresa,
     datosFiltradosEficacia,
@@ -45,56 +48,56 @@ const ProteccionMacrozonas = () => {
     {
       valor: getEficaciaMacrozona(datos, 1),
       perteneceEmpresa: macrozonaEmpresa.includes(1),
-      etiqueta: 'Macrozona 1',
+      etiqueta: macrozona +' 1',
       xPorcentaje: 18,
       yPorcentaje: 25
     },
     {
       valor: getEficaciaMacrozona(datos, 2),
       perteneceEmpresa: macrozonaEmpresa.includes(2),
-      etiqueta: 'Macrozona 2',
+      etiqueta: macrozona +' 2',
       xPorcentaje: 6,
       yPorcentaje: 35
     },
     {
       valor: getEficaciaMacrozona(datos, 3),
       perteneceEmpresa: macrozonaEmpresa.includes(3),
-      etiqueta: 'Macrozona 3',
+      etiqueta: macrozona +' 3',
       xPorcentaje: 15,
       yPorcentaje: 50
     },
     {
       valor: getEficaciaMacrozona(datos, 4),
       perteneceEmpresa: macrozonaEmpresa.includes(4),
-      etiqueta: 'Macrozona 4',
+      etiqueta: macrozona +' 4',
       xPorcentaje: 28,
       yPorcentaje: 50
     },
     {
       valor: getEficaciaMacrozona(datos, 5),
       perteneceEmpresa: macrozonaEmpresa.includes(5),
-      etiqueta: 'Macrozona 5',
+      etiqueta: macrozona +' 5',
       xPorcentaje: 12,
       yPorcentaje: 72
     },
     {
       valor: getEficaciaMacrozona(datos, 6),
       perteneceEmpresa: macrozonaEmpresa.includes(6),
-      etiqueta: 'Macrozona 6',
+      etiqueta: macrozona +' 6',
       xPorcentaje: 67,
       yPorcentaje: 20
     },
     {
       valor: getEficaciaMacrozona(datos, 7),
       perteneceEmpresa: macrozonaEmpresa.includes(7),
-      etiqueta: 'Macrozona 7',
+      etiqueta: macrozona +' 7',
       xPorcentaje: 87,
       yPorcentaje: 25
     },
     {
       valor: getEficaciaMacrozona(datos, 8),
       perteneceEmpresa: macrozonaEmpresa.includes(8),
-      etiqueta: 'Macrozona 8',
+      etiqueta: macrozona +' 8',
       xPorcentaje: 75,
       yPorcentaje: 65
     }
@@ -108,18 +111,18 @@ const ProteccionMacrozonas = () => {
   return (
     <div className="ProteccionMacrozonas">
       <p className="ProteccionMacrozonas__titulo">
-        Protección histórica promedio industria registrada por IMVIXA por macrozona (datos desde 2016) 
+       {titulo} 
       </p>
       <div className="ProteccionMacrozonas__contenedor_mapa">
         <div className="ProteccionMacrozonas__leyenda">
           <div
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
             style={{ '--fondo': 'var(--color-gris-4)' }}
-          /> Macrozona sin centros de {nombreEmpresa}
+          />{leyenda1(nombreEmpresa)}
           <div
             className="ProteccionMacrozonas__pin ProteccionMacrozonas__pin--leyenda"
             style={{ '--fondo': 'var(--color-azul)' }}
-          /> Macrozona con centros de {nombreEmpresa}
+          /> {leyenda2(nombreEmpresa)}
         </div>
         {/* <div className="ProteccionMacrozonas__indicador_general">
           {indicadorGeneral}

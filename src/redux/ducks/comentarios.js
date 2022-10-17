@@ -46,10 +46,12 @@ const slice = createSlice({
       state.comentariosMusculo = state.comentariosMusculo.filter(c => c !== texto)
     },
     agregarComentarioCentro(state, action) {
+      state.preViz = false // se ha modificado
       const texto = action.payload
       state.comentariosCentro.push(texto)
     },
     eliminarComentarioCentro(state, action) {
+      state.preViz = false // se ha modificado
       const texto = action.payload
       state.comentariosCentro = state.comentariosCentro.filter(c => c !== texto)
     },

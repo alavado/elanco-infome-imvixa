@@ -1,28 +1,30 @@
 import React from "react";
+import { generalTexts } from "../generalTexts";
 import "./TablaResumenAlimento.css";
 
-const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lote, objetivo, programa, calibre }) => {
-  const filas = [
-    ["ID. Reporte laboratorio", informe],
-    ["Piscicultura", piscicultura],
-    ["Planta de alimento", planta],
-    ["Fecha de elaboración", fecha],
-    ["PMV", pmv],
-    ["Lote de alimento",lote],
-    ["Concentración objetivo PMV (ppm)", objetivo.toLocaleString("de-DE", {
+const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lote, objetivo, programa, calibre, language }) => {
+  const { titulo, filas } = generalTexts.gt_TablaResumen[language]
+  const filasCompletas = [
+    [filas[0], informe],
+    [filas[1], piscicultura],
+    [filas[2], planta],
+    [filas[3], fecha],
+    [filas[4], pmv],
+    [filas[5],lote],
+    [filas[6], objetivo.toLocaleString("de-DE", {
       maximumFractionDigits: 0,
       minimumFractionDigits: 0,
     })],
-    ["Cantidad Programada por receta (kg)", programa],
-    ["Calibre", calibre],
+    [filas[7], programa],
+    [filas[8], calibre],
   ];
   return (
     <div className="TablaResumen">
       <h4 className="TablaResumen__titulo">
-        Reporte de concentración en alimento
+        {titulo}
       </h4>
       <div className="TablaResumenAlimento__tabla">
-        {filas.map((fila, i) => (
+        {filasCompletas.map((fila, i) => (
           <div key={`fila-resumen-${i}`} className="TablaResumenAlimento__fila">
             <div>{fila[0]}:</div>
             <div>{fila[1]}</div>

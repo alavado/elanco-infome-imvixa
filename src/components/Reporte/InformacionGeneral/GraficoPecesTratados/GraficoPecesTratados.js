@@ -2,15 +2,15 @@ import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
 import { dividirDatosSegun, reemplazarNullPorCero } from '../../utilitiesReporte'
 import { colFechaPMV, colNPecesPMV } from '../../../../constants'
+import { generalTexts } from "../../generalTexts";
 
-
-const GraficoPecesTratados = () => {
+const GraficoPecesTratados = ({language}) => {
   const { 
     datosFiltradosPecesTratados,
     divisionTemporal,
     fechaFinal
   } = useSelector(state => state.reporte)
-
+  const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPecesTratados[language]
   const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPecesTratados, colFechaPMV, fechaFinal)
   // valor en millones
   const datos = datosDivididos.labels.map((nombre, index) => { return {
@@ -20,10 +20,10 @@ const GraficoPecesTratados = () => {
   if (datos.every(obj => obj.valor === 0)) {
     return (
       <div className="GraficoPecesTratados">
-        <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
+        <p className="GraficoPecesTratados__titulo">{titulo}</p>
         <div className="GraficoPecesTratados__contenedor_grafico">
           <div className="GraficoPecesTratados__contenedor_grafico_error">
-            Sin datos disponibles para el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
@@ -41,10 +41,10 @@ const GraficoPecesTratados = () => {
       className="GraficoPecesTratados"
       // style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
     >
-      <p className="GraficoPecesTratados__titulo">N° de peces tratados</p>
+      <p className="GraficoPecesTratados__titulo">{titulo}</p>
       <div className="GraficoPecesTratados__contenedor_grafico">
         <p className="GraficoPecesTratados__etiqueta_eje_y">
-          Millones
+          {yaxis}
         </p>
         <div className="GraficoPecesTratados__contenedor_lineas">
           {yLineas.map(y => (

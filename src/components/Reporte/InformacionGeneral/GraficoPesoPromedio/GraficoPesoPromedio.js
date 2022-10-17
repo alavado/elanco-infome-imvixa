@@ -10,8 +10,11 @@ import {
   colPeso2 
 } from '../../../../constants'
 import './GraficoPesoPromedio.css'
+import { generalTexts } from "../../generalTexts";
 
-const GraficoPesoPromedio = ({ agrandar }) => {
+
+const GraficoPesoPromedio = ({ agrandar, language }) => {
+  const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPecesTratados[language]
 
   const { 
     datosFiltradosPeces,
@@ -29,11 +32,11 @@ const GraficoPesoPromedio = ({ agrandar }) => {
     return (
       <div className="GraficoPesoPromedio">
         <p className="GraficoPesoPromedio__titulo">
-          Peso promedio pez (g) al tratamiento por piscicultura
+          {titulo}
         </p>
         <div className="GraficoPesoPromedio__contenedor_grafico">
           <div className="GraficoPesoPromedio__contenedor_grafico__error">
-            Sin datos disponibles en el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
@@ -68,11 +71,11 @@ const GraficoPesoPromedio = ({ agrandar }) => {
       style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
     >
       <p className="GraficoPesoPromedio__titulo">
-        Peso promedio pez (g) al tratamiento por piscicultura
+        {titulo}
       </p>
       <div className="GraficoPesoPromedio__contenedor_grafico">
         <p className="GraficoPesoPromedio__etiqueta_eje_y">
-          Gramos
+          {yaxis}
         </p>
         <div className="GraficoPesoPromedio__contenedor_lineas">
           {yLineas.map(y => (
@@ -101,7 +104,7 @@ const GraficoPesoPromedio = ({ agrandar }) => {
           } else {
             return (
               <div key={`barra-${d.nombre}`} className="GraficoPesoPromedio__contenedor_barra">
-                <div className="GraficoPesoPromedio__si">sin datos</div>
+                <div className="GraficoPesoPromedio__si">{sindatos}</div>
                 <div className="GraficoPesoPromedio__etiqueta_barra">
                   {d.nombre}
                 </div>

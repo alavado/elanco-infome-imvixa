@@ -15,6 +15,7 @@ import {
   colPPB 
 } from '../../../../constants'
 import classNames from 'classnames'
+import { generalTexts } from '../../generalTexts'
 
 const getBoxPlotData = (datos, nombre, concentracion = null) => {
   if (datos.length === 0) {
@@ -47,7 +48,8 @@ const getBoxPlotData = (datos, nombre, concentracion = null) => {
   return dat;
 }
 
-const ComparacionConcentracion = ({ agrandar }) => {
+const ComparacionConcentracion = ({ agrandar, language }) => {
+  const {titulo, yaxis, sindatos, industria, empresa} = generalTexts.gt_GraficoComparacion[language]
 
   const { 
     divisionTemporal,
@@ -74,11 +76,10 @@ const ComparacionConcentracion = ({ agrandar }) => {
   if (Object.values(datosPorPiscicultura).every(obj => obj.length === 0)) {
     return (
       <div className="ComparacionConcentracion">
-        <p className="ComparacionConcentracion__titulo">Comparación concentración (ppb) 
-        en músculo</p>
+        <p className="ComparacionConcentracion__titulo">{titulo} </p>
         <div className="ComparacionConcentracion__contenedor_grafico">
           <div className="ComparacionConcentracion__contenedor_grafico_error">
-            Sin datos disponibles para el periodo seleccionado
+           {sindatos}
           </div>
         </div>
       </div>
@@ -86,8 +87,8 @@ const ComparacionConcentracion = ({ agrandar }) => {
   }
   
   const datos = [
-    getBoxPlotData(datosIndustria, 'Industria', concentracion),
-    getBoxPlotData(datosEmpresa, 'Empresa'),
+    getBoxPlotData(datosIndustria, industria, concentracion),
+    getBoxPlotData(datosEmpresa, empresa),
     ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
   ]
@@ -106,8 +107,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
       style={{ gridColumn: `span ${agrandar ? 2 : 1}` }}
     >
       <p className="ComparacionConcentracion__titulo">
-        Comparación concentración (ppb) 
-        en músculo
+        {titulo}
       </p>
       <div className="ComparacionConcentracion__contenedor_grafico">
         {[...datosPlus, { nombre: '' }].map((d, i) => (
@@ -159,7 +159,7 @@ const ComparacionConcentracion = ({ agrandar }) => {
         </div>
       </div>
       <div className="ComparacionConcentracion__eje">
-        <p>Miles </p>
+        <p>{yaxis} </p>
       </div>
       {/* <div className="ComparacionConcentracion__bajada">
         <p>Promedio {periodo}</p>

@@ -13,9 +13,10 @@ import {
 import { colFechaAlimento } from '../../../constants';
 import { localeSort } from '../../../redux/ducks/utilities';
 import { reportes } from '../../../helpers/reportes';
-import { cargarComentariosAlimento, cargarComentariosMusculo } from '../../../redux/ducks/comentarios';
+import { cargarComentariosAlimento, cargarComentariosMusculo, cargarComentariosCentro } from '../../../redux/ducks/comentarios';
 import { cargarPreViz as cargarPreVizAlimento } from '../../../redux/ducks/reporteAlimento';
 import { cargarPreViz as cargarPreVizMusculo } from '../../../redux/ducks/reporteMusculo';
+import { cargarPreVizCentro } from '../../../redux/ducks/reporteCentro';
 
 const FormPrevisualizador = () => {
   const history = useHistory()
@@ -33,9 +34,17 @@ const FormPrevisualizador = () => {
           lotes: datos
         }))
         break
-      default:
+      case 2:
         dispatch(cargarComentariosMusculo(datos.comentarios))
         dispatch(cargarPreVizMusculo({
+          fecha: reporte.Fecha,
+          nombreEmpresa: reporte.Empresa, 
+          datos
+        }))
+        break
+      default:
+        dispatch(cargarComentariosCentro(datos.comentarios))
+        dispatch(cargarPreVizCentro({
           fecha: reporte.Fecha,
           nombreEmpresa: reporte.Empresa, 
           datos

@@ -1,8 +1,10 @@
 import './Sandalias.css'
 import imagenHealthy from '../../../../assets/images/forever-healthy.jpg'
 import classNames from 'classnames'
+import { generalTexts } from '../generalTexts'
 
-const SandaliasUI = ({ hayComentarios }) => {
+const SandaliasUI = ({ hayComentarios, language }) => {
+  const texto = generalTexts.gt_Sandalias[language]
   return (
     <div className="Sandalias">
       {(!hayComentarios) && <img src={imagenHealthy} className="Sandalias__imagen" alt="imagen pie de pagina"/>}
@@ -12,7 +14,7 @@ const SandaliasUI = ({ hayComentarios }) => {
           "Sandalias__texto--blanco": !hayComentarios
         })}
       >
-        Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco
+        {texto}
       </p>
       <p className="Sandalias__numero_pagina">{1}</p> 
     </div>

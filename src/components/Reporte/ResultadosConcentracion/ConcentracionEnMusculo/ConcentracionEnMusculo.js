@@ -3,8 +3,9 @@ import { dividirDatosSegun } from '../../utilitiesReporte'
 import { colFechaPeces, colPPB, colSampleOrigin, tipoFreshWater } from '../../../../constants'
 import { mean, iqrValues } from '../../utilitiesReporte'
 import './ConcentracionEnMusculo.css'
+import { generalTexts } from '../../generalTexts'
 
-const ConcentracionEnMusculo = () => {
+const ConcentracionEnMusculo = ({language}) => {
 
   const {
     datosFiltradosPeces,
@@ -18,14 +19,16 @@ const ConcentracionEnMusculo = () => {
     colFechaPeces, 
     fechaFinal
   )
+  const {titulo, yaxis, sindatos, sd} = generalTexts.gt_GraficoConcentracionEnMusculo[language]
+
 
   if (datosDivididos.datos.every(obj => obj.length === 0)) {
     return (
       <div className="ConcentracionEnMusculo">
-        <p className="ConcentracionEnMusculo__titulo">Concentración (ppb) en músculo post tratamiento</p>
+        <p className="ConcentracionEnMusculo__titulo">{titulo}</p>
         <div className="ConcentracionEnMusculo__contenedor_grafico">
           <div className="ConcentracionEnMusculo__contenedor_grafico_error">
-            Sin datos disponibles para el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
@@ -64,12 +67,11 @@ const ConcentracionEnMusculo = () => {
   return (
     <div className="ConcentracionEnMusculo">
       <p className="ConcentracionEnMusculo__titulo">
-        Concentración (ppb) en músculo
-        post tratamiento
+        {titulo}
       </p>
       <div className="ConcentracionEnMusculo__contenedor_grafico">
         <p className="ConcentracionEnMusculo__etiqueta_eje_y">
-          Miles
+          {yaxis}
         </p>
         <div className="ConcentracionEnMusculo__contenedor_lineas">
           {yLineas.map(y => (
@@ -84,7 +86,7 @@ const ConcentracionEnMusculo = () => {
           if (d.promedio === 0) {
             return (
                 <div key={`caja-cc-${d.nombre}`} className="ConcentracionEnMusculo__contenedor_caja">
-                  <div className="ConcentracionEnMusculo__si">sin datos</div>
+                  <div className="ConcentracionEnMusculo__si">{sd}</div>
                 <div className="ConcentracionEnMusculo__etiqueta_caja">
                   {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}
                 </div>

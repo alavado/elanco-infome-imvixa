@@ -26,6 +26,8 @@ import {
   colUTAs,
   tipoFreshWater,
 } from "../../../../constants";
+import { generalTexts } from '../generalTexts'
+
 
 ChartJS.register(
   CategoryScale,
@@ -40,7 +42,7 @@ ChartJS.register(
   ScatterController
 );
 
-const CurvaPorUTAs = () => {
+const CurvaPorUTAs = ({language}) => {
   const { datosPorInforme, parametrosGraficoUTAs, parametrosGraficoPeso } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
@@ -48,6 +50,8 @@ const CurvaPorUTAs = () => {
 
   const setXValues = new Set();
   const setYValues = new Set();
+  const { gt_curvauta } = generalTexts
+  const { titulo, sindatos, xaxis, yaxis, jaula } = gt_curvauta[language]
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
     if (informe[colUTAs] && !isNaN(informe[colUTAs])) {
       const todosLosInformes = informe["datosTratFWSW"];
@@ -80,7 +84,7 @@ const CurvaPorUTAs = () => {
       setYValues.add(Math.max(...yValues))
 
       return {
-        label: `Jaula ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
+        label: `${jaula} ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
         fill: false,
         borderColor: colorsScatter[i],
         backgroundColor: "transparent",
@@ -101,10 +105,10 @@ const CurvaPorUTAs = () => {
   if (!allInfo) {
     return (
       <div className="CurvaPorUTAs">
-        <p className="CurvaPorUTAs__titulo">Curva de depleción según UTAS</p>
+        <p className="CurvaPorUTAs__titulo">{titulo}</p>
         <div className="CurvaPorUTAs__contenedor_grafico">
           <div className="CurvaPorUTAs__contenedor_grafico__error">
-            Sin datos disponibles en el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
@@ -200,7 +204,7 @@ const CurvaPorUTAs = () => {
         display: true,
         title: {
           display: true,
-          text: "Grados días",
+          text: xaxis,
           font: {
             size: 16,
           },
@@ -214,7 +218,7 @@ const CurvaPorUTAs = () => {
         type: "logarithmic",
         title: {
           display: true,
-          text: "Concentración de Imvixa en músculo + piel (ppb)",
+          text: yaxis,
           font: {
             size: 16,
           },
@@ -240,7 +244,7 @@ const CurvaPorUTAs = () => {
   };
   return (
     <div className="CurvaPorUTAs" style={{ marginTop: 12, position: "relative", width: "40vw", height: "35vw" }}>
-      <p className="CurvaPorUTAs__titulo">Curva de depleción según UTAS</p>
+      <p className="CurvaPorUTAs__titulo">{titulo}</p>
       <div className="CurvaPorUTAs__contenedor_grafico">
         <Chart type="scatter" data={data} options={options}/>
       </div>

@@ -5,9 +5,10 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Comentario from './Comentario'
 import './Comentarios.css'
+import { generalTexts } from '../ReporteAlimento/generalTexts'
 const { ipcRenderer } = window.require('electron')
 
-const Comentarios = ({ preViz, comentarios, agregarComentario, eliminarComentario, guardarComentarios }) => {
+const Comentarios = ({ preViz, comentarios, agregarComentario, eliminarComentario, guardarComentarios, language }) => {
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
   const textareaRef = useRef()
@@ -44,12 +45,13 @@ const Comentarios = ({ preViz, comentarios, agregarComentario, eliminarComentari
   }, [comentarios])
 
   const hayComentarios = comentarios.length > 0
+  const titulo = generalTexts.gt_Comentarios[language]
 
   return (
     <div className="Comentarios">
       {hayComentarios && (
         <h3 className="Reporte__titulo_seccion">
-          Comentarios
+          {titulo}
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">

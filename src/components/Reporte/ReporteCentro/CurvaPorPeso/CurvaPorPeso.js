@@ -27,6 +27,8 @@ import {
   colUTAs,
   tipoFreshWater,
 } from "../../../../constants";
+import { generalTexts } from '../generalTexts'
+
 
 ChartJS.register(
   CategoryScale,
@@ -41,12 +43,14 @@ ChartJS.register(
   ScatterController
 );
 
-const CurvaPorPeso = () => {
+const CurvaPorPeso = ({language}) => {
   const { datosPorInforme, parametrosGraficoPeso, parametrosGraficoUTAs } = useSelector((state) => state.reporteCentro);
   const colorsScatter = ["#fab536", "#eb483c", "#2f436a", "#0072ce", "#218fbb"];
   let allInfo = true;
   const setXValues = new Set();
   const setYValues = new Set();
+  const { gt_curvapeso } = generalTexts
+  const { titulo, sindatos, xaxis, yaxis, jaula } = gt_curvapeso[language]
 
   const datasetPorInforme = datosPorInforme.map((informe, i) => {
     if (informe[colUTAs] && !isNaN(informe[colUTAs])) {
@@ -68,7 +72,7 @@ const CurvaPorPeso = () => {
       setXValues.add(Math.max(...xValues));
       setYValues.add(Math.max(...yValues));
       return {
-        label: `Jaula ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
+        label: `${jaula} ${informe[colEstanquePeces]} (${informe["pisciculturasOrigen"]})`,
         fill: false,
         borderColor: colorsScatter[i],
         backgroundColor: "transparent",
@@ -89,10 +93,10 @@ const CurvaPorPeso = () => {
   if (!allInfo) {
     return (
       <div className="CurvaPorUTAs">
-        <p className="CurvaPorUTAs__titulo">Curva de depleción según peso</p>
+        <p className="CurvaPorUTAs__titulo">{titulo}</p>
         <div className="CurvaPorUTAs__contenedor_grafico">
           <div className="CurvaPorUTAs__contenedor_grafico__error">
-            Sin datos disponibles en el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
@@ -189,7 +193,7 @@ const CurvaPorPeso = () => {
         display: true,
         title: {
           display: true,
-          text: "Peso (gr.)",
+          text: xaxis,
           font: {
             size: 16,
           },
@@ -203,7 +207,7 @@ const CurvaPorPeso = () => {
         type: "logarithmic",
         title: {
           display: true,
-          text: "Concentración de Imvixa en músculo + piel (ppb)",
+          text: xaxis,
           font: {
             size: 16,
           },
@@ -213,7 +217,7 @@ const CurvaPorPeso = () => {
   };
   return (
     <div className="CurvaPorPeso" style={{ marginTop: 12, position: "relative", width: "40vw", height: "35vw" }}>
-      <p className="CurvaPorPeso__titulo">Curva de depleción según peso</p>
+      <p className="CurvaPorPeso__titulo">{titulo}  </p>
       <div className="CurvaPorPeso__contenedor_grafico">
         <Chart type="scatter" data={data} options={options}/>
       </div>

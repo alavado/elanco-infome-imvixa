@@ -9,6 +9,12 @@ import { mostrarGrafico, ocultarGrafico } from '../../redux/ducks/graficos'
 import {
   cargarConfigGraficos,
 } from "../../redux/ducks/reporteCentro";
+import {
+  cambiarIdioma
+} from "../../redux/ducks/parametrosGenerales";
+import {
+  cambiarIdioma as cambiarIdiomaViz
+} from "../../redux/ducks/previsualizador";
 import Visualizador from "../Visualizador";
 import Selector from "../Selector";
 import Previsualizador from "../Previsualizador";
@@ -36,6 +42,10 @@ const App = () => {
       } else {
         console.log("NO HAY ARCHIVO DE CONF")
       }
+    });
+    ipcRenderer.on("cambiarIdioma", async (e) => {
+      dispatch(cambiarIdioma());
+      dispatch(cambiarIdiomaViz());
     });
   }, []);
 

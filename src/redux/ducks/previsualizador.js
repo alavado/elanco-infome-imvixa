@@ -4,6 +4,7 @@ import { localeSort } from './utilities'
 const slice = createSlice({
   name: 'previsualizador',
   initialState: {
+    language: 'es',
     reportes: [],
     codigosFiltrados: [],
     opcionesCodigos: [],
@@ -22,7 +23,7 @@ const slice = createSlice({
       registros.forEach(reporte => {
         opcionesCodigos.push({
           empresa: reporte.Empresa,
-          fecha: reporte.Fecha.substring(0, 10),
+          fecha: reporte.Fecha ? reporte.Fecha.substring(0, 10) : new Date().toISOString().substring(0, 10),
           tipo: reporte.TipoID,
           value: reporte.ReporteID,
           label: reporte.ReporteID
@@ -81,6 +82,9 @@ const slice = createSlice({
       const opciones = state.reportes.filter(value => value.ReporteID === id)
       state.reporte = opciones.length > 0 ? opciones[0] : null
       state.codigoSeleccionado = action.payload
+    },
+    cambiarIdioma(state) {
+      state.language = state.language === 'es' ? 'en' : 'es'
     }
   },
 })
@@ -91,7 +95,8 @@ export const {
   seleccionarReporte,
   filtrarPorEmpresa,
   filtrarPorFecha,
-  filtrarPorTipo
+  filtrarPorTipo,
+  cambiarIdioma
 } = slice.actions
 
 export default slice.reducer

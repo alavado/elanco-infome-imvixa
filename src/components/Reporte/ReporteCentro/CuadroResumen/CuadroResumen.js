@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./CuadroResumen.css";
+import { generalTexts } from '../generalTexts';
 
-const CuadroResumen = () => {
+const CuadroResumen = ({ language }) => {
   const { fecha } = useSelector((state) => state.reporteCentro);
   const [repElanco, setRepElanco] = useState("");
   const [repVisita, setRepVisita] = useState("");
   const [repCliente, setRepCliente] = useState("");
+  const { gt_CuadroResumen } = generalTexts
+  const labels = gt_CuadroResumen[language].filas
   return (
     <div className="CuadroResumen">
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Fecha de visita:</div>
+        <div className="CuadroResumen__label">{labels[0]}:</div>
         <div className="CuadroResumen__value">{fecha.value}</div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante Elanco:</div>
+        <div className="CuadroResumen__label">{labels[1]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""
@@ -28,7 +31,7 @@ const CuadroResumen = () => {
         </div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante cliente:</div>
+        <div className="CuadroResumen__label">{labels[2]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""
@@ -42,7 +45,7 @@ const CuadroResumen = () => {
         </div>
       </div>
       <div className="CuadroResumen__elemento">
-        <div className="CuadroResumen__label">Representante visita:</div>
+        <div className="CuadroResumen__label">{labels[3]}:</div>
         <div className="CuadroResumen__value">
           <input
             id=""

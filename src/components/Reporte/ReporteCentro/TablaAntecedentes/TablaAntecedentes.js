@@ -9,13 +9,15 @@ import "./TablaAntecedentes.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import { formatDistance } from 'date-fns'
+import { generalTexts } from '../generalTexts';
 
-const TablaAntecedentes = () => {
+const TablaAntecedentes = ({ language }) => {
   registerLocale("es", es);
-  const { datosPorInforme: datosAntecedentes, fecha } = useSelector(
+  const { datosPorInforme: datosAntecedentes, fechaValor } = useSelector(
     (state) => state.reporteCentro
   );
-
+  const { gt_TablaAntecedentes } = generalTexts
+  const labels = gt_TablaAntecedentes[language].columna
   // const datosAntecedentes = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater && o['fecha'].toString().startsWith(fecha.value));
 
   const [grupo, setGrupo] = useState(
@@ -36,18 +38,10 @@ const TablaAntecedentes = () => {
       ref={ref}
     />
   ));
-  const fechaVisita = new Date(fecha.value)
+  const fechaVisita = new Date(fechaValor)
 
   const columnas = [
-    [
-      "Origen",
-      "Grupo",
-      "Jaulas muestreadas",
-      "Residencia en FW",
-      "Fecha de traslado al mar",
-      "Días cultivo al muestreo",
-      "Utas al muestreo",
-    ],
+    labels,
     ...datosAntecedentes.map((informe, i) => {
       return [
         informe['pisciculturasOrigen'] && informe['pisciculturasOrigen'].length > 0 ? informe['pisciculturasOrigen'].join(' / ') : 'Sin información',
@@ -114,12 +108,12 @@ const TablaAntecedentes = () => {
     <div className="TablaAntecedentesCentro">
       <div className="TablaAntecedentesCentro__contenedor">
         <h4 className="TablaAntecedentesCentro__titulo">
-          Antecedentes del grupo tratado
+          {gt_TablaAntecedentes[language].titulo}
         </h4>
         <div
           className="TablaAntecedentesCentro__tabla"
           style={{
-            gridTemplate: `repeat(1, 1fr) / 14rem repeat(${
+            gridTemplate: `repeat(1, 1fr) / 22rem repeat(${
               columnas.length - 1
             }, 1fr)`,
           }}

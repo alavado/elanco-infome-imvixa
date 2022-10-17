@@ -8,8 +8,9 @@ import Comentario from './Comentario'
 import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
 import { guardarComentariosLote } from '../../../../redux/ducks/reporteAlimento'
+import { generalTexts } from '../generalTexts'
 
-const Comentarios = ({ indice }) => {
+const Comentarios = ({ indice, language }) => {
 
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
@@ -44,11 +45,12 @@ const Comentarios = ({ indice }) => {
 
   const hayComentarios = comentarios.length > 0
   const nPalabras = comentarios.reduce((acc, curr) => acc + curr.length, 0)
+  const titulo = generalTexts.gt_Comentarios[language]
   return (
     <div className="Comentarios">
       {hayComentarios && (
         <h3 className="Reporte__titulo_seccion">
-          Comentarios
+          {titulo}
         </h3>
       )}
       <ul className="Comentarios__contenedor_comentarios">

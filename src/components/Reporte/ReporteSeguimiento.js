@@ -12,12 +12,14 @@ import {
   agregarComentario,
   eliminarComentario,
 } from "../../redux/ducks/comentarios";
+import { guardarComentarios } from "../../redux/ducks/reporteSeguimiento"
 import { getFechaInicio, meses } from "./utilitiesReporte";
 import "./Reporte.css";
 import { REPORTE_ID_SEGUIMIENTO, REPORTE_NOMBRE_SEGUIMIENTO } from "../../helpers/reportes";
+import { generalTexts } from "./generalTexts";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteSeguimiento = () => {
+const ReporteSeguimiento = ({language}) => {
   const { comentarios } = useSelector((state) => state.comentarios);
   const { nombreEmpresa, fechaInicio, fechaFinal, divisionTemporal } =
     useSelector((state) => state.reporte);
@@ -43,28 +45,31 @@ const ReporteSeguimiento = () => {
     <div className="Reporte">
       <div className="Reporte__contenedor">
         <div className="Reporte__pagina Reporte__pagina--1">
-          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO}/>
+          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
           <MensajeError>
             <DatosEmpresa
               nombreEmpresa={nombreEmpresa}
               fechaDatos={fechaDatos}
               fecha={today}
+              language={language}
             />
           </MensajeError>
-          <InformacionGeneral />
-          <ResultadosConcentracion />
-          <Sandalias pagina={1} />
+          <InformacionGeneral language={language} />
+          <ResultadosConcentracion language={language} />
+          <Sandalias language={language} pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
-          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} />
-          <ResultadosEficacia />
+          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
+          <ResultadosEficacia language={language} />
           <Comentarios
             reporteID={REPORTE_ID_SEGUIMIENTO}
             comentarios={comentarios}
             agregarComentario={agregarComentario}
             eliminarComentario={eliminarComentario}
+            guardarComentarios={guardarComentarios}
+            language={language}
           />
-          <Sandalias pagina={2} />
+          <Sandalias pagina={2} language={language}/>
         </div>
       </div>
     </div>

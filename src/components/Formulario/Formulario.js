@@ -46,7 +46,8 @@ const Formulario = () => {
     datosPeces,
     datosEficacia,
     datosTratamiento,
-    datosPecesTratados
+    datosPecesTratados,
+    language
   } = useSelector((state) => state.parametrosGenerales);
   const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
     (state) => state.reporte
@@ -236,7 +237,7 @@ const Formulario = () => {
                   qCondition &&
                   minCondition
                 ) {
-                  dispatch(procesarReporteCentro());
+                  dispatch(procesarReporteCentro({concentracion, language}));
                 }
                 break;
             default:

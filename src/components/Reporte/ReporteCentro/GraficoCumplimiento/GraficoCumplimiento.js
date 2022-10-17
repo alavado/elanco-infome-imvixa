@@ -14,27 +14,30 @@ import {
   selectMinMaxFecha,
 } from "../../../../redux/ducks/utilities";
 import "./GraficoCumplimiento.css";
+import { generalTexts } from '../generalTexts';
 
-const GraficoCumplimiento = () => {
+
+const GraficoCumplimiento = ({ language }) => {
   const {
-    nombreEmpresa,
+    empresa,
     lotesAsociados,
     plantasAsociadas,
     datosAlimento: datosAlimentoHistorico,
     datosAlimentoLotesAsociados,
   } = useSelector((state) => state.reporteCentro);
   // const { cumplimiento } = useSelector((state) => state.reporte);
+  const { gt_GraficoCumplimiento } = generalTexts
+  const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
 
   if (lotesAsociados.length === 0) {
     return (
       <div className="GraficoCumplimiento">
         <p className="GraficoCumplimiento__titulo">
-          Concentración (mg/kg) en alimento medicado según planta de alimento
-          correspondiente al lote utilizado en pisciculturas de origen
+          {titulo}
         </p>
         <div className="GraficoCumplimiento__contenedor_grafico">
           <div className="GraficoCumplimiento__contenedor_grafico__error">
-            Sin datos disponibles para el periodo seleccionado
+          {sindatos}
           </div>
         </div>
       </div>
@@ -81,7 +84,7 @@ const GraficoCumplimiento = () => {
       !lotesEjercicio.includes(fila[colLoteAlimento])
     ) {
       // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
-      if (fila[colEmpresaAlimento] === nombreEmpresa.value) {
+      if (fila[colEmpresaAlimento] === empresa) {
         cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
       } else {
         cumplimientosIndustria.push(fila[colCumplimiento] * 100);
@@ -90,30 +93,12 @@ const GraficoCumplimiento = () => {
   });
 
   const datosEmpresa = {
-    nombre: nombreEmpresa.value,
+    nombre: empresa,
     promedio: mean(cumplimientosEmpresa),
     ...iqrValues(cumplimientosEmpresa),
     max: Math.max(...cumplimientosEmpresa),
     min: Math.min(...cumplimientosEmpresa),
   };
-  // const datosIndustria = {
-  //   nombre: "Industria",
-  //   promedio:
-  //     cumplimiento.prom !== ""
-  //       ? cumplimiento.prom
-  //       : mean(cumplimientosIndustria),
-  //   ...(cumplimiento.q2 !== ""
-  //     ? iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
-  //     : iqrValues(cumplimientosIndustria)),
-  //   max:
-  //     cumplimiento.max !== ""
-  //       ? cumplimiento.max
-  //       : Math.max(...cumplimientosIndustria),
-  //   min:
-  //     cumplimiento.min !== ""
-  //       ? cumplimiento.min
-  //       : Math.min(...cumplimientosIndustria),
-  // };
 
   const datos = [datosEmpresa, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
 
@@ -139,11 +124,10 @@ const GraficoCumplimiento = () => {
   return (
     <div className="GraficoCumplimiento">
       <p className="GraficoCumplimiento__titulo">
-        Concentración (mg/kg) en alimento medicado según planta de alimento
-        correspondiente al lote utilizado en pisciculturas de origen
+        {titulo}
       </p>
       <div className="GraficoCumplimiento__contenedor_grafico">
-        <p className="GraficoCumplimiento__etiqueta_eje_y">% de cumplimiento</p>
+        <p className="GraficoCumplimiento__etiqueta_eje_y">{yaxis}</p>
         <div className="GraficoCumplimiento__contenedor_lineas">
           {yLineas.map((y) => (
             <div key={`lineay-${y}`} className="GraficoCumplimiento__linea">
@@ -202,7 +186,7 @@ const GraficoCumplimiento = () => {
               <div
                 className="GraficoCumplimiento__si"
               >
-                Sin datos
+                {sindatos}
               </div>
               <div className="GraficoCumplimiento__etiqueta_caja">
                 {d.nombre.split(" ").map((n, i) => (

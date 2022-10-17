@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { REPORTE_ID_ALIMENTO, REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO } from '../../helpers/reportes'
+import ReporteCentro from '../Reporte/ReporteCentro'
 import ReporteMusculo from '../Reporte/ReporteMusculo'
 import VisualizadorAlimento from './VisualizadorAlimento'
 // import VisualizadorMusculo from './VisualizadorMusculo'
@@ -9,7 +10,7 @@ import VisualizadorSeguimiento from './VisualizadorSeguimiento'
 const { ipcRenderer } = window.require('electron')
 
 const Visualizador = () => {
-  const { reporte } = useSelector(state => state.previsualizador)
+  const { reporte, language } = useSelector(state => state.previsualizador)
   // TODO: Check si se imprime despues de que se renderiza
   // NO ESTá funcionando, incluso ya no sirve el boton de exportar, esta malo
   // Check si le puedo poner un if para que no se imprima cuando viene directo desde el state
@@ -28,16 +29,16 @@ const Visualizador = () => {
   switch (reporte.TipoID) {
     case REPORTE_ID_ALIMENTO:
       return (
-        <VisualizadorAlimento />
+        <VisualizadorAlimento language={language}/>
       );
     case REPORTE_ID_MUSCULO:
       return (
-        <ReporteMusculo />
+        <ReporteMusculo language={language}/>
       )
-    // case REPORTE_ID_CENTRO:
-    //   return (
-    //     <VisualizadorCentro />
-    //   )
+    case REPORTE_ID_CENTRO:
+      return (
+        <ReporteCentro language={language}/>
+      )
     default:
       return (
         <VisualizadorSeguimiento />

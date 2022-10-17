@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "./TablaResumenAlimento.css";
 import TablaResumenAlimentoUI from "./TablaResumenAlimentoUI";
 
-const TablaResumenAlimento = ({ index }) => {
+const TablaResumenAlimento = ({ index, language }) => {
   const { lotes } = useSelector(state => state.reporteAlimento)
   const {
     informe,
@@ -27,6 +27,7 @@ const TablaResumenAlimento = ({ index }) => {
       objetivo={objetivo}
       programa={programa}
       calibre={calibre}
+      language={language}
     />
   );
 };

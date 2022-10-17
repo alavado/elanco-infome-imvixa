@@ -7,6 +7,7 @@ import {
   colHexaEficacia,
 } from '../../../../constants'
 import { useSelector } from 'react-redux'
+import { generalTexts } from '../../generalTexts'
 export const TRATAMIENTOS_IMVIXA = 'Imvixa'
 export const TRATAMIENTOS_HEXAFLUMURON = 'Hexaflumurón'
 
@@ -32,7 +33,9 @@ const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
   return Math.round(promedioEficacia * Math.pow(10, decimales)) / Math.pow(10, decimales)
 }
 
-const Tratamientos = () => {
+const Tratamientos = ({language}) => {
+  const {cuadradito2, sb, titulo, sindatos, sd, meses, prind, premp, nota} = generalTexts.gt_Tratamiento[language]
+
   const {
     datosFiltradosEficacia,
     datosFiltradosIndustriaEficacia,
@@ -93,11 +96,11 @@ const Tratamientos = () => {
     return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
-        Meses hasta primer Baño
+        {titulo}
       </div>
       <div className="Tratamientos__contenedor_grafico">
         <div className="GraficoPecesTratados__contenedor_grafico_error">
-          Sin datos de eficacia disponibles en los últimos 18 meses
+          {sindatos}
         </div>
       </div>
     </div>
@@ -112,17 +115,17 @@ const Tratamientos = () => {
   return (
     <div className="Tratamientos">
       <div className="Tratamientos__titulo">
-        Tiempo transcurrido (meses) entre la siembra y primer tratamiento contra caligidosis
+        {titulo}
       </div>
       <div className="Tratamientos__subtitulo">
-        {promedioIndustria ? <p><span className="Tratamientos__label_promedio">Promedio Industria</span>: {promedioIndustria} meses</p> : null }
-        {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">Promedio Empresa</span>: {promedioEmpresa} meses</p> : null }
+        {promedioIndustria ? <p><span className="Tratamientos__label_promedio">{prind}</span>: {promedioIndustria} {meses}</p> : null }
+        {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">{premp}</span>: {promedioEmpresa} {meses}</p> : null }
       </div>
       <div className="Tratamientos__contenedor_grafico">
         <div className="Tratamientos__leyenda">
           <p cuadradito="imvixa">IMVIXA</p>
-          <p cuadradito="hexa">IMVIXA + otro</p>
-          <p cuadradito="sb">Sin baño</p>
+          <p cuadradito="hexa">{cuadradito2}</p>
+          <p cuadradito="sb">{sb}</p>
         </div>
         <div className="Tratamientos__lineas_grafico">
           {Array(yMaximo + 1).fill(0).map((_, i) => (
@@ -137,7 +140,7 @@ const Tratamientos = () => {
                   key={`barra-tratamientos-${i}`}
                   className="Tratamientos__barra Tratamientos__barra--imvixa"
                 >
-                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__barra__si">{sd}</div>
                   <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
                 </div>
               )
@@ -160,7 +163,7 @@ const Tratamientos = () => {
                   key={`separador-tratamientos-${i}`}
                   className="Tratamientos__barra Tratamientos__barra--hexa"
                 >
-                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__barra__si">{sd}</div>
                   <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>  
                 </div>
               )
@@ -183,7 +186,7 @@ const Tratamientos = () => {
                   key={`separador-tratamientos-nada-${i}`}
                   className="Tratamientos__barra Tratamientos__barra--nada"
                 >
-                  <div className="Tratamientos__barra__si">sin datos</div>
+                  <div className="Tratamientos__barra__si">{sd}</div>
                   <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>  
                 </div>
               )
@@ -200,7 +203,7 @@ const Tratamientos = () => {
           )})}
         </div>
       </div>
-      <p className="Tratamientos__nota">NOTA: Gráfico muestra eficacia de IMVIXA hasta el primer baño en centros que fueron tratados solo con IMVIXA; centros tratados con IMVIXA y otro producto antes del término de la eficacia de IMVIXA; y centros que aún no han recibido baños.</p>
+      <p className="Tratamientos__nota">{nota}</p>
     </div>
   )
 }

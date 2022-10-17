@@ -2,8 +2,9 @@ import './Sandalias.css'
 import imagenHealthy from '../../../assets/images/forever-healthy.jpg'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
+import { generalTexts } from '../generalTexts'
 
-const Sandalias = ({ pagina }) => {
+const Sandalias = ({ pagina, language }) => {
 
   const { comentarios } = useSelector(state => state.comentarios)
   const { graficos } = useSelector(state => state.graficos)
@@ -12,6 +13,7 @@ const Sandalias = ({ pagina }) => {
   const nPalabras = comentarios.reduce((acc, curr) => acc + curr.length, 0)
   const hayComentarios = comentarios.length > 0 && (nPalabras > 500 || comentarios.length > 2)
   const hayGraficos = mostrarGraficoTratamientos || mostrarMapaMacrozonas
+  const texto = generalTexts.gt_Sandalias[language]
 
   return (
     <div className="Sandalias">
@@ -22,7 +24,7 @@ const Sandalias = ({ pagina }) => {
           "Sandalias__texto--blanco": !hayComentarios && pagina === 2
         })}
       >
-        Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © {new Date().getFullYear()} Elanco
+        {texto}
       </p>
       <p className="Sandalias__numero_pagina">{pagina}</p>
     </div>

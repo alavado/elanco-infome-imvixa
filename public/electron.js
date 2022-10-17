@@ -44,9 +44,11 @@ let menuItemVerGraficos;
 
 let estadosGraficos = graficos.map((g) => ({ ...g, visible: true }));
 let visibilityVerMenu = false;
+let language = 'es'
 let hayComentarios = false;
 let reporteID = 0;
 let reporteUID = 0;
+let viendoReporte = false;
 let numeroDeLotes; // El reporte de alimento imprime una página por lote
 let nombreEmpresa;
 let numeroDePaginas;
@@ -130,17 +132,22 @@ function construirMenu() {
   menuItemVolverAParametros = new MenuItem({
     label: "Reingresar parámetros",
     click: volverAParametros,
-    enabled: false,
+    enabled: viendoReporte,
   });
   menuItemImprimir = new MenuItem({
     label: "Exportar reporte a PDF",
     click: reporteAPDF,
-    enabled: false,
+    enabled: viendoReporte,
+  });
+  menuItemIdioma = new MenuItem({
+    label: language === "es" ? "English version" : "Versión en español",
+    click: cambiarIdioma,
+    enabled: true,
   });
   menu.append(
     new MenuItem({
       label: "Opciones",
-      submenu: [menuItemVolverAParametros, menuItemImprimir],
+      submenu: [menuItemVolverAParametros, menuItemImprimir, menuItemIdioma],
     })
   );
   mainWindow.setMenu(menu);
@@ -221,7 +228,12 @@ const reporteAPDF = async () => {
         break
       case 3:
         console.log("imprimirReporteCentro")
-        imprimirReporteCentro()
+        await imprimirReporteCentro().then((value) => {
+          console.log("REPORTE IMPRESO");
+          mainWindow.webContents.send("reporteCentroImpreso")
+        },(err) => {
+          console.log("NO SE HA IMPRESO EL REPORTE: ", err);
+        })
         break
       default:
         console.log("imprimirReporteSeguimiento")
@@ -255,6 +267,10 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
 })
 
 ipcMain.on("guardarReporteMusculo", async (_, datosRegistro) => {
+  guardarRegistro(datosRegistro)
+})
+
+ipcMain.on("guardarReporteCentro", async (_, datosRegistro) => {
   guardarRegistro(datosRegistro)
 })
 
@@ -348,7 +364,7 @@ const imprimirReporteCentro = async () => {
   });
 
   const hoy = new Date().toISOString().substring(0,10);
-  const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}.pdf`
+  const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
   fs.writeFileSync(
     path.join(app.getPath("desktop"), titulo), 
     data
@@ -381,7 +397,7 @@ const imprimirReporteSeguimiento = async () => {
     },
   });
   const hoy = new Date().toISOString().substring(0,10);
-  const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}.pdf`
+  const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
   fs.writeFileSync(
     path.join(app.getPath("desktop"), titulo),
     data
@@ -405,6 +421,7 @@ ipcMain.on("leerRegistro", async () => {
 // ESTADO DE BOTÓN DE REGRESAR A PARÁMETROS
 ipcMain.on("viendoReporte", async (_, rID) => {
   reporteID = rID;
+  viendoReporte = true;
   if (rID === 4) {
     // Reporte de seguimiento
     visibilityVerMenu = true
@@ -420,6 +437,7 @@ ipcMain.on("viendoReporte", async (_, rID) => {
 });
 
 ipcMain.on("yaNoViendoReporte", async () => {
+  viendoReporte = false
   menuItemVolverAParametros.enabled = false
   menuItemVerGraficos.visible = false
   menuItemImprimir.enabled = false
@@ -443,6 +461,12 @@ ipcMain.on("yaNoHayComentarios", async () => {
 
 const volverAParametros = async () => {
   mainWindow.webContents.send("volverAParametros");
+};
+
+const cambiarIdioma = async () => {
+  mainWindow.webContents.send("cambiarIdioma");
+  language = language === 'es' ? 'en' : 'es'
+  construirMenu();
 };
 
 // LEER ARCHIVOS XLSX

@@ -41,6 +41,7 @@ const slice = createSlice({
     datosFiltradosIndustriaAlimento: null,
     datosFiltradosIndustriaPeces: null,
     datosFiltradosIndustriaEficacia: null,
+    comentarios: []
   },
   reducers: {
     guardaNombreEmpresa(state, action) {
@@ -102,6 +103,9 @@ const slice = createSlice({
         default:
           return 
       }
+    },
+    guardarComentarios(state, action) {
+      state.comentarios = action.payload
     },
     procesarDatosParaExportar(state, action) {
       const {
@@ -166,7 +170,8 @@ export const {
   guardarDivisionTemporal,
   guardarCumplimiento,
   guardarConcentracion,
-  procesarDatosParaExportar
+  procesarDatosParaExportar,
+  guardarComentarios
 } = slice.actions
 
 export default slice.reducer

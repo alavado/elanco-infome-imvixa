@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mean, std } from "../../components/Reporte/utilitiesReporte";
-import { diasAtras, formatearFecha, onlyUnique } from "./utilities";
-import { min as minDate } from 'date-fns'
+import { mean, std, iqrValues, iqrValuesFixed } from "../../components/Reporte/utilitiesReporte";
+import { diasAtras, formatearFecha, onlyUnique, selectMinMaxFecha, esMayorQueFecha, esMenorQueFecha } from "./utilities";
+import { min as minDate, compareAsc } from 'date-fns'
 import {
   colEmpresaTrat as colEmpresa,
   colDestinoTrat as colCentro,
@@ -32,6 +32,10 @@ import {
   colFechaPeces,
   tipoFreshWater,
   colPeso2,
+  colEmpresaPeces,
+  colFechaAlimento,
+  colEmpresaAlimento,
+  colCumplimiento,
 } from "../../constants";
 
 let defaultGraficoUtas = {
@@ -53,9 +57,12 @@ let defaultGraficoPeso = {
 const slice = createSlice({
   name: "reporteCentro",
   initialState: {
+    empresa: null,
     nombreEmpresa: null,
     centro: null,
+    seasite: null,
     fecha: null,
+    fechaValor: null,
     datosTratamiento: null,
     datosAlimento: null,
     datosPeces: null,
@@ -73,6 +80,9 @@ const slice = createSlice({
     parametrosGraficoUTAs: defaultGraficoUtas,
     parametrosGraficoPeso: defaultGraficoPeso,
     mostrandoModalConf: false,
+    comentarios: [],
+    datosGraficoComparacion: null,
+    datosGraficoCumplimiento: null,
   },
   reducers: {
     guardarNombreEmpresa(state, action) {
@@ -111,7 +121,7 @@ const slice = createSlice({
         (fila) => fila[colSampleOriginTrat] === tipoSeaWater
       );
     },
-    procesarReporteCentro(state) {
+    procesarReporteCentro(state, action) {
       state.procesando = true;
       // Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
       const datosTratamientoDestino = state.datosTratamiento.filter(
@@ -308,6 +318,158 @@ const slice = createSlice({
       state.lotesAsociados = [...lotesAsociados];
       state.plantasAsociadas = [...plantasAsociadas];
       state.datosAlimentoLotesAsociados = datosAlimentosAsociados;
+      state.empresa = state.nombreEmpresa.label
+      state.seasite = state.centro.label
+      state.fechaValor = state.fecha.value
+
+      // Grafico comparacion
+      const { concentracion, language } = action.payload;
+      const comparacionEmpresa = [];
+      const comparacionIndustria = [];
+      const minFechasPeces = minDate(
+        state.datosMuestrasSWFW.map((v) => new Date(v[colFechaPeces]))
+      );
+      const unAñoAtras = diasAtras(minFechasPeces, 366);
+      state.datosPeces.forEach((fila) => {
+        // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
+        if (
+          fila[colSampleOrigin] === tipoFreshWater &&
+          fila[colFechaPeces] &&
+          !setInformesFW.has(fila[colInformePeces] || fila[colInformePecesR]) &&
+          fila[colPPB]
+        ) {
+          try {
+            const thisDate = new Date(fila[colFechaPeces]);
+            if (
+              compareAsc(thisDate, unAñoAtras) &&
+              compareAsc(minFechasPeces, thisDate)
+            )
+              if (fila[colEmpresaPeces] === state.nombreEmpresa.label) {
+                comparacionEmpresa.push(fila[colPPB] / 1000);
+              } else {
+                comparacionIndustria.push(fila[colPPB] / 1000);
+              }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+    
+      const datosEmpresa = {
+        nombre: state.nombreEmpresa.label,
+        promedio: mean(comparacionEmpresa),
+        ...iqrValues(comparacionEmpresa),
+        max: Math.max(...comparacionEmpresa),
+        min: Math.min(...comparacionEmpresa),
+      };
+    
+      const datosIndustria = {
+        nombre: language === 'es' ? "Industria" : "Industry",
+        promedio:
+          concentracion.prom !== ""
+            ? concentracion.prom
+            : mean(comparacionIndustria),
+        ...(concentracion.q2 !== ""
+          ? iqrValuesFixed(concentracion.q2, concentracion.q3, concentracion.q4)
+          : iqrValues(comparacionIndustria)),
+        max:
+          concentracion.max !== ""
+            ? concentracion.max
+            : Math.max(...comparacionIndustria),
+        min:
+          concentracion.min !== ""
+            ? concentracion.min
+            : Math.min(...comparacionIndustria),
+      };
+
+      const datos = [datosIndustria, datosEmpresa];
+      // Obtener datos de los centros de este ejercicio
+      const pisciculturasOrigen = state.datosPorInforme
+        .map((f) => f["pisciculturasOrigen"])
+        .flat(1)
+        .filter(onlyUnique);
+    
+      const datosPisciculturas = [];
+      pisciculturasOrigen.forEach((piscicultura) => {
+        const muestrasPorPiscicultura = state.datosMuestrasSWFW.filter(
+          (fila) => fila[colPisciculturaPeces] === piscicultura && fila[colSampleOrigin] === tipoFreshWater
+        );
+        if (muestrasPorPiscicultura.length > 0) {
+          const muestras = [];
+          muestrasPorPiscicultura.forEach((muestrasInforme) => {
+            if (muestrasInforme[colPPB]) {
+              muestras.push(muestrasInforme[colPPB] / 1000);
+            }
+          });
+    
+          datosPisciculturas.push({
+            nombre: piscicultura,
+            promedio: mean(muestras),
+            ...iqrValues(muestras),
+            max: Math.max(...muestras),
+            min: Math.min(...muestras),
+          });
+        }
+      });
+    
+      datosPisciculturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      datos.push(...datosPisciculturas);
+      state.datosGraficoComparacion = datos
+      // Grafico cumplimiento
+      // Agrupar por planta los lotes del ejercicio
+      const cumplimientosPorPlanta = [...plantasAsociadas].map((planta) => {
+        const datos = state.datosAlimentoLotesAsociados
+          .filter((v) => v[colPlanta] === planta)
+          .map((obj) => obj[colCumplimiento] * 100);
+        return {
+          nombre: planta,
+          cumplimiento: datos,
+          promedio: mean(datos),
+          ...iqrValues(datos),
+          min: Math.min(...datos),
+          max: Math.max(...datos),
+        };
+      });
+    
+      const minFechasLotes = new Date(
+        selectMinMaxFecha(
+          state.datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
+        )[0]
+      );
+      const primerDiaDelMes = new Date(
+        [
+          minFechasLotes.getMonth() + 1,
+          "01",
+          minFechasLotes.getFullYear() - 1,
+        ].join("-")
+      );
+    
+      const cumplimientosEmpresa = [];
+      const cumplimientosIndustria = [];
+    
+      state.datosAlimento.forEach((fila) => {
+        if (
+          esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
+          esMenorQueFecha(fila[colFechaAlimento], minFechasLotes) &&
+          !state.lotesAsociados.includes(fila[colLoteAlimento])
+        ) {
+          // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
+          if (fila[colEmpresaAlimento] === state.nombreEmpresa.label) {
+            cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
+          } else {
+            cumplimientosIndustria.push(fila[colCumplimiento] * 100);
+          }
+        }
+      });
+    
+      const datosEmpresaCumplimiento = {
+        nombre: state.nombreEmpresa.label,
+        promedio: mean(cumplimientosEmpresa),
+        ...iqrValues(cumplimientosEmpresa),
+        max: Math.max(...cumplimientosEmpresa),
+        min: Math.min(...cumplimientosEmpresa),
+      };
+      state.datosGraficoCumplimiento = [datosEmpresaCumplimiento, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
     },
     cargarConfigGraficos(state, action) {
       state.parametrosGraficoUTAs = action.payload.defaultGraficoUtas
@@ -315,6 +477,27 @@ const slice = createSlice({
     },
     toggleModal(state) {
       state.mostrandoModalConf = !state.mostrandoModalConf
+    },
+    guardarComentarios(state, action) {
+      state.comentarios = action.payload;
+    },
+    cargarPreVizCentro(state, action) {
+      const { nombreEmpresa, datos } = action.payload
+      state.empresa = nombreEmpresa
+      const {
+          seasite,
+          fechaValor,
+          datosPorInforme,
+          parametrosGraficoPeso,
+          parametrosGraficoUTAs,
+          datosGraficoComparacion
+        } = datos
+      state.seasite = seasite
+      state.fechaValor = fechaValor
+      state.datosPorInforme = datosPorInforme
+      state.parametrosGraficoPeso = parametrosGraficoPeso
+      state.parametrosGraficoUTAs = parametrosGraficoUTAs
+      state.datosGraficoComparacion = datosGraficoComparacion
     }
   },
 });
@@ -326,7 +509,9 @@ export const {
   cargarDatosCentro,
   procesarReporteCentro,
   cargarConfigGraficos,
-  toggleModal
+  toggleModal,
+  guardarComentarios,
+  cargarPreVizCentro
 } = slice.actions;
 
 export default slice.reducer;

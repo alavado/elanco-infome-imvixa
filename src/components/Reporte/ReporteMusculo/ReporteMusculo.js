@@ -21,7 +21,7 @@ import {
 import { REPORTE_ID_MUSCULO, REPORTE_NOMBRE_MUSCULO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteMusculo = () => {
+const ReporteMusculo = ({ language }) => {
   const { comentariosMusculo, preViz } = useSelector((state) => state.comentarios);
   const { 
     empresa,
@@ -119,22 +119,22 @@ const ReporteMusculo = () => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO}/>
+          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language} />
           <MensajeError>
-            <DatosEmpresa nombreEmpresa={empresa} fecha={today}/>
+            <DatosEmpresa nombreEmpresa={empresa} fecha={today} language={language} />
           </MensajeError>
           <MensajeError>
-            <CuadroResumen />
+            <CuadroResumen language={language}/>
           </MensajeError>
           <MensajeError>
-            <TablaAntecedentes />
+            <TablaAntecedentes language={language} />
           </MensajeError>
           <div className="ReporteMusculo__seccion">
             <MensajeError>
-              <GraficoCumplimiento />
+              <GraficoCumplimiento language={language} />
             </MensajeError>
             <MensajeError>
-              <GraficoComparacion />
+              <GraficoComparacion language={language}/>
             </MensajeError>
           </div>
           <Sandalias pagina={1} />
@@ -143,9 +143,9 @@ const ReporteMusculo = () => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO}/>
+          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
           <MensajeError>
-            <TablaMuestras />
+            <TablaMuestras language={language} />
           </MensajeError>
           <Comentarios
             agregarComentario={agregarComentarioMusculo}
@@ -153,8 +153,9 @@ const ReporteMusculo = () => {
             eliminarComentario={eliminarComentarioMusculo}
             guardarComentarios={guardarComentarios}
             preViz={preViz}
+            language={language}
           />
-          <Sandalias pagina={2} />
+          <Sandalias pagina={2} language={language}/>
         </div>
       </div>
     </div>
