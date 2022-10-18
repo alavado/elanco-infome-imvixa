@@ -294,7 +294,7 @@ const slice = createSlice({
       state.fechaValue = state.fecha.value
       // state.plantasAsociadas = [...plantasAsociadas]
       // state.datosAlimentoLotesAsociados = datosAlimentosAsociados
-      state.ta_pmv = datosAlimentosAsociados.map(v => v[colRecetaAlimento]).filter(onlyUnique).join(' / ')
+      state.ta_pmv = datosAlimentosAsociados.map(v => v[colRecetaAlimento] ? v[colRecetaAlimento] : '-').filter(onlyUnique).join(' / ')
       state.ta_peso = selectMinMax(datosAlimentosAsociados.map(v => Math.round(v[colPesoInicialTrat]))).filter(onlyUnique).join(' - ')
       state.ta_lotes = datosAlimentosAsociados.map(v => v[colLoteAlimento]).filter(onlyUnique).join(' / ')
       state.ta_plantas = datosAlimentosAsociados.map(v => v[colPlanta]).filter(onlyUnique).join(' / ')

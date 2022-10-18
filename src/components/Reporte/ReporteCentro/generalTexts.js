@@ -63,11 +63,13 @@ export const generalTexts = {
   gt_GraficoComparacion: {
     en: {
       titulo: 'Concentration comparison in muscle by hatchery of origin [ug/kg]',
-      yaxis: 'Thousands'
+      yaxis: 'Thousands',
+      sindatos: 'No data'
     },
     es: {
       titulo: 'Concentración (ug/kg) en músculo post tratamiento según piscicultura de origen',
-      yaxis: 'Miles'
+      yaxis: 'Miles',
+      sindatos: 'Sin datos'
     }
   },
   gt_TablaMuestras: {

@@ -66,6 +66,10 @@
 
 .GraficoComparacion__contenedor_grafico__error {
   color: var(--color-gris-4);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
 .GraficoComparacion__contenedor_lineas {
@@ -167,4 +171,13 @@
 .GraficoComparacion__bigote::after {
   top: auto;
   bottom: 0;
+}
+
+.GraficoComparacion__si {
+  bottom: 0.25rem;
+  width: 2rem;
+  font-size: .75rem;
+  color: var(--color-gris-4);
+  text-align: center;
+  align-self: center;
 }

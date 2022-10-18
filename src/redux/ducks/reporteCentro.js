@@ -83,6 +83,11 @@ const slice = createSlice({
     comentarios: [],
     datosGraficoComparacion: null,
     datosGraficoCumplimiento: null,
+    grupos: [],
+    fechas: [],
+    repElanco: "",
+    repVisita: "",
+    repCliente: ""
   },
   reducers: {
     guardarNombreEmpresa(state, action) {
@@ -113,6 +118,21 @@ const slice = createSlice({
         state.filtros = state.filtros.filter((v) => v !== colFecha);
       }
     },
+    guardarFechas(state, action) {
+      state.fechas = action.payload
+    },
+    guardarGrupos(state, action) {
+      state.grupos = action.payload
+    },
+    guardarRepElanco(state, action) {
+      state.repElanco = action.payload
+    },
+    guardarRepCliente(state, action) {
+      state.repCliente = action.payload
+    },
+    guardarRepVisita(state, action) {
+      state.repVisita = action.payload
+    },
     cargarDatosCentro(state, action) {
       state.datosPeces = action.payload.datosPeces;
       state.datosAlimento = action.payload.datosAlimento;
@@ -121,6 +141,7 @@ const slice = createSlice({
         (fila) => fila[colSampleOriginTrat] === tipoSeaWater
       );
     },
+
     procesarReporteCentro(state, action) {
       state.procesando = true;
       // Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
@@ -417,59 +438,65 @@ const slice = createSlice({
       state.datosGraficoComparacion = datos
       // Grafico cumplimiento
       // Agrupar por planta los lotes del ejercicio
-      const cumplimientosPorPlanta = [...plantasAsociadas].map((planta) => {
-        const datos = state.datosAlimentoLotesAsociados
-          .filter((v) => v[colPlanta] === planta)
-          .map((obj) => obj[colCumplimiento] * 100);
-        return {
-          nombre: planta,
-          cumplimiento: datos,
-          promedio: mean(datos),
-          ...iqrValues(datos),
-          min: Math.min(...datos),
-          max: Math.max(...datos),
-        };
-      });
-    
-      const minFechasLotes = new Date(
-        selectMinMaxFecha(
-          state.datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
-        )[0]
-      );
-      const primerDiaDelMes = new Date(
-        [
-          minFechasLotes.getMonth() + 1,
-          "01",
-          minFechasLotes.getFullYear() - 1,
-        ].join("-")
-      );
-    
-      const cumplimientosEmpresa = [];
-      const cumplimientosIndustria = [];
-    
-      state.datosAlimento.forEach((fila) => {
-        if (
-          esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
-          esMenorQueFecha(fila[colFechaAlimento], minFechasLotes) &&
-          !state.lotesAsociados.includes(fila[colLoteAlimento])
-        ) {
-          // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
-          if (fila[colEmpresaAlimento] === state.nombreEmpresa.label) {
-            cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
-          } else {
-            cumplimientosIndustria.push(fila[colCumplimiento] * 100);
+      if (lotesAsociados.size === 0) {
+        state.datosGraficoCumplimiento = []
+      } else {
+        const cumplimientosPorPlanta = [...plantasAsociadas].map((planta) => {
+          const datos = state.datosAlimentoLotesAsociados
+            .filter((v) => v[colPlanta] === planta)
+            .map((obj) => obj[colCumplimiento] * 100);
+          return {
+            nombre: planta,
+            cumplimiento: datos,
+            promedio: mean(datos),
+            ...iqrValues(datos),
+            min: Math.min(...datos),
+            max: Math.max(...datos),
+          };
+        });
+      
+        const minFechasLotes = new Date(
+          selectMinMaxFecha(
+            state.datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
+          )[0]
+        );
+        const primerDiaDelMes = new Date(
+          [
+            minFechasLotes.getMonth() + 1,
+            "01",
+            minFechasLotes.getFullYear() - 1,
+          ].join("-")
+        );
+      
+        const cumplimientosEmpresa = [];
+        const cumplimientosIndustria = [];
+      
+        state.datosAlimento.forEach((fila) => {
+          if (
+            esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
+            esMenorQueFecha(fila[colFechaAlimento], minFechasLotes) &&
+            !state.lotesAsociados.includes(fila[colLoteAlimento])
+          ) {
+            // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
+            if (fila[colEmpresaAlimento] === state.nombreEmpresa.label) {
+              cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
+            } else {
+              cumplimientosIndustria.push(fila[colCumplimiento] * 100);
+            }
           }
-        }
-      });
-    
-      const datosEmpresaCumplimiento = {
-        nombre: state.nombreEmpresa.label,
-        promedio: mean(cumplimientosEmpresa),
-        ...iqrValues(cumplimientosEmpresa),
-        max: Math.max(...cumplimientosEmpresa),
-        min: Math.min(...cumplimientosEmpresa),
-      };
-      state.datosGraficoCumplimiento = [datosEmpresaCumplimiento, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
+        });
+      
+        const datosEmpresaCumplimiento = {
+          nombre: state.nombreEmpresa.label,
+          promedio: mean(cumplimientosEmpresa),
+          ...iqrValues(cumplimientosEmpresa),
+          max: Math.max(...cumplimientosEmpresa),
+          min: Math.min(...cumplimientosEmpresa),
+        };
+        state.datosGraficoCumplimiento = [datosEmpresaCumplimiento, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
+      }
+      state.grupos = newDatosPorInforme.map((v) => "")
+      state.fechas = newDatosPorInforme.map((v) => "")
     },
     cargarConfigGraficos(state, action) {
       state.parametrosGraficoUTAs = action.payload.defaultGraficoUtas
@@ -490,7 +517,13 @@ const slice = createSlice({
           datosPorInforme,
           parametrosGraficoPeso,
           parametrosGraficoUTAs,
-          datosGraficoComparacion
+          datosGraficoComparacion,
+          datosGraficoCumplimiento,
+          repElanco,
+          repCliente,
+          repVisita,
+          fechas,
+          grupos
         } = datos
       state.seasite = seasite
       state.fechaValor = fechaValor
@@ -498,6 +531,12 @@ const slice = createSlice({
       state.parametrosGraficoPeso = parametrosGraficoPeso
       state.parametrosGraficoUTAs = parametrosGraficoUTAs
       state.datosGraficoComparacion = datosGraficoComparacion
+      state.datosGraficoCumplimiento = datosGraficoCumplimiento
+      state.repElanco = repElanco
+      state.repCliente = repCliente
+      state.repVisita = repVisita
+      state.fechas = fechas.map(v => new Date(v))
+      state.grupos = grupos
     }
   },
 });
@@ -511,7 +550,12 @@ export const {
   cargarConfigGraficos,
   toggleModal,
   guardarComentarios,
-  cargarPreVizCentro
+  cargarPreVizCentro,
+  guardarFechas,
+  guardarGrupos,
+  guardarRepElanco,
+  guardarRepCliente,
+  guardarRepVisita
 } = slice.actions;
 
 export default slice.reducer;

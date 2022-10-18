@@ -51,7 +51,7 @@
 .TablaAntecedentesCentro__tabla > :first-child {
   font-weight: bold;
   border-right: none;
-  max-width: 22rem;
+  max-width: 20rem;
 }
 
 .TablaAntecedentesCentro__tabla > :last-child {
@@ -91,7 +91,7 @@
   color: var(--color-gris-4);
   font-weight: 300;
   font-size: 1.2rem;
-  width: 11rem;
+  width: 15rem;
 }
 
 .TablaAntecedentesCentro__input {

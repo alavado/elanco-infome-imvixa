@@ -5,7 +5,7 @@ const translate = (v) => {
   return v.replace('Lote', 'Lot').replace('Muestra', 'Sample').replace('Promedio', 'Average').replace('Cumplimiento', 'Achievement').replace('Desviación','Standard').replace('Estándar', 'Deviation')
 }
 const translateNumbers = (v) => {
-  return v.replace(',', '-').replace('.', ',').replace('-','.')
+  return v ? v.toString().replace(',', '-').replace('.', ',').replace('-','.') : '-'
 }
 const translateHeaders = (headers) => {
   return headers.map(v => translate(v))

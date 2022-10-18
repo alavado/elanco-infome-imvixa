@@ -119,10 +119,10 @@ const slice = createSlice({
       const lotes = state.lotesSeleccionados.map((lote, index) => {
         const datoLote = lote.data
         const fecha = datoLote[colFechaAlimento].toString().substring(0,10)
-        const programa = datoLote[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
+        const programa = datoLote[colCantidadProgramadaAlimento] ? datoLote[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
-        })
+        }) : '-'
         const calibre = datoLote[colAlimentoCalibre] ? datoLote[colAlimentoCalibre] : '-'
         // Guardar datos de grafico cumplimiento
         const lotesTotalesPeriodo = state.lotesTotales.filter(

@@ -33,7 +33,14 @@ const ReporteCentro = ({ language }) => {
     datosPorInforme, 
     parametrosGraficoPeso, 
     parametrosGraficoUTAs, 
-    datosGraficoComparacion } = useSelector((state) => state.reporteCentro);
+    datosGraficoComparacion,
+    datosGraficoCumplimiento,
+    repElanco,
+    repCliente,
+    repVisita,
+    fechas,
+    grupos
+  } = useSelector((state) => state.reporteCentro);
   const numeroDePaginas = 2;
   const encabezado = seasite + " - " + empresa;
   const titulo1 = generalTexts.seccion1[language]
@@ -51,8 +58,14 @@ const ReporteCentro = ({ language }) => {
     datosPorInforme,
     parametrosGraficoPeso,
     parametrosGraficoUTAs,
-    datosGraficoComparacion, 
-    comentarios: comentariosCentro
+    datosGraficoComparacion,
+    datosGraficoCumplimiento,
+    comentarios: comentariosCentro,
+    repElanco,
+    repCliente,
+    repVisita,
+    fechas,
+    grupos
   }
 
   useEffect(() => {

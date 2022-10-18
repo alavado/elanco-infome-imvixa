@@ -70,11 +70,13 @@ export const generalTexts = {
   gt_GraficoCumplimiento: {
     en: {
       titulo: 'In-feed concentration achieved (%) (achieved/targeted)',
-      yaxis: '% achievement'
+      yaxis: '% achievement',
+      sindatos: 'No data available for selected period'
     },
     es: {
       titulo: 'Cumplimiento (%) concentración en alimento (logrado / intentado)',
-      yaxis: '% de cumplimiento'
+      yaxis: '% de cumplimiento',
+      sindatos: 'Sin datos disponibles para el periodo seleccionado'
     }
   },
   gt_GraficoComparacion: {

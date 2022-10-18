@@ -14,7 +14,7 @@ import { generalTexts } from "../../generalTexts";
 
 
 const GraficoPesoPromedio = ({ agrandar, language }) => {
-  const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPecesTratados[language]
+  const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPesoPromedio[language]
 
   const { 
     datosFiltradosPeces,

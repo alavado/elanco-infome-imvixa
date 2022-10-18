@@ -175,7 +175,7 @@ const FormPrevisualizador = () => {
             value={codigoSeleccionado}
             name="colors"
             options={codigosFinales}
-            placeholder="Seleccione lotes"
+            placeholder="Ingrese código"
             className="basic-multi-select"
             classNamePrefix="select"
             noOptionsMessage={(obj) => "No hay más opciones"}

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./CuadroResumen.css";
 import { generalTexts } from '../generalTexts';
+import { guardarRepCliente, guardarRepElanco, guardarRepVisita } from "../../../../redux/ducks/reporteCentro";
 
 const CuadroResumen = ({ language }) => {
-  const { fecha } = useSelector((state) => state.reporteCentro);
-  const [repElanco, setRepElanco] = useState("");
-  const [repVisita, setRepVisita] = useState("");
-  const [repCliente, setRepCliente] = useState("");
+  const { fechaValor, repElanco, repVisita, repCliente } = useSelector((state) => state.reporteCentro);
+  // const [repElanco, setRepElanco] = useState("");
+  // const [repVisita, setRepVisita] = useState("");
+  // const [repCliente, setRepCliente] = useState("");
+  const dispatch = useDispatch()
   const { gt_CuadroResumen } = generalTexts
   const labels = gt_CuadroResumen[language].filas
   return (
     <div className="CuadroResumen">
       <div className="CuadroResumen__elemento">
         <div className="CuadroResumen__label">{labels[0]}:</div>
-        <div className="CuadroResumen__value">{fecha.value}</div>
+        <div className="CuadroResumen__value">{fechaValor}</div>
       </div>
       <div className="CuadroResumen__elemento">
         <div className="CuadroResumen__label">{labels[1]}:</div>
@@ -25,7 +27,7 @@ const CuadroResumen = ({ language }) => {
             className="CuadroResumen__input"
             value={repElanco}
             onChange={(e) => {
-              setRepElanco(e.target.value);
+              dispatch(guardarRepElanco(e.target.value));
             }}
           />
         </div>
@@ -39,7 +41,7 @@ const CuadroResumen = ({ language }) => {
             style={{backgroundColor: repCliente !== "" ? "transparent" : "var(--color-highlight)"}}
             value={repCliente}
             onChange={(e) => {
-              setRepCliente(e.target.value);
+              dispatch(guardarRepCliente(e.target.value));
             }}
           />
         </div>
@@ -53,7 +55,7 @@ const CuadroResumen = ({ language }) => {
             value={repVisita}
             style={{backgroundColor: repVisita !== "" ? "transparent" : "var(--color-highlight)"}}
             onChange={(e) => {
-              setRepVisita(e.target.value);
+              dispatch(guardarRepVisita(e.target.value));
             }}
           />
         </div>

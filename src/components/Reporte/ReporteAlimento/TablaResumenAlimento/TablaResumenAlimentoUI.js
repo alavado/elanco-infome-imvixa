@@ -2,6 +2,10 @@ import React from "react";
 import { generalTexts } from "../generalTexts";
 import "./TablaResumenAlimento.css";
 
+const translateNumbers = (v) => {
+  return v ? v.toString().replace(',', '-').replace('.', ',').replace('-','.') : '-'
+}
+
 const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lote, objetivo, programa, calibre, language }) => {
   const { titulo, filas } = generalTexts.gt_TablaResumen[language]
   const filasCompletas = [
@@ -11,11 +15,11 @@ const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lot
     [filas[3], fecha],
     [filas[4], pmv],
     [filas[5],lote],
-    [filas[6], objetivo.toLocaleString("de-DE", {
+    [filas[6], objetivo.toLocaleString(language === 'es' ? "de-DE" : 'en', {
       maximumFractionDigits: 0,
       minimumFractionDigits: 0,
     })],
-    [filas[7], programa],
+    [filas[7], programa && programa != '-' ? translateNumbers(programa) : '-'],
     [filas[8], calibre],
   ];
   return (

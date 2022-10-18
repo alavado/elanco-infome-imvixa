@@ -19,17 +19,13 @@ import { generalTexts } from '../generalTexts';
 
 const GraficoCumplimiento = ({ language }) => {
   const {
-    empresa,
-    lotesAsociados,
-    plantasAsociadas,
-    datosAlimento: datosAlimentoHistorico,
-    datosAlimentoLotesAsociados,
+    datosGraficoCumplimiento: datos
   } = useSelector((state) => state.reporteCentro);
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
   const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
 
-  if (lotesAsociados.length === 0) {
+  if (datos.length === 0) {
     return (
       <div className="GraficoCumplimiento">
         <p className="GraficoCumplimiento__titulo">
@@ -43,64 +39,6 @@ const GraficoCumplimiento = ({ language }) => {
       </div>
     );
   }
-
-  const lotesEjercicio = lotesAsociados;
-
-  // Agrupar por planta los lotes del ejercicio
-  const cumplimientosPorPlanta = plantasAsociadas.map((planta) => {
-    const datos = datosAlimentoLotesAsociados
-      .filter((v) => v[colPlanta] === planta)
-      .map((obj) => obj[colCumplimiento] * 100);
-    return {
-      nombre: planta,
-      cumplimiento: datos,
-      promedio: mean(datos),
-      ...iqrValues(datos),
-      min: Math.min(...datos),
-      max: Math.max(...datos),
-    };
-  });
-
-  const minFechasLotes = new Date(
-    selectMinMaxFecha(
-      datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
-    )[0]
-  );
-  const primerDiaDelMes = new Date(
-    [
-      minFechasLotes.getMonth() + 1,
-      "01",
-      minFechasLotes.getFullYear() - 1,
-    ].join("-")
-  );
-
-  const cumplimientosEmpresa = [];
-  const cumplimientosIndustria = [];
-
-  datosAlimentoHistorico.forEach((fila) => {
-    if (
-      esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
-      esMenorQueFecha(fila[colFechaAlimento], minFechasLotes) &&
-      !lotesEjercicio.includes(fila[colLoteAlimento])
-    ) {
-      // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
-      if (fila[colEmpresaAlimento] === empresa) {
-        cumplimientosEmpresa.push(fila[colCumplimiento] * 100);
-      } else {
-        cumplimientosIndustria.push(fila[colCumplimiento] * 100);
-      }
-    }
-  });
-
-  const datosEmpresa = {
-    nombre: empresa,
-    promedio: mean(cumplimientosEmpresa),
-    ...iqrValues(cumplimientosEmpresa),
-    max: Math.max(...cumplimientosEmpresa),
-    min: Math.min(...cumplimientosEmpresa),
-  };
-
-  const datos = [datosEmpresa, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
@@ -132,7 +70,7 @@ const GraficoCumplimiento = ({ language }) => {
           {yLineas.map((y) => (
             <div key={`lineay-${y}`} className="GraficoCumplimiento__linea">
               <p className="GraficoCumplimiento__etiqueta_linea">
-                {y.toLocaleString("de-DE")}
+                {y.toLocaleString(language)}
               </p>
             </div>
           ))}
@@ -166,7 +104,7 @@ const GraficoCumplimiento = ({ language }) => {
                   }%`,
                 }}
               >
-                {d.promedio.toLocaleString("de-DE", {
+                {d.promedio.toLocaleString(language, {
                   maximumFractionDigits: 1,
                   minimumFractionDigits: 1,
                 })}

@@ -27,7 +27,7 @@ const GraficoCumplimiento = ({language}) => {
   } = useSelector((state) => state.reporteMusculo);
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
-  const { titulo, yaxis } = gt_GraficoCumplimiento[language]
+  const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
   if (datos.length === 0) {
     return (
       <div className="GraficoCumplimiento">
@@ -36,7 +36,7 @@ const GraficoCumplimiento = ({language}) => {
         </p>
         <div className="GraficoCumplimiento__contenedor_grafico">
           <div className="GraficoCumplimiento__contenedor_grafico__error">
-            Sin datos disponibles para el periodo seleccionado
+            {sindatos}
           </div>
         </div>
       </div>
