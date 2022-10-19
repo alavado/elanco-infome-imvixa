@@ -1,14 +1,4 @@
 import { useSelector } from 'react-redux'
-import { extraerUltimosPeriodos } from '../../utilitiesReporte'
-import { groupBy } from '../../utilitiesReporte'
-import { 
-  colFechaPeces, 
-  colPisciculturaPeces as colPiscicultura, 
-  colSampleOrigin,
-  tipoFreshWater,
-  colPeso1, 
-  colPeso2 
-} from '../../../../constants'
 import './GraficoPesoPromedio.css'
 import { generalTexts } from "../../generalTexts";
 
@@ -17,18 +7,10 @@ const GraficoPesoPromedio = ({ agrandar, language }) => {
   const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPesoPromedio[language]
 
   const { 
-    datosFiltradosPeces,
-    divisionTemporal,
-    fechaFinal
+    datosGraficoPesoPromedio: datos
   } = useSelector(state => state.reporte)
 
-  const datosGrafico = extraerUltimosPeriodos(
-    divisionTemporal, 
-    datosFiltradosPeces.filter(v => v[colSampleOrigin] === tipoFreshWater), 
-    colFechaPeces, 
-    fechaFinal)
-  
-  if (datosGrafico.length === 0) {
+  if (datos.length === 0) {
     return (
       <div className="GraficoPesoPromedio">
         <p className="GraficoPesoPromedio__titulo">
@@ -42,16 +24,6 @@ const GraficoPesoPromedio = ({ agrandar, language }) => {
       </div>
     )
   } 
-  const datosGrouped = groupBy(datosGrafico, colPiscicultura)
-  const datos = Object.keys(datosGrouped).map(piscicultura => {
-    return {
-      nombre: piscicultura,
-      valor: Math.round(datosGrouped[piscicultura].map(row => {
-        if (row[colPeso1]) return row[colPeso1]
-        return row[colPeso2]
-      }).reduce((prev, curr) => prev + curr, 0) / datosGrouped[piscicultura].length)
-    }
-  }).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
   const vMax = Math.max(...datos.filter(v => v.valor).map(d => d.valor))
   const vMin = Math.min(...datos.filter(v => v.valor).map(d => d.valor))

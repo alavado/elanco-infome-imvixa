@@ -237,7 +237,12 @@ const reporteAPDF = async () => {
         break
       default:
         console.log("imprimirReporteSeguimiento")
-        imprimirReporteSeguimiento()
+        imprimirReporteSeguimiento().then((value) => {
+          console.log("REPORTE IMPRESO");
+          mainWindow.webContents.send("reporteSeguimientoImpreso")
+        },(err) => {
+          console.log("NO SE HA IMPRESO EL REPORTE: ", err);
+        })
         break
     }
     
@@ -274,9 +279,12 @@ ipcMain.on("guardarReporteCentro", async (_, datosRegistro) => {
   guardarRegistro(datosRegistro)
 })
 
+ipcMain.on("guardarReporteSeguimiento", async (_, datosRegistro) => {
+  guardarRegistro(datosRegistro)
+})
+
 const guardarRegistro = async (datosRegistro) => {
   const {
-    reporteID,
     tipoID,
     fecha,
     empresa,

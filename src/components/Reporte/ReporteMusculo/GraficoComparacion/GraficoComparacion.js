@@ -1,7 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { colEstanquePeces } from "../../../../constants";
-import { iqrValues } from "../../utilitiesReporte";
 import "./GraficoComparacion.css";
 import { generalTexts } from '../generalTexts';
 

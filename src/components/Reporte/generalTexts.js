@@ -1,4 +1,8 @@
 export const generalTexts = {
+  languageLocale: {
+    es: 'de-DE',
+    en: 'en'
+  },
   titulo1: {
     es: 'Información General',
     en: 'General information'

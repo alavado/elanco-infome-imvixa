@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { localeSort } from './utilities'
 
 const slice = createSlice({
   name: 'previsualizador',

@@ -16,13 +16,27 @@ import { guardarComentarios } from "../../redux/ducks/reporteSeguimiento"
 import { getFechaInicio, meses, months } from "./utilitiesReporte";
 import "./Reporte.css";
 import { REPORTE_ID_SEGUIMIENTO, REPORTE_NOMBRE_SEGUIMIENTO } from "../../helpers/reportes";
-import { generalTexts } from "./generalTexts";
 const { ipcRenderer } = window.require("electron");
 
 const ReporteSeguimiento = ({language}) => {
   const { comentarios } = useSelector((state) => state.comentarios);
-  const { nombreEmpresa, fechaInicio, fechaFinal, divisionTemporal } =
+  const { graficos } = useSelector((state) => state.graficos);
+  const { 
+    nombreEmpresa, 
+    fechaInicio, 
+    fechaFinal, 
+    divisionTemporal,
+    filasTablaResumen,
+    datosGraficoPecesTratados,
+    datosGraficoPesoPromedio,
+    datosTratamientos,
+    datosMacrozona,
+    datosCConcentracion,
+    datosCMusculo,
+    datosGraficoCConcentracion
+  } =
     useSelector((state) => state.reporte);
+  
   const fechaInicial = getFechaInicio(
     fechaInicio,
     fechaFinal,
@@ -37,12 +51,43 @@ const ReporteSeguimiento = ({language}) => {
     listaMes[fechaFinal.getMonth()]
   } ${fechaFinal.getFullYear()}`;
   const fechaDatos = `${fechaDatosInicial} - ${fechaDatosFinal}`;
+
   useEffect(() => {
     ipcRenderer.send("datosReporte", {
       nombreEmpresa,
     });
   }, [nombreEmpresa]);
+
+  const datos = {
+    fechaInicio,
+    fechaFinal,
+    divisionTemporal,
+    filasTablaResumen,
+    datosGraficoPecesTratados,
+    datosGraficoPesoPromedio,
+    datosTratamientos,
+    datosMacrozona,
+    datosCConcentracion,
+    datosCMusculo,
+    datosGraficoCConcentracion,
+    comentarios,
+    graficos
+  }
+
   const today = new Date();
+
+  useEffect(() => {
+    ipcRenderer.removeAllListeners("reporteSeguimientoImpreso")
+    ipcRenderer.on("reporteSeguimientoImpreso", async (e, data) => {
+      ipcRenderer.send('guardarReporteSeguimiento', {
+        tipoID: REPORTE_ID_SEGUIMIENTO,
+        fecha: today.toISOString(),
+        empresa: nombreEmpresa,
+        datos
+      })
+    });
+  }, [datos, nombreEmpresa]);
+
   return (
     <div className="Reporte">
       <div className="Reporte__contenedor">

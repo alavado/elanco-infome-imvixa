@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Select from "react-select";
 import classNames from "classnames";
 import './FormPrevisualizador.css';
@@ -10,13 +10,14 @@ import {
   filtrarPorEmpresa,
   filtrarPorFecha,
   filtrarPorTipo } from '../../../redux/ducks/previsualizador';
-import { colFechaAlimento } from '../../../constants';
 import { localeSort } from '../../../redux/ducks/utilities';
 import { reportes } from '../../../helpers/reportes';
-import { cargarComentariosAlimento, cargarComentariosMusculo, cargarComentariosCentro } from '../../../redux/ducks/comentarios';
+import { cargarComentariosAlimento, cargarComentariosMusculo, cargarComentariosCentro, cargarComentariosSeguimiento } from '../../../redux/ducks/comentarios';
 import { cargarPreViz as cargarPreVizAlimento } from '../../../redux/ducks/reporteAlimento';
 import { cargarPreViz as cargarPreVizMusculo } from '../../../redux/ducks/reporteMusculo';
 import { cargarPreVizCentro } from '../../../redux/ducks/reporteCentro';
+import { cargarPreVizSeguimiento } from '../../../redux/ducks/reporteSeguimiento';
+import { cargarGraficos } from '../../../redux/ducks/graficos';
 
 const FormPrevisualizador = () => {
   const history = useHistory()
@@ -42,9 +43,18 @@ const FormPrevisualizador = () => {
           datos
         }))
         break
-      default:
+      case 3:
         dispatch(cargarComentariosCentro(datos.comentarios))
         dispatch(cargarPreVizCentro({
+          fecha: reporte.Fecha,
+          nombreEmpresa: reporte.Empresa, 
+          datos
+        }))
+        break
+      default:
+        dispatch(cargarComentariosSeguimiento(datos.comentarios))
+        dispatch(cargarGraficos(datos.graficos))
+        dispatch(cargarPreVizSeguimiento({
           fecha: reporte.Fecha,
           nombreEmpresa: reporte.Empresa, 
           datos

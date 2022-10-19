@@ -9,7 +9,7 @@ const TablaMuestras = ({ language }) => {
     (state) => state.reporteCentro
   );
   const { gt_TablaMuestras } = generalTexts
-  const { titulo, headers: headersLabels, headers2, rows } = gt_TablaMuestras[language]
+  const { titulo, headers: headersLabels } = gt_TablaMuestras[language]
 
   const nMuestras = 10;
   const headers = [

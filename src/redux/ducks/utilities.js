@@ -1,5 +1,6 @@
 // Utilities tiene funciones que ayudan al procesamiento de datos
 // en el reducer. 
+import { reemplazarNullPorCero } from '../../components/Reporte/utilitiesReporte';
 import {
   colEmpresaAlimento,
   colEmpresaPMV,
@@ -9,12 +10,30 @@ import {
   colFechaPMV,
   colFechaEficacia,
   colFechaPeces,
-  colPPB
+  colPPB,
+  colTipoPMV,
+  colNPecesPMV
 } from '../../constants'
 
 export const localeSort = values => values.sort((a, b) => {
   return a.localeCompare(b, 'en', { sensitivity: 'base' });
 });
+
+export const esAño = (fecha, año) => {
+  if (fecha) return new Date(fecha).getFullYear() === año
+  return false
+}
+
+export const contarPMVSiEs = (tipo, row) => {
+  if (row[colTipoPMV].includes(tipo)) {
+    return reemplazarNullPorCero(row[colNPecesPMV])
+  }
+  return 0
+};
+
+export const translateNumbers = (v) => {
+  return v ? v.toString().replace(',', '-').replace('.', ',').replace('-','.') : '-'
+}
 
 export const esMenorQueFecha = (fecha, fechaLimite) => {
   return new Date(fecha) <= fechaLimite;

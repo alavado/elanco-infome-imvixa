@@ -74,3 +74,5 @@ export const colCentroEficacia = "Centro"
 
 export const comentarioBajoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento son bajos. Se recomienda suplementar con un nuevo lote de alimento fabricado para este fin, así alcanzar niveles adecuados de dosificación en los peces."
 export const comentarioAltoCumplimiento = "Los resultados obtenidos de incorporación de Imvixa en el alimento se encuentran dentro de los parámetros esperados."
+export const comentariosBajoCumEng = "The results obtained for Imvixa In-feed, are considered as “low”. It’s recommended to supplement with a new batch of feed manufactured for this purpose, thus achieving adequate dosage in the treated fish."
+export const comentarioAltoCumpEng  = "The results obtained for Imvixa In-feed, are considered within expected parameters."

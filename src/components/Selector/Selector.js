@@ -2,7 +2,6 @@ import React from 'react'
 import './Selector.css'
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
 import logoElanco from "../../assets/images/logo-elanco.svg";
-import classNames from "classnames";
 import { useHistory } from 'react-router-dom'
 
 const { ipcRenderer } = window.require('electron')

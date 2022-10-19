@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CuadroResumen.css";
 import { generalTexts } from '../generalTexts';
@@ -6,9 +6,6 @@ import { guardarRepCliente, guardarRepElanco, guardarRepVisita } from "../../../
 
 const CuadroResumen = ({ language }) => {
   const { fechaValor, repElanco, repVisita, repCliente } = useSelector((state) => state.reporteCentro);
-  // const [repElanco, setRepElanco] = useState("");
-  // const [repVisita, setRepVisita] = useState("");
-  // const [repCliente, setRepCliente] = useState("");
   const dispatch = useDispatch()
   const { gt_CuadroResumen } = generalTexts
   const labels = gt_CuadroResumen[language].filas

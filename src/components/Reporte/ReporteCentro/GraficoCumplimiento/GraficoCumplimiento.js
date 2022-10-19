@@ -1,18 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  colCumplimiento,
-  colEmpresaAlimento,
-  colFechaAlimento,
-  colLoteAlimento,
-  colPlanta,
-} from "../../../../constants";
-import { mean, iqrValues } from "../../utilitiesReporte";
-import {
-  esMayorQueFecha,
-  esMenorQueFecha,
-  selectMinMaxFecha,
-} from "../../../../redux/ducks/utilities";
 import "./GraficoCumplimiento.css";
 import { generalTexts } from '../generalTexts';
 

@@ -9,13 +9,22 @@ import salmones from '../../../../assets/images/varios-salmones.png'
 import './Comentarios.css'
 import { guardarComentariosLote } from '../../../../redux/ducks/reporteAlimento'
 import { generalTexts } from '../generalTexts'
+import { comentarioAltoCumpEng, comentarioAltoCumplimiento, comentarioBajoCumplimiento, comentariosBajoCumEng } from '../../../../constants'
 
 const Comentarios = ({ indice, language }) => {
 
   const [nuevoComentario, setNuevoComentario] = useState('')
   const [agregandoComentario, setAgregandoComentario] = useState(false)
   const { comentariosAlimento, preViz } = useSelector(state => state.comentarios)
-  const comentarios = comentariosAlimento[indice] || [];
+  let comentarios = []
+  if (comentariosAlimento[indice]) {
+    if (language === 'es') {
+      comentarios = comentariosAlimento[indice].map(v => v.replace(comentariosBajoCumEng, comentarioBajoCumplimiento).replace(comentarioAltoCumpEng, comentarioAltoCumplimiento))
+    } else {
+      comentarios = comentariosAlimento[indice].map(v => v.replace(comentarioBajoCumplimiento, comentariosBajoCumEng).replace(comentarioAltoCumplimiento, comentarioAltoCumpEng))
+    }
+  }
+  // const comentarios = comentariosAlimento[indice] || [];
   const textareaRef = useRef()
   const dispatch = useDispatch()
 

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   colAlimentoMuestra,
   colConcentracionObjetivo,
@@ -14,7 +14,6 @@ import {
   esMenorQueFecha,
   selectMinMaxFecha,
 } from "../../../../redux/ducks/utilities";
-import { guardarDatosLote } from "../../../../redux/ducks/visualizadorReporteAlimento";
 import { mean, iqrValues, iqrValuesFixed } from "../../utilitiesReporte";
 import "./GraficoCumplimiento.css";
 import GraficoCumplimientoUI from "./GraficoCumplimientoUI";

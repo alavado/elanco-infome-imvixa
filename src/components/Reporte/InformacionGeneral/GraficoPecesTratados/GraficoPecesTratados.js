@@ -1,22 +1,14 @@
 import { useSelector } from 'react-redux'
 import './GraficoPecesTratados.css'
-import { dividirDatosSegun, reemplazarNullPorCero } from '../../utilitiesReporte'
-import { colFechaPMV, colNPecesPMV } from '../../../../constants'
 import { generalTexts } from "../../generalTexts";
 
 const GraficoPecesTratados = ({language}) => {
   const { 
-    datosFiltradosPecesTratados,
-    divisionTemporal,
-    fechaFinal
+    datosGraficoPecesTratados: datos
   } = useSelector(state => state.reporte)
-  const {titulo, yaxis, sindatos} = generalTexts.gt_GraficoPecesTratados[language]
-  const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosPecesTratados, colFechaPMV, fechaFinal)
-  // valor en millones
-  const datos = datosDivididos.labels.map((nombre, index) => { return {
-    nombre,
-    valor: Math.round(datosDivididos.datos[index].reduce((prev, curr) => reemplazarNullPorCero(curr[colNPecesPMV]) + prev, 0) / 100000) / 10
-  }})
+  const languageLocale = generalTexts.languageLocale[language]
+  const { titulo, yaxis, sindatos } = generalTexts.gt_GraficoPecesTratados[language]
+
   if (datos.every(obj => obj.valor === 0)) {
     return (
       <div className="GraficoPecesTratados">
@@ -50,7 +42,7 @@ const GraficoPecesTratados = ({language}) => {
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="GraficoPecesTratados__linea">
               <p className="GraficoPecesTratados__etiqueta_linea">
-                {y.toLocaleString(language === 'es' ? 'de-DE' : 'en')}
+                {y.toLocaleString(languageLocale)}
               </p>
             </div>
           ))}
@@ -66,7 +58,7 @@ const GraficoPecesTratados = ({language}) => {
                 className="GraficoPecesTratados__barra"
                 style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
               >
-                {d.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en', { minimumFractionDigits: 1 })}
+                {d.valor.toLocaleString(languageLocale, { minimumFractionDigits: 1 })}
               </div>
             )
             }

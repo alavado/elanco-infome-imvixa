@@ -1,28 +1,18 @@
 import { useSelector } from 'react-redux'
-import { dividirDatosSegun } from '../../utilitiesReporte'
-import { colFechaPeces, colPPB, colSampleOrigin, tipoFreshWater } from '../../../../constants'
-import { mean, iqrValues } from '../../utilitiesReporte'
 import './ConcentracionEnMusculo.css'
 import { generalTexts } from '../../generalTexts'
 
 const ConcentracionEnMusculo = ({language}) => {
 
   const {
-    datosFiltradosPeces,
-    divisionTemporal,
-    fechaFinal
+    datosCMusculo: datos
   } = useSelector(state => state.reporte)
 
-  const datosDivididos = dividirDatosSegun(
-    divisionTemporal, 
-    datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
-    colFechaPeces, 
-    fechaFinal
-  )
+  const languageLocale = generalTexts.languageLocale[language]
   const {titulo, yaxis, sindatos, sd} = generalTexts.gt_GraficoConcentracionEnMusculo[language]
 
 
-  if (datosDivididos.datos.every(obj => obj.length === 0)) {
+  if (datos.length === 0) {
     return (
       <div className="ConcentracionEnMusculo">
         <p className="ConcentracionEnMusculo__titulo">{titulo}</p>
@@ -35,24 +25,6 @@ const ConcentracionEnMusculo = ({language}) => {
     )
   }
 
-  const datos = datosDivididos.labels.map((nombre, index) => { 
-    if (datosDivididos.datos[index].length === 0) {
-      return {
-        nombre,
-        promedio: 0,
-        iqr: 0,
-        max: 0,
-        min: 0,
-      }
-    }
-    const values = datosDivididos.datos[index].map(obj => obj[colPPB] / 1000)
-    return {
-      nombre,
-      promedio: mean(values),
-      ...iqrValues(values),
-      max: Math.max(...values),
-      min: Math.min(...values),
-  }})
 
   const vMin = Math.min(...datos.map(v => v.min))
   const vMax = Math.max(...datos.map(v => v.max))
@@ -77,7 +49,7 @@ const ConcentracionEnMusculo = ({language}) => {
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="ConcentracionEnMusculo__linea">
               <p className="ConcentracionEnMusculo__etiqueta_linea">
-                {y.toLocaleString(language === 'es' ? 'de-DE' : 'en')}
+                {y.toLocaleString(languageLocale)}
               </p>
             </div>
           ))}
@@ -117,7 +89,7 @@ const ConcentracionEnMusculo = ({language}) => {
                       '--porcentaje-bottom': `${(Math.max(0, prom_dmin) / size_box) * 100}%`,
                     }}
                   >
-                    {d.promedio.toLocaleString(language === 'es' ?'de-DE' : 'en', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
+                    {d.promedio.toLocaleString(languageLocale, { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
                   </div>
               </div>
               <div className="ConcentracionEnMusculo__etiqueta_caja">

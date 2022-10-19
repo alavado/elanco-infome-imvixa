@@ -1,25 +1,18 @@
 import { useSelector } from 'react-redux'
-import { groupBy, mean, extraerUltimosPeriodos, iqrValues, iqrValuesFixed } from '../../utilitiesReporte'
-import { colFechaAlimento, colCumplimiento, colPlanta } from '../../../../constants'
 import './CumplimientoConcentracion.css'
 import { generalTexts } from '../../generalTexts'
 
 const CumplimientoConcentracion = ({language}) => {
+  const languageLocale = generalTexts.languageLocale[language]
   const {titulo, yaxis, sindatos, industria} = generalTexts.gt_GraficoCumplimiento[language]
   
   const {
-    cumplimiento,
-    datosFiltradosAlimento,
-    datosFiltradosIndustriaAlimento,
-    divisionTemporal,
-    fechaFinal
+    datosCConcentracion
   } = useSelector(state => state.reporte)
+
+  const datos = [...datosCConcentracion]
   
-  // const datosDivididos = dividirDatosSegun(divisionTemporal, datosFiltradosAlimento, colFechaAlimento, fechaFinal)
-  const ultimosDatos = extraerUltimosPeriodos(divisionTemporal, datosFiltradosAlimento, colFechaAlimento, fechaFinal)
-  const datosGrouped = groupBy(ultimosDatos, colPlanta)
-  const plantas = Object.keys(datosGrouped)
-  if (plantas.length === 0) {
+  if (datos.length === 0) {
     return (      
       <div className="CumplimientoConcentracion">
         <p className="CumplimientoConcentracion__titulo">
@@ -33,38 +26,11 @@ const CumplimientoConcentracion = ({language}) => {
       </div>
     )
   }
-  const ultimosDatosIndustria = extraerUltimosPeriodos(divisionTemporal, datosFiltradosIndustriaAlimento, colFechaAlimento, fechaFinal)
-  const cumplimientosIndustria = ultimosDatosIndustria.map(obj => obj[colCumplimiento] * 100)
-  let datosIndustria = {
+  datos[0] = {
     nombre: industria,
-    promedio: cumplimiento.prom !== "" ? cumplimiento.prom : mean(cumplimientosIndustria),
-    ...iqrValues(cumplimientosIndustria),
-    max: cumplimiento.max !== "" ? cumplimiento.max : Math.max(...cumplimientosIndustria),
-    min: cumplimiento.min !== "" ? cumplimiento.min : Math.min(...cumplimientosIndustria),
+    ...datos[0]
   }
 
-  if (cumplimiento.q2 !== "") {
-    datosIndustria = {
-      ...datosIndustria,
-      ...iqrValuesFixed(cumplimiento.q2, cumplimiento.q3, cumplimiento.q4)
-    }
-  }
-  
-  
-  const datos = [
-    datosIndustria,
-    ...plantas.map(planta => {
-      const values = datosGrouped[planta].map((obj) => obj[colCumplimiento] * 100)
-      return {
-        nombre: planta,
-        promedio: mean(values),
-        ...iqrValues(values),
-        max: Math.max(...values),
-        min: Math.min(...values),
-      }
-    }).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
-  ]
-console.log(datos)
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0))
   const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.min), Infinity))
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
@@ -86,7 +52,7 @@ console.log(datos)
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="CumplimientoConcentracion__linea">
               <p className="CumplimientoConcentracion__etiqueta_linea">
-                {y.toLocaleString(language === 'es' ? 'de-DE': 'en')}
+                {y.toLocaleString(languageLocale)}
               </p>
             </div>
           ))}
@@ -107,7 +73,7 @@ console.log(datos)
                 '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
               }}
             >
-              {d.promedio.toLocaleString(language === 'es' ? 'de-DE': 'en', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
+              {d.promedio.toLocaleString(languageLocale, { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
             </div>
             <div className="CumplimientoConcentracion__etiqueta_caja">
               {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}

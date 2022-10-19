@@ -1,3 +1,5 @@
+import { colEficaciaEficacia, colFechaEficacia, colPPB } from "../../constants"
+
 const N_DIVISIONES = 5
 
 export const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -214,6 +216,68 @@ export const extraerUltimosPeriodos = (division, datos, colFecha, fechaFinal=new
   }
 }
 
+export const getBoxPlotData = (datos, nombre, concentracion = null) => {
+  if (datos.length === 0) {
+    return {
+      nombre,
+      promedio: 0,
+      iqr: 0,
+      iqrMitadInferior: 0,
+      iqrMitadSuperior: 0,
+      mediana: 0,
+      max: 0,
+      min: 0,
+    }
+  }
+  const values = datos.map(obj => obj[colPPB] / 1000)
+  const args = { maximumFractionDigits: 1, minimumFractionDigits: 1 }
+  let dat = {
+    nombre,
+    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom : mean(values),
+    ...iqrValues(values),
+    max: concentracion !== null && concentracion.max !== "" ? concentracion.max : Math.max(...values),
+    min: concentracion !== null && concentracion.min !== "" ? concentracion.min : Math.min(...values),
+  }
+  if (concentracion !== null && concentracion.q2 !== "" ) {
+    dat = {
+      ...dat,
+      ...iqrValuesFixed(concentracion.q2, concentracion.q3, concentracion.q4)
+    }
+  }
+  return dat;
+}
+
+
+export const getEficacia = (datos, decimales) => {
+  if (datos.every(obj => obj[colEficaciaEficacia])) {
+    const promedioEficacia = mean(datos.map(obj => obj[colEficaciaEficacia])) * Math.pow(10, decimales)
+    return Math.round(promedioEficacia) / Math.pow(10, decimales) 
+  }
+  else {
+    return 0
+  }
+}
+
+const getDiferenciaMeses = (fechaFinal, fechaInicial) => {
+  const diffTime = Math.abs(fechaFinal - new Date(fechaInicial))
+  if (diffTime < 0) return 0
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.4)); 
+  return Math.round(diffDays * 100) / 100 
+}
+
+export const getEficaciaSegunFecha = (datos, fechaFinal, decimales) => {
+  const promedioEficacia = mean(datos.map(e => getDiferenciaMeses(fechaFinal, e[colFechaEficacia])))
+  return Math.round(promedioEficacia * Math.pow(10, decimales)) / Math.pow(10, decimales)
+}
+
+export const getEficaciaMacrozona = (datos, zona) => {
+  if (datos[zona]) {
+    const datosDisponibles = datos[zona].map(obj => obj[colEficaciaEficacia]).filter(e => e)
+    if (datosDisponibles.length === 0) return '-'
+    return Math.round(mean(datosDisponibles) * 10) / 10
+  }
+  return '-'
+}
 
 // Agrupar segun
 export const groupBy = (xs, key) => {

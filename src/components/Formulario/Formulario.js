@@ -13,7 +13,7 @@ import {
   pasoSiguiente,
   mostrarErrorFormulario,
 } from "../../redux/ducks/parametrosGenerales";
-import { procesarDatosParaExportar as procesarReporteSeguimiento } from "../../redux/ducks/reporteSeguimiento";
+import { procesarDatosParaExportar as procesarReporteSeguimiento, limpiarFormulario as limpiarFormularioSeguimiento } from "../../redux/ducks/reporteSeguimiento";
 import {
   procesarDatosParaExportar as procesarReporteAlimento,
   cargarDatosAlimento,
@@ -33,6 +33,7 @@ import {
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
 import { colCumplimiento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
+import { limpiarGraficos } from "../../redux/ducks/graficos";
 
 const Formulario = () => {
   const dispatch = useDispatch();
@@ -110,6 +111,8 @@ const Formulario = () => {
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
             dispatch(limpiarComentarios())
+            dispatch(limpiarGraficos())
+            dispatch(limpiarFormularioSeguimiento())
             dispatch(pasoSiguiente());
           } else {
             dispatch(
@@ -255,7 +258,9 @@ const Formulario = () => {
                     datosAlimento,
                     datosPeces,
                     datosEficacia,
-                    datosPecesTratados
+                    datosPecesTratados,
+                    cumplimiento,
+                    concentracion
                   })
                 );
               }

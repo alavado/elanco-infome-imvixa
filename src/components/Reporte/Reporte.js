@@ -5,7 +5,6 @@ import ReporteSeguimiento from "./ReporteSeguimiento";
 import ReporteMusculo from "./ReporteMusculo";
 import ReporteCentro from "./ReporteCentro";
 import { useHistory } from "react-router-dom";
-import VisualizadorAlimento from "../Visualizador/VisualizadorAlimento";
 const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
@@ -20,7 +19,7 @@ const Reporte = () => {
     switch (reporte.id) {
       case 1:
         return (
-          <VisualizadorAlimento language={language}/>
+          <ReporteAlimento language={language}/>
         );
       case 2:
         return (

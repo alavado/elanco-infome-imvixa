@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import './Previsualizador.css'
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
 import logoElanco from "../../assets/images/logo-elanco.svg";
-import classNames from "classnames";
 import { cargarRegistros } from '../../redux/ducks/previsualizador';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../Spinner';

@@ -1,79 +1,18 @@
 import { useSelector } from 'react-redux'
 import './ComparacionConcentracion.css'
-import { 
-  extraerUltimosPeriodos,
-  mean,
-  iqrValues,
-  groupBy,
-  iqrValuesFixed
-} from '../../utilitiesReporte'
-import { 
-  colFechaPeces, 
-  colPisciculturaPeces as colPiscicultura, 
-  colSampleOrigin, 
-  tipoFreshWater,
-  colPPB 
-} from '../../../../constants'
 import classNames from 'classnames'
 import { generalTexts } from '../../generalTexts'
 
-const getBoxPlotData = (datos, nombre, concentracion = null, language) => {
-  if (datos.length === 0) {
-    return {
-      nombre,
-      promedio: 0,
-      iqr: 0,
-      iqrMitadInferior: 0,
-      iqrMitadSuperior: 0,
-      mediana: 0,
-      max: 0,
-      min: 0,
-    }
-  }
-  const values = datos.map(obj => obj[colPPB] / 1000)
-  const args = { maximumFractionDigits: 1, minimumFractionDigits: 1 }
-  let dat = {
-    nombre,
-    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom.toLocaleString(language === 'es' ? 'de-DE' : 'en', args) : mean(values).toLocaleString(language === 'es' ? 'de-DE' : 'en', args),
-    ...iqrValues(values),
-    max: concentracion !== null && concentracion.max !== "" ? concentracion.max : Math.max(...values),
-    min: concentracion !== null && concentracion.min !== "" ? concentracion.min : Math.min(...values),
-  }
-  if (concentracion !== null && concentracion.q2 !== "" ) {
-    dat = {
-      ...dat,
-      ...iqrValuesFixed(concentracion.q2, concentracion.q3, concentracion.q4)
-    }
-  }
-  return dat;
-}
 
 const ComparacionConcentracion = ({ agrandar, language }) => {
+  const localeString = generalTexts.languageLocale[language]
   const {titulo, yaxis, sindatos, industria, empresa} = generalTexts.gt_GraficoComparacion[language]
 
   const { 
-    divisionTemporal,
-    datosFiltradosPeces,
-    datosFiltradosIndustriaPeces,
-    concentracion,
-    fechaFinal
+    datosGraficoCConcentracion
   } = useSelector(state => state.reporte)
 
-  const datosEmpresa = extraerUltimosPeriodos(
-    divisionTemporal, 
-    datosFiltradosPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
-    colFechaPeces, 
-    fechaFinal)
-    
-  const datosIndustria = extraerUltimosPeriodos(
-    divisionTemporal, 
-    datosFiltradosIndustriaPeces.filter(dato => dato[colSampleOrigin] === tipoFreshWater), 
-    colFechaPeces, 
-    fechaFinal)
-
-  const datosPorPiscicultura = groupBy(datosEmpresa, colPiscicultura)
-
-  if (Object.values(datosPorPiscicultura).every(obj => obj.length === 0)) {
+  if (datosGraficoCConcentracion.length === 0) {
     return (
       <div className="ComparacionConcentracion">
         <p className="ComparacionConcentracion__titulo">{titulo} </p>
@@ -87,12 +26,15 @@ const ComparacionConcentracion = ({ agrandar, language }) => {
   }
   
   const datos = [
-    getBoxPlotData(datosIndustria, industria, concentracion, language),
-    getBoxPlotData(datosEmpresa, empresa, null, language),
-    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc, null, language)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
-
+    ...datosGraficoCConcentracion.map(d => {
+      return {
+      ...d,
+      promedio: d.promedio.toLocaleString(localeString, { maximumFractionDigits: 1, minimumFractionDigits: 1 })
+    }})
   ]
-
+  datos[0].nombre = industria
+  datos[1].nombre = empresa
+  
   const xMax = datos.reduce((max, d) => {
     return d.max > max ? (5 * Math.floor((d.max + 5) / 5)) : max
   }, 0)

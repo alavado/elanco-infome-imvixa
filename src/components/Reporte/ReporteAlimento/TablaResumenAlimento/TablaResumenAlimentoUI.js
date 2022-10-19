@@ -19,7 +19,7 @@ const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lot
       maximumFractionDigits: 0,
       minimumFractionDigits: 0,
     })],
-    [filas[7], programa && programa != '-' ? translateNumbers(programa) : '-'],
+    [filas[7], programa && programa !== '-' ? translateNumbers(programa) : '-'],
     [filas[8], calibre],
   ];
   return (

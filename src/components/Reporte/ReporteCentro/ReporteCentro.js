@@ -25,7 +25,7 @@ import {
 const { ipcRenderer } = window.require("electron");
 
 const ReporteCentro = ({ language }) => {
-  const { comentariosCentro, preViz } = useSelector((state) => state.comentarios);
+  const { comentariosCentro } = useSelector((state) => state.comentarios);
   const { 
     empresa, 
     seasite, 

@@ -1,68 +1,83 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import Sandalias from "./Sandalias";
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { REPORTE_NOMBRE_ALIMENTO, REPORTE_ID_ALIMENTO } from '../../../helpers/reportes';
+import GraficoCumplimientoUI from '../../Reporte/ReporteAlimento/GraficoCumplimiento/GraficoCumplimientoUI';
+import TablaLotesUI from '../../Reporte/ReporteAlimento/TablaLotes/TablaLotesUI';
 import MensajeError from "../../MensajeError";
-import DatosEmpresa from "../DatosEmpresa";
-import Encabezado from "../Encabezado/Encabezado";
-import TablaResumenAlimento from "./TablaResumenAlimento";
-import Comentarios from "./Comentarios";
-import TablaLotes from "./TablaLotes/TablaLotes";
-import GraficoCumplimiento from "./GraficoCumplimiento";
-import { colEmpresaAlimento, colLoteAlimento } from "../../../constants";
+import Encabezado from "../../Reporte/Encabezado";
+import DatosEmpresa from "../../Reporte/DatosEmpresa";
+import TablaResumenAlimento from "../../Reporte/ReporteAlimento/TablaResumenAlimento";
+import Comentarios from "../../Reporte/ReporteAlimento/Comentarios";
+import Sandalias from "../../Reporte/ReporteAlimento/Sandalias";
+import { generalTexts } from '../../Reporte/ReporteAlimento/generalTexts';
 import "./ReporteAlimento.css";
-import { REPORTE_ID_ALIMENTO, REPORTE_NOMBRE_ALIMENTO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require('electron')
 
-const ReporteAlimento = () => {
-  const { lotesSeleccionados, nombreEmpresa } = useSelector((state) => state.reporteAlimento);
+const VisualizadorAlimento = ({language}) => {
+  const { fechaReporte: fecha, nombreEmpresa, lotes } = useSelector(state => state.reporteAlimento)
+  const lotesNames = lotes.map(v => v.lote)
   useEffect(() => {
     ipcRenderer.send('datosReporte', {
-      numeroDeLotes: lotesSeleccionados.length,
+      numeroDeLotes: lotes.length,
       nombreEmpresa: nombreEmpresa,
-      lotes: lotesSeleccionados.map(v => v.data[colLoteAlimento])
+      lotes: lotesNames
     })
-  }, [lotesSeleccionados, nombreEmpresa])
+  }, [lotesNames, nombreEmpresa])
+
+  useEffect(() => {
+    ipcRenderer.removeAllListeners("reporteAlimentoImpreso")
+    ipcRenderer.on("reporteAlimentoImpreso", async (e, data) => {
+      ipcRenderer.send('guardarReporteAlimento', {
+        tipoID: REPORTE_ID_ALIMENTO,
+        fecha,
+        empresa: nombreEmpresa,
+        datos: lotes
+      })
+    });
+  }, [lotes]);
+
   const dimensions = {
     width: "100%",
-    height: `calc(${lotesSeleccionados.length} * 132.86vw)`,
-    maxHeight: `calc(${lotesSeleccionados.length} * 132.86vw)`,
+    height: `calc(${lotes.length} * 132.86vw)`,
+    maxHeight: `calc(${lotes.length} * 132.86vw)`,
   };
-  const percentage = Math.round((100 / lotesSeleccionados.length) * 100) / 100;
+  const percentage = Math.round((100 / lotes.length) * 100) / 100;
   const dimensionsPage = {
     minHeight: `${percentage}%`,
     maxHeight: `${percentage}%`
   }
-  const today = new Date();
+  const today = new Date()
+  const { seccion1 } = generalTexts
   return (
     <div className="ReporteAlimento">
       <div className="ReporteAlimento__contenedor" style={dimensions}>
-        {lotesSeleccionados.map((l, i) => (
+        {lotes.map((l, i) => (
           <div className="ReporteAlimento__pagina" style={dimensionsPage} key={`reporte-lote-${i}`}>
-            <Encabezado reporteID={REPORTE_ID_ALIMENTO} reporteNombre={REPORTE_NOMBRE_ALIMENTO}/>
+            <Encabezado reporteID={REPORTE_ID_ALIMENTO} reporteNombre={REPORTE_NOMBRE_ALIMENTO} language={language}/>
             <MensajeError>
-              <DatosEmpresa nombreEmpresa={l.data[colEmpresaAlimento]} fecha={today}/>
+              <DatosEmpresa nombreEmpresa={nombreEmpresa} fecha={today} language={language}/>
             </MensajeError>
             <div className="Reporte__InformacionGeneral">
-              <h3 className="Reporte__titulo_seccion">Información General</h3>
+              <h3 className="Reporte__titulo_seccion">{seccion1[language]}</h3>
               <div className="ReporteAlimento__seccion">
                 <MensajeError>
-                  <TablaResumenAlimento index={i}/>
+                  <TablaResumenAlimento index={i} language={language}/>
                 </MensajeError>
                 <MensajeError>
-                  <GraficoCumplimiento lote={l.data} index={i}/>
+                  <GraficoCumplimientoUI datos={l.datos} language={language}/>
                 </MensajeError>
               </div>
             </div>
             <MensajeError>
-              <TablaLotes lote={l.data} index={i}/>
+              <TablaLotesUI headers={l.headers} values={l.values} language={language}/>
             </MensajeError>
-            <Comentarios pagina={i + 1} />
-            <Sandalias pagina={i + 1} />
+            <Comentarios indice={i} language={language}/>
+            <Sandalias indice={i} language={language}/>
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ReporteAlimento;
+export default VisualizadorAlimento
