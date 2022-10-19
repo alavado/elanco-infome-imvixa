@@ -27,7 +27,8 @@ import {
 } from "../../redux/ducks/reporteCentro";
 import {
   agregarComentarioAlimento,
-  limpiarComentariosAlimento
+  limpiarComentariosAlimento,
+  limpiarComentarios
 } from "../../redux/ducks/comentarios"
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
@@ -90,9 +91,10 @@ const Formulario = () => {
     qCondition = Object.values(cumplimiento).every((v) => v !== "");
   }
   if (boxElements.some((v) => concentracion[v] !== "")) {
+    // Chequeo si es que hay un valor, esten todos
     qCondition =
       qCondition &&
-      (reporte.id === 1 || Object.values(concentracion).every((v) => v !== ""));
+      ((reporte !== null && reporte.id <= 2) || Object.values(concentracion).every((v) => v !== ""));
   }
 
   const pasos = useMemo(
@@ -107,6 +109,7 @@ const Formulario = () => {
           todasLasPlanillas && Object.values(validando).every((v) => !v),
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
+            dispatch(limpiarComentarios())
             dispatch(pasoSiguiente());
           } else {
             dispatch(

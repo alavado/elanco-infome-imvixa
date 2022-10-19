@@ -28,6 +28,7 @@ const GraficoCumplimiento = ({language}) => {
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
   const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
+
   if (datos.length === 0) {
     return (
       <div className="GraficoCumplimiento">
@@ -42,11 +43,11 @@ const GraficoCumplimiento = ({language}) => {
       </div>
     );
   }
-
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
     datos.reduce((min, v) => Math.min(min, v.min), Infinity)
   );
+
   let tick = Math.pow(10, Math.floor(Math.log10(vMin)));
   if (tick <=  0) {
     tick = 10
@@ -73,7 +74,7 @@ const GraficoCumplimiento = ({language}) => {
           {yLineas.map((y) => (
             <div key={`lineay-${y}`} className="GraficoCumplimiento__linea">
               <p className="GraficoCumplimiento__etiqueta_linea">
-                {y.toLocaleString("de-DE")}
+                {y.toLocaleString(language === 'es' ? "de-DE" : 'en')}
               </p>
             </div>
           ))}
@@ -106,7 +107,7 @@ const GraficoCumplimiento = ({language}) => {
                 }%`,
               }}
             >
-              {d.promedio.toLocaleString("de-DE", {
+              {d.promedio.toLocaleString(language === 'es' ? "de-DE" : 'en', {
                 maximumFractionDigits: 1,
                 minimumFractionDigits: 1,
               })}

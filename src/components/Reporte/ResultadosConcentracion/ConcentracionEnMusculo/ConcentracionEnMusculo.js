@@ -70,14 +70,14 @@ const ConcentracionEnMusculo = ({language}) => {
         {titulo}
       </p>
       <div className="ConcentracionEnMusculo__contenedor_grafico">
-        <p className="ConcentracionEnMusculo__etiqueta_eje_y">
+        <p className="ConcentracionEnMusculo__etiqueta_eje_y" style={{left: language === 'es' ? "-3.5rem" : "-4.8rem"}}>
           {yaxis}
         </p>
         <div className="ConcentracionEnMusculo__contenedor_lineas">
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="ConcentracionEnMusculo__linea">
               <p className="ConcentracionEnMusculo__etiqueta_linea">
-                {y.toLocaleString('de-DE')}
+                {y.toLocaleString(language === 'es' ? 'de-DE' : 'en')}
               </p>
             </div>
           ))}
@@ -117,7 +117,7 @@ const ConcentracionEnMusculo = ({language}) => {
                       '--porcentaje-bottom': `${(Math.max(0, prom_dmin) / size_box) * 100}%`,
                     }}
                   >
-                    {d.promedio.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
+                    {d.promedio.toLocaleString(language === 'es' ?'de-DE' : 'en', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
                   </div>
               </div>
               <div className="ConcentracionEnMusculo__etiqueta_caja">

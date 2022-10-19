@@ -203,18 +203,18 @@ const slice = createSlice({
         const datosEjercicioPorInforme = datosEjercicio.filter(
           (fila) => fila[colInformePeces] === informe || fila[colInformePecesR] === informe
         );
-        const muestras = datosEjercicioPorInforme.map((v) => v[colPPB]);
+        const muestras = datosEjercicioPorInforme.map((v) => v[colPPB]).filter(v => v);
         const pesos = datosEjercicioPorInforme.map(v => v[colPeso2]).filter(v => v)
         const prom = mean(muestras);
         const cv = Math.round((std(muestras) / prom) * 10000) / 100;
         const min = Math.min(...muestras);
         const max = Math.max(...muestras);
         const resultado =
-          prom >= state.umbral && cv <= 30
-            ? 2
-            : prom >= state.umbral && cv >= 30
+          prom < parseInt(state.umbral.replace(".", ""))
+          ? 0
+          : prom >= state.umbral && cv >= 30
             ? 1
-            : 0;
+            : 2;
         while (muestras.length < 10) {
           muestras.push("-");
         }
@@ -394,12 +394,13 @@ const slice = createSlice({
       const filaLote = datosAlimentosAsociados.find(
         (f) => f[colLoteAlimento].toString() === l
       );
+
       const valuesLote = [
         colAlimentoM1,
         colAlimentoM2,
         colAlimentoM3,
         colAlimentoM4,
-      ].map(
+      ].filter(v => filaLote[v]).map(
         (muestra) =>
           (filaLote[muestra] * 100) / filaLote[colConcentracionObjetivo]
       );

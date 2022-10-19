@@ -9,6 +9,12 @@ import {
 const today = new Date()
 const cumplimientoMax = localStorage.getItem("cumplimientoIndustriaMax")
 const cumplimientoMin = localStorage.getItem("cumplimientoIndustriaMin")
+const concentracionMax = localStorage.getItem("concentracionIndustriaMax")
+const concentracionMin = localStorage.getItem("concentracionIndustriaMin")
+const concentracion25 = localStorage.getItem("concentracionIndustria25")
+const concentracion50 = localStorage.getItem("concentracionIndustria50")
+const concentracion75 = localStorage.getItem("concentracionIndustria75")
+const concentracionProm = localStorage.getItem("concentracionIndustriaProm")
 const slice = createSlice({
   name: "reporte",
   initialState: {
@@ -25,12 +31,12 @@ const slice = createSlice({
       prom: "",
     },
     concentracion: {
-      min: "",
-      max: "",
-      q2: "",
-      q3: "",
-      q4: "",
-      prom: "",
+      min: concentracionMin ? concentracionMin : "",
+      max: concentracionMax ? concentracionMax : "",
+      q2: concentracion25 ? concentracion25 : "",
+      q3: concentracion50 ? concentracion50 : "",
+      q4: concentracion75 ? concentracion75 : "",
+      prom: concentracionProm ? concentracionProm : "",
     },
     procesandoParaExportar: false,
     datosFiltradosAlimento: null,

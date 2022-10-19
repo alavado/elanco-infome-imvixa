@@ -207,7 +207,7 @@ const CurvaPorPeso = ({language}) => {
         type: "logarithmic",
         title: {
           display: true,
-          text: xaxis,
+          text: yaxis,
           font: {
             size: 16,
           },

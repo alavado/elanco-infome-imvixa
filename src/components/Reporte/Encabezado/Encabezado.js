@@ -28,7 +28,7 @@ const Encabezado = ({ reporteID, reporteNombre, language }) => {
 			default:
 				titulo = tituloReporte4
 				imgClassName = "Reporte__logo_imagen_seguimiento"
-				title = 'FOLLOW-UP REPORT'
+				title = 'FOLLOW-UP REPORT IMVIXA'
 				break;
 		}
 	if (language === 'es') {

@@ -99,6 +99,9 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colEmpresa);
       }
+      state.repElanco = ""
+      state.repVisita = ""
+      state.repCliente = ""
     },
     guardarCentro(state, action) {
       state.centro = action.payload;
@@ -108,6 +111,9 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colCentro);
       }
+      state.repElanco = ""
+      state.repVisita = ""
+      state.repCliente = ""
     },
     guardarFecha(state, action) {
       state.fecha = action.payload;
@@ -117,6 +123,9 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colFecha);
       }
+      state.repElanco = ""
+      state.repVisita = ""
+      state.repCliente = ""
     },
     guardarFechas(state, action) {
       state.fechas = action.payload

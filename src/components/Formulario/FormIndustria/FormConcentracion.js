@@ -23,7 +23,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.min.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   guardarConcentracion({
                     tipo: "min",
@@ -35,6 +35,11 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustriaMin",
+                  e.target.value
+                );
+              }
               }
             ></input>
           </label>
@@ -50,7 +55,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.max.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) =>{
                 dispatch(
                   guardarConcentracion({
                     tipo: "max",
@@ -62,6 +67,10 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustriaMax",
+                  e.target.value
+                );}
               }
             ></input>
           </label>
@@ -79,7 +88,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.q2.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   guardarConcentracion({
                     tipo: "q2",
@@ -91,6 +100,10 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustria25",
+                  e.target.value
+                );}
               }
             ></input>
           </label>
@@ -106,7 +119,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.q3.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   guardarConcentracion({
                     tipo: "q3",
@@ -118,6 +131,10 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustria50",
+                  e.target.value
+                );}
               }
             ></input>
           </label>
@@ -135,7 +152,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.q4.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   guardarConcentracion({
                     tipo: "q4",
@@ -147,6 +164,10 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustria75",
+                  e.target.value
+                );}
               }
             ></input>
           </label>
@@ -162,7 +183,7 @@ const FormConcentracion = () => {
               typeform="locale-decimal"
               min="0"
               defaultValue={concentracion.prom.toString().replace(".", ",")}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch(
                   guardarConcentracion({
                     tipo: "prom",
@@ -174,6 +195,10 @@ const FormConcentracion = () => {
                         : "",
                   })
                 )
+                localStorage.setItem(
+                  "concentracionIndustriaProm",
+                  e.target.value
+                );}
               }
             ></input>
           </label>

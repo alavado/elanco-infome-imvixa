@@ -17,7 +17,7 @@ import {
 import classNames from 'classnames'
 import { generalTexts } from '../../generalTexts'
 
-const getBoxPlotData = (datos, nombre, concentracion = null) => {
+const getBoxPlotData = (datos, nombre, concentracion = null, language) => {
   if (datos.length === 0) {
     return {
       nombre,
@@ -34,7 +34,7 @@ const getBoxPlotData = (datos, nombre, concentracion = null) => {
   const args = { maximumFractionDigits: 1, minimumFractionDigits: 1 }
   let dat = {
     nombre,
-    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom.toLocaleString('de-DE', args) : mean(values).toLocaleString('de-DE', args),
+    promedio: concentracion !== null && concentracion.prom !== "" ? concentracion.prom.toLocaleString(language === 'es' ? 'de-DE' : 'en', args) : mean(values).toLocaleString(language === 'es' ? 'de-DE' : 'en', args),
     ...iqrValues(values),
     max: concentracion !== null && concentracion.max !== "" ? concentracion.max : Math.max(...values),
     min: concentracion !== null && concentracion.min !== "" ? concentracion.min : Math.min(...values),
@@ -87,9 +87,9 @@ const ComparacionConcentracion = ({ agrandar, language }) => {
   }
   
   const datos = [
-    getBoxPlotData(datosIndustria, industria, concentracion),
-    getBoxPlotData(datosEmpresa, empresa),
-    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
+    getBoxPlotData(datosIndustria, industria, concentracion, language),
+    getBoxPlotData(datosEmpresa, empresa, null, language),
+    ...Object.keys(datosPorPiscicultura).map(pisc => getBoxPlotData(datosPorPiscicultura[pisc], pisc, null, language)).sort((a,b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0))
 
   ]
 

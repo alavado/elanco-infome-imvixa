@@ -15,6 +15,7 @@ import {
 } from '../../../../constants'
 import { onlyUnique } from "../../../../redux/ducks/utilities"
 import { reemplazarNullPorCero } from '../../utilitiesReporte'
+import { generalTexts } from "../../generalTexts";
 
 const esAño = (fecha, año) => {
   if (fecha) return new Date(fecha).getFullYear() === año
@@ -28,7 +29,7 @@ const contarPMVSiEs = (tipo, row) => {
   return 0
 };
 
-const TablaResumen = () => {
+const TablaResumen = ({language}) => {
 
   const { 
     nombreEmpresa, 
@@ -41,7 +42,7 @@ const TablaResumen = () => {
   const esteAño = new Date(fechaFinal).getFullYear()
   const añoPasado = esteAño - 1
   const años = [añoPasado, esteAño]
-
+  const {titulo, filas: filasLabels} = generalTexts.gt_TablaResumen[language]
   // Separar datos por año
   const datosAñoPasado = {
     alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
@@ -59,7 +60,7 @@ const TablaResumen = () => {
   // Calcular valores de cada fila
   const filas = [
     [
-      'N° visitas piscicultura', 
+      filasLabels[0], 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .map(row => row[colFechaPeces].substring(0, 10))
@@ -72,7 +73,7 @@ const TablaResumen = () => {
       .length, 
     ],
     [
-      'N° visitas a centros de mar', 
+      filasLabels[1], 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .map(row => row[colFechaPeces].substring(0, 10))
@@ -85,7 +86,7 @@ const TablaResumen = () => {
       .length, 
     ],
     [
-      'N° peces analizados en piscicultura', 
+      filasLabels[2], 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoFreshWater)
       .length, 
@@ -94,7 +95,7 @@ const TablaResumen = () => {
       .length
     ],
     [
-      'N° peces analizados en centros de mar', 
+      filasLabels[3], 
       datosAñoPasado.peces
       .filter(row => row[colSampleOrigin] === tipoSeaWater)
       .length, 
@@ -103,23 +104,23 @@ const TablaResumen = () => {
       .length
     ],
     [
-      'N° muestras alimento analizadas', 
+      filasLabels[4], 
       datosAñoPasado.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0), 
       datosAñoActual.alimento.reduce((prev, curr) => curr[colNMuestrasAlimento] + prev, 0)
     ],
     [
-      'N° acumulado peces tratados RAS', 
+      filasLabels[5], 
       datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
       datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoRecPMV, curr)) + prev, 0), 
     ]
     ,
     [
-      'N° acumulado peces tratados - Flujo abierto', 
+      filasLabels[6], 
       datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
       datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(contarPMVSiEs(tipoFAPMV, curr)) + prev, 0), 
     ],
     [
-      'N° acumulado total de peces tratados', 
+      filasLabels[7], 
       datosAñoPasado.pmvSinFiltro.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0), 
       datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0)
     ]
@@ -128,7 +129,7 @@ const TablaResumen = () => {
   return (
     <div className="TablaResumen">
       <h4 className="TablaResumen__titulo">
-        Resumen {nombreEmpresa}
+        {titulo} {nombreEmpresa}
       </h4>
       <div className="TablaResumen__tabla">
         <div className="TablaResumen__encabezados">

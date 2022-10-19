@@ -20,20 +20,7 @@ const TablaAntecedentes = ({ language }) => {
   const dispatch = useDispatch()
   const { gt_TablaAntecedentes } = generalTexts
   const labels = gt_TablaAntecedentes[language].columna
-  // const datosAntecedentes = datos.filter((o) => o[colSampleOrigin] === tipoSeaWater && o['fecha'].toString().startsWith(fecha.value));
 
-  // const [grupo, setGrupo] = useState(
-  //   datosAntecedentes.map((v) => "")
-  // );
-  // const [fechas, setFechas] = useState(
-  //   datosAntecedentes.map((v) => "")
-  // );
-  // const [utas, setUtas] = useState(
-  //   datosAntecedentes.map((v) => "")
-  // );
-  console.log({
-    fechas
-  })
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
@@ -48,10 +35,6 @@ const TablaAntecedentes = ({ language }) => {
   const columnas = [
     labels,
     ...datosAntecedentes.map((informe, i) => {
-      console.log({
-        f: informe[colFechaTerminoTrat],
-        fech: fechas[i]
-      })
       return [
         informe['pisciculturasOrigen'] && informe['pisciculturasOrigen'].length > 0 ? informe['pisciculturasOrigen'].join(' / ') : language === 'es'? "Sin información" : 'No info',
       <input
@@ -68,7 +51,7 @@ const TablaAntecedentes = ({ language }) => {
         }}
       />,
       informe[colEstanquePeces].toLocaleString(language === 'es' ? 'de-DE' : 'en') ,
-      fechas[i] && informe[colFechaTerminoTrat] ? formatDistance(fechas[i], informe[colFechaTerminoTrat], language === 'es' ? {locale: es} : {}) : language === 'es'? "Sin información" : 'No info',
+      fechas[i] && informe[colFechaTerminoTrat] ? formatDistance(fechas[i], new Date(informe[colFechaTerminoTrat]), language === 'es' ? {locale: es} : {}) : language === 'es'? "Sin información" : 'No info',
       <DatePicker
         locale="es"
         customInput={<ExampleCustomInput />}
@@ -87,32 +70,7 @@ const TablaAntecedentes = ({ language }) => {
     ]}),
   ];
 
-  // const filasColumna1 = [
-  //   ["Origen", ""],
-  //   ["Grupo", (<input
-  //     className="TablaAntecedentesCentro__input"
-  //     style={{backgroundColor: grupo !== "" ? "transparent" : "var(--color-highlight)"}}
-  //     value={grupo}
-  //     onChange={(e) => {setGrupo(e.target.value)}
-  //     }
-  //   />)],
-  //   ["Jaulas muestreadas", (<input
-  //     className="TablaAntecedentesCentro__input"
-  //     style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
-  //     value={peces}
-  //     onChange={(e) => {setPeces(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
-  //     }
-  //   />)],
-  //   ["Fecha de traslado al mar", ""],
-  //   ["Días cultivo al muestreo", (<input
-  //     className="TablaAntecedentesCentro__input"
-  //     style={{backgroundColor: estanques !== "" ? "transparent" : "var(--color-highlight)"}}
-  //     value={estanques}
-  //     onChange={(e) => {setEstanques(parseInt(e.target.value.replace(/[^0-9]+/g, "")).toLocaleString("de-DE"))}
-  //     }
-  //   />)],
-  //   ["Utas al muestreo", ""],
-  // ];
+
   return (
     <div className="TablaAntecedentesCentro">
       <div className="TablaAntecedentesCentro__contenedor">

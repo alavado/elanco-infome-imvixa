@@ -34,7 +34,7 @@ const GraficoComparacion = ({language}) => {
           {yLineas.map((y) => (
             <div key={`compc-lineay-${y}`} className="GraficoComparacion__linea">
               <p className="GraficoComparacion__etiqueta_linea">
-                {y.toLocaleString("de-DE")}
+                {y.toLocaleString(language === 'es' ? "de-DE" : 'en')}
               </p>
             </div>
           ))}
@@ -68,7 +68,7 @@ const GraficoComparacion = ({language}) => {
                 fontSize: datos.length < 5 ? ".85rem" :  datos.length < 10 ? ".70rem" : ".55rem"
               }}
             >
-              {d.promedio.toLocaleString("de-DE", {
+              {d.promedio.toLocaleString(language === 'es' ? "de-DE" : 'en', {
                 maximumFractionDigits: 1,
                 minimumFractionDigits: 1,
               })}

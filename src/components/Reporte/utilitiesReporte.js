@@ -3,7 +3,9 @@ const N_DIVISIONES = 5
 export const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ]
-
+export const months = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"
+]
 // Retorna un arreglo de nDivisiones elementos, con los datos
 // del mes actual y los meses anteriores en orden cronologico
 const dividirEnM = (datos, colFecha, fechaFinReporte, nDivisiones) => {

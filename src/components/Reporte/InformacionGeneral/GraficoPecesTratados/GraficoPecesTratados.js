@@ -50,7 +50,7 @@ const GraficoPecesTratados = ({language}) => {
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="GraficoPecesTratados__linea">
               <p className="GraficoPecesTratados__etiqueta_linea">
-                {y.toLocaleString('de-DE')}
+                {y.toLocaleString(language === 'es' ? 'de-DE' : 'en')}
               </p>
             </div>
           ))}
@@ -66,7 +66,7 @@ const GraficoPecesTratados = ({language}) => {
                 className="GraficoPecesTratados__barra"
                 style={{ '--porcentaje-lleno': `${(d.valor / yMax) * 100}%` }}
               >
-                {d.valor.toLocaleString('de-DE', { minimumFractionDigits: 1 })}
+                {d.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en', { minimumFractionDigits: 1 })}
               </div>
             )
             }

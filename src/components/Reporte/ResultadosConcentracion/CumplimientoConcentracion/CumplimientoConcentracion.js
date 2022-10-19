@@ -66,10 +66,10 @@ const CumplimientoConcentracion = ({language}) => {
   ]
 console.log(datos)
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0))
-  const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.promedio), Infinity))
+  const vMin = Math.floor(datos.reduce((min, v) => Math.min(min, v.min), Infinity))
   const tick = Math.pow(10, Math.floor(Math.log10(vMin)))
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick))
-  const yMin = Math.min(50, 10 * Math.floor(vMin / tick))
+  const yMin = Math.min(50, 10 * Math.floor(vMin / tick),vMin)
   const yLineas = [...Array(Math.round(1 + (yMax - yMin) / tick)).fill(0).map((_, i) => yMin + tick * i)].reverse()
   yMax = Math.max(...yLineas)
 
@@ -86,7 +86,7 @@ console.log(datos)
           {yLineas.map(y => (
             <div key={`lineay-${y}`} className="CumplimientoConcentracion__linea">
               <p className="CumplimientoConcentracion__etiqueta_linea">
-                {y.toLocaleString('de-DE')}
+                {y.toLocaleString(language === 'es' ? 'de-DE': 'en')}
               </p>
             </div>
           ))}
@@ -107,7 +107,7 @@ console.log(datos)
                 '--porcentaje-top': `${((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) * 100}%`
               }}
             >
-              {d.promedio.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
+              {d.promedio.toLocaleString(language === 'es' ? 'de-DE': 'en', { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
             </div>
             <div className="CumplimientoConcentracion__etiqueta_caja">
               {d.nombre.split(' ').map((n, i) => <div key={`${d.nombre}-${i}`}>{n}</div>)}

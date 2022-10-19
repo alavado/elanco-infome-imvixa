@@ -146,7 +146,7 @@ const ProteccionMacrozonas = ({language}) => {
               '--fondo': pin.color
             }}
           >
-            {pin.valor.toLocaleString('de-DE')}
+            {pin.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en')}
             <div className="ProteccionMacrozonas__pin_etiqueta">
               {pin.etiqueta}
             </div>

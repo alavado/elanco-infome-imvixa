@@ -5,12 +5,14 @@ import { guardarAlimento, guardarEstanques, guardarGrupo, guardarPeces } from ".
 import { onlyUnique, selectMinMax, selectMinMaxFecha } from "../../../../redux/ducks/utilities";
 import "./TablaAntecedentes.css";
 import { generalTexts } from '../generalTexts';
-
+const translateNumbers = (v) => {
+  return v ? v.toString().replaceAll(',', '-').replaceAll('.', ',').replaceAll('-','.') : '-'
+}
 const TablaAntecedentes = ({language}) => {
   const dispatch = useDispatch()
   const parseNumber = (valor) => {
     if (valor.replace(/[^0-9]+/g, "") === "") return ""
-    return parseInt(valor.replace(/[^0-9]+/g, "")).toLocaleString("de-DE")
+    return parseInt(valor.replace(/[^0-9]+/g, ""))
   }
   const sininfo =  language === 'es'? "Sin información" : 'No info'
 
@@ -45,7 +47,7 @@ const TablaAntecedentes = ({language}) => {
     [labelsColumna1[2], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: peces !== "" ? "transparent" : "var(--color-highlight)"}}
-      value={peces}
+      value={peces.toLocaleString(language === 'es' ? 'de-DE' : language)}
       onChange={(e) => {dispatch(guardarPeces(parseNumber(e.target.value)))}
       }
     />)],
@@ -62,11 +64,11 @@ const TablaAntecedentes = ({language}) => {
   ];
   const filasColumna2 = [
     [labelsColumna2[0], ta_coppmv],
-    [labelsColumna2[1], ta_inclusion],
+    [labelsColumna2[1], language === 'es' ? ta_inclusion: translateNumbers(ta_inclusion)],
     [labelsColumna2[2], (<input
       className="TablaAntecedentes__input"
       style={{backgroundColor: alimento !== "" ? "transparent" : "var(--color-highlight)"}}
-      value={alimento}
+      value={alimento.toLocaleString(language === 'es' ? 'de-DE' : language)}
       onChange={(e) => {dispatch(guardarAlimento(parseNumber(e.target.value)))}
       }
     />)],

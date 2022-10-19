@@ -13,7 +13,7 @@ import {
   eliminarComentario,
 } from "../../redux/ducks/comentarios";
 import { guardarComentarios } from "../../redux/ducks/reporteSeguimiento"
-import { getFechaInicio, meses } from "./utilitiesReporte";
+import { getFechaInicio, meses, months } from "./utilitiesReporte";
 import "./Reporte.css";
 import { REPORTE_ID_SEGUIMIENTO, REPORTE_NOMBRE_SEGUIMIENTO } from "../../helpers/reportes";
 import { generalTexts } from "./generalTexts";
@@ -28,11 +28,13 @@ const ReporteSeguimiento = ({language}) => {
     fechaFinal,
     divisionTemporal
   );
+
+  const listaMes = language === 'es' ? meses : months
   const fechaDatosInicial = `${
-    meses[fechaInicial.getMonth()]
+    listaMes[fechaInicial.getMonth()]
   } ${fechaInicial.getFullYear()}`;
   const fechaDatosFinal = `${
-    meses[fechaFinal.getMonth()]
+    listaMes[fechaFinal.getMonth()]
   } ${fechaFinal.getFullYear()}`;
   const fechaDatos = `${fechaDatosInicial} - ${fechaDatosFinal}`;
   useEffect(() => {

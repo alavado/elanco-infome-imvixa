@@ -66,7 +66,7 @@ const TablaMuestras = ({ language }) => {
                 ) : (
                   <p
                   >
-                    {muestra.toLocaleString("de-DE", {
+                    {muestra.toLocaleString(language === 'es' ? "de-DE" : 'en', {
                       maximumFractionDigits: 0,
                     })}
                   </p>
@@ -77,19 +77,19 @@ const TablaMuestras = ({ language }) => {
               {
                 <p
                 >
-                  {fila["prom"].toLocaleString("de-DE", {
+                  {fila["prom"].toLocaleString(language === 'es' ? "de-DE" : 'en', {
                     maximumFractionDigits: 0,
                   })}
                 </p>
               }
             </div>
             <div className="TablaMuestrasCentro__celda">
-              {fila["min"].toLocaleString("de-DE", {
+              {fila["min"].toLocaleString(language === 'es' ? "de-DE" : 'en', {
                 maximumFractionDigits: 0,
               })}
             </div>
             <div className="TablaMuestrasCentro__celda">
-              {fila["max"].toLocaleString("de-DE", {
+              {fila["max"].toLocaleString(language === 'es' ? "de-DE" : 'en', {
                 maximumFractionDigits: 0,
               })}
             </div>

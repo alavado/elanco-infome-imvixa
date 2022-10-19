@@ -35,6 +35,13 @@ const slice = createSlice({
       state.comentariosAlimento = {}
       state.preViz = false 
     },
+    limpiarComentarios(state) {
+      state.comentariosAlimento = {}
+      state.comentariosCentro = []
+      state.comentariosMusculo = []
+      state.comentarios = []
+      state.preViz = false 
+    },
     agregarComentarioMusculo(state, action) {
       state.preViz = false // se ha modificado
       const texto = action.payload
@@ -82,6 +89,7 @@ export const {
   agregarComentarioMusculo,
   eliminarComentarioMusculo,
   limpiarComentariosAlimento,
+  limpiarComentarios,
   agregarComentarioCentro,
   eliminarComentarioCentro,
   cargarComentariosAlimento,

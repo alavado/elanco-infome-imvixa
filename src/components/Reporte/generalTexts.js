@@ -7,12 +7,14 @@ export const generalTexts = {
     en: {
       titulo: 'Summary',
       filas: [
-        "Hatchery visits",
-        "Seasite visits",
-        "Hatchery sample size",
-        "Sea site sample size",
-        "Feed sample size",
-        ""
+        "N° hatchery visits",
+        "N° Sea sites visits",
+        "N° Fish analyzed at hatcheries",
+        "N° Fish analyzed at sea sites",
+        "N° Feed samples analyzed",
+        'N° Fish treated RAS',
+        'N° Fish treated – Flow through',
+        'N° Total fish treated'
       ]
     },
     es: {
@@ -57,7 +59,7 @@ export const generalTexts = {
   },
   gt_GraficoPecesTratados: {
     en: {
-      titulo: 'Number of fishes treated',
+      titulo: 'N° Fish treated',
       yaxis: 'Millions',
       sindatos: 'No data'
     },
@@ -69,7 +71,7 @@ export const generalTexts = {
   },
   gt_GraficoPesoPromedio: {
     en: {
-      titulo: 'Average fish weight (g) at treatment by hatchery',
+      titulo: 'Average weight (g) at treatment by hatchery',
       yaxis: 'Grams',
       sindatos: 'No data'
     },
@@ -81,8 +83,8 @@ export const generalTexts = {
   },
   gt_GraficoCumplimiento: {
     en: {
-      titulo: 'In-feed concentration achieved (%)  (achieved/targeted)',
-      yaxis: '% achievement',
+      titulo: 'Concentration in-feed achieved (%) (achieved / attempted)',
+      yaxis: '% of achievement',
       sindatos: 'No data',
       industria: 'Industry'
     },
@@ -95,14 +97,14 @@ export const generalTexts = {
   },
   gt_GraficoComparacion: {
     en: {
-      titulo: 'Concentration comparison in muscle (ppb)',
+      titulo: 'Fillet concentration (ppb) comparison',
       yaxis: 'Thousands',
       sindatos: 'No data',
       industria: 'Industry',
       empresa: 'Company'
     },
     es: {
-      titulo: 'Comparación concentración (ppb)',
+      titulo: 'Comparación concentración (ppb) en músculo',
       yaxis: 'Miles',
       sindatos: 'Sin datos disponibles en el periodo seleccionado',
       industria: 'Industria',
@@ -111,7 +113,7 @@ export const generalTexts = {
   },
   gt_GraficoConcentracionEnMusculo: {
     en: {
-      titulo: 'Post-treatment in muscle concentration [ug/kg]',
+      titulo: 'Post treatment concentration (ppb) in fillet',
       yaxis: 'Thousands',
       sindatos: 'No data',
       sd: 'no data'
@@ -124,7 +126,7 @@ export const generalTexts = {
     }
   },
   ResultadosConcentracion: {
-    en: 'Feed concentration and fresh water assessment',
+    en: 'In feed and fresh water concentration results',
     es: 'Resultado de concentración en alimento y agua dulce'
   },
   ResultadosEficacia: {
@@ -136,8 +138,8 @@ export const generalTexts = {
       cuadradito2: 'Imvixa + other' ,
       sb: 'Sin baño',
       titulo: 'Tiempo transcurrido (meses) entre la siembra y primer tratamiento contra caligidosis',
-      sindatos:'Sin datos de eficacia disponibles en los últimos 18 meses' ,
-      sd: 'sin datos',
+      sindatos:'No data available for the last 18 months' ,
+      sd: 'no data',
       meses: 'months',
       prind: 'Industry average',
       premp: 'Company average',
@@ -150,7 +152,7 @@ export const generalTexts = {
       sindatos:'Sin datos de eficacia disponibles en los últimos 18 meses' ,
       sd: 'sin datos',
       meses: 'meses',
-      prind: 'PromedioIndustria',
+      prind: 'Promedio Industria',
       premp: 'Promedio Empresa',
       nota: 'NOTA: Gráfico muestra eficacia de IMVIXA hasta el primer baño en centros que fueron tratados solo con IMVIXA; centros tratados con IMVIXA y otro producto antes del término de la eficacia de IMVIXA; y centros que aún no han recibido baños.'
     }

@@ -118,8 +118,8 @@ const Tratamientos = ({language}) => {
         {titulo}
       </div>
       <div className="Tratamientos__subtitulo">
-        {promedioIndustria ? <p><span className="Tratamientos__label_promedio">{prind}</span>: {promedioIndustria} {meses}</p> : null }
-        {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">{premp}</span>: {promedioEmpresa} {meses}</p> : null }
+        {promedioIndustria ? <p><span className="Tratamientos__label_promedio">{prind}</span>: {promedioIndustria.toLocaleString(language === 'es' ? 'de-DE' : 'en')} {meses}</p> : null }
+        {promedioEmpresa ? <p><span className="Tratamientos__label_promedio">{premp}</span>: {promedioEmpresa.toLocaleString(language === 'es' ? 'de-DE' : 'en')} {meses}</p> : null }
       </div>
       <div className="Tratamientos__contenedor_grafico">
         <div className="Tratamientos__leyenda">
@@ -151,7 +151,7 @@ const Tratamientos = ({language}) => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--imvixa"
             >
-              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           )})}
@@ -174,7 +174,7 @@ const Tratamientos = ({language}) => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--hexa"
             >
-              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           )})}
@@ -197,7 +197,7 @@ const Tratamientos = ({language}) => {
               style={{ height: `${100 * d.valor / yMaximo}%` }}
               className="Tratamientos__barra Tratamientos__barra--nada"
             >
-              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString('de-DE')}</div>
+              <div className="Tratamientos__valor_barra">{d.valor.toLocaleString(language === 'es' ? 'de-DE' : 'en')}</div>
               <div className="Tratamientos__etiqueta_barra">{d.nombre}</div>
             </div>
           )})}
