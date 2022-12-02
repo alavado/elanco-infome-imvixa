@@ -99,7 +99,7 @@ function trimKeys(anObject) {
 
 const checkAlimento = (wb) => {
   // abrir hoja Alimento
-  const sheetName = wb.SheetNames[0];
+  const sheetName = 'Alimentos';
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const alimentoJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],

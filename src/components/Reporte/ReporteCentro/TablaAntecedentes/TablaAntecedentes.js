@@ -31,6 +31,8 @@ const TablaAntecedentes = ({ language }) => {
     />
   ));
   const fechaVisita = new Date(fechaValor)
+  const lengthColumn = datosAntecedentes.length > 3 ? `${ 54 / (datosAntecedentes.length) }rem` : '16rem'
+  const inputLenght = datosAntecedentes.length > 3 ? `${ (54 / (datosAntecedentes.length))-1 }rem` : '15rem'
 
   const columnas = [
     labels,
@@ -42,6 +44,7 @@ const TablaAntecedentes = ({ language }) => {
         style={{
           backgroundColor:
             grupo[i] !== "" ? "transparent" : "var(--color-highlight)",
+          width: inputLenght
         }}
         value={grupo[i]}
         onChange={(e) => {
@@ -82,7 +85,7 @@ const TablaAntecedentes = ({ language }) => {
           style={{
             gridTemplate: `repeat(1, 1fr) / 20rem repeat(${
               columnas.length - 1
-            }, 16rem)`,
+            }, ${lengthColumn})`,
           }}
         >
           {columnas.map((columna, j) => (

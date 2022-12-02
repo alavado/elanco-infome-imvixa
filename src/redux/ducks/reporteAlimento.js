@@ -150,7 +150,7 @@ const slice = createSlice({
           .map((obj) => obj.data[colCumplimiento] * 100);
 
         let datosEmpresa = {
-          nombre: datoLote[colEmpresaAlimento],
+          nombre: `Industria ${datoLote[colEmpresaAlimento]}`,
           promedio: mean(cumplimientosEmpresa),
           ...iqrValues(cumplimientosEmpresa),
           max: Math.max(...cumplimientosEmpresa),

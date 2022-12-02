@@ -32,7 +32,7 @@ export const generalTexts = {
         "Feed lot ID",
         "Target concentration PMV [ppm]",
         "Number of kilos PMV [kg]",
-        "Caliber"
+        "Diet feed name"
       ]
     },
     es: {
@@ -46,7 +46,7 @@ export const generalTexts = {
         "Lote de alimento",
         "Concentración objetivo PMV (ppm)",
         "Cantidad Programada por receta (kg)",
-        "Calibre"
+        "Nombre de la dieta"
       ]
     }
   },
