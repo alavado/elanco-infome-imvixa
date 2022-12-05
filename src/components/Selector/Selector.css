@@ -10,12 +10,17 @@
   opacity: 1;
   background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, var(--color-azul) 5px ), repeating-linear-gradient( #2a3b5e55, var(--color-azul));
   overflow-x: auto;
+  font-size: 16px;
 }
 
 .Selector__contenedor {
   display: flex;
   flex-direction: column;
-  min-width: 34rem;
+  /* min-width: 34rem; */
+  min-height: 600px;
+  max-height: 800px;
+  width: 650px;
+  min-width: 650px;
   background-color: var(--color-fondo);
   box-shadow: 0 .2rem 1rem rgba(0, 0, 0, .25);
 }
@@ -25,7 +30,7 @@
   flex-direction: column;
   background-color: white;
   color: var(--color-azul);
-  padding: 1rem 2rem;
+  padding: 1em 2em;
 }
 
 
@@ -33,17 +38,17 @@
   display: flex;
   justify-content: space-between;
   font-size: 18px;
-  /* font-size: 0.8rem; */
+  /* font-size: 0.8em; */
   font-weight: bold;
   text-align: center;
   align-items: center;
 }
 
 .Selector__stepper_paso {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+  font-size: 1.8em;
+  margin-bottom: 1em;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5em;
   display: flex;
 }
 
@@ -52,19 +57,19 @@
   display: flex;
   flex: 3;
   flex-direction: column;
-  padding: 2rem;
+  padding: 2em;
   overflow-y: auto;
 }
 
 .Selector__logo_elanco {
-  width: 5rem;
-  bottom: .5rem;
-  right: 1rem;
+  width: 5em;
+  bottom: .5em;
+  right: 1em;
 }
 
 .Selector__logo_imvixa {
-  width: 6rem;
-  margin-right: 1rem;
+  width: 6em;
+  margin-right: 1em;
 }
 
 .logos {
@@ -72,32 +77,32 @@
 }
 
 .Selector__seccion {
-  margin-bottom: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 2em;
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
   justify-content: center;
-	gap: 3rem;
+	gap: 3em;
 }
 
 .Selector_boton {
   opacity: 1;
   transition: all .2s ease;
-  padding: .75rem 1.5rem;
-  font-size: 1.15rem;
+  padding: .75em 1.5em;
+  font-size: 1.15em;
   cursor: pointer;
   background: var(--color-f);
   border-radius: 9in;
   color: var(--color-e);
 	border: none;
 	outline: none;
-  margin-left: 1rem;
+  margin-left: 1em;
   cursor: pointer;
 }
 
 .Selector_boton:hover {
   filter: brightness(115%);
-  box-shadow: 0 .1rem .25rem rgba(0, 0, 0, .15);
+  box-shadow: 0 .1em .25em rgba(0, 0, 0, .15);
 }
 
 .Selector_boton--inactivo {

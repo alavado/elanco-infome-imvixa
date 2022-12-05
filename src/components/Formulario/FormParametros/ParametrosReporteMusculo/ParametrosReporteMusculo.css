@@ -2,8 +2,8 @@
 
 input[typeform="number"] {
   text-decoration: none;
-  width: 4rem;
-	font-size: 1rem;
+  width: 4em;
+	font-size: 1em;
   border: none;
 }
 
@@ -30,24 +30,24 @@ input[typeform="number"]:hover {
 }
 
 .FormParametros__parametro_label {
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
   background-color: white;
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: .25rem .5rem .25rem .25rem;
-  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
+  padding: .25em .5em .25em .25em;
+  box-shadow: 0 .1em .15em rgba(0, 0, 0, .05);
   border: 1px solid var(--color-gris-2);
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .FormParametros__parametro_label:hover {
-  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  box-shadow: 0 .1em .15em rgba(0, 0, 0, .10);
   /* border: 1px solid var(--color-gris-3); */
 }
 
 .FormParametros__parametro_label:focus {
-  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  box-shadow: 0 .1em .15em rgba(0, 0, 0, .10);
   border: 2px solid  var(--color-f) ;
   cursor: none;
 }
@@ -56,7 +56,7 @@ input[typeform="number"]:hover {
   display: flex;
   flex-direction: column;
   color: var(--color-gris-4);
-  margin-top: .5rem;
+  margin-top: .5em;
   position: relative;
 }
 
@@ -64,8 +64,8 @@ input[typeform="number"]:hover {
   background-color: var(--color-gris-1);
   color: var(--color-gris-4);
   display: inline-block;
-  padding: 0.5rem;
-	font-size: 1rem;
+  padding: 0.5em;
+	font-size: 1em;
   text-align: center;
-  margin-right: .5rem;
+  margin-right: .5em;
 }

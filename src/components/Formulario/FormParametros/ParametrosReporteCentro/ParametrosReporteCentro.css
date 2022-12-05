@@ -1,14 +1,14 @@
 .FormParametros__action {
 	display: flex;
 	justify-content: flex-end;
-	height: 1.5rem;
+	height: 1.5em;
 }
 
 .FormParametros__boton_config {
   transition: all .2s ease;
   display: flex;
   align-items: center;
-  font-size: 1.15rem;
+  font-size: 1.15em;
   cursor: pointer;
   background: none;
   border-radius: 9in;
@@ -17,7 +17,7 @@
 }
 
 .FormParametros__boton_config:hover {
-	font-size: 1.25rem;
+	font-size: 1.25em;
 	border: none;
 	outline: none;
 	filter: brightness(115%);

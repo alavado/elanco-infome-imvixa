@@ -1,8 +1,8 @@
 .FormIndustria {
   display: flex;
   flex-direction: column;
-  gap: .85rem;
-  margin-top: -1rem;
+  gap: .85em;
+  margin-top: -1em;
 }
 
 .FormIndustria__seccion {
@@ -12,26 +12,26 @@
 }
 
 .FormIndustria__seccion_label {
-  margin-bottom: 0rem;
+  margin-bottom: 0em;
 }
 
 .FormIndustria__seccion_descripcion {
-  font-size: 0.7rem;
-  line-height: 1rem;
+  font-size: 0.7em;
+  line-height: 1em;
   color: var(--color-gris-4);
 }
 
 .FormIndustria__label {
-  margin-right: .5rem;
-  margin-bottom: .25rem;
+  margin-right: .5em;
+  margin-bottom: .25em;
   color: black;
   position: absolute;
   z-index: 2;
-  top: calc((100% - 2rem) / 2); 
-  left: .25rem;
+  top: calc((100% - 2em) / 2); 
+  left: .25em;
   background: var(--color-gris-1);
-  padding: .25rem .25rem;
-  width: 4rem;
+  padding: .25em .25em;
+  width: 4em;
   color: 1px solid var(--color-gris-2);
   pointer-events: none;
   display: flex;
@@ -41,20 +41,20 @@
 
 .FormIndustria__parametros {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
 }
 
 .FormIndustria__parametro {
   display: flex;
   flex-direction: column;
   color: var(--color-gris-4);
-  margin-top: .5rem;
+  margin-top: .5em;
   position: relative;
 }
 
 input[typeform="locale-decimal"] {
   text-decoration: none;
-  width: 4rem;
+  width: 4em;
   border: none;
 }
 
@@ -81,19 +81,19 @@ input[typeform=locale-decimal]:hover {
 }
 
 .FormIndustria__parametro__label {
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
   background-color: white;
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: .25rem .5rem .25rem .25rem;
-  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .05);
+  padding: .25em .5em .25em .25em;
+  box-shadow: 0 .1em .15em rgba(0, 0, 0, .05);
   border: 1px solid var(--color-gris-2);
-  font-size: .75rem;
+  font-size: .75em;
 }
 
 .FormIndustria__parametro__label:hover {
-  box-shadow: 0 .1rem .15rem rgba(0, 0, 0, .10);
+  box-shadow: 0 .1em .15em rgba(0, 0, 0, .10);
   /* border: 1px solid var(--color-gris-3); */
   border: 1px solid  var(--color-b) ;
 }
@@ -102,8 +102,8 @@ input[typeform=locale-decimal]:hover {
   background-color: var(--color-gris-1);
   color: var(--color-gris-4);
   display: inline-block;
-  padding: 0.25rem;
-  width: 4rem;
+  padding: 0.25em;
+  width: 4em;
   text-align: center;
-  margin-right: .5rem;
+  margin-right: .5em;
 }
