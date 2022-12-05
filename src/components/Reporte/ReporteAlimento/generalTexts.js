@@ -53,11 +53,13 @@ export const generalTexts = {
   gt_GraficoCumplimiento: {
     en: {
       titulo: 'In-feed concentration achieved (%)  (achieved/targeted)',
-      textoEje: '% achieved'
+      textoEje: '% achieved',
+      sindatos: 'No data'
     },
     es: {
       titulo: 'Cumplimiento (%) concentración en alimento (logrado / intentado)',
-      textoEje: '% de cumplimiento'
+      textoEje: '% de cumplimiento',
+      sindatos: 'Sin datos'
     }
   },
   gt_Comentarios: {

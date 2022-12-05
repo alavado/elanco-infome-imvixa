@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { guardarRepCliente, guardarRepElanco, guardarRepVisita } from "../../../../redux/ducks/reporteMusculo";
 import "./CuadroResumen.css";
 import { generalTexts } from '../generalTexts';
+import { getFormatedDate } from "../../utilitiesReporte";
 
 
 const CuadroResumen = ({ language }) => {
@@ -37,7 +38,7 @@ const CuadroResumen = ({ language }) => {
       </div>
       <div className="CuadroResumen__elemento">
         <div className="CuadroResumen__label">{labels[2]}:</div>
-        <div className="CuadroResumen__value">{fechaValue}</div>
+        <div className="CuadroResumen__value">{getFormatedDate(fechaValue, language)}</div>
       </div>
       <div className="CuadroResumen__elemento">
         <div className="CuadroResumen__label">{labels[3]}:</div>

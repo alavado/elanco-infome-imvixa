@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
 import { colEstanquePeces, colInformePeces } from "../../../../constants";
 import { generalTexts } from '../generalTexts'
+import { getFormatedDate } from "../../utilitiesReporte";
 
 const TablaMuestras = ({ language }) => {
   const { datosPorInforme: datosEjercicio, fechaValor } = useSelector(
@@ -48,7 +49,7 @@ const TablaMuestras = ({ language }) => {
         {filas.map((fila, i) => (
           <div key={`tm-fila-${i}`} className="TablaMuestrasCentro__fila">
             <div className="TablaMuestrasCentro__celda">
-              <p>{fechaValor}</p>
+              <p>{getFormatedDate(fechaValor, language)}</p>
             </div>
             <div className="TablaMuestrasCentro__celda">
               <p>{fila[colInformePeces]}</p>

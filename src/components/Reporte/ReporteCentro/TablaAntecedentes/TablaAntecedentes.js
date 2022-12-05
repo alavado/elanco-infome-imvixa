@@ -56,7 +56,7 @@ const TablaAntecedentes = ({ language }) => {
       informe[colEstanquePeces].toLocaleString(language === 'es' ? 'de-DE' : 'en') ,
       fechas[i] && informe[colFechaTerminoTrat] ? formatDistance(fechas[i], new Date(informe[colFechaTerminoTrat]), language === 'es' ? {locale: es} : {}) : language === 'es'? "Sin información" : 'No info',
       <DatePicker
-        locale="es"
+        locale= {language}
         customInput={<ExampleCustomInput />}
         selected={fechas[i]}
         onChange={(date) => {
@@ -65,7 +65,7 @@ const TablaAntecedentes = ({ language }) => {
           dispatch(guardarFechas(copiaFechas))
         }}
         maxDate={fechaVisita}
-        dateFormat="dd/MM/yyyy"
+        dateFormat="dd-MMM-yyyy"
         className="FormParametros__datepicker"
       />,
       fechas[i] ? formatDistance(fechas[i], fechaVisita, language === 'es' ? {locale:es} : {}) : language === 'es'? "Sin información" : 'No info',

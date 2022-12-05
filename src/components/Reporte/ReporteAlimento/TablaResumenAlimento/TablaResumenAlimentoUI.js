@@ -1,4 +1,5 @@
 import React from "react";
+import { getFormatedDate } from "../../utilitiesReporte";
 import { generalTexts } from "../generalTexts";
 import "./TablaResumenAlimento.css";
 
@@ -8,11 +9,13 @@ const translateNumbers = (v) => {
 
 const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lote, objetivo, programa, calibre, language }) => {
   const { titulo, filas } = generalTexts.gt_TablaResumen[language]
+
+  
   const filasCompletas = [
     [filas[0], informe],
     [filas[1], piscicultura],
     [filas[2], planta],
-    [filas[3], fecha],
+    [filas[3], getFormatedDate(fecha, language)],
     [filas[4], pmv],
     [filas[5],lote],
     [filas[6], objetivo.toLocaleString(language === 'es' ? "de-DE" : 'en', {

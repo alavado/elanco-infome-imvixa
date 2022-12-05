@@ -32,7 +32,12 @@ const GraficoCumplimiento = ({ language }) => {
     datos.reduce((min, v) => Math.min(min, v.min), Infinity)
   );
   let tick = Math.pow(10, Math.floor(Math.log10(vMin)));
-  if (tick <= 0) {
+  console.log({
+    vMax,
+    vMin,
+    tick
+  })
+  if (tick <= 0 || tick > 30) {
     tick = 10;
   }
   let yMax = Math.max(100, 10 * Math.ceil(vMax / tick));

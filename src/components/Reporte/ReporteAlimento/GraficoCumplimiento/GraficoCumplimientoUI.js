@@ -3,7 +3,7 @@ import { generalTexts } from "../generalTexts";
 import "./GraficoCumplimiento.css";
 
 const GraficoCumplimientoUI = ({ datos, language }) => {
-  const { titulo, textoEje } = generalTexts.gt_GraficoCumplimiento[language]
+  const { titulo, textoEje, sindatos } = generalTexts.gt_GraficoCumplimiento[language]
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
   const vMin = Math.floor(
@@ -39,46 +39,71 @@ const GraficoCumplimientoUI = ({ datos, language }) => {
             </div>
           ))}
         </div>
-        {datos.map((d) => (
-          <div
-            key={`caja-cc-${d.nombre}`}
-            className="GraficoCumplimientoAl__contenedor_caja"
-          >
-            <div
-              className="GraficoCumplimientoAl__bigote"
-              style={{
-                "--porcentaje-top": `${
-                  ((yMax - d.max) / (yMax - yMin)) * 100
-                }%`,
-                height: `${((d.max - d.min) / (yMax - yMin)) * 100}%`,
-              }}
-            />
-            <div
-              className="GraficoCumplimientoAl__caja"
-              style={{
-                "--porcentaje-bottom": `${Math.max(
-                  0,
-                  ((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) *
-                    100
-                )}%`,
-                "--porcentaje-top": `${
-                  ((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) *
-                  100
-                }%`,
-              }}
-            >
-              {d.promedio.toLocaleString(language, {
-                maximumFractionDigits: 1,
-                minimumFractionDigits: 1,
-              })}
-            </div>
-            <div className="GraficoCumplimientoAl__etiqueta_caja">
-              {d.nombre.split(" ").map((n, i) => (
-                <div key={`${d.nombre}-${i}`}>{n}</div>
-              ))}
-            </div>
-          </div>
-        ))}
+        {
+          datos.map((d) => {
+            if (d.promedio || d.promedio !== 0) {
+              return (
+              <div
+                key={`caja-cc-${d.nombre}`}
+                className="GraficoCumplimientoAl__contenedor_caja"
+              >
+                <div
+                  className="GraficoCumplimientoAl__bigote"
+                  style={{
+                    "--porcentaje-top": `${
+                      ((yMax - d.max) / (yMax - yMin)) * 100
+                    }%`,
+                    height: `${((d.max - d.min) / (yMax - yMin)) * 100}%`,
+                  }}
+                />
+                <div
+                  className="GraficoCumplimientoAl__caja"
+                  style={{
+                    "--porcentaje-bottom": `${Math.max(
+                      0,
+                      ((d.mediana - d.iqrMitadInferior - yMin) / (yMax - yMin)) *
+                        100
+                    )}%`,
+                    "--porcentaje-top": `${
+                      ((yMax - d.iqrMitadSuperior - d.mediana) / (yMax - yMin)) *
+                      100
+                    }%`,
+                  }}
+                >
+                  {d.promedio.toLocaleString(language, {
+                    maximumFractionDigits: 1,
+                    minimumFractionDigits: 1,
+                  })}
+                </div>
+                <div className="GraficoCumplimientoAl__etiqueta_caja">
+                  {d.nombre.split(" ").map((n, i) => (
+                    <div key={`${d.nombre}-${i}`}>{n}</div>
+                  ))}
+                </div>
+              </div>
+            )
+            } else {
+              return (
+                <div
+                key={`caja-cc-${d.nombre}`}
+                className="GraficoCumplimiento__contenedor_caja"
+              >
+                <div
+                  className="GraficoCumplimientoAl__si"
+                >
+                  {sindatos}
+                </div>
+                <div className="GraficoCumplimiento__etiqueta_caja">
+                  {d.nombre.split(" ").map((n, i) => (
+                    <div key={`${d.nombre}-${i}`}>{n}</div>
+                  ))}
+                </div>
+              </div>
+              )
+            }
+          }
+        )
+      }
       </div>
     </div>
   );

@@ -118,7 +118,6 @@ const slice = createSlice({
 
       const lotes = state.lotesSeleccionados.map((lote, index) => {
         const datoLote = lote.data
-        const fecha = datoLote[colFechaAlimento].toString().substring(0,10)
         const programa = datoLote[colCantidadProgramadaAlimento] ? datoLote[colCantidadProgramadaAlimento].toLocaleString("de-DE", {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
@@ -253,7 +252,7 @@ const slice = createSlice({
           pmv: datoLote[colRecetaAlimento],
           lote: datoLote[colLoteAlimento],
           objetivo: datoLote[colConcentracionObjetivo],
-          fecha,
+          fecha: datoLote[colFechaAlimento],
           programa,
           calibre,
           datos: [...datos],

@@ -8,6 +8,16 @@ export const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 export const months = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"
 ]
+
+// Retorna la fecha en formato DD-MMM-YYYY
+export const getFormatedDate = (dateString, language) => {
+  const date = new Date(dateString)
+  if (language === 'es') {
+    return `${date.getUTCDate()}-${meses[date.getUTCMonth()].slice(0,3)}-${date.getUTCFullYear()}`
+  }
+  return `${date.getUTCDate()}-${months[date.getUTCMonth()].slice(0,3)}-${date.getUTCFullYear()}`
+}
+
 // Retorna un arreglo de nDivisiones elementos, con los datos
 // del mes actual y los meses anteriores en orden cronologico
 const dividirEnM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
