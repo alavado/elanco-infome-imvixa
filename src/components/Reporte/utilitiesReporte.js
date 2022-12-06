@@ -27,7 +27,7 @@ const dividirEnM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
   const labels = []
   for (var i = 0; i < nDivisiones; i++) {
     labels.unshift(`M${mesActual+1} ${fechaActual.getFullYear()}`)
-    meses.unshift(datos.filter(obj => new Date(obj[colFecha]).getMonth() === mesActual))
+    meses.unshift(datos.filter(obj => new Date(obj[colFecha]).getMonth() === mesActual && new Date(obj[colFecha]).getFullYear() === fechaActual.getFullYear()))
     fechaActual = new Date(fechaActual.getFullYear(), mesActual, 0);
     mesActual = fechaActual.getMonth()
   }
@@ -407,7 +407,7 @@ const getFechaNAnterior = (fechaFinal, nMeses, mesesFinales) => {
 // Obtiene la fecha de inicio en que se filtran los datos
 // consderando las últimas N_DIVISIONES temporales
 export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
-  if (fechaInicial !== null) return fechaInicial;
+  // if (fechaInicial !== null) return fechaInicial;
   let mesesPorPeriodo
   let fechaNAnterior
   let mesesFinales
@@ -415,7 +415,7 @@ export const getFechaInicio = (fechaInicial, fechaFinal, divisionTemporal) => {
     case 'mensual':
       mesesPorPeriodo = 1
       mesesFinales = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-      fechaNAnterior = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth()-N_DIVISIONES, 1)
+      fechaNAnterior = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth()-(N_DIVISIONES-1), 1)
       break
     case 'trimestral':
       mesesPorPeriodo = 3

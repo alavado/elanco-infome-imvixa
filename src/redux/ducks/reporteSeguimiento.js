@@ -147,6 +147,15 @@ const slice = createSlice({
         state.fechaInicio,
         state.fechaFinal
       )
+      const esteAño = new Date(state.fechaFinal).getFullYear()
+      const añoPasado = esteAño - 1
+      const fecha2años = new Date(`01-01-${añoPasado}`)
+      const datosAlimento2Años = filtrarDatosAlimento(
+        datosAlimento,
+        state.nombreEmpresa,
+        fecha2años,
+        state.fechaFinal
+      )
       state.datosFiltradosAlimento = datosFiltradosAlimento
       const datosFiltradosIndustriaAlimento = filtrarDatosAlimento(
         datosAlimento,
@@ -193,6 +202,12 @@ const slice = createSlice({
       )
       state.datosFiltradosPeces = datosFiltradosPeces
 
+      const datosFiltradosPeces2Años = filtrarDatosPeces(
+        datosPeces,
+        state.nombreEmpresa,
+        fecha2años,
+        state.fechaFinal
+      )
       const datosFiltradosIndustriaPeces = filtrarDatosPeces(
         datosPeces,
         "Todas",
@@ -203,19 +218,17 @@ const slice = createSlice({
 
       state.procesandoParaExportar = true
       // Filas tabla resumen
-      const esteAño = new Date(state.fechaFinal).getFullYear()
-      const añoPasado = esteAño - 1
       // Separar datos por año
       const datosAñoPasado = {
-        alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
-        peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
-        pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado)),
+        alimento: datosAlimento2Años.filter(obj => esAño(obj[colFechaAlimento], añoPasado)),
+        peces: datosFiltradosPeces2Años.filter(obj => esAño(obj[colFechaPeces], añoPasado)),
+        // pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], añoPasado)),
         pmvSinFiltro: datosPecesTratados2.filter(obj => esAño(obj[colFechaPMV], añoPasado)),
       }
       const datosAñoActual = {
-        alimento: datosFiltradosAlimento.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
-        peces: datosFiltradosPeces.filter(obj => esAño(obj[colFechaPeces], esteAño)),
-        pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño)),
+        alimento: datosAlimento2Años.filter(obj => esAño(obj[colFechaAlimento], esteAño)),
+        peces: datosFiltradosPeces2Años.filter(obj => esAño(obj[colFechaPeces], esteAño)),
+        // pmv: datosFiltradosPecesTratados.filter(obj => esAño(obj[colFechaPMV], esteAño)),
         pmvSinFiltro: datosPecesTratados2.filter(obj => esAño(obj[colFechaPMV], esteAño))
       }
 
@@ -279,6 +292,11 @@ const slice = createSlice({
           datosAñoActual.pmvSinFiltro.reduce((prev, curr) => Math.round(reemplazarNullPorCero(curr[colNPecesPMV])) + prev, 0)
         ]
       ]
+
+      console.log({
+        filasTablaResumen,
+
+      })
       state.filasTablaResumen = filasTablaResumen
 
       // GraficoPecesTratados
