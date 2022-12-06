@@ -136,7 +136,7 @@ function construirMenu() {
   });
   menuItemImprimir = new MenuItem({
     label: "Exportar reporte a PDF",
-    click: reporteAPDF,
+    click: resizePreExport,
     enabled: viendoReporte,
   });
   menuItemIdioma = new MenuItem({
@@ -159,7 +159,11 @@ function createWindow() {
   );
   mainWindow = new BrowserWindow({
     width: 1024,
-    height: 680,
+    height: 800,
+    maxWidth: 1920,
+    minWidth: 800,
+    maxHeight: 1080,
+    minHeight: 680,
     show: false,
     icon: "public/icono.png",
     webPreferences: {
@@ -176,7 +180,7 @@ function createWindow() {
   );
   isDev && mainWindow.webContents.openDevTools();
   mainWindow.once("ready-to-show", () => {
-    mainWindow.maximize();
+    // mainWindow.maximize();
     mainWindow.show();
   });
   mainWindow.webContents.once("did-finish-load", () => {
@@ -203,6 +207,18 @@ app.on("activate", () => {
 });
 
 const uuidv4 = require("uuid/v4")
+
+let saveSize
+const resizePreExport = async () => {
+  saveSize = mainWindow.getSize()
+  mainWindow.setSize(1424, 778)
+  mainWindow.webContents.send("ReRenderPreExport")
+}
+
+ipcMain.on("ReRenderPreExport", async () => {
+  await reporteAPDF()
+  mainWindow.setSize(saveSize[0], saveSize[1])
+})
 
 const reporteAPDF = async () => {
   try {
@@ -237,7 +253,7 @@ const reporteAPDF = async () => {
         break
       default:
         console.log("imprimirReporteSeguimiento")
-        imprimirReporteSeguimiento().then((value) => {
+        await imprimirReporteSeguimiento().then((value) => {
           console.log("REPORTE IMPRESO");
           mainWindow.webContents.send("reporteSeguimientoImpreso")
         },(err) => {
@@ -245,7 +261,6 @@ const reporteAPDF = async () => {
         })
         break
     }
-    
   } catch (err) {
     console.log("NO SE HA IMPRESO EL REPORTE: ", err);
   }

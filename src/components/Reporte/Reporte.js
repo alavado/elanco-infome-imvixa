@@ -12,6 +12,9 @@ const Reporte = () => {
   const { reporte, language } = useSelector((state) => state.parametrosGenerales);
   useEffect(() => {
     ipcRenderer.send('viendoReporte', reporte.id)
+    ipcRenderer.on('ReRenderPreExport', (e) => {
+      new Promise(resolve => setTimeout(() => ipcRenderer.send('ReRenderPreExport'), 500))
+    });
     return () => ipcRenderer.send('yaNoViendoReporte')
   }, [reporte])
 
