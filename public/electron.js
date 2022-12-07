@@ -56,8 +56,11 @@ let lotes;
 let configFile = null
 let appUserDataPath = app.getPath('userData');
 const configRootPath = path.join(appUserDataPath, 'config.json');
-
-console.log({appUserDataPath});
+let exportPath = path.join(app.getPath('home'), 'Elanco', 'ASISTENCIA TECNICA - Documents','17.- IMVIXA','1.- Reportes Ceres')
+if (!fs.existsSync(exportPath)) {
+  exportPath = app.getPath("desktop")
+}
+console.log({appUserDataPath, exportPath});
 
 try {
   configFile = JSON.parse(fs.readFileSync(configRootPath, 'utf-8'));
@@ -315,29 +318,36 @@ const guardarRegistro = async (datosRegistro) => {
 
 const imprimirReporteAlimento = async () => {
   try {
-  console.log({numeroDeLotes, nombreEmpresa})
-  let data;
-  for (let index = 0; index < numeroDeLotes; index++) {
-    data = await mainWindow.webContents.printToPDF({
-      printBackground: true,
-      marginsType: 1,
-      pageSize: {
-        width: 25400 * 50.0,
-        height: 25400 * 66.42,
-      },
-      pageRanges: {
-        from: index,
-        to: index,
-      },
-    });
-    const hoy = new Date().toISOString().substring(0,10);
-    const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${lotes[index]}-${hoy}-${reporteUID}${index}.pdf`
-    fs.writeFileSync(
-      path.join(app.getPath("desktop"), titulo), 
-      data)
-    await electron.shell.openPath(
-      path.join(app.getPath("desktop"), titulo))
-  }
+    console.log({numeroDeLotes, nombreEmpresa})
+    let data;
+    for (let index = 0; index < numeroDeLotes; index++) {
+      data = await mainWindow.webContents.printToPDF({
+        printBackground: true,
+        marginsType: 1,
+        pageSize: {
+          width: 25400 * 50.0,
+          height: 25400 * 66.42,
+        },
+        pageRanges: {
+          from: index,
+          to: index,
+        },
+      });
+      const newToday = new Date()
+      const hoy = newToday.toISOString().substring(0,10);
+      const titulo = `Reporte de concentración en alimento-${nombreEmpresa}-${lotes[index]}-${hoy}-${reporteUID}${index}.pdf`
+      const directoryPath = path.join(exportPath, nombreEmpresa, '1.- Reportes alimento', newToday.getFullYear().toString())
+      try {
+        await fs.promises.mkdir(directoryPath, { recursive: true })
+        fs.promises.writeFile(
+          path.join(directoryPath, titulo), 
+          data)
+        await electron.shell.openPath(
+          path.join(directoryPath, titulo))
+      } catch (error) {
+        console.error(error)
+      }
+    }
   } catch (err) {
     throw err
   }
@@ -357,77 +367,90 @@ const imprimirReporteMusculo = async () => {
         to: numeroDePaginas - 1,
       },
     });
-
-    const hoy = new Date().toISOString().substring(0,10);
+    const newToday = new Date()
+    const hoy = newToday.toISOString().substring(0,10);
     const titulo = `Reporte de concentración en músculo-${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
-    fs.writeFileSync(
-      path.join(app.getPath("desktop"), titulo), 
-      data
-    );
+    const directoryPath = path.join(exportPath, nombreEmpresa, '2.- Reportes Musculo y piel', newToday.getFullYear().toString())
+    await fs.promises.mkdir(directoryPath, { recursive: true })
+    fs.promises.writeFile(
+      path.join(directoryPath, titulo), 
+      data)
     await electron.shell.openPath(
-      path.join(app.getPath("desktop"), titulo)
-    );
+      path.join(directoryPath, titulo))
   } catch (err) {
+    console.error(err)
     throw err
   }
 };
 
 const imprimirReporteCentro = async () => {
-  const data = await mainWindow.webContents.printToPDF({
-    printBackground: true,
-    marginsType: 1,
-    pageSize: {
-      width: 25400 * 50.0,
-      height: 25400 * 66.42,
-    },
-    pageRanges: {
-      from: 0,
-      to: numeroDePaginas - 1,
-    },
-  });
-
-  const hoy = new Date().toISOString().substring(0,10);
-  const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
-  fs.writeFileSync(
-    path.join(app.getPath("desktop"), titulo), 
-    data
-  );
-  await electron.shell.openPath(
-    path.join(app.getPath("desktop"), titulo)
-  );
+  try {
+    const data = await mainWindow.webContents.printToPDF({
+      printBackground: true,
+      marginsType: 1,
+      pageSize: {
+        width: 25400 * 50.0,
+        height: 25400 * 66.42,
+      },
+      pageRanges: {
+        from: 0,
+        to: numeroDePaginas - 1,
+      },
+    });
+    const newToday = new Date()
+    const hoy = newToday.toISOString().substring(0,10);
+    const titulo = `Reporte de seguimiento por centro-${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
+    const directoryPath = path.join(exportPath, nombreEmpresa, '3.- Reportes seguimiento por centro de  mar', newToday.getFullYear().toString())
+    await fs.promises.mkdir(directoryPath, { recursive: true })
+    fs.promises.writeFile(
+      path.join(directoryPath, titulo), 
+      data)
+    await electron.shell.openPath(
+      path.join(directoryPath, titulo))
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+  
 };
 
 const imprimirReporteSeguimiento = async () => {
-  const graficoEficacia = estadosGraficos.find(
-    (g) => g.id === "GRAFICO_EFICACIA"
-  );
-  const graficoMapa = estadosGraficos.find(
-    (g) => g.id === "GRAFICO_MACROZONAS"
-  );
-  const graficosSegundaPaginaVisibles =
-    graficoEficacia.visible || graficoMapa.visible;
-  const imprimirDosPaginas = graficosSegundaPaginaVisibles || hayComentarios;
-  const data = await mainWindow.webContents.printToPDF({
-    printBackground: true,
-    marginsType: 1,
-    pageSize: {
-      width: 25400 * 50.0,
-      height: 25400 * 66.42,
-    },
-    pageRanges: {
-      from: 0,
-      to: imprimirDosPaginas ? 1 : 0,
-    },
-  });
-  const hoy = new Date().toISOString().substring(0,10);
-  const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
-  fs.writeFileSync(
-    path.join(app.getPath("desktop"), titulo),
-    data
-  );
-  await electron.shell.openPath(
-    path.join(app.getPath("desktop"), titulo)
-  );
+  try {
+    const graficoEficacia = estadosGraficos.find(
+      (g) => g.id === "GRAFICO_EFICACIA"
+    );
+    const graficoMapa = estadosGraficos.find(
+      (g) => g.id === "GRAFICO_MACROZONAS"
+    );
+    const graficosSegundaPaginaVisibles =
+      graficoEficacia.visible || graficoMapa.visible;
+    const imprimirDosPaginas = graficosSegundaPaginaVisibles || hayComentarios;
+    const data = await mainWindow.webContents.printToPDF({
+      printBackground: true,
+      marginsType: 1,
+      pageSize: {
+        width: 25400 * 50.0,
+        height: 25400 * 66.42,
+      },
+      pageRanges: {
+        from: 0,
+        to: imprimirDosPaginas ? 1 : 0,
+      },
+    });
+    const newToday = new Date()
+    const hoy = newToday.toISOString().substring(0,10);
+    const titulo = `Reporte de seguimiento Imvixa -${nombreEmpresa}-${hoy}-${reporteUID}.pdf`
+    const directoryPath = path.join(exportPath, nombreEmpresa, '4.- Reporte seguimiento', newToday.getFullYear().toString())
+    await fs.promises.mkdir(directoryPath, { recursive: true })
+    fs.promises.writeFile(
+      path.join(directoryPath, titulo), 
+      data)
+    await electron.shell.openPath(
+      path.join(directoryPath, titulo))
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 };
 
 ipcMain.on("leerRegistro", async () => {
