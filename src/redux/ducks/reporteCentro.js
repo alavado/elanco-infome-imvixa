@@ -544,7 +544,7 @@ const slice = createSlice({
       state.repElanco = repElanco
       state.repCliente = repCliente
       state.repVisita = repVisita
-      state.fechas = fechas.map(v => new Date(v))
+      state.fechas = fechas.map(v => v === '' ? '' : new Date(v))
       state.grupos = grupos
     }
   },

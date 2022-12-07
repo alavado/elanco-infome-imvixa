@@ -12,6 +12,11 @@ import {
   esAño,
   contarPMVSiEs} from "./utilities"
 
+const parseFloatParam = (v) => {
+  if (v) return parseFloat(v.toString().replace(".", "").replace(",", "."))
+  return v
+}
+
 const today = new Date()
 const cumplimientoMax = localStorage.getItem("cumplimientoIndustriaMax")
 const cumplimientoMin = localStorage.getItem("cumplimientoIndustriaMin")
@@ -29,20 +34,20 @@ const slice = createSlice({
     fechaInicio: null,
     fechaFinal: new Date(today.getFullYear(), today.getMonth(), 0),
     cumplimiento: {
-      min: cumplimientoMin ? cumplimientoMin : "",
-      max: cumplimientoMax ? cumplimientoMax : "",
+      min: parseFloatParam(cumplimientoMin),
+      max: parseFloatParam(cumplimientoMax),
       q2: "",
       q3: "",
       q4: "",
       prom: "",
     },
     concentracion: {
-      min: concentracionMin ? concentracionMin : "",
-      max: concentracionMax ? concentracionMax : "",
-      q2: concentracion25 ? concentracion25 : "",
-      q3: concentracion50 ? concentracion50 : "",
-      q4: concentracion75 ? concentracion75 : "",
-      prom: concentracionProm ? concentracionProm : "",
+      min: parseFloatParam(concentracionMin),
+      max: parseFloatParam(concentracionMax),
+      q2: parseFloatParam(concentracion25),
+      q3: parseFloatParam(concentracion50),
+      q4: parseFloatParam(concentracion75),
+      prom: parseFloatParam(concentracionProm),
     },
     procesandoParaExportar: false,
     datosFiltradosAlimento: null,

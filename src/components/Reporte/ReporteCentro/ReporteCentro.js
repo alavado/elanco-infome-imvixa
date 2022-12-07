@@ -64,7 +64,7 @@ const ReporteCentro = ({ language }) => {
     repElanco,
     repCliente,
     repVisita,
-    fechas,
+    fechas: fechas.map(f => f === '' ? '' : f.toISOString()),
     grupos
   }
 
@@ -75,7 +75,7 @@ const ReporteCentro = ({ language }) => {
         tipoID: REPORTE_ID_CENTRO,
         fecha: today.toISOString(),
         empresa: empresa,
-        datos 
+        datos
       })
     });
   }, [datos, empresa]);
