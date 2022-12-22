@@ -466,7 +466,7 @@ const slice = createSlice({
           promedio: cumplimiento.prom !== "" ? cumplimiento.prom : mean(cumplimientosIndustria),
           ...iqrValues(cumplimientosIndustria),
           max: cumplimiento.max !== "" ? cumplimiento.max : Math.max(...cumplimientosIndustria),
-          min: cumplimiento.min !== "" ? cumplimiento.min : Math.min(...cumplimientosIndustria),
+          min: cumplimiento.min !== "" ? Math.max(cumplimiento.min, Math.min(...cumplimientosIndustria)) : Math.min(...cumplimientosIndustria),
         }
       
         if (cumplimiento.q2 !== "") {

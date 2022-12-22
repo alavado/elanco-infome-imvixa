@@ -8,7 +8,7 @@ import {
 import "./TablaAntecedentes.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
-import { formatDistance } from 'date-fns'
+import { formatDistanceStrict } from 'date-fns'
 import { generalTexts } from '../generalTexts';
 import { guardarFechas, guardarGrupos } from "../../../../redux/ducks/reporteCentro";
 
@@ -54,7 +54,7 @@ const TablaAntecedentes = ({ language }) => {
         }}
       />,
       informe[colEstanquePeces].toLocaleString(language === 'es' ? 'de-DE' : 'en') ,
-      fechas[i] && informe[colFechaTerminoTrat] ? formatDistance(fechas[i], new Date(informe[colFechaTerminoTrat]), language === 'es' ? {locale: es} : {}) : language === 'es'? "Sin información" : 'No info',
+      fechas[i] && informe[colFechaTerminoTrat] ? formatDistanceStrict(fechas[i], new Date(informe[colFechaTerminoTrat]), language === 'es' ? {locale: es, unit: 'day'} : {unit: 'day'}) : language === 'es'? "Sin información" : 'No info',
       <DatePicker
         locale= {language}
         customInput={<ExampleCustomInput />}
@@ -68,7 +68,7 @@ const TablaAntecedentes = ({ language }) => {
         dateFormat="dd-MMM-yyyy"
         className="FormParametros__datepicker"
       />,
-      fechas[i] ? formatDistance(fechas[i], fechaVisita, language === 'es' ? {locale:es} : {}) : language === 'es'? "Sin información" : 'No info',
+      fechas[i] ? formatDistanceStrict(fechas[i], fechaVisita, language === 'es' ? {locale:es, unit: 'day'} : {unit: 'day'}) : language === 'es'? "Sin información" : 'No info',
       informe[colUTAs] ? informe[colUTAs].toLocaleString(language === 'es' ? 'de-DE' : 'en') : language === 'es'? "Sin información" : 'No info'
     ]}),
   ];

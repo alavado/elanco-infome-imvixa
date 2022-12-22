@@ -31,7 +31,7 @@ export const generalTexts = {
         "Prescription (PMV)",
         "Feed lot ID",
         "Target concentration PMV [ppm]",
-        "Number of kilos PMV [kg]",
+        "Total feed produced PMV [kg]",
         "Diet feed name"
       ]
     },

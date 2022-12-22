@@ -27,7 +27,7 @@ const GraficoComparacion = ({language}) => {
         {titulo}
       </p>
       <div className="GraficoComparacion__contenedor_grafico">
-        <p className="GraficoComparacion__etiqueta_eje_y" style={{left: language === 'es'? '-4rem' : '-5rem'}}>{yaxis}</p>
+        <p className="GraficoComparacion__etiqueta_eje_y" style={{left: language === 'es'? '-5.5rem' : '-6.5rem'}}>{yaxis}</p>
 				<div className="GraficoComparacion__contenedor_lineas">
           {yLineas.map((y) => (
             <div key={`compc-lineay-${y}`} className="GraficoComparacion__linea">

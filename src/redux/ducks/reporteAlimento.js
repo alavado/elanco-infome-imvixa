@@ -31,7 +31,6 @@ const slice = createSlice({
     lotesTotales: [],
     datosFiltradosAlimento: null,
     datosLotes: null,
-    datosSinFiltrar: null,
     procesandoParaExportar: false,
     filtros: [], // colEmpresaAlimento, colFechaAlimento, colPisciculturaAlimento
     lotes: [],
@@ -169,7 +168,7 @@ const slice = createSlice({
               : Math.max(...cumplimientosPlantaIndustria),
           min:
             cumplimiento.min !== ""
-              ? cumplimiento.min
+              ? Math.max(cumplimiento.min, Math.min(...cumplimientosPlantaIndustria))
               : Math.min(...cumplimientosPlantaIndustria),
         };
 
@@ -265,7 +264,6 @@ const slice = createSlice({
       state.fechaReporte = new Date().toISOString()
     },
     cargarDatosAlimento(state, action) {
-      state.datosSinFiltrar = action.payload;
       const opciones = action.payload.map(v => {
         return { value: v[colLoteAlimento], label: v[colLoteAlimento], data: {...v}};
       });

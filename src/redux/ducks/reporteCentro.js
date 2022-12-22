@@ -153,22 +153,23 @@ const slice = createSlice({
 
     procesarReporteCentro(state, action) {
       state.procesando = true;
-      // Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
+      // 1. Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
       const datosTratamientoDestino = state.datosTratamiento.filter(
         (v) => v[colCentro] === state.centro.value
       );
-
+      // 2
       const informesTratamientoDestino = datosTratamientoDestino.map(
-        (f) => f[colInformePecesTrat] || f[colInformePecesRTrat]
-      );
+        (f) =>  (f[colInformePecesTrat] !== "-" && f[colInformePecesTrat]) || f[colInformePecesRTrat]
+      ).filter(v => v && v !== "-");
 
-      // Primer Join Tratamiento-Peces incluye todos los potenciales cruces
+      // 3. Primer Join Tratamiento-Peces incluye todos los potenciales cruces
       const datosPecesTratamientoDestino = state.datosPeces.filter(
         (v) =>
           informesTratamientoDestino.includes(v[colInformePeces]) ||
           informesTratamientoDestino.includes(v[colInformePecesR])
       );
-      // Ya filtre por centro, para asegurar filtro por empresa y fecha
+
+      // 4. Ya filtre por centro, para asegurar filtro por empresa y fecha
       const datosTratEjercicio = datosTratamientoDestino.filter(
         (v) =>
           v[colSampleOriginTrat] === tipoSeaWater &&
@@ -263,7 +264,7 @@ const slice = createSlice({
         return {
           ...datos,
           muestras,
-          prom,
+          prom: prom ? prom : '-',
           cv,
           min,
           max,
@@ -277,14 +278,14 @@ const slice = createSlice({
           datosFWSW,
           datosTratFWSW,
           [colFechaTerminoTrat]: fechasLastTrat.length === 0  ? undefined : minDate(fechasLastTrat),
-          [colEstanquePeces]: datosJoin[0][colEstanquePeces]
+          [colEstanquePeces]: datosJoin.length === 0 ? '-' : datosJoin[0][colEstanquePeces]
         };
       });
       const lotesAsociados = new Set();
       const plantasAsociadas = new Set();
       const datosAlimentosAsociados = [];
 
-      // Filtro los informes de FW
+      // 6. Filtro los informes de FW
       datosTratamientoDestino
         .filter((fila) =>
           setInformesFW.has(

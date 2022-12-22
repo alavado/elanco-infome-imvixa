@@ -84,7 +84,7 @@ const GraficoCumplimiento = ({ lote: datoLote, index }) => {
         : Math.max(...cumplimientosPlantaIndustria),
     min:
       cumplimiento.min !== ""
-        ? cumplimiento.min
+        ? Math.max(cumplimiento.min, Math.min(...cumplimientosPlantaIndustria))
         : Math.min(...cumplimientosPlantaIndustria),
   };
 

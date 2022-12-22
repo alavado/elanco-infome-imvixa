@@ -40,7 +40,7 @@ export const generalTexts = {
         "In-feed inclusion rate (%)",
         "Feed intake (kg)",
         "Treatment starting date",
-        "Treating ending date",
+        "Treatment ended date",
         "Photoperiod starting date",
         "Site of destination"
       ]
@@ -81,14 +81,14 @@ export const generalTexts = {
   },
   gt_GraficoComparacion: {
     en: {
-      titulo: 'Concentration comparison (ppb) in muscle',
+      titulo: 'Concentration in muscle/skin per unit',
       xaxis: 'Tanks',
-      yaxis: 'Thousands'
+      yaxis: 'Thousands (ppb)'
     },
     es: {
-      titulo: 'Comparación concentración (ppb) en músculo',
+      titulo: 'Concentración en músculo/piel por estanque',
       xaxis: 'Estanque',
-      yaxis: 'Miles'
+      yaxis: 'Miles (ppb)'
     }
   },
   gt_TablaMuestras: {

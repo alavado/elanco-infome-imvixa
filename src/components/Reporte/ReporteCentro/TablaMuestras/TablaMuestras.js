@@ -35,6 +35,9 @@ const TablaMuestras = ({ language }) => {
     maxHeight: `calc(${nFilas + 1} * 3.5rem)`,
   };
 
+  console.log({
+    datosEjercicio
+  })
   return (
     <div className="TablaMuestrasCentro" style={style0}>
       <p className="TablaMuestrasCentro__titulo">

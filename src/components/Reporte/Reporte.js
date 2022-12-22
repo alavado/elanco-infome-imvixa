@@ -15,7 +15,10 @@ const Reporte = () => {
     ipcRenderer.on('ReRenderPreExport', (e) => {
       new Promise(resolve => setTimeout(() => ipcRenderer.send('ReRenderPreExport'), 500))
     });
-    return () => ipcRenderer.send('yaNoViendoReporte')
+    return () => {
+      ipcRenderer.removeAllListeners('ReRenderPreExport')
+      ipcRenderer.send('yaNoViendoReporte')
+    }
   }, [reporte])
 
   if (reporte) {

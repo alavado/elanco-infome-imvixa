@@ -1,7 +1,7 @@
 export const generalTexts = {
   seccion1: {
     es: 'I. Resumen de resultados obtenidos en alimento medicado y medicación de agua dulce',
-    en: 'I. Summary of results obtained in medicated feed and Freshwater medication'
+    en: 'I. Summary of results obtained in medicated feed and Freshwater treatment'
   },
   gt_CuadroResumen: { 
     en: {
@@ -28,10 +28,10 @@ export const generalTexts = {
         "Origin",
         "Group",
         "Cages sampled",
-        "Stay at FW",
-        "Dates of transferred to sea",
-        "Days of production at sample date",
-        "Dd at sample",
+        "Time in FW from treatment",
+        "Date of transferred to sea",
+        "Production days at sampling",
+        "Dd at sampling",
       ],
 
     },
@@ -74,7 +74,7 @@ export const generalTexts = {
   },
   gt_TablaMuestras: {
     en: {
-      titulo: 'II.	Concentration results obtained on sea site follow-up simples',
+      titulo: 'II.	Concentration results obtained on sea site follow-up samples',
       headers: [
         'Date sample',
         'Report ID',
@@ -107,7 +107,7 @@ export const generalTexts = {
       jaula: 'Jaula'
     },
     en: {
-      titulo: 'Depletion curve vs. weight',
+      titulo: 'Depletion curve, Conc. vs Weight',
       sindatos: 'No data for the period selected',
       yaxis:'Imvixa muscle and skin concentration (ppb)',
       xaxis: 'Weight (g)',
@@ -125,7 +125,7 @@ export const generalTexts = {
       jaula: 'Jaula'
     },
     en: {
-      titulo: 'Depletion curve vs. Dd',
+      titulo: 'Depletion curve, Conc. vs Degree days',
       sindatos: 'No data for the period selected',
       yaxis: 'Imvixa muscle and skin concentration (ppb)',
       xaxis: 'Degree days',

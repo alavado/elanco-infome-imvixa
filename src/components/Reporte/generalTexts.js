@@ -87,7 +87,7 @@ export const generalTexts = {
   },
   gt_GraficoCumplimiento: {
     en: {
-      titulo: 'Concentration in-feed achieved (%) (achieved / attempted)',
+      titulo: 'Concentration in-feed achieved (%) (achieved / target)',
       yaxis: '% of achievement',
       sindatos: 'No data',
       industria: 'Industry'
@@ -140,14 +140,14 @@ export const generalTexts = {
   gt_Tratamiento: {
     en: {
       cuadradito2: 'Imvixa + other' ,
-      sb: 'Sin baño',
-      titulo: 'Tiempo transcurrido (meses) entre la siembra y primer tratamiento contra caligidosis',
+      sb: 'No baths',
+      titulo: 'Time from transferred (months) to first delousing treatment',
       sindatos:'No data available for the last 18 months' ,
       sd: 'no data',
       meses: 'months',
       prind: 'Industry average',
       premp: 'Company average',
-      nota: 'NOTA: Gráfico muestra eficacia de IMVIXA hasta el primer baño en centros que fueron tratados solo con IMVIXA; centros tratados con IMVIXA y otro producto antes del término de la eficacia de IMVIXA; y centros que aún no han recibido baños.'
+      nota: 'NOTE: Graphs shows efficacy period until first rescued treatment in sea sites that were only treated with Imvixa; sites treated with Imvixa and other delousing alternative before the efficacy period of Imvixa and sea sites that are not yet rescued treated.'
     },
     es: {
       cuadradito2: 'Imvixa + otro' ,
@@ -170,9 +170,9 @@ export const generalTexts = {
     },
     en: {
       macrozona: 'Macrozone',
-      titulo: 'Protección histórica promedio industria registrada por IMVIXA por macrozona (datos desde 2016)',
-      leyenda1: (nombreEmpresa) => `Macrozona sin centros de ${nombreEmpresa}`,
-      leyenda2: (nombreEmpresa) => `Macrozona con centros de ${nombreEmpresa}`,
+      titulo: 'Industry historical efficacy average (months) recorded for Imvixa per macrozones, (data since 2016).',
+      leyenda1: (nombreEmpresa) => `Macrozone without ${nombreEmpresa} sea sites`,
+      leyenda2: (nombreEmpresa) => `Macrozone with ${nombreEmpresa} sea sites`,
       
     }
   },
