@@ -14,7 +14,7 @@ import {
 
 const parseFloatParam = (v) => {
   if (v) return parseFloat(v.toString().replace(".", "").replace(",", "."))
-  return v
+  return ""
 }
 
 const today = new Date()
