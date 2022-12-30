@@ -372,20 +372,23 @@ const slice = createSlice({
           try {
             const thisDate = new Date(fila[colFechaPeces]);
             if (
-              compareAsc(thisDate, unAñoAtras) &&
-              compareAsc(minFechasPeces, thisDate)
-            )
+              compareAsc(thisDate, unAñoAtras) >= 0 &&
+              compareAsc(minFechasPeces, thisDate) > 0
+            ) {
               if (fila[colEmpresaPeces] === state.nombreEmpresa.label) {
                 comparacionEmpresa.push(fila[colPPB] / 1000);
               } else {
                 comparacionIndustria.push(fila[colPPB] / 1000);
               }
+            }
           } catch (error) {
             console.log(error);
           }
         }
       });
-    
+      console.log({
+        infsbajos: [...setInf]
+      })
       const datosEmpresa = {
         nombre: state.nombreEmpresa.label,
         promedio: mean(comparacionEmpresa),

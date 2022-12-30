@@ -17,12 +17,12 @@ const TablaResumenAlimentoUI = ({ informe, piscicultura, planta, fecha, pmv, lot
     [filas[2], planta],
     [filas[3], getFormatedDate(fecha, language)],
     [filas[4], pmv],
-    [filas[5],lote],
+    [filas[5], lote],
     [filas[6], objetivo.toLocaleString(language === 'es' ? "de-DE" : 'en', {
       maximumFractionDigits: 0,
       minimumFractionDigits: 0,
     })],
-    [filas[7], programa && programa !== '-' ? translateNumbers(programa) : '-'],
+    [filas[7], programa && programa !== '-' ? language === 'es' ? programa : translateNumbers(programa) : '-'],
     [filas[8], calibre],
   ];
   return (
