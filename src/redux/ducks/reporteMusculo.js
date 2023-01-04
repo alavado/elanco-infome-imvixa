@@ -412,8 +412,13 @@ const slice = createSlice({
         min: Math.min(...valuesLote),
       };
     });
+
+    if (datosEmpresa.promedio) {
+      state.datosGCumpl =[...datosPlantaIndustria, datosEmpresa, ...datosPorLote]
+    } else {
+      state.datosGCumpl =[...datosPlantaIndustria, ...datosPorLote]
+    }
   
-    state.datosGCumpl =[...datosPlantaIndustria, datosEmpresa, ...datosPorLote]
     },
     guardarComentarios(state, action) {
       state.comentarios = action.payload;

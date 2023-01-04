@@ -21,8 +21,8 @@
 }
 
 .GraficoCumplimiento__titulo::before {
-  width: 3rem;
-  height: 2rem;
+  width: 3.8em;
+  height: 1.7rem;
   content: '';
   background: var(--color-amarillo);
   display: block;

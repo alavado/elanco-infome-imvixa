@@ -22,8 +22,8 @@
 }
 
 .TablaMuestras__titulo::before {
-  width: 2rem;
-  height: 2rem;
+  width: 1.7em;
+  height: 1.7em;
   content: '';
   background: var(--color-amarillo);
   display: block;

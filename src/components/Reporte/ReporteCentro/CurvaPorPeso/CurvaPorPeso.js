@@ -92,7 +92,7 @@ const CurvaPorPeso = ({language}) => {
 
   if (!allInfo) {
     return (
-      <div className="CurvaPorUTAs">
+      <div className="CurvaPorUTAs" style={{ marginTop: 12, position: "relative", width: "40vw", height: "35vw" }}>
         <p className="CurvaPorUTAs__titulo">{titulo}</p>
         <div className="CurvaPorUTAs__contenedor_grafico">
           <div className="CurvaPorUTAs__contenedor_grafico__error">

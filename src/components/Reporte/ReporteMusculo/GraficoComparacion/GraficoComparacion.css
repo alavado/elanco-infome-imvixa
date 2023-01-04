@@ -5,6 +5,7 @@
   margin-top: 2rem;
   justify-content: space-between;
 	max-width: 50%;
+  min-width: 45%;
   --color-titulo-seccion: var(--color-azul);
 }
 
@@ -18,12 +19,12 @@
   gap: 1rem;
   width: 100%;
   grid-area: 1 / 1 / 2 / 4;
-  min-width: 300px;
+  min-width: 500px;
 }
 
 .GraficoComparacion__titulo::before {
-  width: 2rem;
-  height: 2rem;
+  width: 1.7em;
+  height: 1.7em;
   content: '';
   background: var(--color-amarillo);
   display: block;

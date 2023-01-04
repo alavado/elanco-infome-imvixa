@@ -20,9 +20,9 @@
   grid-area: 1 / 1 / 2 / 4;
 }
 
-.GraficoCumplimiento__titulo::before {
-  width: 2rem;
-  height: 2rem;
+.GraficoCumplimientoMus__titulo::before {
+  width: 1.7em;
+  height: 1.7em;
   content: '';
   background: var(--color-amarillo);
   display: block;

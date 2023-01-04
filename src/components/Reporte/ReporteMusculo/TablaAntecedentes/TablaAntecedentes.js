@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { guardarAlimento, guardarEstanques, guardarGrupo, guardarPeces } from "../../../../redux/ducks/reporteMusculo";
 import "./TablaAntecedentes.css";
 import { generalTexts } from '../generalTexts';
-import { getFormatedDate } from "../../utilitiesReporte";
+import { getFormatedDate2 } from "../../utilitiesReporte";
 const translateNumbers = (v) => {
   return v ? v.toString().replaceAll(',', '-').replaceAll('.', ',').replaceAll('-','.') : '-'
 }
@@ -34,6 +34,10 @@ const TablaAntecedentes = ({language}) => {
   const { gt_TablaAntecedentes } = generalTexts
   const labelsColumna1 = gt_TablaAntecedentes[language].columna1
   const labelsColumna2 = gt_TablaAntecedentes[language].columna2
+  console.log({
+    ta_fini,
+    ta_fterm
+  })
   const filasColumna1 = [
     [labelsColumna1[0], ta_pmv],
     [labelsColumna1[1], (<input
@@ -71,9 +75,9 @@ const TablaAntecedentes = ({language}) => {
       onChange={(e) => {dispatch(guardarAlimento(parseNumber(e.target.value)))}
       }
     />)],
-    [labelsColumna2[3], ta_fini === 'Sin información' ? sininfo : getFormatedDate(ta_fini, language)],
-    [labelsColumna2[4], ta_fterm === 'Sin información' ? sininfo : getFormatedDate(ta_fterm, language)],
-    [labelsColumna2[5], ta_foto === 'Sin información' ? sininfo : ta_foto],
+    [labelsColumna2[3], ta_fini === 'Sin información' ? sininfo : ta_fini.split(' - ').map(v => getFormatedDate2(v, language)).join(' - ')],
+    [labelsColumna2[4], ta_fterm === 'Sin información' ? sininfo : ta_fterm.split(' - ').map(v => getFormatedDate2(v, language)).join(' - ')],
+    [labelsColumna2[5], ta_foto === 'Sin información' ? sininfo : ta_foto.split(' - ').map(v => getFormatedDate2(v, language)).join(' - ')],
     [labelsColumna2[6], ta_cd],
   ];
   return (

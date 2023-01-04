@@ -38,5 +38,6 @@
 .ReporteMusculo__seccion {
   display: flex;
   min-height: 80%;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: 2rem;
 }

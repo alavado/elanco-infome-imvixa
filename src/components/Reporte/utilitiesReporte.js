@@ -1,3 +1,4 @@
+import { parse, isValid } from 'date-fns'
 import { colEficaciaEficacia, colFechaEficacia, colPPB } from "../../constants"
 
 const N_DIVISIONES = 5
@@ -18,6 +19,20 @@ export const getFormatedDate = (dateString, language) => {
   return `${date.getUTCDate()}-${months[date.getUTCMonth()].slice(0,3)}-${date.getUTCFullYear()}`
 }
 
+// Retorna la fecha en formato DD-MMM-YYYY desde DD-MM-YYYY
+export const getFormatedDate2 = (dateString, language) => {
+  let date = parse(dateString, 'dd-MM-yyyy', new Date())
+  if (!isValid(date)) {
+    date = parse(dateString, 'yyyy-MM-dd', new Date())
+    if (!isValid(date)) {
+      return dateString
+    }
+  }
+  if (language === 'es') {
+    return `${date.getUTCDate()}-${meses[date.getUTCMonth()].slice(0,3)}-${date.getUTCFullYear()}`
+  }
+  return `${date.getUTCDate()}-${months[date.getUTCMonth()].slice(0,3)}-${date.getUTCFullYear()}`
+}
 // Retorna un arreglo de nDivisiones elementos, con los datos
 // del mes actual y los meses anteriores en orden cronologico
 const dividirEnM = (datos, colFecha, fechaFinReporte, nDivisiones) => {
