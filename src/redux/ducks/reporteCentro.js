@@ -386,9 +386,6 @@ const slice = createSlice({
           }
         }
       });
-      console.log({
-        infsbajos: [...setInf]
-      })
       const datosEmpresa = {
         nombre: state.nombreEmpresa.label,
         promedio: mean(comparacionEmpresa),
