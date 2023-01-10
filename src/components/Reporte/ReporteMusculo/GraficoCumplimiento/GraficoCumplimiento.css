@@ -8,16 +8,17 @@
   --color-titulo-seccion: var(--color-azul);
 }
 
-.GraficoCumplimiento__titulo {
+.GraficoCumplimientoMus__titulo {
   color: var(--color-gris-4);
   margin-bottom: 2rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bold;
   line-height: 1.15;
   display: flex;
   gap: 1rem;
   width: 100%;
   grid-area: 1 / 1 / 2 / 4;
+  white-space: pre-line;
 }
 
 .GraficoCumplimientoMus__titulo::before {

@@ -14,7 +14,7 @@ const GraficoCumplimiento = ({language}) => {
   if (datos.length === 0) {
     return (
       <div className="GraficoCumplimiento">
-        <p className="GraficoCumplimiento__titulo">
+        <p className="GraficoCumplimientoMus__titulo">
           {titulo}
         </p>
         <div className="GraficoCumplimiento__contenedor_grafico">

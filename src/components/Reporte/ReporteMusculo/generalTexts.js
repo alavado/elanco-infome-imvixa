@@ -74,7 +74,7 @@ export const generalTexts = {
       sindatos: 'No data available for selected period'
     },
     es: {
-      titulo: 'Cumplimiento (%) concentración en alimento (logrado / intentado)',
+      titulo: 'Cumplimiento (%) concentración en alimento\n (logrado / intentado)',
       yaxis: '% de cumplimiento',
       sindatos: 'Sin datos disponibles para el periodo seleccionado'
     }

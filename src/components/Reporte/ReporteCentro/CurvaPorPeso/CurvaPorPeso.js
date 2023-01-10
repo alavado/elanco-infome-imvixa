@@ -105,8 +105,9 @@ const CurvaPorPeso = ({language}) => {
 
   const minXAprox = 0;
   const maxXAprox = Math.max(...setXValues) * 1.05;
-  const xMiddleValues = [...Array(40).keys()].map(v => minXAprox + (25 * v))
-  const xGeneralValues = [minXAprox,...xMiddleValues, maxXAprox];
+  const xMiddleValues = [...Array(40).keys()].slice(1).map(v => minXAprox + (25 * v))
+  const maxMiddleValues = Math.max(...xMiddleValues)
+  const xGeneralValues = [minXAprox,...xMiddleValues, Math.max(maxXAprox, maxMiddleValues + 25)];
   const {aInf, coefInf, aEst, coefEst, aSup, coefSup} = parametrosGraficoPeso
   // Inf
   const twoPointsInf = xGeneralValues.map((x) => aInf * Math.pow(x, coefInf));
