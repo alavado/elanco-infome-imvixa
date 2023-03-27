@@ -58,7 +58,10 @@ let appUserDataPath = app.getPath('userData');
 const configRootPath = path.join(appUserDataPath, 'config.json');
 let exportPath = path.join(app.getPath('home'), 'Elanco', 'ASISTENCIA TECNICA - Documents','17.- IMVIXA','1.- Reportes Ceres')
 if (!fs.existsSync(exportPath)) {
-  exportPath = app.getPath("desktop")
+  exportPath = path.join(app.getPath('home'), 'OneDrive - Elanco', 'Documentos - ASISTENCIA TECNICA','17.- IMVIXA','1.- Reportes Ceres')
+  if (!fs.existsSync(exportPath)) {
+    exportPath = app.getPath("desktop")
+  }
 }
 console.log({appUserDataPath, exportPath});
 
