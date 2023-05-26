@@ -6,13 +6,13 @@ import { generalTexts } from '../generalTexts';
 
 const GraficoCumplimiento = ({ language }) => {
   const {
-    datosGraficoCumplimiento: datos
+    datosGraficoCumplimiento: datosReadOnly
   } = useSelector((state) => state.reporteCentro);
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
-  const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
+  const { titulo, yaxis, sindatos, disclaimer } = gt_GraficoCumplimiento[language]
 
-  if (datos.length === 0) {
+  if (datosReadOnly.length === 0) {
     return (
       <div className="GraficoCumplimiento">
         <p className="GraficoCumplimiento__titulo">
@@ -26,6 +26,15 @@ const GraficoCumplimiento = ({ language }) => {
       </div>
     );
   }
+
+  const datos = [...datosReadOnly.map(v => {return {...v}})]
+
+  datos[0]['nombre'] = language === 'es' ? 'Industria' : 'Industry'
+  console.log({
+    datosReadOnly,
+    datos
+  })
+
 
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const vMin = Math.floor(
@@ -67,10 +76,10 @@ const GraficoCumplimiento = ({ language }) => {
             </div>
           ))}
         </div>
-        {datos.map((d) => {
+        {datos.map((d, i) => {
           if (d.promedio) {
             return (<div
-              key={`caja-cc-${d.nombre}`}
+              key={`caja-cc-${d.nombre}-${i}`}
               className="GraficoCumplimiento__contenedor_caja"
             >
               <div
@@ -127,6 +136,7 @@ const GraficoCumplimiento = ({ language }) => {
             )
           }
         })}
+        <div class="disclaimer">{disclaimer}</div>
       </div>
     </div>
   );

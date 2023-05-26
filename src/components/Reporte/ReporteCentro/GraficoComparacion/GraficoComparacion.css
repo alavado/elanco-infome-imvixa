@@ -181,3 +181,11 @@
   text-align: center;
   align-self: center;
 }
+
+.disclaimer {
+  position: absolute;
+  bottom: -3.25rem;
+  font-size: .85rem;
+  color: var(--color-gris-4);
+  font-weight: 300;
+}

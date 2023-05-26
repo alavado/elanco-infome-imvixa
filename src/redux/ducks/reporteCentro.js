@@ -503,7 +503,15 @@ const slice = createSlice({
           max: Math.max(...cumplimientosEmpresa),
           min: Math.min(...cumplimientosEmpresa),
         };
-        state.datosGraficoCumplimiento = [datosEmpresaCumplimiento, ...cumplimientosPorPlanta]; //datosIndustria,, ...datosPorLote];
+
+        const datosIndustriaCumplimiento = {
+          nombre: language === 'es' ? "Industria" : "Industry",
+          promedio: mean(cumplimientosIndustria),
+          ...iqrValues(cumplimientosIndustria),
+          max: Math.max(...cumplimientosIndustria),
+          min: Math.min(...cumplimientosIndustria),
+        };
+        state.datosGraficoCumplimiento = [datosIndustriaCumplimiento, datosEmpresaCumplimiento, ...cumplimientosPorPlanta];
       }
       state.grupos = newDatosPorInforme.map((v) => "")
       state.fechas = newDatosPorInforme.map((v) => "")

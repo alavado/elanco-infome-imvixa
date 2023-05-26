@@ -9,7 +9,7 @@ const GraficoComparacion = ({ language }) => {
     datosGraficoComparacion: datosReadOnly,
   } = useSelector((state) => state.reporteCentro);
   const { gt_GraficoComparacion } = generalTexts
-  const { titulo, yaxis, sindatos } = gt_GraficoComparacion[language]
+  const { titulo, yaxis, sindatos, disclaimer } = gt_GraficoComparacion[language]
 
   if (datosReadOnly.length === 2) {
     return (
@@ -118,6 +118,7 @@ const GraficoComparacion = ({ language }) => {
             </div>
           </div>
         )})}
+        <div class="disclaimer">{disclaimer}</div>
       </div>
     </div>
   );

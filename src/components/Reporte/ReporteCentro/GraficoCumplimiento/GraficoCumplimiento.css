@@ -138,6 +138,14 @@
   height: 2rem;
 }
 
+.disclaimer {
+  position: absolute;
+  bottom: -3.25rem;
+  font-size: .85rem;
+  color: var(--color-gris-4);
+  font-weight: 300;
+}
+
 .GraficoCumplimiento__bigote {
   width: .1725rem;
   height: 100%;

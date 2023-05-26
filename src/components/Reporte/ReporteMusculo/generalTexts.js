@@ -71,12 +71,14 @@ export const generalTexts = {
     en: {
       titulo: 'In-feed concentration achieved (%) (achieved/targeted)',
       yaxis: '% achievement',
-      sindatos: 'No data available for selected period'
+      sindatos: 'No data available for selected period',
+      disclaimer: 'The graph shows data from the last 12 months.'
     },
     es: {
       titulo: 'Cumplimiento (%) concentración en alimento\n (logrado / intentado)',
       yaxis: '% de cumplimiento',
-      sindatos: 'Sin datos disponibles para el periodo seleccionado'
+      sindatos: 'Sin datos disponibles para el periodo seleccionado',
+      disclaimer: 'El gráfico muestra datos de los últimos 12 meses.'
     }
   },
   gt_GraficoComparacion: {

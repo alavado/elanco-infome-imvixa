@@ -52,24 +52,28 @@ export const generalTexts = {
     en: {
       titulo: 'In-feed concentration [mg/kg], (according to lot and feed mill), used in hatcheries from origin and tanks transferred to sea site for monitoring and follow-up',
       yaxis: '% achievement',
-      sindatos: 'No data'
+      sindatos: 'No data',
+      disclaimer: 'The graph shows data from the last 12 months.'
     },
     es: {
       titulo: 'Concentración (mg/kg) en alimento medicado según planta de alimento correspondiente al lote utilizado en pisciculturas de origen',
       yaxis: '% de cumplimiento',
-      sindatos: 'Sin datos'
+      sindatos: 'Sin datos',
+      disclaimer: 'El gráfico muestra datos de los últimos 12 meses.'
     }
   },
   gt_GraficoComparacion: {
     en: {
       titulo: 'Concentration comparison in muscle by hatchery of origin [ug/kg]',
       yaxis: 'Thousands',
-      sindatos: 'No data'
+      sindatos: 'No data',
+      disclaimer: 'The graph shows data from the last 12 months.'
     },
     es: {
       titulo: 'Concentración (ug/kg) en músculo post tratamiento según piscicultura de origen',
       yaxis: 'Miles',
-      sindatos: 'Sin datos'
+      sindatos: 'Sin datos',
+      disclaimer: 'El gráfico muestra datos de los últimos 12 meses.'
     }
   },
   gt_TablaMuestras: {

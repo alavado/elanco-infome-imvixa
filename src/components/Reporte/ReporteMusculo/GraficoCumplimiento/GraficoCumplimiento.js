@@ -9,7 +9,7 @@ const GraficoCumplimiento = ({language}) => {
   } = useSelector((state) => state.reporteMusculo);
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
-  const { titulo, yaxis, sindatos } = gt_GraficoCumplimiento[language]
+  const { titulo, yaxis, sindatos, disclaimer } = gt_GraficoCumplimiento[language]
 
   if (datos.length === 0) {
     return (
@@ -101,6 +101,7 @@ const GraficoCumplimiento = ({language}) => {
             </div>
           </div>
         ))}
+        <div class="disclaimer">{disclaimer}</div>
       </div>
     </div>
   );
