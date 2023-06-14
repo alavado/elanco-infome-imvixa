@@ -136,7 +136,7 @@ const GraficoCumplimiento = ({ language }) => {
             )
           }
         })}
-        <div class="disclaimer">{disclaimer}</div>
+        <div className="disclaimer">{disclaimer}</div>
       </div>
     </div>
   );

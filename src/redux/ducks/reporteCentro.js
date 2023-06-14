@@ -442,11 +442,12 @@ const slice = createSlice({
           });
         }
       });
-    
+      
       datosPisciculturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
       datos.push(...datosPisciculturas);
       state.datosGraficoComparacion = datos
       // Grafico cumplimiento
+      const { cumplimiento } = action.payload;
       // Agrupar por planta los lotes del ejercicio
       if (lotesAsociados.size === 0) {
         state.datosGraficoCumplimiento = []
@@ -503,13 +504,15 @@ const slice = createSlice({
           max: Math.max(...cumplimientosEmpresa),
           min: Math.min(...cumplimientosEmpresa),
         };
-
         const datosIndustriaCumplimiento = {
           nombre: language === 'es' ? "Industria" : "Industry",
           promedio: mean(cumplimientosIndustria),
           ...iqrValues(cumplimientosIndustria),
-          max: Math.max(...cumplimientosIndustria),
-          min: Math.min(...cumplimientosIndustria),
+          max: cumplimiento.max !== ""
+          ? cumplimiento.max
+          : Math.max(...cumplimientosIndustria),
+          min: cumplimiento.min !== ""
+          ? Math.max(cumplimiento.min, Math.min(...cumplimientosIndustria)) : Math.min(...cumplimientosIndustria),
         };
         state.datosGraficoCumplimiento = [datosIndustriaCumplimiento, datosEmpresaCumplimiento, ...cumplimientosPorPlanta];
       }

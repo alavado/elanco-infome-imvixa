@@ -118,7 +118,7 @@ const GraficoComparacion = ({ language }) => {
             </div>
           </div>
         )})}
-        <div class="disclaimer">{disclaimer}</div>
+        <div className="disclaimer">{disclaimer}</div>
       </div>
     </div>
   );

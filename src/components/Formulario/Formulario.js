@@ -243,7 +243,7 @@ const Formulario = () => {
                   qCondition &&
                   minCondition
                 ) {
-                  dispatch(procesarReporteCentro({concentracion, language}));
+                  dispatch(procesarReporteCentro({concentracion, language, cumplimiento}));
                 }
                 break;
             default:

@@ -212,7 +212,7 @@ app.on("activate", () => {
   }
 });
 
-const uuidv4 = require("uuid/v4")
+const { v4: uuidv4 } = require('uuid');
 
 let saveSize
 const resizePreExport = async () => {
