@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./TablaMuestras.css";
-import { colEstanquePeces, colInformePeces } from "../../../../constants";
+import { colEstanquePeces, colInformePeces, colInformePecesR } from "../../../../constants";
 import { generalTexts } from '../generalTexts'
 import { getFormatedDate } from "../../utilitiesReporte";
 
@@ -55,7 +55,7 @@ const TablaMuestras = ({ language }) => {
               <p>{getFormatedDate(fechaValor, language)}</p>
             </div>
             <div className="TablaMuestrasCentro__celda">
-              <p>{fila[colInformePeces]}</p>
+              <p>{fila[colInformePecesR] || fila[colInformePeces]}</p>
             </div>
             <div className="TablaMuestrasCentro__celda">
               <p>{fila[colEstanquePeces]}</p>
@@ -65,7 +65,7 @@ const TablaMuestras = ({ language }) => {
                 key={`TablaMuestrasCentro-celda-${i}-${j}`}
                 className="TablaMuestrasCentro__celda"
               >
-                {muestra === "-" ? (
+                {(muestra === "-" || !muestra) ? (
                   muestra
                 ) : (
                   <p

@@ -37,7 +37,9 @@ const headerAlimentos = [
   "Calibre",
 ];
 const estadoAlimento = headerAlimentos[0];
+const estadoPeces = 'Status';
 const headerPecesHojaImvixa = [
+  "Status",
   "Sampling date",
   "Elanco id.",
   "Company",
@@ -195,11 +197,11 @@ const checkPecesHojaImvixa = (path) => {
   if (!headerPecesHojaImvixa.every((element) => headerTrimmed.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias");
   }
-  // const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
-  // if (pecesJsonReportado.length < 1) {
-  //   throw Error("Hoja Peces no tiene datos válidos")
-  // }
-  return pecesJson; // pecesJsonReportado
+  const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
+  if (pecesJsonReportado.length < 1) {
+    throw Error("Hoja Peces no tiene datos válidos")
+  }
+  return pecesJsonReportado;
 };
 
 const checkEficacia = (wb) => {
