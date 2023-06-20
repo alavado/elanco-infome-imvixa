@@ -232,10 +232,10 @@ const slice = createSlice({
             informesFWSW.includes(v[colInformePecesR])
         );
         const muestras = datosJoin.map((v) => v[colPPB]);
-        const prom = mean(muestras);
-        const cv = Math.round((std(muestras) / prom) * 10000) / 100;
-        const min = Math.min(...muestras);
-        const max = Math.max(...muestras);
+        const prom = mean(muestras.filter(v => v));
+        const cv = Math.round((std(muestras.filter(v => v)) / prom) * 10000) / 100;
+        const min = Math.min(...muestras.filter(v => v));
+        const max = Math.max(...muestras.filter(v => v));
         const resultado =
           prom >= state.umbral && cv <= 30
             ? 2

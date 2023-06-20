@@ -66,7 +66,7 @@ const TablaMuestras = ({ language }) => {
                 className="TablaMuestrasCentro__celda"
               >
                 {(muestra === "-" || !muestra) ? (
-                  muestra
+                  "-"
                 ) : (
                   <p
                   >
