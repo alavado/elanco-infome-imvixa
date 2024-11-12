@@ -105,9 +105,9 @@ const checkAlimento = (wb) => {
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const alimentoJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
-    (header = headerJson),
-    (range = 2)
+    {header: headerJson, skipHidden: true, range: 2}
   ).map(row => trimKeys(row));
+
   // Revisar que tenga datos
   if (alimentoJson.length < 1) {
     throw Error("Hoja Alimento no tiene datos");
@@ -138,13 +138,8 @@ const checkPecesHojaTratamiento = (path) => {
     );
   }
   // abrir hoja BD Trat
-  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Trat'});
-  const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("trat"));
-  if (!sheetName) {
-    throw Error(
-      "Hoja de registro de tratamientos no encontrada: el nombre de la hoja debe incluir 'trat'"
-    );
-  }
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: checkSheetName});
+  const sheetName = checkSheetName
   const headerJSON = get_header_row(wb.Sheets[sheetName]);
   const tratJSON = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -164,7 +159,10 @@ const checkPecesHojaTratamiento = (path) => {
 };
 
 const checkPecesHojaImvixa = (path) => {
+  console.time('checkPecesHojaImvixa read')
   wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
+  console.timeEnd('checkPecesHojaImvixa read')
+  console.time('checkPecesHojaImvixa validate sheet')
   const checkSheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("imvixa")
     );
@@ -173,15 +171,15 @@ const checkPecesHojaImvixa = (path) => {
       "Hoja de registro BD Imvixa no encontrada: el nombre de la hoja debe incluir 'imvixa'"
     );
   }
-  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Imvixa'});
-  const sheetName = wb.SheetNames.find((v) =>
-    v.toLowerCase().includes("imvixa")
-  );
-  if (!sheetName) {
-    throw Error(
-      "Hoja de registro BD Imvixa no encontrada: el nombre de la hoja debe incluir 'imvixa'"
-    );
-  }
+  console.timeEnd('checkPecesHojaImvixa validate sheet')
+
+  console.time('checkPecesHojaImvixa read again')
+  const sheetName = checkSheetName;
+
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: sheetName});
+  console.timeEnd('checkPecesHojaImvixa read again')
+
+  console.time('get data')
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const pecesJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -201,6 +199,8 @@ const checkPecesHojaImvixa = (path) => {
   if (pecesJsonReportado.length < 1) {
     throw Error("Hoja Peces no tiene datos válidos")
   }
+  console.timeEnd('get data')
+
   return pecesJsonReportado;
 };
 

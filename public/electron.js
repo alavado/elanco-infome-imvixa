@@ -530,16 +530,24 @@ ipcMain.on("leer", async (event, state) => {
     let wb;
     switch (typeSheet) {
       case "alimento":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
+        console.time('alimento read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheets: 'Alimentos', sheetRows: 20000});
+        console.timeEnd('alimento read');
+        console.time('alimento validate');
         datosAlimento = validation.checkAlimento(wb);
+        console.timeEnd('alimento validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosAlimento,
         });
         break;
       case "peces":
+        console.time('peces read');
         datosPeces = validation.checkPecesHojaImvixa(pathString);
+        console.timeEnd('peces read');
+        console.time('Tratamiento read');
         datosTratamiento = validation.checkPecesHojaTratamiento(pathString);
+        console.timeEnd('Tratamiento read');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: {
@@ -549,16 +557,24 @@ ipcMain.on("leer", async (event, state) => {
         });
         break;
       case "eficacia":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
+        console.time('eficacia read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheetRows: 20000 });
+        console.timeEnd('eficacia read');
+        console.time('eficacia validate');
         datosEficacia = validation.checkEficacia(wb);
+        console.timeEnd('eficacia validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosEficacia
         });
         break;
       case "tratamiento":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
+        console.time('tratamiento read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheetRows: 20000 });
+        console.timeEnd('tratamiento read');
+        console.time('tratamiento validate');
         datosTratamiento = validation.checkTratamiento(wb);
+        console.timeEnd('tratamiento validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosTratamiento

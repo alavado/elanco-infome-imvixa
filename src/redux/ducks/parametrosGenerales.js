@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { reportes } from "../../helpers/reportes";
+import { REPORTE_ID_ALIMENTO, REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO, reportes } from "../../helpers/reportes";
 import { localeSort } from "./utilities";
 import {
   colEmpresaAlimento,
@@ -8,6 +8,7 @@ import {
   colFechaPeces,
   colFechaTrat,
 } from "../../constants";
+import { productos } from "../../helpers/productos";
 
 const slice = createSlice({
   name: "parametrosGenerales",
@@ -33,6 +34,7 @@ const slice = createSlice({
     datosEficacia: null,
     datosPecesTratados: null,
     reporte: null,
+    producto: productos[0],
     language: 'es'
   },
   reducers: {
@@ -43,7 +45,7 @@ const slice = createSlice({
       };
     },
     pasoSiguiente(state) {
-      if (state.pasoActual < 3) {
+      if (state.pasoActual < 4) {
         state.pasoActual += 1;
         state.errorFormulario = null;
       }
@@ -85,10 +87,18 @@ const slice = createSlice({
         }),
       ];
       if (
-        state.planillaEficacia !== "" &&
-        state.planillaPeces !== "" &&
-        state.planillaPecesTratados !== ""
-      ) {
+        state.reporte.id === REPORTE_ID_ALIMENTO ||
+        (
+          [REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO].includes(state.reporte.id) &&
+          state.planillaPeces !== "" &&
+          state.planillaPecesTratados !== ""
+        ) ||
+        (
+          state.planillaEficacia !== "" &&
+          state.planillaPeces !== "" &&
+          state.planillaPecesTratados !== ""
+        )
+      ){
         state.todasLasPlanillas = true;
       }
       state.errorFormulario = null;
@@ -97,10 +107,10 @@ const slice = createSlice({
       state.planillaPecesTratados = action.payload.path;
       state.datosPecesTratados = action.payload.datos;
       if (
-        state.planillaEficacia !== "" &&
-        state.planillaAlimento !== "" &&
-        state.planillaPeces !== ""
-      ) {
+          state.planillaEficacia !== "" &&
+          state.planillaPeces !== "" &&
+          state.planillaAlimento !== ""
+      ){
         state.todasLasPlanillas = true;
       }
       state.errorFormulario = null;
@@ -154,10 +164,16 @@ const slice = createSlice({
       }
       state.datosPeces = datosPeces;
       if (
-        state.planillaEficacia !== "" &&
-        state.planillaAlimento !== "" &&
-        state.planillaPecesTratados !== ""
-      ) {
+        (
+          [REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO].includes(state.reporte.id) &&
+          state.planillaAlimento !== ""
+        ) ||
+        (
+          state.planillaEficacia !== "" &&
+          state.planillaPecesTratados !== "" &&
+          state.planillaAlimento !== ""
+        )
+      ){
         state.todasLasPlanillas = true;
       }
       state.errorFormulario = null;
@@ -223,6 +239,10 @@ const slice = createSlice({
       console.log("SeleccionarReporte");
       state.reporte = reportes.find((r) => r.id === id);
     },
+    seleccionarProducto(state, action) {
+      console.log("seleccionarProducto");
+      state.producto = productos.find((p) => p.id === action.payload);
+    },
     cambiarIdioma(state) {
       state.language = state.language === 'es' ? 'en' : 'es'
     }
@@ -244,6 +264,7 @@ export const {
   pasoAnterior,
   validando,
   seleccionarReporte,
+  seleccionarProducto,
   cambiarIdioma
 } = slice.actions;
 

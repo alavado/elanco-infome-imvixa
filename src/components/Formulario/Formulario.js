@@ -4,6 +4,7 @@ import logoElanco from "../../assets/images/logo-elanco.svg";
 import FormPlanillas from "./FormPlanillas";
 import FormParametros from "./FormParametros";
 import FormIndustria from "./FormIndustria";
+import FormSeleccionarProducto from "./FormSeleccionarProducto";
 import Spinner from "../Spinner";
 import "./Formulario.css";
 import { useHistory } from "react-router-dom";
@@ -44,6 +45,7 @@ const Formulario = () => {
     todasLasPlanillas,
     validando,
     reporte,
+    producto,
     datosAlimento,
     datosPeces,
     datosEficacia,
@@ -102,25 +104,13 @@ const Formulario = () => {
     () => [
       {
         paso: 1,
-        descripcion: "Seleccionar las bases de datos",
-        componente: <FormPlanillas />,
+        descripcion: "Seleccionar producto para reportar",
+        componente: <FormSeleccionarProducto />,
         volver: "Volver",
         siguiente: "Siguiente",
-        siguienteActivo:
-          todasLasPlanillas && Object.values(validando).every((v) => !v),
+        siguienteActivo: true,
         onClickSiguiente: () => {
-          if (todasLasPlanillas) {
-            dispatch(limpiarComentarios())
-            dispatch(limpiarGraficos())
-            dispatch(limpiarFormularioSeguimiento())
-            dispatch(pasoSiguiente());
-          } else {
-            dispatch(
-              mostrarErrorFormulario(
-                "Necesita seleccionar todas las bases de datos antes de continuar"
-              )
-            );
-          }
+          dispatch(pasoSiguiente());
         },
       },
       {
@@ -131,14 +121,7 @@ const Formulario = () => {
         siguiente: "Siguiente",
         siguienteActivo: reporte !== null,
         onClickSiguiente: () => {
-          if (todasLasPlanillas && reporte !== null) {
-            if (reporte.id === 1) {
-              dispatch(cargarDatosAlimento(datosAlimento));
-            } else if (reporte.id === 2) {
-              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento }));
-            } else if (reporte.id === 3) {
-              dispatch(cargarDatosCentro({ datosAlimento, datosPeces, datosTratamiento }));
-            }
+          if (reporte !== null) {
             dispatch(pasoSiguiente());
           } else {
             dispatch(
@@ -151,6 +134,36 @@ const Formulario = () => {
       },
       {
         paso: 3,
+        descripcion: "Seleccionar las bases de datos",
+        componente: <FormPlanillas />,
+        volver: "Volver",
+        siguiente: "Siguiente",
+        siguienteActivo:
+          todasLasPlanillas && Object.values(validando).every((v) => !v),
+        onClickSiguiente: () => {
+          if (todasLasPlanillas) {
+            dispatch(limpiarComentarios())
+            dispatch(limpiarGraficos())
+            dispatch(limpiarFormularioSeguimiento())
+            if (reporte.id === 1) {
+              dispatch(cargarDatosAlimento(datosAlimento));
+            } else if (reporte.id === 2) {
+              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento }));
+            } else if (reporte.id === 3) {
+              dispatch(cargarDatosCentro({ datosAlimento, datosPeces, datosTratamiento }));
+            }
+            dispatch(pasoSiguiente());
+          } else {
+            dispatch(
+              mostrarErrorFormulario(
+                "Necesita seleccionar todas las bases de datos antes de continuar"
+              )
+            );
+          }
+        },
+      },
+      {
+        paso: 4,
         descripcion:
           reporte !== null
             ? "Definir parámetros del " + reporte.titulo.toLowerCase()
@@ -199,7 +212,7 @@ const Formulario = () => {
         },
       },
       {
-        paso: 4,
+        paso: 5,
         descripcion: "Definir rangos mínimo y máximo para industria",
         componente: <FormIndustria />,
         volver: "Volver",
@@ -294,13 +307,13 @@ const Formulario = () => {
   );
 
   const pasoActual = pasos[indicePasoActual];
-
+  
   return (
     <div className="Formulario">
       <div className="Formulario__contenedor">
         <div className="Formulario__header">
           <div className="Formulario__titulo">
-            <div>Generador de reporte Imvixa</div>
+            <div>Generador de reporte {producto?.titulo}</div>
             <div className="logos">
               <img
                 src={logoImvixa}
