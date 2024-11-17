@@ -75,6 +75,8 @@ const headerEficacia = [
   "Causa",
 ];
 
+const productColumn = "estrategia"
+
 function get_header_row(sheet) {
   var headers = [];
   var range = XLSX.utils.decode_range(sheet["!ref"]);
@@ -99,7 +101,7 @@ function trimKeys(anObject) {
   return Object.entries(anObject).reduce((acc, curr) => ({...acc, [curr[0].trim()]: curr[1]}), {})
 }
 
-const checkAlimento = (wb) => {
+const checkAlimento = (wb, product) => {
   // abrir hoja Alimento
   const sheetName = 'Alimentos';
   const headerJson = get_header_row(wb.Sheets[sheetName]);
@@ -117,9 +119,17 @@ const checkAlimento = (wb) => {
   if (!headerAlimentos.every((element) => headerTrimmed.includes(element))) {
     throw Error("Hoja alimento no tiene las columnas necesarias");
   }
-  // Filtrar datos por estado Reportado
+
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filtrar datos por estado Reportado y producto
   const alimentoJsonReportado = alimentoJson.filter(
-    (row) => row[estadoAlimento] === "Reportado"
+    (row) => row[estadoAlimento] === "Reportado" && 
+    (skipFilterByProduct || row[productHeader].toLowerCase() === productName.toLowerCase())
   );
   if (alimentoJsonReportado.length < 1) {
     throw Error("Hoja Alimento no tiene datos válidos");
@@ -127,7 +137,7 @@ const checkAlimento = (wb) => {
   return alimentoJsonReportado;
 };
 
-const checkPecesHojaTratamiento = (path) => {
+const checkPecesHojaTratamiento = (path, product) => {
   wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
   const checkSheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("trat")
@@ -155,10 +165,26 @@ const checkPecesHojaTratamiento = (path) => {
   if (!headerPecesHojaTrat.every((element) => headerTrimmed.includes(element))) {
     throw Error("Hoja BD Trat no tiene las columnas necesarias");
   }
-  return tratJSON;
+
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by product
+  const tratFiltered = tratJSON.filter(
+    (skipFilterByProduct || 
+      row[productHeader].toLowerCase() === productName.toLowerCase())
+  );
+
+  if (tratFiltered.length < 1) {
+    throw Error("Hoja Alimento no tiene datos válidos");
+  }
+  return tratFiltered;
 };
 
-const checkPecesHojaImvixa = (path) => {
+const checkPecesHojaImvixa = (path, product) => {
   console.time('checkPecesHojaImvixa read')
   wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
   console.timeEnd('checkPecesHojaImvixa read')
@@ -195,7 +221,20 @@ const checkPecesHojaImvixa = (path) => {
   if (!headerPecesHojaImvixa.every((element) => headerTrimmed.includes(element))) {
     throw Error("Planilla Peces no tiene las columnas necesarias");
   }
-  const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by status and product
+  const pecesJsonReportado = pecesJson.filter(row => 
+    (
+      row[estadoPeces] === 'Reportado') &&
+      (skipFilterByProduct || 
+        row[productHeader].toLowerCase() === productName.toLowerCase()
+    )
+  )
   if (pecesJsonReportado.length < 1) {
     throw Error("Hoja Peces no tiene datos válidos")
   }
@@ -204,7 +243,7 @@ const checkPecesHojaImvixa = (path) => {
   return pecesJsonReportado;
 };
 
-const checkEficacia = (wb) => {
+const checkEficacia = (wb, product) => {
   const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("eficacia"));
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const eficaciaJson = XLSX.utils.sheet_to_json(
@@ -221,20 +260,32 @@ const checkEficacia = (wb) => {
   if (!headerEficacia.every((element) => headerTrimmed.includes(element))) {
     throw Error("Planilla Eficacia no tiene las columnas necesarias");
   }
-  const cleanEficacia = eficaciaJson.map(v => {
-    cleanRow = {}
-    headerEficacia.forEach(h => {
-      cleanRow[h] = v[h]
-    })
-    return {
-      ...cleanRow,
-      hexaflumuron: v['Causa'] ? v['Causa'].toString().toLowerCase().includes('hexa') : false
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by status and product
+  const eficaciaFilteredAndClean = []
+  for (const row of eficaciaJson) {
+    if (skipFilterByProduct || 
+        row[productHeader].toLowerCase() === productName.toLowerCase()
+    ) {
+      cleanRow = {}
+      headerEficacia.forEach(h => {
+        cleanRow[h] = row[h]
+      })
+      eficaciaFilteredAndClean.push({
+        ...cleanRow,
+        hexaflumuron: v['Causa'] ? v['Causa'].toString().toLowerCase().includes('hexa') : false
+      });
     }
-  })
-  return cleanEficacia;
+  }
+  return eficaciaFilteredAndClean;
 };
 
-const checkTratamiento = (wb) => {
+const checkTratamiento = (wb, product) => {
   const sheetsNames = []
   wb.SheetNames.forEach((sheet, i) => {
     const headerJSON = get_header_row(wb.Sheets[sheet]).map(v => v.trim());
@@ -247,6 +298,12 @@ const checkTratamiento = (wb) => {
   if (sheetsNames.length === 0) {
     throw Error("Planilla no tiene hojas con las columnas necesarias");
   }
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
   const tratJSON = []
   sheetsNames.forEach((sheet, i) => {
     const headerJSON = get_header_row(wb.Sheets[sheet]);
@@ -255,8 +312,13 @@ const checkTratamiento = (wb) => {
       (header = headerJSON),
       (range = 2)
     ).map(row => trimKeys(row))
-    if (sheetData.length >= 1) {
-      tratJSON.push(...sheetData);
+    // Filter by product
+    if (
+        sheetData.length >= 1 &&
+        (skipFilterByProduct || 
+        row[productHeader].toLowerCase() === productName.toLowerCase())
+      ) {
+        tratJSON.push(...sheetData);
     }
   })
   // Revisar que tenga datos

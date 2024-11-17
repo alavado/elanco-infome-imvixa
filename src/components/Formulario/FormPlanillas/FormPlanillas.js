@@ -31,7 +31,8 @@ const FormPlanillas = () => {
     planillaPeces, 
     planillaEficacia,
     planillaPecesTratados,
-    reporte
+    reporte,
+    producto
    } = useSelector(
     (state) => state.parametrosGenerales
   );
@@ -39,7 +40,7 @@ const FormPlanillas = () => {
   const leerPlanilla = async (tipo, path) => {
     if (path) {
       dispatch(estaValidando({[tipo]: true}))
-      ipcRenderer.send("leer", { tipo, path });
+      ipcRenderer.send("leer", { tipo, path, product: producto });
     }
   };
 
