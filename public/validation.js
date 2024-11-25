@@ -119,17 +119,21 @@ const checkAlimento = (wb, product) => {
   if (!headerAlimentos.every((element) => headerTrimmed.includes(element))) {
     throw Error("Hoja alimento no tiene las columnas necesarias");
   }
-
+  console.log({product})
   const skipFilterByProduct = product.all;
   const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
   const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  console.log({
+    productHeader
+  })
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
   }
   // Filtrar datos por estado Reportado y producto
   const alimentoJsonReportado = alimentoJson.filter(
-    (row) => row[estadoAlimento] === "Reportado" && 
-    (skipFilterByProduct || row[productHeader].toLowerCase() === productName.toLowerCase())
+    (row) => row[estadoAlimento] === "Reportado" &&
+    (skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase()))
   );
   if (alimentoJsonReportado.length < 1) {
     throw Error("Hoja Alimento no tiene datos válidos");
@@ -168,14 +172,15 @@ const checkPecesHojaTratamiento = (path, product) => {
 
   const skipFilterByProduct = product.all;
   const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
+
   const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
   }
   // Filter by product
   const tratFiltered = tratJSON.filter(
-    (skipFilterByProduct || 
-      row[productHeader].toLowerCase() === productName.toLowerCase())
+      skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())
   );
 
   if (tratFiltered.length < 1) {
@@ -223,17 +228,15 @@ const checkPecesHojaImvixa = (path, product) => {
   }
   const skipFilterByProduct = product.all;
   const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
   const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
   }
   // Filter by status and product
   const pecesJsonReportado = pecesJson.filter(row => 
-    (
-      row[estadoPeces] === 'Reportado') &&
-      (skipFilterByProduct || 
-        row[productHeader].toLowerCase() === productName.toLowerCase()
-    )
+    (row[estadoPeces] === 'Reportado') &&
+    (skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase()))
   )
   if (pecesJsonReportado.length < 1) {
     throw Error("Hoja Peces no tiene datos válidos")
@@ -263,14 +266,15 @@ const checkEficacia = (wb, product) => {
   const skipFilterByProduct = product.all;
   const productName = product.titulo;
   const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  const validStrategies = product.estrategia.map(v => v.toLowerCase())
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
   }
   // Filter by status and product
   const eficaciaFilteredAndClean = []
   for (const row of eficaciaJson) {
-    if (skipFilterByProduct || 
-        row[productHeader].toLowerCase() === productName.toLowerCase()
+    if (
+      skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())
     ) {
       cleanRow = {}
       headerEficacia.forEach(h => {
@@ -300,6 +304,8 @@ const checkTratamiento = (wb, product) => {
   }
   const skipFilterByProduct = product.all;
   const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase())
+
   const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
@@ -316,8 +322,8 @@ const checkTratamiento = (wb, product) => {
     if (
         sheetData.length >= 1 &&
         (skipFilterByProduct || 
-        row[productHeader].toLowerCase() === productName.toLowerCase())
-      ) {
+        validStrategies.includes(row[productHeader]?.toLowerCase())
+      )) {
         tratJSON.push(...sheetData);
     }
   })
