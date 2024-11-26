@@ -151,6 +151,21 @@ const slice = createSlice({
         (fila) => fila[colSampleOriginTrat] === tipoFreshWater
         );
       state.datosAlimento = action.payload.datosAlimento;
+ /*      state.empresa = null;
+      state.nombreEmpresa = null;
+      state.piscicultura = null;
+      state.pisciculturaValue = null;
+      state.fecha = null;
+      state.fechaValue = null; */
+    },
+    limpiarFormRerpoteMusculo(state, action) {
+      state.empresa = null;
+      state.nombreEmpresa = null;
+      state.piscicultura = null;
+      state.pisciculturaValue = null;
+      state.fecha = null;
+      state.fechaValue = null;
+      state.filtros = [];
     },
     procesarDatosParaExportar(state, action) {
       state.procesandoParaExportar = true;
@@ -519,7 +534,8 @@ export const {
   guardarRepElanco,
   guardarRepVisita,
   guardarRepCliente,
-  cargarPreViz
+  cargarPreViz,
+  limpiarFormRerpoteMusculo
 } = slice.actions;
 
 export default slice.reducer;

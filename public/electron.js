@@ -487,9 +487,17 @@ ipcMain.on("viendoReporte", async (_, rID) => {
 
 ipcMain.on("yaNoViendoReporte", async () => {
   viendoReporte = false
-  menuItemVolverAParametros.enabled = false
-  menuItemVerGraficos.visible = false
-  menuItemImprimir.enabled = false
+  try {
+    [menuItemVolverAParametros, menuItemImprimir].forEach(value => {
+      if (value) value.enabled = false;
+    })
+    if (menuItemVerGraficos) {
+      menuItemVerGraficos.visible = false;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
 });
 
 ipcMain.on("datosReporte", async (_, data) => {

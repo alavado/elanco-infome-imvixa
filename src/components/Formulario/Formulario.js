@@ -14,7 +14,11 @@ import {
   pasoSiguiente,
   mostrarErrorFormulario,
 } from "../../redux/ducks/parametrosGenerales";
-import { procesarDatosParaExportar as procesarReporteSeguimiento, limpiarFormulario as limpiarFormularioSeguimiento } from "../../redux/ducks/reporteSeguimiento";
+import { 
+  procesarDatosParaExportar as procesarReporteSeguimiento, 
+  limpiarFormulario as limpiarFormularioSeguimiento } from "../../redux/ducks/reporteSeguimiento";
+import { limpiarFormRerpoteAlimento } from "../../redux/ducks/reporteAlimento";
+import { limpiarFormRerpoteMusculo } from "../../redux/ducks/reporteMusculo";
 import {
   procesarDatosParaExportar as procesarReporteAlimento,
   cargarDatosAlimento,
@@ -110,6 +114,8 @@ const Formulario = () => {
         siguiente: "Siguiente",
         siguienteActivo: true,
         onClickSiguiente: () => {
+          dispatch(limpiarFormRerpoteAlimento());
+          dispatch(limpiarFormRerpoteMusculo());
           dispatch(pasoSiguiente());
         },
       },

@@ -34,6 +34,7 @@ const slice = createSlice({
     datosEficacia: null,
     datosPecesTratados: null,
     reporte: null,
+    reportes: reportes,
     producto: productos[0],
     language: 'es'
   },
@@ -241,7 +242,27 @@ const slice = createSlice({
     },
     seleccionarProducto(state, action) {
       console.log("seleccionarProducto");
-      state.producto = productos.find((p) => p.id === action.payload);
+      const newProductID = action.payload;
+      const sameThanCurrent = state.producto.id === newProductID;
+      console.log({
+        sameThanCurrent
+      })
+      state.producto = productos.find((p) => p.id === newProductID);
+      if (!sameThanCurrent) {
+        state.planillaAlimento = "";
+        state.planillaEficacia = "";
+        state.planillaPeces = "";
+        state.planillaPecesTratados = "";
+      }
+      // Imvixa
+      if (newProductID === 1) {
+        state.reportes = reportes;
+      } else if (newProductID === 2) {
+        const sliceReports = [reportes[0], reportes[1]];
+        state.reportes = sliceReports;
+      } else {
+        state.reportes = [];
+      }
     },
     cambiarIdioma(state) {
       state.language = state.language === 'es' ? 'en' : 'es'

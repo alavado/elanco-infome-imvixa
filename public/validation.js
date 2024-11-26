@@ -174,12 +174,12 @@ const checkPecesHojaTratamiento = (path, product) => {
   const productName = product.titulo;
   const validStrategies = product.estrategia.map(v => v.toLowerCase());
 
-  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  const productHeader = headerTrimmed.find(h => h.toLowerCase() === productColumn)
   if (!skipFilterByProduct && productHeader === undefined) {
     throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
   }
   // Filter by product
-  const tratFiltered = tratJSON.filter(
+  const tratFiltered = tratJSON.filter(row =>
       skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())
   );
 

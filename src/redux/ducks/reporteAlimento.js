@@ -19,23 +19,25 @@ import {
 } from "../../constants";
 import { esMayorQueFecha, esMenorQueFecha, selectMinMaxFecha } from "./utilities";
 
+const INITIAL_STATE = {
+  nombreEmpresa: null,
+  opcionEmpresa: null,
+  piscicultura: null,
+  fecha: null,
+  pmv: null,
+  lotesSeleccionados: [],
+  lotesTotales: [],
+  datosFiltradosAlimento: null,
+  datosLotes: null,
+  procesandoParaExportar: false,
+  filtros: [], // colEmpresaAlimento, colFechaAlimento, colPisciculturaAlimento
+  lotes: [],
+  fechaReporte: null
+};
+
 const slice = createSlice({
   name: "reporteAlimento",
-  initialState: {
-    nombreEmpresa: null,
-    opcionEmpresa: null,
-    piscicultura: null,
-    fecha: null,
-    pmv: null,
-    lotesSeleccionados: [],
-    lotesTotales: [],
-    datosFiltradosAlimento: null,
-    datosLotes: null,
-    procesandoParaExportar: false,
-    filtros: [], // colEmpresaAlimento, colFechaAlimento, colPisciculturaAlimento
-    lotes: [],
-    fechaReporte: null
-  },
+  initialState: {...INITIAL_STATE},
   reducers: {
     guardarNombreEmpresa(state, action) {
       state.opcionEmpresa = action.payload;
@@ -269,6 +271,12 @@ const slice = createSlice({
       });
       opciones.sort((a, b) => a.value - b.value);
       state.lotesTotales = opciones;
+/*       state.nombreEmpresa = null;
+      state.piscicultura = null;
+      state.fecha = null;
+      state.pmv = null;
+      state.lotesSeleccionados = [];
+      state.filtros = [];  */// colEmpresaAlimento, colFechaAlimento, colPisciculturaAlimento
     },
     guardarComentariosLote(state, action) {
       const { index, comentarios } = action.payload
@@ -282,6 +290,22 @@ const slice = createSlice({
       state.fechaReporte = fecha
       state.nombreEmpresa = nombreEmpresa
       state.lotes = lotes
+    },
+    limpiarFormRerpoteAlimento(state, action) {
+      state.opcionEmpresa = null;
+      state.nombreEmpresa = null;
+      state.piscicultura = null;
+      state.fecha = null;
+      state.pmv = null;
+      state.lotesSeleccionados = [];
+      state.filtros = []; // colEmpresaAlimento, colFechaAlimento, colPisciculturaAlimento
+/* 
+      state.lotesTotales = [];
+      state.datosFiltradosAlimento = null;
+      state.datosLotes = null;
+      state.procesandoParaExportar = false;
+      state.lotes = [];
+      state.fechaReporte = null; */
     }
   },
 });
@@ -295,7 +319,8 @@ export const {
   procesarDatosParaExportar,
   cargarDatosAlimento,
   guardarComentariosLote,
-  cargarPreViz
+  cargarPreViz,
+  limpiarFormRerpoteAlimento
 } = slice.actions;
 
 export default slice.reducer;
