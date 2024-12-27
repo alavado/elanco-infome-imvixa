@@ -1,12 +1,11 @@
 .CuadroResumen {
 	/* background-color: var(--color-gris-2); */
-	background-color: white;
+	background-color: var(--color-b-msd2);
 	padding: 2rem 3rem 2rem 3rem;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: space-between;
-  border: .15rem dotted var(--color-gris-4);
 	gap: 2rem;
 }
 
@@ -15,7 +14,7 @@
 	flex: 1;
 	max-width: calc(50% - 1rem);
 	min-width: calc(50% - 1rem);
-	border-bottom: 0.15rem dotted  var(--color-gris-4) ;
+	border-bottom: 0.15rem dotted  white ;
 	gap: .5rem;
 }
 

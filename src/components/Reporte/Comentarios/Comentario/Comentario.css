@@ -14,7 +14,7 @@
   content: '';
   width: .5rem;
   height: .5rem;
-  background-color: var(--color-naranja-2);
+  background-color: var(--color-c-msd);
   position: absolute;
   left: 0;
   border-radius: 50%;
@@ -30,7 +30,7 @@
   opacity: 0;
   transition: all .2s ease;
   cursor: pointer;
-  background: var(--color-f);
+  background: var(--color-azul-msd);
   color: var(--color-fondo);
   border: none;
   min-width: 2.5rem;
@@ -44,4 +44,8 @@
 
 .Comentario:hover .Comentario__boton_eliminar {
   opacity: 1;
+}
+
+.Comentario:hover {
+  border-color: var(--color-azul-msd);
 }

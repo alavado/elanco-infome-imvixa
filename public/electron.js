@@ -190,7 +190,7 @@ function createWindow() {
     mainWindow.show();
   });
   mainWindow.webContents.once("did-finish-load", () => {
-    mainWindow.setTitle(`Reporte Seguimiento IMVIXA - Versión ${version}`);
+    mainWindow.setTitle(`Reporte Seguimiento IMVIXA/Slice - Versión ${version}`);
   });
   mainWindow.on("closed", () => (mainWindow = null));
 }
@@ -289,7 +289,11 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
     ])
   }
   XLSX.utils.sheet_add_aoa(sheet, rows, {origin:-1})
-  XLSX.writeFile(wb, registerPath)
+  try {
+    XLSX.writeFile(wb, registerPath)
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 ipcMain.on("guardarReporteMusculo", async (_, datosRegistro) => {
@@ -316,7 +320,11 @@ const guardarRegistro = async (datosRegistro) => {
   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
   const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
   XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString]], {origin:-1})
-  XLSX.writeFile(wb, registerPath)
+  try {
+    XLSX.writeFile(wb, registerPath)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const imprimirReporteAlimento = async () => {
@@ -596,7 +604,8 @@ ipcMain.on("leer", async (event, state) => {
     console.log("ERR ", err);
     event.sender.send(typeSheet, {
       path: pathString,
-      datos: []
+      datos: [], 
+      err
     });
   }
 });

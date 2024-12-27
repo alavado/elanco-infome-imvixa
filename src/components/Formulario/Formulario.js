@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
-import logoElanco from "../../assets/images/logo-elanco.svg";
+import logoElanco from "../../assets/images/MDS.svg";
 import FormPlanillas from "./FormPlanillas";
 import FormParametros from "./FormParametros";
 import FormIndustria from "./FormIndustria";
@@ -322,14 +322,9 @@ const Formulario = () => {
             <div>Generador de reporte {producto?.titulo}</div>
             <div className="logos">
               <img
-                src={logoImvixa}
-                className="Formulario__logo_imvixa"
-                alt="Logo Imvixa"
-              />
-              <img
                 src={logoElanco}
                 className="Formulario__logo_elanco"
-                alt="Logo Elanco"
+                alt="Logo MDS"
               />
             </div>
           </div>

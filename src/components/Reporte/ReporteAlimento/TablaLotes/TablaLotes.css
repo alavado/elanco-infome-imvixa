@@ -34,7 +34,7 @@
 .TablaLotes__encabezados {
   font-weight: 500;
 	font-size: 1rem;
-  background-color: var(--color-amarillo);
+  background-color: var(--color-azul-msd);
 	color: white;
 	white-space: pre-wrap;
 }

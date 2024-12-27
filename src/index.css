@@ -2,9 +2,24 @@
   font-size: 1.2vw;
 }
 
+@font-face {
+  font-family: 'Invention';
+  src: url('./assets/fonts/Invention_W_Rg.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/Invention_W_Rg.woff') format('woff'), /* Modern Browsers */
+        url('./assets/fonts/Invention_A_Rg.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'Invention';
+  src: url('./assets/fonts/Invention_W_Bd.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/Invention_W_Bd.woff') format('woff'), /* Modern Browsers */
+        url('./assets/fonts/Invention_A_Bd.ttf')  format('truetype'); /* Safari, Android, iOS */
+  font-weight: bold;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Invention','Fira Sans', sans-serif;
 }
 
 a {

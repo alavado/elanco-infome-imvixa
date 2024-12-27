@@ -18,7 +18,7 @@ import "./Reporte.css";
 import { REPORTE_ID_SEGUIMIENTO, REPORTE_NOMBRE_SEGUIMIENTO } from "../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteSeguimiento = ({language}) => {
+const ReporteSeguimiento = ({language, product}) => {
   const { comentarios } = useSelector((state) => state.comentarios);
   const { graficos } = useSelector((state) => state.graficos);
   const { 
@@ -92,7 +92,7 @@ const ReporteSeguimiento = ({language}) => {
     <div className="Reporte">
       <div className="Reporte__contenedor">
         <div className="Reporte__pagina Reporte__pagina--1">
-          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
+          <Encabezado product={product} reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
           <MensajeError>
             <DatosEmpresa
               nombreEmpresa={nombreEmpresa}
@@ -106,7 +106,7 @@ const ReporteSeguimiento = ({language}) => {
           <Sandalias language={language} pagina={1} />
         </div>
         <div className="Reporte__pagina Reporte__pagina--2">
-          <Encabezado reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
+          <Encabezado product={product}  reporteID={REPORTE_ID_SEGUIMIENTO} reporteNombre={REPORTE_NOMBRE_SEGUIMIENTO} language={language} />
           <ResultadosEficacia language={language} />
           <Comentarios
             reporteID={REPORTE_ID_SEGUIMIENTO}

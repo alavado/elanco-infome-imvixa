@@ -1,14 +1,10 @@
 .Sandalias {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   place-self: end center;
-  background: linear-gradient(transparent 3rem, var(--color-naranja-2) 0);
-  position: absolute;
-  bottom: 0;
-  height: 4.5rem;
-  padding-left: 4rem;
+  background: linear-gradient(transparent 3rem, var(--color-azul-msd) 0);
 }
 
 .Sandalias__logo_elanco {
@@ -19,7 +15,7 @@
   font-size: .7rem;
   display: flex;
   max-height: 1.75rem;
-  font-weight: 300;
+  font-weight: bold;
 }
 
 .Sandalias__texto--blanco {

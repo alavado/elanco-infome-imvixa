@@ -9,7 +9,8 @@ const { ipcRenderer } = window.require('electron')
 
 const Reporte = () => {
   const history = useHistory();
-  const { reporte, language } = useSelector((state) => state.parametrosGenerales);
+  const { reporte, language, producto } = useSelector((state) => state.parametrosGenerales);
+  console.log({producto})
   useEffect(() => {
     ipcRenderer.send('viendoReporte', reporte.id)
     ipcRenderer.on('ReRenderPreExport', (e) => {
@@ -25,19 +26,19 @@ const Reporte = () => {
     switch (reporte.id) {
       case 1:
         return (
-          <ReporteAlimento language={language}/>
+          <ReporteAlimento language={language} product={producto}/>
         );
       case 2:
         return (
-          <ReporteMusculo language={language}/>
+          <ReporteMusculo language={language} product={producto}/>
         )
       case 3:
         return (
-          <ReporteCentro language={language} />
+          <ReporteCentro language={language}  product={producto}/>
         )
       default:
         return (
-          <ReporteSeguimiento language={language}/>
+          <ReporteSeguimiento language={language} product={producto}/>
         );
     }
   }

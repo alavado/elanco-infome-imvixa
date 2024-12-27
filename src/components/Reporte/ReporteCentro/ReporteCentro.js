@@ -24,7 +24,7 @@ import {
 } from "../../../redux/ducks/reporteCentro";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteCentro = ({ language }) => {
+const ReporteCentro = ({ language, product }) => {
   const { comentariosCentro } = useSelector((state) => state.comentarios);
   const { 
     empresa, 
@@ -98,7 +98,7 @@ const ReporteCentro = ({ language }) => {
           className="ReporteCentro__pagina ReporteCentro__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
             <DatosEmpresa nombreEmpresa={encabezado} fecha={today} language={language}/>
           </MensajeError>
@@ -127,7 +127,7 @@ const ReporteCentro = ({ language }) => {
           className="ReporteCentro__pagina ReporteCentro__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
             <TablaMuestras language={language} />
           </MensajeError>

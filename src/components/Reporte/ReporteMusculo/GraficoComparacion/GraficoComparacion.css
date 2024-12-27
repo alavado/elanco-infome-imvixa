@@ -6,13 +6,13 @@
   justify-content: space-between;
 	max-width: 50%;
   min-width: 45%;
-  --color-titulo-seccion: var(--color-azul);
+  --color-titulo-seccion: var(--color-c-msd);
 }
 
 .GraficoComparacion__titulo {
   color: var(--color-gris-4);
   margin-bottom: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   line-height: 1.15;
   display: flex;
@@ -23,10 +23,10 @@
 }
 
 .GraficoComparacion__titulo::before {
-  width: 1.7em;
-  height: 1.7em;
+	width: 2rem;
+	height: 2.5rem;
   content: '';
-  background: var(--color-amarillo);
+  background: var(--color-c-msd);
   display: block;
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }

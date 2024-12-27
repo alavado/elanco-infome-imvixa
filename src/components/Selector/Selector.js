@@ -1,7 +1,7 @@
 import React from 'react'
 import './Selector.css'
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
-import logoElanco from "../../assets/images/logo-elanco.svg";
+import logoElanco from "../../assets/images/MDS.svg";
 import { useHistory } from 'react-router-dom'
 
 const { ipcRenderer } = window.require('electron')
@@ -18,17 +18,12 @@ const Selector = () => {
       <div className="Selector__contenedor">
         <div className="Selector__header">
           <div className="Selector__titulo">
-            <div>Visualizador de reporte Imvixa</div>
+            <div>Visualizador de reporte Imvixa/Slice</div>
             <div className="logos">
-              <img
-                src={logoImvixa}
-                className="Selector__logo_imvixa"
-                alt="Logo Imvixa"
-              />
               <img
                 src={logoElanco}
                 className="Selector__logo_elanco"
-                alt="Logo Elanco"
+                alt="Logo MDS"
               />
             </div>
           </div>

@@ -44,8 +44,8 @@ const FormPlanillas = () => {
     }
   };
 
-  const dispatchErrorFormulario = () => dispatch(mostrarErrorFormulario(
-    "La planilla que intentó cargar no cumple con el formato necesario."
+  const dispatchErrorFormulario = (err) => dispatch(mostrarErrorFormulario(
+    `La planilla que intentó cargar no cumple con el formato necesario.\n ${err}`
   ))
   const readPlanillaPeces = [REPORTE_ID_SEGUIMIENTO, REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO].includes(reporte.id);
   
@@ -53,7 +53,7 @@ const FormPlanillas = () => {
     ipcRenderer.on("alimento", async (e, data) => {
       dispatch(estaValidando({alimento: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioAlimento())
       } else {
         dispatch(guardarPlanillaAlimento(data))
@@ -64,7 +64,7 @@ const FormPlanillas = () => {
     ipcRenderer.on("eficacia", async (e, data) => {
       dispatch(estaValidando({eficacia: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioEficacia())
       } else {
         dispatch(guardarPlanillaEficacia(data))
@@ -75,7 +75,7 @@ const FormPlanillas = () => {
     ipcRenderer.on("peces", async (e, data) => {
       dispatch(estaValidando({peces: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPeces())
       } else {
         dispatch(guardarPlanillaPeces(data))
@@ -86,7 +86,7 @@ const FormPlanillas = () => {
     ipcRenderer.on("tratamiento", async (e, data) => {
       dispatch(estaValidando({tratamiento: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPecesTratados())
       } else {
         dispatch(guardarPlanillaPecesTratados(data))

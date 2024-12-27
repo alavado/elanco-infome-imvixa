@@ -11,7 +11,7 @@
 .GraficoCumplimiento__titulo {
   color: var(--color-gris-4);
   margin-bottom: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   line-height: 1.15;
   display: flex;
@@ -21,10 +21,10 @@
 }
 
 .GraficoCumplimiento__titulo::before {
-  width: 3.8em;
-  height: 1.7rem;
+	width: 4rem;
+	height: 2.5rem;
   content: '';
-  background: var(--color-amarillo);
+  background: var(--color-c-msd);
   display: block;
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }

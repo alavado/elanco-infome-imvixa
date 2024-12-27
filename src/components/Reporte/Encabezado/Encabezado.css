@@ -12,40 +12,86 @@
 	font-weight: 300;
 }
 
-.Reporte__logo_imvixa {
-  width: 25rem;
-  margin-top: 4rem;
-	padding-left: .25rem;
+.Reporte__logo_imagen_alimento {
+	width: 62rem;
+	margin-top: 10rem;
+	position: absolute;
+	margin-left: -1rem;
 }
 
+.Reporte__logo_imagen_alimento_slice {
+	width: 62rem;
+	margin-top: 10rem;
+	position: absolute;
+	margin-left: -1rem;
+}
 
-.Reporte__logo_imagen_alimento {
+.Reporte__logo_imagen_musculo_slice {
 	width: 60rem;
-  margin-top: 1rem;
-	padding-left: .25rem;
+  margin-top: 11rem;
 	color: var(--color-titulo);
 	font-size: 3.4rem;
 }
 
-
 .Reporte__logo_imagen_musculo {
-	width: 65rem;
-  margin-top: 1.5rem;
-	padding-left: .25rem;
-	color: var(--color-titulo);
-	font-size: 3.2rem;
+	width: 62rem;
+	margin-top: 10rem;
+	position: absolute;
+	margin-left: -1rem;
+}
+
+.Reporte__logo_imagen_marino {
+	width: 60rem;
+	margin-top: 9rem;
+	position: absolute;
+	margin-left: -1rem;
+}
+
+.Reporte__logo_imagen_marino_slice {
+	width: 62rem;
+	margin-top: 10rem;
+	position: absolute;
+	margin-left: -1rem;
 }
 
 .Reporte__logo_imagen_seguimiento {
-	width: 40rem;
-  margin-top: 1rem;
-	color: var(--color-titulo);
-	font-size: 3.2rem;
+	width: 48rem;
+	margin-top: 8rem;
+	position: absolute;
+	margin-left: -1.5rem;
 }
+
+.Reporte__logo_imagen_seguimiento_slice {
+	width: 62rem;
+	margin-top: 10rem;
+	position: absolute;
+	margin-left: -1rem;
+}
+
+.Reporte__logo_imvixa {
+	position: absolute;
+  width: 24rem;
+  margin-top: 3rem;
+	margin-left: 0rem!;
+}
+
+.Reporte__logo_slice {
+	position: absolute;
+  width: 20rem;
+  margin-top: 1.6rem;
+	margin-left: 0rem!;
+}
+
+.Reporte__logo_empty {
+  width: 25rem;
+  margin-top: 6rem;
+	padding-left: 0rem;
+}
+
 
 .Reporte__logo_elanco {
   position: absolute;
   top: 4.5rem;
   right: 3rem;
-  width: 11rem;
+  width: 20rem;
 }

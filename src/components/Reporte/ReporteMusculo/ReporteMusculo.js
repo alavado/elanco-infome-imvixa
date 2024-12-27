@@ -21,7 +21,7 @@ import {
 import { REPORTE_ID_MUSCULO, REPORTE_NOMBRE_MUSCULO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteMusculo = ({ language }) => {
+const ReporteMusculo = ({ language, product }) => {
   const { comentariosMusculo, preViz } = useSelector((state) => state.comentarios);
   const { 
     empresa,
@@ -119,7 +119,7 @@ const ReporteMusculo = ({ language }) => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language} />
+          <Encabezado product={product} reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language} />
           <MensajeError>
             <DatosEmpresa nombreEmpresa={empresa} fecha={today} language={language} />
           </MensajeError>
@@ -143,7 +143,7 @@ const ReporteMusculo = ({ language }) => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
           <MensajeError>
             <TablaMuestras language={language} />
           </MensajeError>
