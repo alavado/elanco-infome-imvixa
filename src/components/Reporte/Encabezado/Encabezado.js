@@ -56,7 +56,7 @@ const Encabezado = ({ reporteID, reporteNombre, language, product }) => {
 			default:
 				if (product?.titulo === 'Imvixa') {
 					titulo = language === 'es' ? tituloReporte4Imvixa : titleReporte4Imvixa
-					imgClassName = "Reporte__logo_imagen_seguimiento"
+					imgClassName = language === 'es' ? "Reporte__logo_imagen_seguimiento" : "Reporte__logo_imagen_seguimiento_en"
 				} else {
 					titulo = language === 'es' ? tituloReporte4Slice : titleReporte4Slice
 					imgClassName = "Reporte__logo_imagen_seguimiento_slice"

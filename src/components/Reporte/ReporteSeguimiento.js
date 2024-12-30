@@ -83,7 +83,8 @@ const ReporteSeguimiento = ({language, product}) => {
         tipoID: REPORTE_ID_SEGUIMIENTO,
         fecha: today.toISOString(),
         empresa: nombreEmpresa,
-        datos
+        datos,
+        producto: product.titulo
       })
     });
   }, [datos, nombreEmpresa]);

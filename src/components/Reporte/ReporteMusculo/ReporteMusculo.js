@@ -107,11 +107,15 @@ const ReporteMusculo = ({ language, product }) => {
         tipoID: REPORTE_ID_MUSCULO,
         fecha: today.toISOString(),
         empresa: empresa,
-        datos 
+        datos,
+        producto: product.titulo
       })
     });
   }, [datos, empresa]);
 
+  console.log({
+    product
+  })
   return (
     <div className="ReporteMusculo">
       <div className="ReporteMusculo__contenedor" style={dimensions}>

@@ -31,7 +31,8 @@ const VisualizadorAlimento = ({language, product}) => {
         tipoID: REPORTE_ID_ALIMENTO,
         fecha,
         empresa: nombreEmpresa,
-        datos: lotes
+        datos: lotes,
+        producto: product.titulo
       })
     });
   }, [lotes]);

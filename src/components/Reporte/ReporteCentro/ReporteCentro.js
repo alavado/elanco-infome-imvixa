@@ -75,7 +75,8 @@ const ReporteCentro = ({ language, product }) => {
         tipoID: REPORTE_ID_CENTRO,
         fecha: today.toISOString(),
         empresa: empresa,
-        datos
+        datos,
+        producto: product.titulo
       })
     });
   }, [datos, empresa]);

@@ -78,7 +78,8 @@ const REGISTER_HEADER = [
   'TipoID',
   'Fecha',
   'Empresa',
-  'Datos'
+  'Datos',
+  'Producto'
 ]
 const registerPath =  path.join(appUserDataPath, REGISTER_FILE)
 var XLSX = require("xlsx");
@@ -277,7 +278,8 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
   const { tipoID,
     fecha,
     empresa,
-    datos
+    datos,
+    producto
   } = datosRegistro
   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
   const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
@@ -285,7 +287,7 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
   for (let index = 0; index < numeroDeLotes; index++) {
     const datosString = JSON.stringify([datos[index]])
     rows.push([
-      reporteUID + index.toString(), tipoID, fecha, empresa, datosString
+      reporteUID + index.toString(), tipoID, fecha, empresa, datosString, producto
     ])
   }
   XLSX.utils.sheet_add_aoa(sheet, rows, {origin:-1})
@@ -313,13 +315,14 @@ const guardarRegistro = async (datosRegistro) => {
     tipoID,
     fecha,
     empresa,
-    datos
+    datos,
+    producto
   } = datosRegistro
   const datosString = JSON.stringify(datos)
   // TODO: Check if file exists if not create if exists then append
   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
   const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
-  XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString]], {origin:-1})
+  XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString, producto]], {origin:-1})
   try {
     XLSX.writeFile(wb, registerPath)
   } catch (e) {
