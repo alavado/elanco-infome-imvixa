@@ -118,7 +118,7 @@ const ReporteCentro = ({ language, product }) => {
                 <GraficoCumplimiento language={language}/>
               </MensajeError>
               <MensajeError>
-                <GraficoComparacion language={language}/>
+                <GraficoComparacion language={language} product={product.titulo}/>
               </MensajeError>
             </div>
           </div>

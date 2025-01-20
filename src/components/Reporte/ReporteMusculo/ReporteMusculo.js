@@ -138,7 +138,7 @@ const ReporteMusculo = ({ language, product }) => {
               <GraficoCumplimiento language={language} />
             </MensajeError>
             <MensajeError>
-              <GraficoComparacion language={language}/>
+              <GraficoComparacion language={language} product={product.titulo}/>
             </MensajeError>
           </div>
           <Sandalias pagina={1} />
@@ -149,7 +149,7 @@ const ReporteMusculo = ({ language, product }) => {
         >
           <Encabezado product={product} reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
           <MensajeError>
-            <TablaMuestras language={language} />
+            <TablaMuestras language={language} product={product.titulo} />
           </MensajeError>
           <Comentarios
             agregarComentario={agregarComentarioMusculo}

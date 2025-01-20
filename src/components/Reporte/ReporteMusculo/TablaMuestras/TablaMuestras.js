@@ -4,10 +4,11 @@ import "./TablaMuestras.css";
 import { colEstanquePeces, colInformePeces } from "../../../../constants";
 import { generalTexts } from '../generalTexts'
 
-const TablaMuestras = ({language}) => {
+const TablaMuestras = ({language, product}) => {
   const { umbral, umbralDestacar, datosEjercicio } = useSelector(
     (state) => state.reporteMusculo
   );
+  const isSlice = product === 'Slice';
   const valorDestacar = parseInt(umbralDestacar.replace(".", ""));
   const nMuestras = 10;
   const { gt_TablaMuestras } = generalTexts
@@ -25,10 +26,16 @@ const TablaMuestras = ({language}) => {
     headersLabels[7]
   ];
 
+
   const filas = datosEjercicio;
-  const nFilas = filas.length;
+  const nFilas = filas.length; 
+  let gridTemplate = `repeat(${nFilas + 1}, 1fr) / 2fr repeat(15, 1fr) 2fr`
+  if (isSlice) {
+    headers.pop();
+    gridTemplate = gridTemplate.slice(0,-3);
+  }
   const style1 = {
-    gridTemplate: `repeat(${nFilas + 1}, 1fr) / 2fr repeat(15, 1fr) 2fr`,
+    gridTemplate,
     maxHeight: `calc(${nFilas + 1} * 3rem)`,
   };
 
@@ -48,13 +55,13 @@ const TablaMuestras = ({language}) => {
         {titulo}
       </p>
       <div className="TablaMuestras__tabla" style={style1}>
-        <div className="TablaMuestras__encabezados">
+        <div className={isSlice ? "TablaMuestras__encabezados_slice" : "TablaMuestras__encabezados"}>
           {headers.map((col, i) => (
             <div key={`TablaMuestras-encabezados-${i}`}>{col}</div>
           ))}
         </div>
         {filas.map((fila, i) => (
-          <div key={`tm-fila-${i}`} className="TablaMuestras__fila">
+          <div key={`tm-fila-${i}`} className={isSlice ? "TablaMuestras__fila_slice" : "TablaMuestras__fila"}>
             <div className="TablaMuestras__celda">
               <p>{fila[colInformePeces]}</p>
             </div>
@@ -117,19 +124,22 @@ const TablaMuestras = ({language}) => {
                 maximumFractionDigits: 0,
               })}
             </div>
-            <div
-              className="TablaMuestras__celda"
-              style={{
-                color: "var( --color-fondo)",
-                backgroundColor: colorPorResultado(fila["resultado"]),
-              }}
-            >
-              {fila["resultado"]}
-            </div>
+            {!isSlice &&  (
+              <div
+                className="TablaMuestras__celda"
+                style={{
+                  color: "var( --color-fondo)",
+                  backgroundColor: colorPorResultado(fila["resultado"]),
+                }}
+              >
+                {fila["resultado"]}
+              </div>
+            )}
           </div>
         ))}
       </div>
-      <div className="TablaMuestras__footer">
+      {!isSlice && (
+        <div className="TablaMuestras__footer">
         <div className="TablaMuestras__encabezado_footer">
           <div>{headers2[0]}</div>
           <div>{headers2[1]}</div>
@@ -154,6 +164,8 @@ const TablaMuestras = ({language}) => {
           </div>
         </div>
       </div>
+      )}
+      
     </div>
   );
 };

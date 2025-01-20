@@ -35,6 +35,7 @@ import {
   colAlimentoM2,
   colAlimentoM3,
   colAlimentoM4,
+  tipoSeaWater,
 } from "../../constants";
 import { esMayorQueFecha, esMenorQueFecha, formatearFecha, onlyUnique, selectMinMax, selectMinMaxFecha } from "./utilities";
 
@@ -144,11 +145,13 @@ const slice = createSlice({
       state.umbralDestacarModificado = true;
     },
     cargarDatosMusculo(state, action) {
+      const producto = action.payload.producto;
+      const waterType = producto.toLowerCase() === "imvixa" ? tipoFreshWater : tipoSeaWater;
       state.datosPeces = action.payload.datosPeces.filter(
-        (fila) => fila[colSampleOrigin] === tipoFreshWater
+        (fila) => fila[colSampleOrigin] === waterType
       );
       state.datosTratamiento = action.payload.datosTratamiento.filter(
-        (fila) => fila[colSampleOriginTrat] === tipoFreshWater
+        (fila) => fila[colSampleOriginTrat] === waterType
         );
       state.datosAlimento = action.payload.datosAlimento;
  /*      state.empresa = null;

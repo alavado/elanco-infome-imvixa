@@ -154,7 +154,8 @@ const Formulario = () => {
             if (reporte.id === 1) {
               dispatch(cargarDatosAlimento(datosAlimento));
             } else if (reporte.id === 2) {
-              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento }));
+              const productName = producto?.titulo;
+              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento, producto: productName }));
             } else if (reporte.id === 3) {
               dispatch(cargarDatosCentro({ datosAlimento, datosPeces, datosTratamiento }));
             }
@@ -186,16 +187,18 @@ const Formulario = () => {
         onClickSiguiente: () => {
           if (reporte.id === 1 && lotes.length > 0){
             dispatch(limpiarComentariosAlimento())
-            lotes.forEach((l, i) => {
-              try {
-                dispatch(agregarComentarioAlimento({
-                  texto: (l.data[colCumplimiento] * 100) >= 90 ? comentarioAltoCumplimiento : comentarioBajoCumplimiento,
-                  indice: i
-                }))
-              } catch (error) {
-                console.log(error)
-              }
+            if (producto?.titulo === 'Imvixa') {
+              lotes.forEach((l, i) => {
+                try {
+                  dispatch(agregarComentarioAlimento({
+                    texto: (l.data[colCumplimiento] * 100) >= 90 ? comentarioAltoCumplimiento : comentarioBajoCumplimiento,
+                    indice: i
+                  }))
+                } catch (error) {
+                  console.log(error)
+                }
             })
+          }
             dispatch(pasoSiguiente());
           } else if (reporte.id === 2 && unicaOpcionMusculo) {
             localStorage.setItem('umbralDestacar', umbralDestacar)
