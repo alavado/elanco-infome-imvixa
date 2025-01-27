@@ -243,17 +243,7 @@ const slice = createSlice({
     seleccionarProducto(state, action) {
       console.log("seleccionarProducto");
       const newProductID = action.payload;
-      const sameThanCurrent = state.producto.id === newProductID;
-      console.log({
-        sameThanCurrent
-      })
       state.producto = productos.find((p) => p.id === newProductID);
-      if (!sameThanCurrent) {
-        state.planillaAlimento = "";
-        state.planillaEficacia = "";
-        state.planillaPeces = "";
-        state.planillaPecesTratados = "";
-      }
       // Imvixa
       if (newProductID === 1) {
         state.reportes = reportes;
