@@ -14,9 +14,10 @@ import {
   pasoSiguiente,
   mostrarErrorFormulario,
 } from "../../redux/ducks/parametrosGenerales";
-import { 
-  procesarDatosParaExportar as procesarReporteSeguimiento, 
-  limpiarFormulario as limpiarFormularioSeguimiento } from "../../redux/ducks/reporteSeguimiento";
+import {
+  procesarDatosParaExportar as procesarReporteSeguimiento,
+  limpiarFormulario as limpiarFormularioSeguimiento,
+} from "../../redux/ducks/reporteSeguimiento";
 import { limpiarFormRerpoteAlimento } from "../../redux/ducks/reporteAlimento";
 import { limpiarFormRerpoteMusculo } from "../../redux/ducks/reporteMusculo";
 import {
@@ -28,16 +29,22 @@ import {
   cargarDatosMusculo,
 } from "../../redux/ducks/reporteMusculo";
 import {
-  cargarDatosCentro, procesarReporteCentro,
+  cargarDatosCentro,
+  procesarReporteCentro,
+  limpiarFormRerpoteCentro,
 } from "../../redux/ducks/reporteCentro";
 import {
   agregarComentarioAlimento,
   limpiarComentariosAlimento,
-  limpiarComentarios
-} from "../../redux/ducks/comentarios"
+  limpiarComentarios,
+} from "../../redux/ducks/comentarios";
 import classNames from "classnames";
 import FormSeleccionarReporte from "./FormSeleccionarReporte";
-import { colCumplimiento, comentarioAltoCumplimiento, comentarioBajoCumplimiento } from "../../constants";
+import {
+  colCumplimiento,
+  comentarioAltoCumplimiento,
+  comentarioBajoCumplimiento,
+} from "../../constants";
 import { limpiarGraficos } from "../../redux/ducks/graficos";
 
 const Formulario = () => {
@@ -55,7 +62,7 @@ const Formulario = () => {
     datosEficacia,
     datosTratamiento,
     datosPecesTratados,
-    language
+    language,
   } = useSelector((state) => state.parametrosGenerales);
   const { nombreEmpresa, cumplimiento, concentracion } = useSelector(
     (state) => state.reporte
@@ -64,16 +71,26 @@ const Formulario = () => {
     (state) => state.reporteAlimento
   );
 
-  const { nombreEmpresa: nEmpresaAlimento, piscicultura, fecha, umbral, umbralDestacar } = useSelector(
-    (state) => state.reporteMusculo
-  );
+  const {
+    nombreEmpresa: nEmpresaAlimento,
+    piscicultura,
+    fecha,
+    umbral,
+    umbralDestacar,
+  } = useSelector((state) => state.reporteMusculo);
 
-  const { nombreEmpresa: nEmpresaCentro, centro, fecha: fechaCentro } = useSelector(
-    (state) => state.reporteCentro
-  );
+  const {
+    nombreEmpresa: nEmpresaCentro,
+    centro,
+    fecha: fechaCentro,
+  } = useSelector((state) => state.reporteCentro);
 
-  const unicaOpcionMusculo = [nEmpresaAlimento, piscicultura, fecha].every(v => v !== null)
-  const unicaOpcionCentro = [nEmpresaCentro, centro, fechaCentro].every(v => v !== null)
+  const unicaOpcionMusculo = [nEmpresaAlimento, piscicultura, fecha].every(
+    (v) => v !== null
+  );
+  const unicaOpcionCentro = [nEmpresaCentro, centro, fechaCentro].every(
+    (v) => v !== null
+  );
 
   const cumplimientoOK =
     (cumplimiento.min <= cumplimiento.max || cumplimiento.max === "") &&
@@ -101,7 +118,8 @@ const Formulario = () => {
     // Chequeo si es que hay un valor, esten todos
     qCondition =
       qCondition &&
-      ((reporte !== null && reporte.id <= 2) || Object.values(concentracion).every((v) => v !== ""));
+      ((reporte !== null && reporte.id <= 2) ||
+        Object.values(concentracion).every((v) => v !== ""));
   }
 
   const pasos = useMemo(
@@ -116,6 +134,7 @@ const Formulario = () => {
         onClickSiguiente: () => {
           dispatch(limpiarFormRerpoteAlimento());
           dispatch(limpiarFormRerpoteMusculo());
+          dispatch(limpiarFormRerpoteCentro());
           dispatch(pasoSiguiente());
         },
       },
@@ -148,16 +167,29 @@ const Formulario = () => {
           todasLasPlanillas && Object.values(validando).every((v) => !v),
         onClickSiguiente: () => {
           if (todasLasPlanillas) {
-            dispatch(limpiarComentarios())
-            dispatch(limpiarGraficos())
-            dispatch(limpiarFormularioSeguimiento())
+            dispatch(limpiarComentarios());
+            dispatch(limpiarGraficos());
+            dispatch(limpiarFormularioSeguimiento());
             if (reporte.id === 1) {
               dispatch(cargarDatosAlimento(datosAlimento));
             } else if (reporte.id === 2) {
               const productName = producto?.titulo;
-              dispatch(cargarDatosMusculo({ datosAlimento, datosPeces, datosTratamiento, producto: productName }));
+              dispatch(
+                cargarDatosMusculo({
+                  datosAlimento,
+                  datosPeces,
+                  datosTratamiento,
+                  producto: productName,
+                })
+              );
             } else if (reporte.id === 3) {
-              dispatch(cargarDatosCentro({ datosAlimento, datosPeces, datosTratamiento }));
+              dispatch(
+                cargarDatosCentro({
+                  datosAlimento,
+                  datosPeces,
+                  datosTratamiento,
+                })
+              );
             }
             dispatch(pasoSiguiente());
           } else {
@@ -182,41 +214,48 @@ const Formulario = () => {
           reporte !== null &&
           ((reporte.id === 4 && nombreEmpresa !== "") ||
             (reporte.id === 1 && lotes.length > 0) ||
-            (reporte.id === 2 &&  unicaOpcionMusculo) ||
+            (reporte.id === 2 && unicaOpcionMusculo) ||
             (reporte.id === 3 && unicaOpcionCentro)),
         onClickSiguiente: () => {
-          if (reporte.id === 1 && lotes.length > 0){
-            dispatch(limpiarComentariosAlimento())
-            if (producto?.titulo === 'Imvixa') {
+          if (reporte.id === 1 && lotes.length > 0) {
+            dispatch(limpiarComentariosAlimento());
+            if (producto?.titulo === "Imvixa") {
               lotes.forEach((l, i) => {
                 try {
-                  dispatch(agregarComentarioAlimento({
-                    texto: (l.data[colCumplimiento] * 100) >= 90 ? comentarioAltoCumplimiento : comentarioBajoCumplimiento,
-                    indice: i
-                  }))
+                  dispatch(
+                    agregarComentarioAlimento({
+                      texto:
+                        l.data[colCumplimiento] * 100 >= 90
+                          ? comentarioAltoCumplimiento
+                          : comentarioBajoCumplimiento,
+                      indice: i,
+                    })
+                  );
                 } catch (error) {
-                  console.log(error)
+                  console.log(error);
                 }
-            })
-          }
+              });
+            }
             dispatch(pasoSiguiente());
           } else if (reporte.id === 2 && unicaOpcionMusculo) {
-            localStorage.setItem('umbralDestacar', umbralDestacar)
-            localStorage.setItem('umbral', umbral)
+            localStorage.setItem("umbralDestacar", umbralDestacar);
+            localStorage.setItem("umbral", umbral);
             dispatch(pasoSiguiente());
-          } else if ((reporte.id === 3 && unicaOpcionCentro) ||(reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")) {
+          } else if (
+            (reporte.id === 3 && unicaOpcionCentro) ||
+            (reporte.id === 4 && todasLasPlanillas && nombreEmpresa !== "")
+          ) {
             dispatch(pasoSiguiente());
           } else {
-            let error = "Necesita completar la información antes de continuar"
+            let error = "Necesita completar la información antes de continuar";
             if (reporte.id === 4) {
-              error = "Necesita seleccionar una empresa antes de continuar"
-            } 
+              error = "Necesita seleccionar una empresa antes de continuar";
+            }
             if (reporte.id === 1) {
-              error = "Necesita seleccionar al menos un lote antes de continuar"
-            } 
-            dispatch(
-              mostrarErrorFormulario(error)
-            );
+              error =
+                "Necesita seleccionar al menos un lote antes de continuar";
+            }
+            dispatch(mostrarErrorFormulario(error));
           }
         },
       },
@@ -244,7 +283,7 @@ const Formulario = () => {
                 qCondition &&
                 minCondition
               ) {
-                dispatch(procesarReporteAlimento({cumplimiento}));
+                dispatch(procesarReporteAlimento({ cumplimiento }));
               }
               break;
             case 2:
@@ -254,20 +293,27 @@ const Formulario = () => {
                 qCondition &&
                 minCondition
               ) {
-                dispatch(procesarReporteMusculo({cumplimiento}));
+                dispatch(procesarReporteMusculo({ cumplimiento }));
               }
               break;
             case 3:
-                if (
-                  unicaOpcionCentro &&
-                  cumplimientoOK &&
-                  concentracionOK &&
-                  qCondition &&
-                  minCondition
-                ) {
-                  dispatch(procesarReporteCentro({concentracion, language, cumplimiento}));
-                }
-                break;
+              if (
+                unicaOpcionCentro &&
+                cumplimientoOK &&
+                concentracionOK &&
+                qCondition &&
+                minCondition
+              ) {
+                dispatch(
+                  procesarReporteCentro({
+                    concentracion,
+                    language,
+                    cumplimiento,
+                    producto
+                  })
+                );
+              }
+              break;
             default:
               if (
                 todasLasPlanillas &&
@@ -282,7 +328,7 @@ const Formulario = () => {
                     datosEficacia,
                     datosPecesTratados,
                     cumplimiento,
-                    concentracion
+                    concentracion,
                   })
                 );
               }
@@ -311,12 +357,12 @@ const Formulario = () => {
       unicaOpcionMusculo,
       umbral,
       umbralDestacar,
-      unicaOpcionCentro
+      unicaOpcionCentro,
     ]
   );
 
   const pasoActual = pasos[indicePasoActual];
-  
+
   return (
     <div className="Formulario">
       <div className="Formulario__contenedor">
@@ -357,17 +403,19 @@ const Formulario = () => {
             onClick={pasoActual.onClickSiguiente}
           >
             {pasoActual.siguiente}
-        </button>
+          </button>
           <button
             className={classNames({
               Formulario__boton: true,
-              "Formulario__boton--activo": Object.values(validando).every((v) => !v),
+              "Formulario__boton--activo": Object.values(validando).every(
+                (v) => !v
+              ),
             })}
             onClick={() => {
               if (indicePasoActual === 0) {
-                history.push('/')
+                history.push("/");
               } else {
-                dispatch(pasoAnterior())
+                dispatch(pasoAnterior());
               }
             }}
           >

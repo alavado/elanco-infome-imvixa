@@ -130,16 +130,18 @@ const ReporteCentro = ({ language, product }) => {
         >
           <Encabezado product={product} reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
-            <TablaMuestras language={language} />
+            <TablaMuestras language={language} product={product.titulo} />
           </MensajeError>
-          <div className="ReporteCentro__seccion_contenedor">
-            <MensajeError>
-              <CurvaPorPeso language={language}/>
-            </MensajeError>
-            <MensajeError>
-              <CurvaPorUTAs language={language}/>
-            </MensajeError>
+          {product.titulo === 'Imvixa' && (
+            <div className="ReporteCentro__seccion_contenedor">
+              <MensajeError>
+                <CurvaPorPeso language={language}/>
+              </MensajeError>
+              <MensajeError>
+                <CurvaPorUTAs language={language}/>
+              </MensajeError>
           </div>
+          )}
           <Comentarios
             reporteID={REPORTE_ID_CENTRO}
             agregarComentario={agregarComentarioCentro}

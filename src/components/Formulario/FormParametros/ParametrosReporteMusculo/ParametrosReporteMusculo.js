@@ -88,7 +88,7 @@ const ParametrosReporteMusculo = () => {
           return acc;
         }, new Set()),
       ]
-        .sort((a, b) => a.localeCompare(b))
+        .sort((a, b) => b.localeCompare(a))
         .map((v) => {
           return { value: v, label: v };
         }),

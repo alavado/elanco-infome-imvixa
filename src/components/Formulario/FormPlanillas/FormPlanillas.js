@@ -75,6 +75,7 @@ const FormPlanillas = () => {
     ipcRenderer.on("peces", async (e, data) => {
       dispatch(estaValidando({peces: false}))
       if (data.datos && data.datos.length === 0) {
+        console.log("NO DATA PECES");
         dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPeces())
       } else {

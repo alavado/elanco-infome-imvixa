@@ -91,8 +91,7 @@ const slice = createSlice({
         state.reporte.id === REPORTE_ID_ALIMENTO ||
         (
           [REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO].includes(state.reporte.id) &&
-          state.planillaPeces !== "" &&
-          state.planillaPecesTratados !== ""
+          state.planillaPeces !== ""
         ) ||
         (
           state.planillaEficacia !== "" &&
@@ -121,9 +120,15 @@ const slice = createSlice({
       const datosTratamiento = [];
       let date;
       let r;
+      const nRows = action.payload.datos.datosTratamiento.length;
+      if (nRows === 0) {
+        console.log("No ROWS peces");
+        state.errorFormulario = "Hoja peces no tiene datos válidos";
+        return;
+      }
       for (
         let index = 0;
-        index < action.payload.datos.datosTratamiento.length;
+        index < nRows;
         index++
       ) {
         r = action.payload.datos.datosTratamiento[index];
@@ -143,9 +148,15 @@ const slice = createSlice({
       }
       state.datosTratamiento = datosTratamiento;
       const datosPeces = [];
+      const nRowsTrat = action.payload.datos.datosPeces.length;
+      if (nRowsTrat === 0) {
+        console.log("No ROWS Trat");
+        state.errorFormulario = "Hoja tratamiento no tiene datos válidos";
+        return;
+      }
       for (
         let index = 0;
-        index < action.payload.datos.datosPeces.length;
+        index < nRowsTrat;
         index++
       ) {
         r = action.payload.datos.datosPeces[index];
@@ -248,7 +259,7 @@ const slice = createSlice({
       if (newProductID === 1) {
         state.reportes = reportes;
       } else if (newProductID === 2) {
-        const sliceReports = [reportes[0], reportes[1]];
+        const sliceReports = [reportes[0], reportes[2]];
         state.reportes = sliceReports;
       } else {
         state.reportes = [];

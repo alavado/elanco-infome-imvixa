@@ -4,7 +4,7 @@ import "./GraficoComparacion.css";
 import { generalTexts } from '../generalTexts';
 
 
-const GraficoComparacion = ({ language }) => {
+const GraficoComparacion = ({ language, product }) => {
   const {
     datosGraficoComparacion: datosReadOnly,
   } = useSelector((state) => state.reporteCentro);
@@ -32,7 +32,8 @@ const GraficoComparacion = ({ language }) => {
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
   const tick = vMax > 25 ? 5 : 2;
-  let yMax = Math.max(12, Math.ceil(vMax + tick));
+  let yMax = Math.max(product === 'Imvixa' ? 12 : 1, Math.ceil(vMax + tick));
+
   const yMin = 0;
 
   const yLineas = [
