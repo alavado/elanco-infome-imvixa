@@ -7,11 +7,11 @@ import ParametrosReporteMusculo from "./ParametrosReporteMusculo";
 import ParametrosReporteCentro from "./ParametrosReporteCentro";
 
 const FormParametros = () => {
-  const { reporte } = useSelector((state) => state.parametrosGenerales);
+  const { reporte, producto } = useSelector((state) => state.parametrosGenerales);
   switch (reporte.id) {
     case 1:
       return (
-        <ParametrosReporteAlimento/>
+        <ParametrosReporteAlimento product={producto?.titulo}/>
       );
     case 2:
       return (

@@ -61,10 +61,12 @@ const slice = createSlice({
       state.planillaAlimento = action.payload.path;
       const datos = [];
       action.payload.datos.forEach((r) => {
-        datos.push({
-          ...r,
-          [colFechaAlimento]: new Date(r[colFechaAlimento]).toISOString(),
-        });
+        if (r[colFechaAlimento]) {
+          datos.push({
+            ...r,
+            [colFechaAlimento]: new Date(r[colFechaAlimento]).toISOString(),
+          });
+        }
       });
       let objPisciculturas = {};
       action.payload.datos.forEach((r) => {

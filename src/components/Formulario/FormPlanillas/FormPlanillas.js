@@ -56,8 +56,13 @@ const FormPlanillas = () => {
         dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioAlimento())
       } else {
-        dispatch(guardarPlanillaAlimento(data))
-        localStorage.setItem("planillaAlimento", data.path)
+        try {
+          dispatch(guardarPlanillaAlimento(data))
+          localStorage.setItem("planillaAlimento", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioAlimento())
+        }
       }
     });
     
@@ -67,8 +72,13 @@ const FormPlanillas = () => {
         dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioEficacia())
       } else {
-        dispatch(guardarPlanillaEficacia(data))
-        localStorage.setItem("planillaEficacia", data.path)
+        try {
+          dispatch(guardarPlanillaEficacia(data))
+          localStorage.setItem("planillaEficacia", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioEficacia())
+        }
       }
     });
   
@@ -79,8 +89,13 @@ const FormPlanillas = () => {
         dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPeces())
       } else {
-        dispatch(guardarPlanillaPeces(data))
-        localStorage.setItem("planillaPeces", data.path)
+        try {
+          dispatch(guardarPlanillaPeces(data))
+          localStorage.setItem("planillaPeces", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioPeces())
+        }
       }
     });
   
@@ -90,8 +105,13 @@ const FormPlanillas = () => {
         dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPecesTratados())
       } else {
-        dispatch(guardarPlanillaPecesTratados(data))
-        localStorage.setItem("planillaPecesTratados", data.path)
+        try {
+          dispatch(guardarPlanillaPecesTratados(data))
+          localStorage.setItem("planillaPecesTratados", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioPecesTratados())
+        }
       }
     });
 

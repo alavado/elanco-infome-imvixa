@@ -410,7 +410,7 @@ const slice = createSlice({
       state.datosPeces.forEach((fila) => {
         // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
         if (
-          fila[colSampleOrigin] === tipoFreshWater &&
+          fila[colSampleOrigin] === (isImvixa ? tipoFreshWater : tipoSeaWater) &&
           fila[colFechaPeces] &&
           !setInformesFW.has(fila[colInformePeces] || fila[colInformePecesR]) &&
           fila[colPPB]
@@ -471,7 +471,7 @@ const slice = createSlice({
         const muestrasPorPiscicultura = state.datosMuestrasSWFW.filter(
           (fila) =>
             fila[colPisciculturaPeces] === piscicultura &&
-            fila[colSampleOrigin] === tipoFreshWater
+            fila[colSampleOrigin] === (isImvixa ? tipoFreshWater : tipoSeaWater)
         );
         if (muestrasPorPiscicultura.length > 0) {
           const muestras = [];
