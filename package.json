@@ -1,6 +1,6 @@
 {
   "name": "elanco-informe-imvixa",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -74,7 +74,7 @@
   },
   "build": {
     "appId": "cl.compsci.reporteimvixa",
-    "productName": "Reporte Seguimiento Imvixa",
+    "productName": "Reporte Seguimiento Imvixa/Slice",
     "directories": {
       "buildResources": "build",
       "output": "dist"
@@ -91,5 +91,5 @@
       ]
     }
   },
-  "description": "Reporte Seguimiento Imvixa"
+  "description": "Reporte Seguimiento Imvixa/Slice"
 }

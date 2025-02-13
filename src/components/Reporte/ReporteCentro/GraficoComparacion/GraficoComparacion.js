@@ -4,13 +4,13 @@ import "./GraficoComparacion.css";
 import { generalTexts } from '../generalTexts';
 
 
-const GraficoComparacion = ({ language }) => {
+const GraficoComparacion = ({ language, product }) => {
   const {
     datosGraficoComparacion: datosReadOnly,
   } = useSelector((state) => state.reporteCentro);
   const { gt_GraficoComparacion } = generalTexts
   const { titulo, yaxis, sindatos, disclaimer } = gt_GraficoComparacion[language]
-
+  const isImvixa = product === 'Imvixa';
   if (datosReadOnly.length === 2) {
     return (
       <div className="GraficoComparacion">
@@ -31,8 +31,9 @@ const GraficoComparacion = ({ language }) => {
   datos[1]['nombre'] = language === 'es' ? 'Empresa' : 'Company'
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
 
-  const tick = vMax > 25 ? 5 : 2;
-  let yMax = Math.max(12, Math.ceil(vMax + tick));
+  const tick = vMax > 25 ? 5 : isImvixa ? 2 : 0.1;
+  let yMax = Math.max(isImvixa ? 12 : 0.5, Math.ceil(vMax + tick));
+
   const yMin = 0;
 
   const yLineas = [

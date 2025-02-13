@@ -11,7 +11,7 @@ const GraficoCumplimiento = ({ language }) => {
   // const { cumplimiento } = useSelector((state) => state.reporte);
   const { gt_GraficoCumplimiento } = generalTexts
   const { titulo, yaxis, sindatos, disclaimer } = gt_GraficoCumplimiento[language]
-
+  
   if (datosReadOnly.length === 0) {
     return (
       <div className="GraficoCumplimiento">

@@ -12,8 +12,8 @@ export const generalTexts = {
       es: (año, mes, dia) => `Fecha emisión informe: ${dia} de ${meses[mes]} ${año}`
     },
     subtitulo: {
-      en: (nombreEmpresa) => `· Prepared by Aqua Elanco Technical Services · For more information, contact your Elanco representative. The data in this report is confidential and belongs to ${nombreEmpresa}. The distribution of this report is prohibited without the authorization of the company.`,
-      es: (nombreEmpresa) => `· Elaborado por Technical Services de Aqua Elanco · Para mayor información, contacte a su representante de Elanco. Los datos del presente informe son confidenciales y pertenecen a ${nombreEmpresa}. Prohibida su distribución sin autorización de la empresa. `
+      en: (nombreEmpresa) => `· Prepared by MSD Animal Health Technical Services · For more information, contact your MSD representative. The data in this report is confidential and belongs to ${nombreEmpresa}. The distribution of this report is prohibited without the authorization of the company.`,
+      es: (nombreEmpresa) => `· Elaborado por Technical Services de MSD Salud Animal · Para mayor información, contacte a su representante de MSD. Los datos del presente informe son confidenciales y pertenecen a ${nombreEmpresa}. Prohibida su distribución sin autorización de la empresa. `
     }
   },
   seccion1: {
@@ -67,7 +67,7 @@ export const generalTexts = {
     en: 'Comments/Observations'
   },
   gt_Sandalias: {
-    es: `Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © ${new Date().getFullYear()} Elanco`,
-    en: `Imvixa, Elanco and the forward slash are trademarks of Elanco or its affiliates. © ${new Date().getFullYear()} Elanco`
+    es: `Copyright ©${new Date().getFullYear()} Merck & Co., Inc., Rahway, NJ, USA y sus afiliadas. Todos los derechos reservados.`,
+    en: `Copyright ©${new Date().getFullYear()} Merck & Co., Inc., Rahway, NJ, USA and its affiliate. All rights reserved.`
   }
 }

@@ -9,6 +9,7 @@ import {
   seleccionarReporte,
   filtrarPorEmpresa,
   filtrarPorFecha,
+  filtrarPorProducto,
   filtrarPorTipo } from '../../../redux/ducks/previsualizador';
 import { localeSort } from '../../../redux/ducks/utilities';
 import { reportes } from '../../../helpers/reportes';
@@ -22,7 +23,7 @@ import { cargarGraficos } from '../../../redux/ducks/graficos';
 const FormPrevisualizador = () => {
   const history = useHistory()
   const dispatch = useDispatch();
-  const { opcionesCodigos, reporte, filtroTipo, filtroEmpresa, filtroFecha, codigoSeleccionado } = useSelector(state => state.previsualizador)
+  const { opcionesCodigos, reporte, filtroTipo, filtroEmpresa, filtroFecha, filtroProducto, codigoSeleccionado } = useSelector(state => state.previsualizador)
   // Acciones de botones
   const goToViz = async () => {
     const datos = JSON.parse(reporte.Datos)
@@ -71,6 +72,7 @@ const FormPrevisualizador = () => {
 
   // Filtrar opciones de los selectores
   let codigosFinales = opcionesCodigos;
+
   if (filtroTipo !== null) {
     codigosFinales = opcionesCodigos.filter(v => v.tipo === filtroTipo.value)
   }
@@ -79,6 +81,9 @@ const FormPrevisualizador = () => {
   }
   if (filtroFecha !== null) {
     codigosFinales = codigosFinales.filter(v => v.fecha === filtroFecha.value)
+  }
+  if (filtroProducto !== null) {
+    codigosFinales = codigosFinales.filter(v => v.producto === filtroProducto.value)
   }
 
   // Armar lista de empresas, fechas, codigos, tipos 
@@ -98,6 +103,9 @@ const FormPrevisualizador = () => {
   })
   const  opcionesFecha = localeSort([...fechasSet]).map((v) => {
     return { value: v, label: v };
+  })
+  const opcionesProducto = ['Imvixa', 'Slice'].map((id) => {
+    return { value: id, label: id };
   })
   const opcionesTipo = [...tipoSet].map((id) => {
     return { value: id, label: reportes.find(v => v.id === id).alias };
@@ -176,6 +184,21 @@ const FormPrevisualizador = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="FormParametros__seccion">
+          <div className="FormParametros__seccion_label">Producto</div>
+          <Select
+            isClearable={true}
+            isSearchable={true}
+            value={filtroProducto}
+            name="colors"
+            options={opcionesProducto}
+            placeholder="Seleccione producto"
+            className="basic-multi-select"
+            classNamePrefix="select"
+            noOptionsMessage={(obj) => "No hay más opciones"}
+            onChange={(l) => dispatch(filtrarPorProducto(l))}
+          />
         </div>
         <div className="FormParametros__seccion">
           <div className="FormParametros__seccion_label">Código</div>

@@ -13,7 +13,7 @@ import { generalTexts } from '../../Reporte/ReporteAlimento/generalTexts';
 import "./ReporteAlimento.css";
 const { ipcRenderer } = window.require('electron')
 
-const VisualizadorAlimento = ({language}) => {
+const VisualizadorAlimento = ({language, product}) => {
   const { fechaReporte: fecha, nombreEmpresa, lotes } = useSelector(state => state.reporteAlimento)
   const lotesNames = lotes.map(v => v.lote)
   useEffect(() => {
@@ -31,7 +31,8 @@ const VisualizadorAlimento = ({language}) => {
         tipoID: REPORTE_ID_ALIMENTO,
         fecha,
         empresa: nombreEmpresa,
-        datos: lotes
+        datos: lotes,
+        producto: product.titulo
       })
     });
   }, [lotes]);
@@ -53,7 +54,7 @@ const VisualizadorAlimento = ({language}) => {
       <div className="ReporteAlimento__contenedor" style={dimensions}>
         {lotes.map((l, i) => (
           <div className="ReporteAlimento__pagina" style={dimensionsPage} key={`reporte-lote-${i}`}>
-            <Encabezado reporteID={REPORTE_ID_ALIMENTO} reporteNombre={REPORTE_NOMBRE_ALIMENTO} language={language}/>
+            <Encabezado reporteID={REPORTE_ID_ALIMENTO} reporteNombre={REPORTE_NOMBRE_ALIMENTO} language={language} product={product}/>
             <MensajeError>
               <DatosEmpresa nombreEmpresa={nombreEmpresa} fecha={today} language={language}/>
             </MensajeError>

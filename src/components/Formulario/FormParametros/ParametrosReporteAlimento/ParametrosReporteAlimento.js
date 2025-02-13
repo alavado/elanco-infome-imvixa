@@ -18,7 +18,7 @@ import {
 } from "../../../../constants";
 import "../FormParametros.css";
 
-const ParametrosReporteAlimento = () => {
+const ParametrosReporteAlimento = ({product}) => {
   registerLocale("es", es);
   const {
     opcionEmpresa: nombreEmpresa,
@@ -29,6 +29,7 @@ const ParametrosReporteAlimento = () => {
     filtros,
     lotesSeleccionados,
   } = useSelector((state) => state.reporteAlimento);
+  const esImvixa = product === 'Imvixa';
 
   const dispatch = useDispatch();
   const empresas = useMemo(
@@ -136,7 +137,7 @@ const ParametrosReporteAlimento = () => {
           return acc;
         }, new Set()),
       ]
-        .sort((a, b) => a.localeCompare(b))
+        .sort((a, b) => b.localeCompare(a))
         .map((v) => {
           return { value: v, label: v };
         }),
@@ -186,7 +187,7 @@ const ParametrosReporteAlimento = () => {
         />
       </div>
       <div className="FormParametros__seccion">
-        <div className="FormParametros__seccion_label">Piscicultura</div>
+        <div className="FormParametros__seccion_label">{esImvixa ? 'Piscicultura' : 'Centro'}</div>
         <Select
           value={piscicultura}
           isClearable={true}

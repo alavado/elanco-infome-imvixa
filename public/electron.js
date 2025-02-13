@@ -34,7 +34,6 @@ const graficos = [
   },
 ];
 
-const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -78,7 +77,8 @@ const REGISTER_HEADER = [
   'TipoID',
   'Fecha',
   'Empresa',
-  'Datos'
+  'Datos',
+  'Producto'
 ]
 const registerPath =  path.join(appUserDataPath, REGISTER_FILE)
 var XLSX = require("xlsx");
@@ -190,13 +190,12 @@ function createWindow() {
     mainWindow.show();
   });
   mainWindow.webContents.once("did-finish-load", () => {
-    mainWindow.setTitle(`Reporte Seguimiento IMVIXA - Versión ${version}`);
+    mainWindow.setTitle(`Reporte Seguimiento IMVIXA/Slice - Versión ${version}`);
   });
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
 app.on("ready", () => {
-  autoUpdater.checkForUpdates();
   createWindow();
 });
 
@@ -277,7 +276,8 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
   const { tipoID,
     fecha,
     empresa,
-    datos
+    datos,
+    producto
   } = datosRegistro
   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
   const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
@@ -285,11 +285,15 @@ ipcMain.on("guardarReporteAlimento", async (_, datosRegistro) => {
   for (let index = 0; index < numeroDeLotes; index++) {
     const datosString = JSON.stringify([datos[index]])
     rows.push([
-      reporteUID + index.toString(), tipoID, fecha, empresa, datosString
+      reporteUID + index.toString(), tipoID, fecha, empresa, datosString, producto
     ])
   }
   XLSX.utils.sheet_add_aoa(sheet, rows, {origin:-1})
-  XLSX.writeFile(wb, registerPath)
+  try {
+    XLSX.writeFile(wb, registerPath)
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 ipcMain.on("guardarReporteMusculo", async (_, datosRegistro) => {
@@ -309,14 +313,19 @@ const guardarRegistro = async (datosRegistro) => {
     tipoID,
     fecha,
     empresa,
-    datos
+    datos,
+    producto
   } = datosRegistro
   const datosString = JSON.stringify(datos)
   // TODO: Check if file exists if not create if exists then append
   const wb = XLSX.readFile(registerPath, { type: "binary", cellDates: true });
   const sheet = wb.Sheets[REGISTRO_SHEET_NAME];
-  XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString]], {origin:-1})
-  XLSX.writeFile(wb, registerPath)
+  XLSX.utils.sheet_add_aoa(sheet, [[reporteUID, tipoID, fecha, empresa, datosString, producto]], {origin:-1})
+  try {
+    XLSX.writeFile(wb, registerPath)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const imprimirReporteAlimento = async () => {
@@ -487,9 +496,17 @@ ipcMain.on("viendoReporte", async (_, rID) => {
 
 ipcMain.on("yaNoViendoReporte", async () => {
   viendoReporte = false
-  menuItemVolverAParametros.enabled = false
-  menuItemVerGraficos.visible = false
-  menuItemImprimir.enabled = false
+  try {
+    [menuItemVolverAParametros, menuItemImprimir].forEach(value => {
+      if (value) value.enabled = false;
+    })
+    if (menuItemVerGraficos) {
+      menuItemVerGraficos.visible = false;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
 });
 
 ipcMain.on("datosReporte", async (_, data) => {
@@ -525,21 +542,30 @@ var validation = require("./validation");
 ipcMain.on("leer", async (event, state) => {
   const typeSheet = state.tipo
   const pathString = state.path;
+  const product = state.product;
   try {
     let datos;
     let wb;
     switch (typeSheet) {
       case "alimento":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
-        datosAlimento = validation.checkAlimento(wb);
+        console.time('alimento read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheets: 'Alimentos', sheetRows: 20000});
+        console.timeEnd('alimento read');
+        console.time('alimento validate');
+        datosAlimento = validation.checkAlimento(wb, product);
+        console.timeEnd('alimento validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosAlimento,
         });
         break;
       case "peces":
-        datosPeces = validation.checkPecesHojaImvixa(pathString);
-        datosTratamiento = validation.checkPecesHojaTratamiento(pathString);
+        console.time('peces read');
+        datosPeces = validation.checkPecesHojaImvixa(pathString, product);
+        console.timeEnd('peces read');
+        console.time('Tratamiento read');
+        datosTratamiento = validation.checkPecesHojaTratamiento(pathString, product);
+        console.timeEnd('Tratamiento read');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: {
@@ -549,16 +575,24 @@ ipcMain.on("leer", async (event, state) => {
         });
         break;
       case "eficacia":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
-        datosEficacia = validation.checkEficacia(wb);
+        console.time('eficacia read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheetRows: 20000 });
+        console.timeEnd('eficacia read');
+        console.time('eficacia validate');
+        datosEficacia = validation.checkEficacia(wb, product);
+        console.timeEnd('eficacia validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosEficacia
         });
         break;
       case "tratamiento":
-        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true });
-        datosTratamiento = validation.checkTratamiento(wb);
+        console.time('tratamiento read');
+        wb = XLSX.readFile(pathString, { type: "binary", cellDates: true, sheetRows: 20000 });
+        console.timeEnd('tratamiento read');
+        console.time('tratamiento validate');
+        datosTratamiento = validation.checkTratamiento(wb, product);
+        console.timeEnd('tratamiento validate');
         event.sender.send(typeSheet, {
           path: pathString,
           datos: datosTratamiento
@@ -571,7 +605,8 @@ ipcMain.on("leer", async (event, state) => {
     console.log("ERR ", err);
     event.sender.send(typeSheet, {
       path: pathString,
-      datos: []
+      datos: [], 
+      err
     });
   }
 });
@@ -591,23 +626,3 @@ ipcMain.on("guardarConfiguracionGraficos", async (event, data) => {
   fs.writeFileSync(configRootPath, JSON.stringify(newConfigJSON))
 });
 
-autoUpdater.on("checking-for-update", () => {
-  console.log("checking-for-update");
-});
-autoUpdater.on("update-available", (info) => {
-  console.log("update-available", info);
-  mainWindow.webContents.send("descargando-actualizacion");
-});
-autoUpdater.on("update-not-available", (info) => {
-  console.log("update-not-available", info);
-});
-autoUpdater.on("error", (err) => {
-  console.log("error", err);
-});
-autoUpdater.on("download-progress", (progressObj) => {
-  console.log("download-progress", progressObj);
-});
-autoUpdater.on("update-downloaded", (info) => {
-  console.log("update-downloaded", info);
-  autoUpdater.quitAndInstall();
-});

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './Previsualizador.css'
 import logoImvixa from "../../assets/images/logo-imvixa.svg";
-import logoElanco from "../../assets/images/logo-elanco.svg";
+import logoElanco from "../../assets/images/MDS.svg";
 import { cargarRegistros } from '../../redux/ducks/previsualizador';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../Spinner';
@@ -23,17 +23,12 @@ const Previsualizador = () => {
       <div className="Previsualizador__contenedor">
         <div className="Previsualizador__header">
           <div className="Previsualizador__titulo">
-            <div>Visualizador de reporte Imvixa</div>
+            <div>Visualizador de reporte Imvixa/Slice</div>
             <div className="logos">
-              <img
-                src={logoImvixa}
-                className="Previsualizador__logo_imvixa"
-                alt="Logo Imvixa"
-              />
               <img
                 src={logoElanco}
                 className="Previsualizador__logo_elanco"
-                alt="Logo Elanco"
+                alt="Logo MDS"
               />
             </div>
           </div>

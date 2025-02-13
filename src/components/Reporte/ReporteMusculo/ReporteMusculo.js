@@ -21,7 +21,7 @@ import {
 import { REPORTE_ID_MUSCULO, REPORTE_NOMBRE_MUSCULO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteMusculo = ({ language }) => {
+const ReporteMusculo = ({ language, product }) => {
   const { comentariosMusculo, preViz } = useSelector((state) => state.comentarios);
   const { 
     empresa,
@@ -107,11 +107,15 @@ const ReporteMusculo = ({ language }) => {
         tipoID: REPORTE_ID_MUSCULO,
         fecha: today.toISOString(),
         empresa: empresa,
-        datos 
+        datos,
+        producto: product.titulo
       })
     });
   }, [datos, empresa]);
 
+  console.log({
+    product
+  })
   return (
     <div className="ReporteMusculo">
       <div className="ReporteMusculo__contenedor" style={dimensions}>
@@ -119,7 +123,7 @@ const ReporteMusculo = ({ language }) => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language} />
+          <Encabezado product={product} reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language} />
           <MensajeError>
             <DatosEmpresa nombreEmpresa={empresa} fecha={today} language={language} />
           </MensajeError>
@@ -134,7 +138,7 @@ const ReporteMusculo = ({ language }) => {
               <GraficoCumplimiento language={language} />
             </MensajeError>
             <MensajeError>
-              <GraficoComparacion language={language}/>
+              <GraficoComparacion language={language} product={product.titulo}/>
             </MensajeError>
           </div>
           <Sandalias pagina={1} />
@@ -143,9 +147,9 @@ const ReporteMusculo = ({ language }) => {
           className="ReporteMusculo__pagina ReporteMusculo__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_MUSCULO} reporteNombre={REPORTE_NOMBRE_MUSCULO} language={language}/>
           <MensajeError>
-            <TablaMuestras language={language} />
+            <TablaMuestras language={language} product={product.titulo} />
           </MensajeError>
           <Comentarios
             agregarComentario={agregarComentarioMusculo}

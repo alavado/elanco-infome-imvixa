@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "./GraficoComparacion.css";
 import { generalTexts } from '../generalTexts';
 
-const GraficoComparacion = ({language}) => {
+const GraficoComparacion = ({language, product}) => {
   const { datosGComp: datos } = useSelector(
     (state) => state.reporteMusculo
   );
@@ -11,7 +11,7 @@ const GraficoComparacion = ({language}) => {
   const { titulo, yaxis, xaxis } = gt_GraficoComparacion[language]
   const vMax = Math.ceil(datos.reduce((max, v) => Math.max(max, v.max), 0));
   const tick = vMax > 25 ? 5 : 2;
-  let yMax = Math.max(20, Math.ceil(vMax + tick));
+  let yMax = Math.max(product === 'Imvixa' ? 20 : 1, Math.ceil(vMax + tick));
   const yMin = 0;
 
   const yLineas = [

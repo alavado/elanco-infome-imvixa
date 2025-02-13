@@ -7,7 +7,7 @@ export const generalTexts = {
     en: {
       filas: [
         "Hatchery",
-        "Elanco representative",
+        "MSD representative",
         "Visit date",
         "Visit representative",
         "Customer rep.",
@@ -16,7 +16,7 @@ export const generalTexts = {
     es: {
       filas: [
         "Piscicultura",
-        "Representante Elanco",
+        "Representante MSD",
         "Fecha de visita",
         "Representante visita",
         "Representante cliente",
@@ -139,7 +139,7 @@ export const generalTexts = {
     en: 'Comments/Observations'
   },
   gt_Sandalias: {
-    es: `Imvixa, Elanco y la barra diagonal son marcas registradas de Elanco o sus afiliadas. © ${new Date().getFullYear()} Elanco`,
-    en: `Imvixa, Elanco and the forward slash are trademarks of Elanco or its affiliates. © ${new Date().getFullYear()} Elanco`
+    es: `Copyright ©${new Date().getFullYear()} Merck & Co., Inc., Rahway, NJ, USA y sus afiliadas. Todos los derechos reservados.`,
+    en: `Copyright ©${new Date().getFullYear()} Merck & Co., Inc., Rahway, NJ, USA and its affiliate. All rights reserved.`
   }
 }

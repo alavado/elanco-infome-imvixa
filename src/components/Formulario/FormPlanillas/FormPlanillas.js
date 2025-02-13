@@ -12,8 +12,10 @@ import {
   limpiarFormularioPecesTratados,
   mostrarErrorFormulario,
 } from "../../../redux/ducks/parametrosGenerales";
+import { REPORTE_ID_ALIMENTO, REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO } from "../../../helpers/reportes";
 
 import "./FormPlanillas.css";
+import { REPORTE_ID_SEGUIMIENTO } from "../../../helpers/reportes";
 const { ipcRenderer } = window.require("electron");
 
 const getShortPath = (path) => {
@@ -28,7 +30,9 @@ const FormPlanillas = () => {
     planillaAlimento, 
     planillaPeces, 
     planillaEficacia,
-    planillaPecesTratados
+    planillaPecesTratados,
+    reporte,
+    producto
    } = useSelector(
     (state) => state.parametrosGenerales
   );
@@ -36,69 +40,92 @@ const FormPlanillas = () => {
   const leerPlanilla = async (tipo, path) => {
     if (path) {
       dispatch(estaValidando({[tipo]: true}))
-      ipcRenderer.send("leer", { tipo, path });
+      ipcRenderer.send("leer", { tipo, path, product: producto });
     }
   };
 
-  const dispatchErrorFormulario = () => dispatch(mostrarErrorFormulario(
-    "La planilla que intentó cargar no cumple con el formato necesario."
+  const dispatchErrorFormulario = (err) => dispatch(mostrarErrorFormulario(
+    `La planilla que intentó cargar no cumple con el formato necesario.\n ${err}`
   ))
+  const readPlanillaPeces = [REPORTE_ID_SEGUIMIENTO, REPORTE_ID_CENTRO, REPORTE_ID_MUSCULO].includes(reporte.id);
   
   useEffect(() => {
     ipcRenderer.on("alimento", async (e, data) => {
       dispatch(estaValidando({alimento: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioAlimento())
       } else {
-        dispatch(guardarPlanillaAlimento(data))
-        localStorage.setItem("planillaAlimento", data.path)
+        try {
+          dispatch(guardarPlanillaAlimento(data))
+          localStorage.setItem("planillaAlimento", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioAlimento())
+        }
       }
     });
     
     ipcRenderer.on("eficacia", async (e, data) => {
       dispatch(estaValidando({eficacia: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioEficacia())
       } else {
-        dispatch(guardarPlanillaEficacia(data))
-        localStorage.setItem("planillaEficacia", data.path)
+        try {
+          dispatch(guardarPlanillaEficacia(data))
+          localStorage.setItem("planillaEficacia", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioEficacia())
+        }
       }
     });
   
     ipcRenderer.on("peces", async (e, data) => {
       dispatch(estaValidando({peces: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        console.log("NO DATA PECES");
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPeces())
       } else {
-        dispatch(guardarPlanillaPeces(data))
-        localStorage.setItem("planillaPeces", data.path)
+        try {
+          dispatch(guardarPlanillaPeces(data))
+          localStorage.setItem("planillaPeces", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioPeces())
+        }
       }
     });
   
     ipcRenderer.on("tratamiento", async (e, data) => {
       dispatch(estaValidando({tratamiento: false}))
       if (data.datos && data.datos.length === 0) {
-        dispatchErrorFormulario()
+        dispatchErrorFormulario(data.err)
         dispatch(limpiarFormularioPecesTratados())
       } else {
-        dispatch(guardarPlanillaPecesTratados(data))
-        localStorage.setItem("planillaPecesTratados", data.path)
+        try {
+          dispatch(guardarPlanillaPecesTratados(data))
+          localStorage.setItem("planillaPecesTratados", data.path)
+        } catch (e) {
+          dispatchErrorFormulario(e)
+          dispatch(limpiarFormularioPecesTratados())
+        }
       }
     });
+
     // Recuperar de localstorage aquellos
     if (planillaAlimento === "" && localStorage.getItem('planillaAlimento') !== null) {
       leerPlanilla("alimento", localStorage.getItem('planillaAlimento'))
     } 
-    if (planillaEficacia === "" && localStorage.getItem('planillaEficacia') !== null) {
+    if (planillaEficacia === "" && localStorage.getItem('planillaEficacia') !== null && reporte.id === REPORTE_ID_SEGUIMIENTO) {
       leerPlanilla("eficacia", localStorage.getItem('planillaEficacia'))
     } 
-    if (planillaPecesTratados === "" && localStorage.getItem('planillaPecesTratados') !== null) {
+    if (planillaPecesTratados === "" && localStorage.getItem('planillaPecesTratados') !== null && reporte.id === REPORTE_ID_SEGUIMIENTO) {
       leerPlanilla("tratamiento", localStorage.getItem('planillaPecesTratados'))
     } 
-    if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null) {
+    if (planillaPeces === "" && localStorage.getItem('planillaPeces') !== null && readPlanillaPeces) {
       leerPlanilla("peces", localStorage.getItem('planillaPeces'))
     } 
   }, []);
@@ -124,24 +151,7 @@ const FormPlanillas = () => {
           }
         ></input>
       </div>
-      <div className="FormPlanillas__planilla">
-        <label
-          htmlFor="FormPlanillas__planilla__4"
-          className="FormPlanillas__planilla__label"
-        >
-          <div className="FormPlanillas__planilla__label__button">Eficacia</div>
-          <div className="FormPlanillas__planilla__label__file">
-            {getShortPath(planillaEficacia)}
-          </div>
-        </label>
-        <input
-          id="FormPlanillas__planilla__4"
-          type="file"
-          accept=".csv, .xl*"
-          onChange={(e) => leerPlanilla("eficacia", e.target.files[0]?.path)}
-        ></input>
-      </div>
-      <div className="FormPlanillas__planilla">
+      {readPlanillaPeces && (<div className="FormPlanillas__planilla">
         <label
           htmlFor="FormPlanillas__planilla__3"
           className="FormPlanillas__planilla__label"
@@ -157,26 +167,48 @@ const FormPlanillas = () => {
           accept=".csv, .xl*"
           onChange={(e) => leerPlanilla("peces", e.target.files[0]?.path)}
         ></input>
+      </div>)}
+      {reporte.id === REPORTE_ID_SEGUIMIENTO && (
+      <div>
+        <div className="FormPlanillas__planilla">
+          <label
+            htmlFor="FormPlanillas__planilla__4"
+            className="FormPlanillas__planilla__label"
+          >
+            <div className="FormPlanillas__planilla__label__button">Eficacia</div>
+            <div className="FormPlanillas__planilla__label__file">
+              {getShortPath(planillaEficacia)}
+            </div>
+          </label>
+          <input
+            id="FormPlanillas__planilla__4"
+            type="file"
+            accept=".csv, .xl*"
+            onChange={(e) => leerPlanilla("eficacia", e.target.files[0]?.path)}
+          ></input>
+        </div>
+        <div className="FormPlanillas__planilla">
+          <label
+            htmlFor="FormPlanillas__planilla__2"
+            className="FormPlanillas__planilla__label"
+          >
+            <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
+            <div className="FormPlanillas__planilla__label__file">
+              {getShortPath(planillaPecesTratados)}
+            </div>
+          </label>
+          <input
+            id="FormPlanillas__planilla__2"
+            type="file"
+            accept=".csv, .xl*"
+            onChange={
+              (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
+            }
+          ></input>
+        </div>
       </div>
-      <div className="FormPlanillas__planilla">
-        <label
-          htmlFor="FormPlanillas__planilla__2"
-          className="FormPlanillas__planilla__label"
-        >
-          <div className="FormPlanillas__planilla__label__button">Tratamiento</div>
-          <div className="FormPlanillas__planilla__label__file">
-            {getShortPath(planillaPecesTratados)}
-          </div>
-        </label>
-        <input
-          id="FormPlanillas__planilla__2"
-          type="file"
-          accept=".csv, .xl*"
-          onChange={
-            (e) => leerPlanilla("tratamiento", e.target.files[0]?.path)
-          }
-        ></input>
-      </div>
+      
+      )}
       <div id="htmlout"></div>
     </div>
   );

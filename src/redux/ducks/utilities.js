@@ -94,7 +94,7 @@ export const filtrarDatosPecesTratadosSinInicio = (datos, empresa, fechaFinal) =
 export const filtrarDatosEficacia = (datos, empresa, fechaFinal) => {
   let datosFiltrados = datos
   if (empresa !== "Todas") {
-    datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia].toLowerCase() === empresa.toLowerCase());
+    datosFiltrados = datos.filter((obj) => obj[colEmpresaEficacia]?.toLowerCase() === empresa.toLowerCase());
   }
   datosFiltrados = datosFiltrados.filter(
     (obj) => esMenorQueFecha(obj[colFechaEficacia], fechaFinal)

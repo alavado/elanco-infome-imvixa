@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { productos } from '../../helpers/productos'
 
 const slice = createSlice({
   name: 'previsualizador',
@@ -11,22 +12,26 @@ const slice = createSlice({
     filtroFecha: null,
     filtroEmpresa: null,
     filtroTipo: null,
+    filtroProducto: null,
     reporte: null,
     cargando: true,
     codigoSeleccionado: null
   },
   reducers: {
     cargarRegistros(state, action) {
-      const registros = action.payload
+      const registros = action.payload.map(v => ({...v}))
       const opcionesCodigos = []
       registros.forEach(reporte => {
+        const producto = reporte.Producto ? productos.find(v => v.titulo === reporte.Producto).titulo : productos[0].titulo;
         opcionesCodigos.push({
           empresa: reporte.Empresa,
           fecha: reporte.Fecha ? reporte.Fecha.substring(0, 10) : new Date().toISOString().substring(0, 10),
           tipo: reporte.TipoID,
           value: reporte.ReporteID,
-          label: reporte.ReporteID
+          label: reporte.ReporteID,
+          producto: producto
         })
+        reporte.producto = producto
       })
       state.reportes = registros
       state.codigosFiltrados = opcionesCodigos
@@ -66,6 +71,20 @@ const slice = createSlice({
         state.filtros = state.filtros.filter(v => v !== 'tipo')
       }
     },
+    filtrarPorProducto(state, action) {
+      console.log({
+        action
+      })
+      state.filtroProducto = action.payload;
+      if (action.payload !== null) {
+        if (!state.filtros.includes('producto')) {
+          state.filtros = [...state.filtros, 'producto']
+        }
+      } else {
+        console.log("BORRANDO FILTRO PRODUCTO")
+        state.filtros = state.filtros.filter(v => v !== 'producto')
+      }
+    },
     borrarRegistros(state) {
       state.cargando = true
       state.reportes = []
@@ -75,10 +94,10 @@ const slice = createSlice({
       state.opcionesCodigos = []
       state.opcionesTipo = []
       state.filtros = []
+      state.producto = null
     },
     seleccionarReporte(state, action) {
-      const id = action.payload === null ? null : action.payload.value
-      const opciones = state.reportes.filter(value => value.ReporteID === id)
+      const opciones = state.reportes.filter(value => value.ReporteID === action.payload?.value)
       state.reporte = opciones.length > 0 ? opciones[0] : null
       state.codigoSeleccionado = action.payload
     },
@@ -95,6 +114,7 @@ export const {
   filtrarPorEmpresa,
   filtrarPorFecha,
   filtrarPorTipo,
+  filtrarPorProducto,
   cambiarIdioma
 } = slice.actions
 

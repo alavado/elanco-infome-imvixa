@@ -13,7 +13,7 @@
   --color-i: rgb(146, 191, 213);
   --color-j: #9dcbee;
   
-  --color-fondo: rgb(242, 247, 251);
+  --color-fondo: rgb(239, 248, 252);
   --color-gris-1: rgb(237, 237, 237);
   --color-gris-2: rgb(200, 199, 199);
   --color-gris-3: rgb(178, 178, 178);
@@ -26,10 +26,29 @@
   --color-naranja-imvixa: rgb(244, 129, 41);
   --color-celeste: rgb(115, 186, 232);
   --color-azul: rgb(47, 67, 106);
+  --color-azul-msd: rgb(12, 35, 64);
+  --color-slice: #09558c;
+  --color-a-l2: rgb(44, 71, 104);
+  --color-a-l: rgb(38, 60, 88);
+  --color-b-msd: rgb(105, 184, 247);
+  --color-b-msd2: rgb(147, 214, 225);
+  --color-c-msd: #688ce8;
+  --color-d-msd: #544fe3;
+  --color-e-msd: hsl(0, 0%, 44%);
+  --color-e20-msd: hsl(0, 0%, 80%);
+  --color-e2-msd: #999999;
+  --color-f-msd: rgb(0, 255, 255);
+  --color-g-msd: rgb(239, 248, 252);
+  --color-h-msd: #29c472;
+  --color-h20-msd: rgb(0,130,122);
+  --color-h2-msd: #6eceb2;
+  --color-h22-msd: hsl(162, 49%, 80%);
+  --color-i-msd: #ffcf75;
+  --color-l-msd: #fff063;
   --color-elanco: rgb(0, 114, 206);
   --color-titulo: rgb(33, 143, 187);
   --color-highlight: rgba(241,231,64,.4);
   --color-highlight-blue: rgba(33, 143, 187,.4);
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Invention', 'Fira Sans', sans-serif;
   background-color: var(--color-fondo);
 }

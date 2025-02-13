@@ -75,6 +75,8 @@ const headerEficacia = [
   "Causa",
 ];
 
+const productColumn = "estrategia"
+
 function get_header_row(sheet) {
   var headers = [];
   var range = XLSX.utils.decode_range(sheet["!ref"]);
@@ -99,15 +101,15 @@ function trimKeys(anObject) {
   return Object.entries(anObject).reduce((acc, curr) => ({...acc, [curr[0].trim()]: curr[1]}), {})
 }
 
-const checkAlimento = (wb) => {
+const checkAlimento = (wb, product) => {
   // abrir hoja Alimento
   const sheetName = 'Alimentos';
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const alimentoJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
-    (header = headerJson),
-    (range = 2)
+    {header: headerJson, skipHidden: true, range: 2}
   ).map(row => trimKeys(row));
+
   // Revisar que tenga datos
   if (alimentoJson.length < 1) {
     throw Error("Hoja Alimento no tiene datos");
@@ -115,11 +117,23 @@ const checkAlimento = (wb) => {
   // Revisar que tenga las columnas de alimento
   const headerTrimmed = headerJson.map(v => v.trim())
   if (!headerAlimentos.every((element) => headerTrimmed.includes(element))) {
-    throw Error("Hoja alimento no tiene las columnas necesarias");
+    throw Error(`Hoja alimento no tiene las columnas necesarias: ${headerAlimentos.join(',')}`);
   }
-  // Filtrar datos por estado Reportado
+  console.log({product})
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  console.log({
+    productHeader
+  })
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filtrar datos por estado Reportado y producto
   const alimentoJsonReportado = alimentoJson.filter(
-    (row) => row[estadoAlimento] === "Reportado"
+    (row) => row[estadoAlimento] === "Reportado" &&
+    (skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase()))
   );
   if (alimentoJsonReportado.length < 1) {
     throw Error("Hoja Alimento no tiene datos válidos");
@@ -127,7 +141,7 @@ const checkAlimento = (wb) => {
   return alimentoJsonReportado;
 };
 
-const checkPecesHojaTratamiento = (path) => {
+const checkPecesHojaTratamiento = (path, product) => {
   wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
   const checkSheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("trat")
@@ -138,13 +152,8 @@ const checkPecesHojaTratamiento = (path) => {
     );
   }
   // abrir hoja BD Trat
-  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Trat'});
-  const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("trat"));
-  if (!sheetName) {
-    throw Error(
-      "Hoja de registro de tratamientos no encontrada: el nombre de la hoja debe incluir 'trat'"
-    );
-  }
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: checkSheetName});
+  const sheetName = checkSheetName
   const headerJSON = get_header_row(wb.Sheets[sheetName]);
   const tratJSON = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -158,13 +167,33 @@ const checkPecesHojaTratamiento = (path) => {
   // Revisar que tenga las columnas de PMV
   const headerTrimmed = headerJSON.map(v => v.trim())
   if (!headerPecesHojaTrat.every((element) => headerTrimmed.includes(element))) {
-    throw Error("Hoja BD Trat no tiene las columnas necesarias");
+    throw Error(`Hoja BD Trat no tiene las columnas necesarias: ${headerPecesHojaTrat.join(',')}`);
   }
-  return tratJSON;
+
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
+
+  const productHeader = headerTrimmed.find(h => h.toLowerCase() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by product
+  const tratFiltered = tratJSON.filter(row =>
+      skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())
+  );
+
+  if (tratFiltered.length < 1) {
+    throw Error("Hoja Alimento no tiene datos válidos");
+  }
+  return tratFiltered;
 };
 
-const checkPecesHojaImvixa = (path) => {
+const checkPecesHojaImvixa = (path, product) => {
+  console.time('checkPecesHojaImvixa read')
   wb  = XLSX.readFile(path, { type: "binary", cellDates: true, sheetRows: 2});
+  console.timeEnd('checkPecesHojaImvixa read')
+  console.time('checkPecesHojaImvixa validate sheet')
   const checkSheetName = wb.SheetNames.find((v) =>
     v.toLowerCase().includes("imvixa")
     );
@@ -173,15 +202,15 @@ const checkPecesHojaImvixa = (path) => {
       "Hoja de registro BD Imvixa no encontrada: el nombre de la hoja debe incluir 'imvixa'"
     );
   }
-  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: 'BD Imvixa'});
-  const sheetName = wb.SheetNames.find((v) =>
-    v.toLowerCase().includes("imvixa")
-  );
-  if (!sheetName) {
-    throw Error(
-      "Hoja de registro BD Imvixa no encontrada: el nombre de la hoja debe incluir 'imvixa'"
-    );
-  }
+  console.timeEnd('checkPecesHojaImvixa validate sheet')
+
+  console.time('checkPecesHojaImvixa read again')
+  const sheetName = checkSheetName;
+
+  wb = XLSX.readFile(path, { type: "binary", cellDates: true, sheets: sheetName});
+  console.timeEnd('checkPecesHojaImvixa read again')
+
+  console.time('get data')
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const pecesJson = XLSX.utils.sheet_to_json(
     wb.Sheets[sheetName],
@@ -195,16 +224,29 @@ const checkPecesHojaImvixa = (path) => {
   // Revisar que tenga las columnas de peces
   const headerTrimmed = headerJson.map(v => v.trim())
   if (!headerPecesHojaImvixa.every((element) => headerTrimmed.includes(element))) {
-    throw Error("Planilla Peces no tiene las columnas necesarias");
+    throw Error(`Planilla Peces no tiene las columnas necesarias: ${headerPecesHojaImvixa.join(',')}`);
   }
-  const pecesJsonReportado = pecesJson.filter(row => row[estadoPeces] === 'Reportado')
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase());
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by status and product
+  const pecesJsonReportado = pecesJson.filter(row => 
+    (row[estadoPeces] === 'Reportado') &&
+    (skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase()))
+  )
   if (pecesJsonReportado.length < 1) {
     throw Error("Hoja Peces no tiene datos válidos")
   }
+  console.timeEnd('get data')
+
   return pecesJsonReportado;
 };
 
-const checkEficacia = (wb) => {
+const checkEficacia = (wb, product) => {
   const sheetName = wb.SheetNames.find((v) => v.toLowerCase().includes("eficacia"));
   const headerJson = get_header_row(wb.Sheets[sheetName]);
   const eficaciaJson = XLSX.utils.sheet_to_json(
@@ -219,34 +261,58 @@ const checkEficacia = (wb) => {
   // Revisar que tenga las columnas de peces
   const headerTrimmed = headerJson.map(v => v.trim())
   if (!headerEficacia.every((element) => headerTrimmed.includes(element))) {
-    throw Error("Planilla Eficacia no tiene las columnas necesarias");
+    throw Error(`Planilla Eficacia no tiene las columnas necesarias: ${headerEficacia.join(',')}`);
   }
-  const cleanEficacia = eficaciaJson.map(v => {
-    cleanRow = {}
-    headerEficacia.forEach(h => {
-      cleanRow[h] = v[h]
-    })
-    return {
-      ...cleanRow,
-      hexaflumuron: v['Causa'] ? v['Causa'].toString().toLowerCase().includes('hexa') : false
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const productHeader = headerJson.find(h => h.toLowerCase().trim() === productColumn)
+  const validStrategies = product.estrategia.map(v => v.toLowerCase())
+  if (!skipFilterByProduct && productHeader === undefined) {
+    throw Error(`Planilla no tiene hojas con la columna Estrategia ${productName}`);
+  }
+  // Filter by status and product
+  const eficaciaFilteredAndClean = []
+  for (const row of eficaciaJson) {
+    if (
+      skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())
+    ) {
+      cleanRow = {}
+      headerEficacia.forEach(h => {
+        cleanRow[h] = row[h]
+      })
+      eficaciaFilteredAndClean.push({
+        ...cleanRow,
+        hexaflumuron: row['Causa'] ? row['Causa'].toString().toLowerCase().includes('hexa') : false
+      });
     }
-  })
-  return cleanEficacia;
+  }
+  return eficaciaFilteredAndClean;
 };
 
-const checkTratamiento = (wb) => {
+const checkTratamiento = (wb, product) => {
   const sheetsNames = []
+  const skipFilterByProduct = product.all;
+  const productName = product.titulo;
+  const validStrategies = product.estrategia.map(v => v.toLowerCase())
+
   wb.SheetNames.forEach((sheet, i) => {
-    const headerJSON = get_header_row(wb.Sheets[sheet]).map(v => v.trim());
+    const headerJSON = get_header_row(wb.Sheets[sheet]);
+    const headerJSONLC = headerJSON.map(v => v.toLowerCase().trim())
+    const mandatoryHeader = [...headerTrat].map(v => v.toLowerCase())
+    if (!skipFilterByProduct) {
+      mandatoryHeader.push('Estrategia')
+    }
     // Revisar que tenga las columnas de PMV
-    if (headerTrat.every((element) => headerJSON.includes(element))) {
+    if (mandatoryHeader.every((element) => headerJSONLC?.includes(element.toLowerCase()))) {
       sheetsNames.push(sheet)
     }
   }) 
 
   if (sheetsNames.length === 0) {
-    throw Error("Planilla no tiene hojas con las columnas necesarias");
+    throw Error(`Planilla no tiene hojas con las columnas necesarias: ${headerTrat.join(',')}`);
   }
+
+  let productHeader;
   const tratJSON = []
   sheetsNames.forEach((sheet, i) => {
     const headerJSON = get_header_row(wb.Sheets[sheet]);
@@ -255,13 +321,14 @@ const checkTratamiento = (wb) => {
       (header = headerJSON),
       (range = 2)
     ).map(row => trimKeys(row))
-    if (sheetData.length >= 1) {
-      tratJSON.push(...sheetData);
-    }
+    productHeader = headerJSON.find(h => h.toLowerCase().trim() === productColumn)
+    // Filter by product
+    const validRows = sheetData.filter(row => (skipFilterByProduct || validStrategies.includes(row[productHeader]?.toLowerCase())))
+    tratJSON.push(...validRows)
   })
   // Revisar que tenga datos
   if (tratJSON.length < 1) {
-    throw Error("BD Trat no tiene datos");
+    throw Error("BD Tratamiento no tiene datos válidos");
   }
   return tratJSON;
 };

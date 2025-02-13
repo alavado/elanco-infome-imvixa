@@ -1,8 +1,8 @@
 .TablaMuestras {
-	/* margin: 2rem 0; */
+	margin: 2rem 0;
 	display: flex;
   flex-direction: column;
-	font-size: .8rem;
+	font-size: .9rem;
 	margin-right: 1rem;
 }
 
@@ -12,7 +12,7 @@
 	align-items: center;
   color: var(--color-gris-4);
   margin-bottom: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.65rem;
   font-weight: bold;
   line-height: 1.15;
   display: flex;
@@ -22,10 +22,10 @@
 }
 
 .TablaMuestras__titulo::before {
-  width: 1.7em;
-  height: 1.7em;
+	width: 2rem;
+	height: 2.5rem;
   content: '';
-  background: var(--color-amarillo);
+  background: var(--color-c-msd);
   display: block;
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
@@ -46,28 +46,41 @@
 	align-content: center;
 }
 
+.TablaMuestras__encabezados_slice,
+.TablaMuestras__fila_slice {
+	display: grid;
+  grid-template-columns: 6fr repeat(15, 3fr);
+	grid-column: 1 / -1;
+	align-content: center;
+}
+
+.TablaMuestras__fila_slice,
 .TablaMuestras__fila {
 	text-align: center;
 	align-content: normal;
 } 
 
+.TablaMuestras__encabezados_slice,
 .TablaMuestras__encabezados {
   font-weight: 500;
   background-color: var(--color-gris-3);
 	text-align: center;
 }
 
+.TablaMuestras__encabezados_slice > :first-child,
 .TablaMuestras__encabezados > :first-child {
 	text-align: left;
 	padding-left: 1rem;
 }
 
+.TablaMuestras__fila_slice > :first-child,
 .TablaMuestras__fila > :first-child {
 	text-align: left;
 	border-left: .1rem dotted var(--color-gris-3);
 	font-weight: bold;
 }
 
+.TablaMuestras__fila_slice > :nth-child(2),
 .TablaMuestras__fila > :nth-child(2) {
 	font-weight: bold;
 }
@@ -76,13 +89,17 @@
   border-bottom: .1rem dotted var(--color-gris-3);
 }
 
-.TablaMuestras__encabezados,
+.TablaMuestras__encabezados_slice  > *,
+.TablaMuestras__encabezados  > *,
+.TablaMuestras__fila_slice > *,
 .TablaMuestras__fila > * {
 	border-right: .1rem dotted var(--color-gris-3);
 	white-space: pre-wrap;
 	line-height: 1.2;
 }
 
+
+.TablaMuestras__encabezados_slice > *,
 .TablaMuestras__encabezados > * {
 	display: flex;
 	justify-content: center;

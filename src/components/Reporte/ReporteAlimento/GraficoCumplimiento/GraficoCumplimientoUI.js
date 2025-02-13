@@ -13,6 +13,9 @@ const GraficoCumplimientoUI = ({ datos, language }) => {
   if (tick <=  5) {
     tick = 10
   }
+  if (tick >= 10) {
+    tick = 10
+  }
 
   let yMax = Math.min(Math.max(100, 10 * Math.ceil(vMax / tick)), vMax + 2 * tick);
   const yMin = Math.min(50, parseInt(vMin / 10) * 10);
@@ -21,6 +24,7 @@ const GraficoCumplimientoUI = ({ datos, language }) => {
       .fill(0)
       .map((_, i) => yMin + tick * i),
   ].reverse();
+
   yMax = Math.max(...yLineas);
 
   return (

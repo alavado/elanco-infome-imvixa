@@ -1,7 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mean, std, iqrValues, iqrValuesFixed } from "../../components/Reporte/utilitiesReporte";
-import { diasAtras, formatearFecha, onlyUnique, selectMinMaxFecha, esMayorQueFecha, esMenorQueFecha } from "./utilities";
-import { min as minDate, compareAsc } from 'date-fns'
+import {
+  mean,
+  std,
+  iqrValues,
+  iqrValuesFixed,
+} from "../../components/Reporte/utilitiesReporte";
+import {
+  diasAtras,
+  formatearFecha,
+  onlyUnique,
+  selectMinMaxFecha,
+  esMayorQueFecha,
+  esMenorQueFecha,
+} from "./utilities";
+import { min as minDate, compareAsc } from "date-fns";
 import {
   colEmpresaTrat as colEmpresa,
   colDestinoTrat as colCentro,
@@ -42,17 +54,17 @@ let defaultGraficoUtas = {
   coef: -0.001,
   aInf: 1512.2,
   aEst: 8228.1,
-  aSup: 44769
-}
+  aSup: 44769,
+};
 
 let defaultGraficoPeso = {
   coefInf: -1.47786927,
-  aInf: 4 * Math.pow(10,6),
-  coefEst: -1.4790,
-  aEst: 1 * Math.pow(10,7),
+  aInf: 4 * Math.pow(10, 6),
+  coefEst: -1.479,
+  aEst: 1 * Math.pow(10, 7),
   coefSup: -1.4757,
-  aSup: 30656311.0721
-}
+  aSup: 30656311.0721,
+};
 
 const slice = createSlice({
   name: "reporteCentro",
@@ -87,7 +99,7 @@ const slice = createSlice({
     fechas: [],
     repElanco: "",
     repVisita: "",
-    repCliente: ""
+    repCliente: "",
   },
   reducers: {
     guardarNombreEmpresa(state, action) {
@@ -99,9 +111,9 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colEmpresa);
       }
-      state.repElanco = ""
-      state.repVisita = ""
-      state.repCliente = ""
+      state.repElanco = "";
+      state.repVisita = "";
+      state.repCliente = "";
     },
     guardarCentro(state, action) {
       state.centro = action.payload;
@@ -111,9 +123,9 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colCentro);
       }
-      state.repElanco = ""
-      state.repVisita = ""
-      state.repCliente = ""
+      state.repElanco = "";
+      state.repVisita = "";
+      state.repCliente = "";
     },
     guardarFecha(state, action) {
       state.fecha = action.payload;
@@ -123,24 +135,24 @@ const slice = createSlice({
       } else {
         state.filtros = state.filtros.filter((v) => v !== colFecha);
       }
-      state.repElanco = ""
-      state.repVisita = ""
-      state.repCliente = ""
+      state.repElanco = "";
+      state.repVisita = "";
+      state.repCliente = "";
     },
     guardarFechas(state, action) {
-      state.fechas = action.payload
+      state.fechas = action.payload;
     },
     guardarGrupos(state, action) {
-      state.grupos = action.payload
+      state.grupos = action.payload;
     },
     guardarRepElanco(state, action) {
-      state.repElanco = action.payload
+      state.repElanco = action.payload;
     },
     guardarRepCliente(state, action) {
-      state.repCliente = action.payload
+      state.repCliente = action.payload;
     },
     guardarRepVisita(state, action) {
-      state.repVisita = action.payload
+      state.repVisita = action.payload;
     },
     cargarDatosCentro(state, action) {
       state.datosPeces = action.payload.datosPeces;
@@ -150,17 +162,30 @@ const slice = createSlice({
         (fila) => fila[colSampleOriginTrat] === tipoSeaWater
       );
     },
-
+    limpiarFormRerpoteCentro(state, action) {
+      state.centro = null;
+      state.nombreEmpresa = null;
+      state.fecha = null;
+      state.filtros = [];
+      state.repElanco = "";
+      state.repVisita = "";
+      state.repCliente = "";
+    },
     procesarReporteCentro(state, action) {
       state.procesando = true;
       // 1. Filtrar datos de BD Trat segun parametros para agarrar el centro e informes
       const datosTratamientoDestino = state.datosTratamiento.filter(
         (v) => v[colCentro] === state.centro.value
       );
+      console.log({ datosTratamientoDestino });
       // 2
-      const informesTratamientoDestino = datosTratamientoDestino.map(
-        (f) =>  (f[colInformePecesTrat] !== "-" && f[colInformePecesTrat]) || f[colInformePecesRTrat]
-      ).filter(v => v && v !== "-");
+      const informesTratamientoDestino = datosTratamientoDestino
+        .map(
+          (f) =>
+            (f[colInformePecesTrat] !== "-" && f[colInformePecesTrat]) ||
+            f[colInformePecesRTrat]
+        )
+        .filter((v) => v && v !== "-");
 
       // 3. Primer Join Tratamiento-Peces incluye todos los potenciales cruces
       const datosPecesTratamientoDestino = state.datosPeces.filter(
@@ -168,7 +193,9 @@ const slice = createSlice({
           informesTratamientoDestino.includes(v[colInformePeces]) ||
           informesTratamientoDestino.includes(v[colInformePecesR])
       );
-
+      console.log({
+        datosPecesTratamientoDestino,
+      });
       // 4. Ya filtre por centro, para asegurar filtro por empresa y fecha
       const datosTratEjercicio = datosTratamientoDestino.filter(
         (v) =>
@@ -176,7 +203,9 @@ const slice = createSlice({
           v[colEmpresa] === state.nombreEmpresa.value &&
           v[colFecha].toString().startsWith(state.fecha.value)
       );
-
+      console.log({
+        datosTratEjercicio,
+      });
       // Buscar en peces de máximo un año antes de la fecha de visita en esa piscicultura
       const diaVisita = new Date(state.fecha.value).addDays(2);
       const unAñoDesdeVisita = diasAtras(diaVisita, 367);
@@ -195,9 +224,9 @@ const slice = createSlice({
         // Obtengo todas las pisciculturas de origen correspondiente a los informes del ejercicio
         const hatcheries = datosJoin
           .map((fila) => fila[colPisciculturaPeces])
-          .filter(v => v)
+          .filter((v) => v)
           .filter(onlyUnique);
-        
+        console.log({ hatcheries });
         // Filtro los que tienen el mismo origen y estan en el periodo
         const datosFWSW = datosPecesTratamientoDestino.filter((fila) => {
           if (hatcheries.includes(fila[colPisciculturaPeces])) {
@@ -208,6 +237,7 @@ const slice = createSlice({
           }
           return false;
         });
+        console.log({ datosFWSW, datosFWSWl: datosFWSW.length });
         const informesFWSW = datosFWSW.map(
           (fila) => fila[colInformePecesTrat] || fila[colInformePecesRTrat]
         );
@@ -232,10 +262,11 @@ const slice = createSlice({
             informesFWSW.includes(v[colInformePecesR])
         );
         const muestras = datosJoin.map((v) => v[colPPB]);
-        const prom = mean(muestras.filter(v => v));
-        const cv = Math.round((std(muestras.filter(v => v)) / prom) * 10000) / 100;
-        const min = Math.min(...muestras.filter(v => v));
-        const max = Math.max(...muestras.filter(v => v));
+        const prom = mean(muestras.filter((v) => v));
+        const cv =
+          Math.round((std(muestras.filter((v) => v)) / prom) * 10000) / 100;
+        const min = Math.min(...muestras.filter((v) => v));
+        const max = Math.max(...muestras.filter((v) => v));
         const resultado =
           prom >= state.umbral && cv <= 30
             ? 2
@@ -246,25 +277,24 @@ const slice = createSlice({
           muestras.push("-");
         }
         // Elegir el tratamiento más antiguo
-        const fechasLastTrat = []
-        datosTratFWSW.forEach(fila => {
+        const fechasLastTrat = [];
+        datosTratFWSW.forEach((fila) => {
           try {
-            const aDate = new Date(fila[colFechaTerminoTrat])
-            if ((aDate !== "Invalid Date") && !isNaN(aDate)) {
-              fechasLastTrat.push(aDate)
+            const aDate = new Date(fila[colFechaTerminoTrat]);
+            if (aDate !== "Invalid Date" && !isNaN(aDate)) {
+              fechasLastTrat.push(aDate);
             }
-          }
-          catch (e) {
+          } catch (e) {
             console.log({
-              error: fechasLastTrat
-            })
+              error: fechasLastTrat,
+            });
           }
-        })
+        });
 
         return {
           ...datos,
           muestras,
-          prom: prom ? prom : '-',
+          prom: prom ? prom : "-",
           cv,
           min,
           max,
@@ -277,18 +307,22 @@ const slice = createSlice({
           pisciculturasOrigen: hatcheries,
           datosFWSW,
           datosTratFWSW,
-          [colFechaTerminoTrat]: fechasLastTrat.length === 0  ? undefined : minDate(fechasLastTrat),
-          [colEstanquePeces]: datosJoin.length === 0 ? '-' : datosJoin[0][colEstanquePeces]
+          [colFechaTerminoTrat]:
+            fechasLastTrat.length === 0 ? undefined : minDate(fechasLastTrat),
+          [colEstanquePeces]:
+            datosJoin.length === 0 ? "-" : datosJoin[0][colEstanquePeces],
         };
       });
       const lotesAsociados = new Set();
       const plantasAsociadas = new Set();
       const datosAlimentosAsociados = [];
 
-      // 6. Filtro los informes de FW
+      // 6. Filtro los informes de FW o SW
+      const { producto } = action.payload;
+      const isImvixa = producto.titulo === 'Imvixa';
       datosTratamientoDestino
-        .filter((fila) =>
-          setInformesFW.has(
+        .filter((fila) => (isImvixa ?
+          setInformesFW : setInformesSW).has(
             fila[colInformePecesTrat] || fila[colInformePecesRTrat]
           )
         )
@@ -302,11 +336,22 @@ const slice = createSlice({
             }
           );
           // get datos peso
-          const inf = filaTratamiento[colInformePecesTrat] || filaTratamiento[colInformePecesRTrat]
-          const datInf = datosPecesTratamientoDestino.filter(v => v[colInformePeces] === inf || v[colInformePecesR] === inf)
-          const infoPeso = mean(datInf.map(v => v[colPeso2]).filter(v => v))
+          const inf =
+            filaTratamiento[colInformePecesTrat] ||
+            filaTratamiento[colInformePecesRTrat];
+          const datInf = datosPecesTratamientoDestino.filter(
+            (v) => v[colInformePeces] === inf || v[colInformePecesR] === inf
+          );
+          const infoPeso = mean(
+            datInf.map((v) => v[colPeso2]).filter((v) => v)
+          );
+
+          console.log({
+            pmv: filaTratamiento[colPMVTrat],
+            lotes,
+          });
           // hacer join con alimento
-          const filasAlimento = state.datosAlimento.filter( 
+          const filasAlimento = state.datosAlimento.filter(
             (fila) =>
               (fila[colRecetaAlimento] &&
                 filaTratamiento[colPMVTrat] &&
@@ -314,12 +359,13 @@ const slice = createSlice({
                   filaTratamiento[colPMVTrat].toString()) ||
               (fila[colLoteAlimento] &&
                 lotes.includes(fila[colLoteAlimento].toString()))
-          )
+          );
           filasAlimento.forEach((v) => {
             if (!lotesAsociados.has(v[colLoteAlimento].toString())) {
               datosAlimentosAsociados.push({
                 ...v,
-                [colPesoInicialTrat]: filaTratamiento[colPesoInicialTrat] || infoPeso,
+                [colPesoInicialTrat]:
+                  filaTratamiento[colPesoInicialTrat] || infoPeso,
                 [colDestinoTrat]: filaTratamiento[colDestinoTrat],
                 [colFechaVeranoTrat]: formatearFecha(
                   filaTratamiento[colFechaVeranoTrat]
@@ -335,7 +381,7 @@ const slice = createSlice({
             }
             plantasAsociadas.add(v[colPlanta]);
           });
-        })
+        });
       const datosGeneralesPecesEjercicio = datosPecesTratamientoDestino.filter(
         (fila) =>
           setInformesSWFW.has(fila[colInformePeces]) ||
@@ -349,9 +395,9 @@ const slice = createSlice({
       state.lotesAsociados = [...lotesAsociados];
       state.plantasAsociadas = [...plantasAsociadas];
       state.datosAlimentoLotesAsociados = datosAlimentosAsociados;
-      state.empresa = state.nombreEmpresa.label
-      state.seasite = state.centro.label
-      state.fechaValor = state.fecha.value
+      state.empresa = state.nombreEmpresa.label;
+      state.seasite = state.centro.label;
+      state.fechaValor = state.fecha.value;
 
       // Grafico comparacion
       const { concentracion, language } = action.payload;
@@ -364,7 +410,7 @@ const slice = createSlice({
       state.datosPeces.forEach((fila) => {
         // Obtener cumplimientos historicos de empresa que no incluyan estos lotes
         if (
-          fila[colSampleOrigin] === tipoFreshWater &&
+          fila[colSampleOrigin] === (isImvixa ? tipoFreshWater : tipoSeaWater) &&
           fila[colFechaPeces] &&
           !setInformesFW.has(fila[colInformePeces] || fila[colInformePecesR]) &&
           fila[colPPB]
@@ -393,9 +439,9 @@ const slice = createSlice({
         max: Math.max(...comparacionEmpresa),
         min: Math.min(...comparacionEmpresa),
       };
-    
+
       const datosIndustria = {
-        nombre: language === 'es' ? "Industria" : "Industry",
+        nombre: language === "es" ? "Industria" : "Industry",
         promedio:
           concentracion.prom !== ""
             ? concentracion.prom
@@ -419,11 +465,13 @@ const slice = createSlice({
         .map((f) => f["pisciculturasOrigen"])
         .flat(1)
         .filter(onlyUnique);
-    
+
       const datosPisciculturas = [];
       pisciculturasOrigen.forEach((piscicultura) => {
         const muestrasPorPiscicultura = state.datosMuestrasSWFW.filter(
-          (fila) => fila[colPisciculturaPeces] === piscicultura && fila[colSampleOrigin] === tipoFreshWater
+          (fila) =>
+            fila[colPisciculturaPeces] === piscicultura &&
+            fila[colSampleOrigin] === (isImvixa ? tipoFreshWater : tipoSeaWater)
         );
         if (muestrasPorPiscicultura.length > 0) {
           const muestras = [];
@@ -432,7 +480,7 @@ const slice = createSlice({
               muestras.push(muestrasInforme[colPPB] / 1000);
             }
           });
-    
+
           datosPisciculturas.push({
             nombre: piscicultura,
             promedio: mean(muestras),
@@ -442,15 +490,15 @@ const slice = createSlice({
           });
         }
       });
-      
+
       datosPisciculturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
       datos.push(...datosPisciculturas);
-      state.datosGraficoComparacion = datos
+      state.datosGraficoComparacion = datos;
       // Grafico cumplimiento
       const { cumplimiento } = action.payload;
       // Agrupar por planta los lotes del ejercicio
       if (lotesAsociados.size === 0) {
-        state.datosGraficoCumplimiento = []
+        state.datosGraficoCumplimiento = [];
       } else {
         const cumplimientosPorPlanta = [...plantasAsociadas].map((planta) => {
           const datos = state.datosAlimentoLotesAsociados
@@ -465,7 +513,7 @@ const slice = createSlice({
             max: Math.max(...datos),
           };
         });
-      
+
         const minFechasLotes = new Date(
           selectMinMaxFecha(
             state.datosAlimentoLotesAsociados.map((v) => v[colFechaAlimento])
@@ -478,10 +526,10 @@ const slice = createSlice({
             minFechasLotes.getFullYear() - 1,
           ].join("-")
         );
-      
+
         const cumplimientosEmpresa = [];
         const cumplimientosIndustria = [];
-      
+
         state.datosAlimento.forEach((fila) => {
           if (
             esMayorQueFecha(fila[colFechaAlimento], primerDiaDelMes) &&
@@ -496,7 +544,7 @@ const slice = createSlice({
             }
           }
         });
-      
+
         const datosEmpresaCumplimiento = {
           nombre: state.nombreEmpresa.label,
           promedio: mean(cumplimientosEmpresa),
@@ -505,60 +553,67 @@ const slice = createSlice({
           min: Math.min(...cumplimientosEmpresa),
         };
         const datosIndustriaCumplimiento = {
-          nombre: language === 'es' ? "Industria" : "Industry",
+          nombre: language === "es" ? "Industria" : "Industry",
           promedio: mean(cumplimientosIndustria),
           ...iqrValues(cumplimientosIndustria),
-          max: cumplimiento.max !== ""
-          ? cumplimiento.max
-          : Math.max(...cumplimientosIndustria),
-          min: cumplimiento.min !== ""
-          ? Math.max(cumplimiento.min, Math.min(...cumplimientosIndustria)) : Math.min(...cumplimientosIndustria),
+          max:
+            cumplimiento.max !== ""
+              ? cumplimiento.max
+              : Math.max(...cumplimientosIndustria),
+          min:
+            cumplimiento.min !== ""
+              ? Math.max(cumplimiento.min, Math.min(...cumplimientosIndustria))
+              : Math.min(...cumplimientosIndustria),
         };
-        state.datosGraficoCumplimiento = [datosIndustriaCumplimiento, datosEmpresaCumplimiento, ...cumplimientosPorPlanta];
+        state.datosGraficoCumplimiento = [
+          datosIndustriaCumplimiento,
+          datosEmpresaCumplimiento,
+          ...cumplimientosPorPlanta,
+        ];
       }
-      state.grupos = newDatosPorInforme.map((v) => "")
-      state.fechas = newDatosPorInforme.map((v) => "")
+      state.grupos = newDatosPorInforme.map((v) => "");
+      state.fechas = newDatosPorInforme.map((v) => "");
     },
     cargarConfigGraficos(state, action) {
-      state.parametrosGraficoUTAs = action.payload.defaultGraficoUtas
-      state.parametrosGraficoPeso = action.payload.defaultGraficoPeso
+      state.parametrosGraficoUTAs = action.payload.defaultGraficoUtas;
+      state.parametrosGraficoPeso = action.payload.defaultGraficoPeso;
     },
     toggleModal(state) {
-      state.mostrandoModalConf = !state.mostrandoModalConf
+      state.mostrandoModalConf = !state.mostrandoModalConf;
     },
     guardarComentarios(state, action) {
       state.comentarios = action.payload;
     },
     cargarPreVizCentro(state, action) {
-      const { nombreEmpresa, datos } = action.payload
-      state.empresa = nombreEmpresa
+      const { nombreEmpresa, datos } = action.payload;
+      state.empresa = nombreEmpresa;
       const {
-          seasite,
-          fechaValor,
-          datosPorInforme,
-          parametrosGraficoPeso,
-          parametrosGraficoUTAs,
-          datosGraficoComparacion,
-          datosGraficoCumplimiento,
-          repElanco,
-          repCliente,
-          repVisita,
-          fechas,
-          grupos
-        } = datos
-      state.seasite = seasite
-      state.fechaValor = fechaValor
-      state.datosPorInforme = datosPorInforme
-      state.parametrosGraficoPeso = parametrosGraficoPeso
-      state.parametrosGraficoUTAs = parametrosGraficoUTAs
-      state.datosGraficoComparacion = datosGraficoComparacion
-      state.datosGraficoCumplimiento = datosGraficoCumplimiento
-      state.repElanco = repElanco
-      state.repCliente = repCliente
-      state.repVisita = repVisita
-      state.fechas = fechas.map(v => v === '' ? '' : new Date(v))
-      state.grupos = grupos
-    }
+        seasite,
+        fechaValor,
+        datosPorInforme,
+        parametrosGraficoPeso,
+        parametrosGraficoUTAs,
+        datosGraficoComparacion,
+        datosGraficoCumplimiento,
+        repElanco,
+        repCliente,
+        repVisita,
+        fechas,
+        grupos,
+      } = datos;
+      state.seasite = seasite;
+      state.fechaValor = fechaValor;
+      state.datosPorInforme = datosPorInforme;
+      state.parametrosGraficoPeso = parametrosGraficoPeso;
+      state.parametrosGraficoUTAs = parametrosGraficoUTAs;
+      state.datosGraficoComparacion = datosGraficoComparacion;
+      state.datosGraficoCumplimiento = datosGraficoCumplimiento;
+      state.repElanco = repElanco;
+      state.repCliente = repCliente;
+      state.repVisita = repVisita;
+      state.fechas = fechas.map((v) => (v === "" ? "" : new Date(v)));
+      state.grupos = grupos;
+    },
   },
 });
 
@@ -576,7 +631,8 @@ export const {
   guardarGrupos,
   guardarRepElanco,
   guardarRepCliente,
-  guardarRepVisita
+  guardarRepVisita,
+  limpiarFormRerpoteCentro,
 } = slice.actions;
 
 export default slice.reducer;

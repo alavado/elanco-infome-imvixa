@@ -24,7 +24,7 @@ import {
 } from "../../../redux/ducks/reporteCentro";
 const { ipcRenderer } = window.require("electron");
 
-const ReporteCentro = ({ language }) => {
+const ReporteCentro = ({ language, product }) => {
   const { comentariosCentro } = useSelector((state) => state.comentarios);
   const { 
     empresa, 
@@ -75,7 +75,8 @@ const ReporteCentro = ({ language }) => {
         tipoID: REPORTE_ID_CENTRO,
         fecha: today.toISOString(),
         empresa: empresa,
-        datos
+        datos,
+        producto: product.titulo
       })
     });
   }, [datos, empresa]);
@@ -98,7 +99,7 @@ const ReporteCentro = ({ language }) => {
           className="ReporteCentro__pagina ReporteCentro__pagina--1"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
             <DatosEmpresa nombreEmpresa={encabezado} fecha={today} language={language}/>
           </MensajeError>
@@ -117,7 +118,7 @@ const ReporteCentro = ({ language }) => {
                 <GraficoCumplimiento language={language}/>
               </MensajeError>
               <MensajeError>
-                <GraficoComparacion language={language}/>
+                <GraficoComparacion language={language} product={product.titulo}/>
               </MensajeError>
             </div>
           </div>
@@ -127,18 +128,20 @@ const ReporteCentro = ({ language }) => {
           className="ReporteCentro__pagina ReporteCentro__pagina--2"
           style={dimensionsPage}
         >
-          <Encabezado reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
+          <Encabezado product={product} reporteID={REPORTE_ID_CENTRO} reporteNombre={REPORTE_NOMBRE_CENTRO} language={language}/>
           <MensajeError>
-            <TablaMuestras language={language} />
+            <TablaMuestras language={language} product={product.titulo} />
           </MensajeError>
-          <div className="ReporteCentro__seccion_contenedor">
-            <MensajeError>
-              <CurvaPorPeso language={language}/>
-            </MensajeError>
-            <MensajeError>
-              <CurvaPorUTAs language={language}/>
-            </MensajeError>
+          {product.titulo === 'Imvixa' && (
+            <div className="ReporteCentro__seccion_contenedor">
+              <MensajeError>
+                <CurvaPorPeso language={language}/>
+              </MensajeError>
+              <MensajeError>
+                <CurvaPorUTAs language={language}/>
+              </MensajeError>
           </div>
+          )}
           <Comentarios
             reporteID={REPORTE_ID_CENTRO}
             agregarComentario={agregarComentarioCentro}

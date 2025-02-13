@@ -1,5 +1,5 @@
 .Comentarios {
-  --color-titulo-seccion: var(--color-azul);
+  --color-titulo-seccion: var(--color-c-msd);
 }
 
 .Comentarios__contenedor_comentarios {
@@ -26,16 +26,21 @@
   font-size: 1.2rem;
   padding: .5rem;
   resize: none;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Invention', 'Fira Sans', sans-serif;
   line-height: 1.25;
   flex: 1;
+}
+
+.Comentarios__textarea:focus {
+  outline: none !important;
+  border:1px solid var(--color-azul-msd);
 }
 
 .Comentarios__formulario::before {
   content: '';
   width: .5rem;
   height: .5rem;
-  background-color: var(--color-naranja-2);
+  background-color: var(--color-c-msd);
   position: absolute;
   left: 0;
   border-radius: 50%;
@@ -53,8 +58,9 @@
   cursor: pointer;
   background: none;
   border-radius: 9in;
-  border: .2rem dashed var(--color-f);
-  color: var(--color-f);
+  outline: none !important;
+  border: .2rem dashed var(--color-azul-msd);
+  color: var(--color-azul-msd);
   margin-left: 1rem;
 }
 
@@ -63,7 +69,7 @@
 }
 
 .Comentarios__boton_agregar:hover {
-  background: var(--color-f);
+  background: var(--color-azul-msd);
   color: var(--color-fondo);
 }
 
@@ -72,7 +78,8 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  background: var(--color-f);
+  outline: none !important;
+  background: var(--color-azul-msd);
   color: var(--color-fondo);
   font-size: .9rem;
   display: flex;
